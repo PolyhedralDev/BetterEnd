@@ -25,6 +25,11 @@ public class Main extends JavaPlugin {
 	@Override
 	public void onEnable() {	
 		config.addDefault("outer-islands.noise", 96);
+		config.addDefault("outer-islands.island-height", 64);
+		config.addDefault("aether.clouds.enable-clouds", true);
+		config.addDefault("aether.clouds.cloud-noise", 24);
+		config.addDefault("aether.ores.enable-ores", true);
+		config.addDefault("aether.clouds.cloud-height", 128);
 		config.addDefault("outer-islands.biome-size", 512);
 		config.addDefault("trees.min-per-chunk", 3);
 		config.addDefault("trees.max-per-chunk", 6);
@@ -71,7 +76,7 @@ public class Main extends JavaPlugin {
 					boolean foundBiome = false;
 					int tries = 0;
 					Location candidate = p.getLocation();
-					while(foundBiome == false && tries < 2500) {
+					while(foundBiome == false && tries < 10000) {
 						Location candidateN = candidate.add(tries,0,0);
 						if(getBiome(candidateN.getBlockX(), candidateN.getBlockZ(), p.getWorld().getSeed()).equalsIgnoreCase(args[1]) && Math.sqrt(Math.pow(candidateN.getBlockX(), 2) + Math.pow(candidateN.getBlockZ(), 2)) > 1000) {
 							sender.sendMessage("[BetterEnd] Teleporting...");

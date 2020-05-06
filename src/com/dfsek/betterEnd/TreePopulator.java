@@ -36,9 +36,9 @@ public class TreePopulator extends BlockPopulator {
 					case "AETHER":
 						int tree = random.nextInt(100);
 						if(blockLocation.getBlock().getType() == Material.GRASS_BLOCK || blockLocation.subtract(0, 1, 0).getBlock().getType() == Material.GRASS_BLOCK) {
-							if(tree < 30) {
+							if(tree < 45) {
 								world.generateTree(blockLocation, TreeType.TREE);
-							}  else if(tree < 80) {
+							}  else if(tree < 93) {
 								world.generateTree(blockLocation, TreeType.JUNGLE_BUSH);
 							} else {
 								world.generateTree(blockLocation, TreeType.BIG_TREE);

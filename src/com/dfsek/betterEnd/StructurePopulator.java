@@ -18,6 +18,8 @@ import org.bukkit.block.Container;
 import org.bukkit.block.DoubleChest;
 import org.bukkit.generator.BlockPopulator;
 import org.bukkit.inventory.InventoryHolder;
+import org.bukkit.util.noise.SimplexOctaveGenerator;
+
 import com.sk89q.worldedit.EditSession;
 import com.sk89q.worldedit.WorldEdit;
 import com.sk89q.worldedit.WorldEditException;
@@ -38,28 +40,31 @@ public class StructurePopulator extends BlockPopulator {
 	public void populate(World world, Random random, Chunk chunk) {
 		int X = random.nextInt(15);
 		int Z = random.nextInt(15);
-		if(random.nextInt(100) < 15 && Math.sqrt(Math.pow(chunk.getX()*16+X, 2) + Math.pow(chunk.getZ()*16+Z, 2)) >= 1000) {
+		if(random.nextInt(100) < 25 && Math.sqrt(Math.pow(chunk.getX()*16+X, 2) + Math.pow(chunk.getZ()*16+Z, 2)) >= 1000) {
 			Main main = Main.getInstance();
 			File file;
 			boolean aboveGround = true;
-			boolean aether = false;
 			int type = random.nextInt(100);
 			Location pasteLocation;
 			String name;
-			if(type < 80) {
+			if(type < 70) {
 				if(random.nextBoolean()) {
 					name = "wood_house_s";
-					aether = true;
 					file = new File(main.getDataFolder() + "/scm/wood_house_s/wood_house_s_" + random.nextInt(4) + ".schem");
-					pasteLocation = new Location(world, chunk.getX()*16+X, world.getHighestBlockYAt(chunk.getX()*16+X, chunk.getZ()*16+Z)+1, chunk.getZ()*16+Z);
+					int highY;
+					for (highY = world.getMaxHeight()-1; chunk.getBlock(X, highY, Z).getType() != Material.GRASS_BLOCK && highY>0; highY--);
+					if(highY < 1) return;
+					pasteLocation = new Location(world, chunk.getX()*16+X, highY+1, chunk.getZ()*16+Z);
 					if(pasteLocation.getBlock().getType() != Material.GRASS_BLOCK && pasteLocation.getBlock().getType() != Material.STONE) {
 						pasteLocation = pasteLocation.subtract(0, 1, 0);
 					}
 				} else {
 					name = "cobble_house_s";
-					aether = true;
+					int highY;
 					file = new File(main.getDataFolder() + "/scm/cobble_house_s/cobble_house_s_" + random.nextInt(4) + ".schem");
-					pasteLocation = new Location(world, chunk.getX()*16+X, world.getHighestBlockYAt(chunk.getX()*16+X, chunk.getZ()*16+Z), chunk.getZ()*16+Z);
+					for (highY = world.getMaxHeight()-1; chunk.getBlock(X, highY, Z).getType() != Material.GRASS_BLOCK && highY>0; highY--);
+					if(highY < 1) return;
+					pasteLocation = new Location(world, chunk.getX()*16+X, highY, chunk.getZ()*16+Z);
 					if(pasteLocation.getBlock().getType() != Material.GRASS_BLOCK && pasteLocation.getBlock().getType() != Material.STONE) {
 						pasteLocation = pasteLocation.subtract(0, 1, 0);
 					}
@@ -68,8 +73,10 @@ public class StructurePopulator extends BlockPopulator {
 				name = "stronghold";
 				file = new File(main.getDataFolder() + "/scm/stronghold/stronghold_0.schem");
 				pasteLocation = new Location(world, chunk.getX()*16+X, world.getHighestBlockYAt(chunk.getX()*16+X, chunk.getZ()*16+Z)-(random.nextInt(14)+8), chunk.getZ()*16+Z);
+				if(pasteLocation.getBlock().getType() != Material.END_STONE) return; 
 				aboveGround = false;
 			}
+			pasteLocation.getBlock().setType(Material.EMERALD_BLOCK);
 			if(pasteLocation.getY() < 1) return;
 			BlockVector3 newOrigin = BukkitAdapter.asBlockVector(pasteLocation);
 
@@ -92,7 +99,7 @@ public class StructurePopulator extends BlockPopulator {
 			Location maxLoc = new Location(pasteLocation.getWorld(), newRotatedMaximumPoint.getX(), newRotatedMaximumPoint.getY(), newRotatedMaximumPoint.getZ());
 
 			//System.out.println(main.getDataFolder());
-			if(isValidSpawn(minLoc, maxLoc, aboveGround, aether)) {
+			if(isValidSpawn(minLoc, maxLoc, aboveGround)) {
 				System.out.println("[BetterEnd] Generating structure \"" + name + "\" at " + pasteLocation.getBlockX() + ", " + pasteLocation.getBlockY() + ", " + pasteLocation.getBlockZ() + ", underground:" + !aboveGround);
 				try (EditSession editSession = WorldEdit.getInstance().getEditSessionFactory().getEditSession(BukkitAdapter.adapt(world), -1)) {
 					AffineTransform transform = new AffineTransform();
@@ -134,71 +141,37 @@ public class StructurePopulator extends BlockPopulator {
 		}
 		return true;
 	}
-	private boolean isValidSpawn(Location l1, Location l2, boolean ground, boolean isInAether) {
+	private boolean isValidSpawn(Location l1, Location l2, boolean ground) {
+		Main main = Main.getInstance();
+		SimplexOctaveGenerator generator = new SimplexOctaveGenerator(l1.getWorld().getSeed(), 4);
+		int outNoise = main.getConfig().getInt("outer-islands.noise");
 		int lowX = Math.min(l1.getBlockX(), l2.getBlockX());
 		int lowY = Math.min(l1.getBlockY(), l2.getBlockY());
 		int lowZ = Math.min(l1.getBlockZ(), l2.getBlockZ());
-		if(isInAether) {
-			List<Location> locs = new ArrayList<>();
-			if(ground) {
-				for(int x = 0; x<= Math.abs(l1.getBlockX() - l2.getBlockX()); x++){
-					for(int y = -1; y<= 0; y++){
-						for(int z = 0; z<= Math.abs(l1.getBlockZ() - l2.getBlockZ()); z++){
-							locs.add(new Location(l1.getWorld(), lowX + x, lowY + y, lowZ + z));
-						}
-					}
-				}
-			} else {	
-				if (l1.getBlock().getType() != Material.END_STONE) {
-					return false;
-				}
-				if (l2.getBlock().getType() != Material.END_STONE) {
-					return false;
-				}
-				Location l3 = new Location(l1.getWorld(), l1.getBlockX(), l2.getBlockY(), l1.getBlockZ());
-				Location l4 = new Location(l1.getWorld(), l2.getBlockX(), l1.getBlockY(), l2.getBlockZ());
-				if (l3.getBlock().getType() != Material.END_STONE) {
-					return false;
-				}
-				if (l4.getBlock().getType() != Material.END_STONE) {
-					return false;
-				}
-				return true;
+		if(!ground) {
+			if (l1.getBlock().isEmpty()) {
+				return false;
 			}
-			for (Location location : locs) {
-				if (location.getBlock().getType() != Material.END_STONE) {
-					return false;
-				}
+			if (l2.getBlock().isEmpty()) {
+				return false;
+			}
+			Location l3 = new Location(l1.getWorld(), l1.getBlockX(), l2.getBlockY(), l1.getBlockZ());
+			Location l4 = new Location(l2.getWorld(), l2.getBlockX(), l1.getBlockY(), l2.getBlockZ());
+			if (l3.getBlock().isEmpty()) {
+				return false;
+			}
+			if (l4.getBlock().isEmpty()) {
+				return false;
 			}
 		} else {
 			List<Location> locs = new ArrayList<>();
-			if(ground) {
-				for(int x = 0; x<= Math.abs(l1.getBlockX() - l2.getBlockX()); x++){
-					for(int y = -1; y<= 0; y++){
-						for(int z = 0; z<= Math.abs(l1.getBlockZ() - l2.getBlockZ()); z++){
-							locs.add(new Location(l1.getWorld(), lowX + x, lowY + y, lowZ + z));
-						}
-					}
+			for(int x = 0; x<= Math.abs(l1.getBlockX() - l2.getBlockX()); x++){
+				for(int z = 0; z<= Math.abs(l1.getBlockZ() - l2.getBlockZ()); z++){
+					locs.add(new Location(l1.getWorld(), lowX + x, lowY, lowZ + z));
 				}
-			} else {	
-				if (l1.getBlock().getType() != Material.GRASS_BLOCK || l1.getBlock().getType() != Material.STONE) {
-					return false;
-				}
-				if (l2.getBlock().getType() != Material.GRASS_BLOCK || l2.getBlock().getType() != Material.STONE) {
-					return false;
-				}
-				Location l3 = new Location(l1.getWorld(), l1.getBlockX(), l2.getBlockY(), l1.getBlockZ());
-				Location l4 = new Location(l1.getWorld(), l2.getBlockX(), l1.getBlockY(), l2.getBlockZ());
-				if (l3.getBlock().getType() != Material.GRASS_BLOCK || l3.getBlock().getType() != Material.STONE) {
-					return false;
-				}
-				if (l4.getBlock().getType() != Material.GRASS_BLOCK || l4.getBlock().getType() != Material.STONE) {
-					return false;
-				}
-				return true;
 			}
 			for (Location location : locs) {
-				if (location.getBlock().getType() != Material.GRASS_BLOCK || location.getBlock().getType() != Material.STONE) {
+				if (generator.noise((double) (location.getBlockX())/outNoise, (double) (location.getBlockZ())/outNoise, 0.1D, 0.55D) < 0.45) {
 					return false;
 				}
 			}

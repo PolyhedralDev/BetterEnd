@@ -25,17 +25,20 @@ public class CustomChunkGenerator extends ChunkGenerator {
 		if(totalChunkDistance2D > 16) {
 			//if(Math.sqrt(chunkX*chunkX + chunkZ*chunkZ) > 62.5) { 
 			int outNoise = main.getConfig().getInt("outer-islands.noise");
+			boolean clouds = main.getConfig().getBoolean("aether.clouds.enable-clouds");
+			int cloudNoise = main.getConfig().getInt("aether.clouds.cloud-noise");
+			int cloudHeight = main.getConfig().getInt("aether.clouds.cloud-height");
 			for (int X = 0; X < 16; X++)
 				for (int Z = 0; Z < 16; Z++) {
 					double biomeNoiseLvl = Main.getBiomeNoise(chunkX*16+X, chunkZ*16+Z, world.getSeed());
 					double totalDistance2D = Math.sqrt(Math.pow(chunkX*16+X, 2)+Math.pow(chunkZ*16+Z, 2));
-					int height = (int) ((generator.noise((double) (chunkX*16+X)/16, (double) (chunkZ*16+Z)/16, 0.5D, 0.7D)-0.4))+64;
+					int height = (int) ((generator.noise((double) (chunkX*16+X)/16, (double) (chunkZ*16+Z)/16, 0.5D, 0.7D)-0.4))+main.getConfig().getInt("outer-islands.island-height");
 					int biomeNoise = 0;
 					if(biomeNoiseLvl < 0) {
 						biomeNoise = (int) (biomeNoiseLvl*2.5*(generator.noise((double) (chunkX*16+X)/8, (double) (chunkZ*16+Z)/8, 0.5D, 0.7D)-0.4));
-						height = (int) (biomeNoiseLvl*4*(generator.noise((double) (chunkX*16+X)/16, (double) (chunkZ*16+Z)/16, 0.5D, 0.7D)-0.4))+64;
+						height = (int) (biomeNoiseLvl*4*(generator.noise((double) (chunkX*16+X)/16, (double) (chunkZ*16+Z)/16, 0.5D, 0.7D)-0.4))+main.getConfig().getInt("outer-islands.island-height");
 					}
-					int yMin = 255, yMax = 0;
+					int yMin, yMax;
 					if(totalDistance2D < 975) {
 						yMin = 255;
 						yMax = 0;
@@ -48,6 +51,27 @@ public class CustomChunkGenerator extends ChunkGenerator {
 					} else {
 						yMin = (int) (-56*(generator.noise((double) (chunkX*16+X)/outNoise, (double) (chunkZ*16+Z)/outNoise, 0.1D, 0.55D)-0.4)+height+biomeNoise)+1;
 						yMax = (int) (5*(generator.noise((double) (chunkX*16+X)/outNoise, (double) (chunkZ*16+Z)/outNoise, 0.1D, 0.55D)-0.4)+height-biomeNoise);
+					}
+					if(biomeNoiseLvl > 0.45 && clouds) {
+						double aetherLvl = -Math.pow(256, -biomeNoiseLvl+0.45)+1;
+						if(aetherLvl < 0) aetherLvl = 0;
+						int yMinc, yMaxc;
+						if(totalDistance2D < 975) {
+							yMinc = 255;
+							yMaxc = 0;
+						} else if(totalDistance2D < 1050) {
+							double noiseM = (-Math.pow(1.1, -totalDistance2D+1000))+1;
+							if(noiseM > 1) noiseM = 1;
+							if(noiseM < 0) noiseM = 0;
+							yMinc = (int) ((-6*noiseM*aetherLvl*(generator.noise((double) (chunkX*16+X)/cloudNoise, (double) (chunkZ*16+Z)/cloudNoise, 0.1D, 0.55D)-0.2)+cloudHeight)+1);
+							yMaxc = (int) ((6*noiseM*aetherLvl*(generator.noise((double) (chunkX*16+X)/cloudNoise, (double) (chunkZ*16+Z)/cloudNoise, 0.1D, 0.55D)-0.2)+cloudHeight-1));
+						} else {
+							yMinc = (int) (-6*aetherLvl*(generator.noise((double) (chunkX*16+X)/cloudNoise, (double) (chunkZ*16+Z)/cloudNoise, 0.1D, 0.55D)-0.2)+cloudHeight)+1;
+							yMaxc = (int) (6*aetherLvl*(generator.noise((double) (chunkX*16+X)/cloudNoise, (double) (chunkZ*16+Z)/cloudNoise, 0.1D, 0.55D)-0.2)+cloudHeight-1);
+						}
+						for (int Y = yMaxc; Y > yMinc; Y--) {
+							chunk.setBlock(X, Y, Z, Material.WHITE_STAINED_GLASS);
+						}
 					}
 					for (int Y = yMax; Y > yMin; Y--) {
 						//if(generator.noise((double) (chunkX*16+X)/outNoise, (double) (chunkZ*16+Z)/outNoise, 0.1D, 0.55D) > 0.6) {
@@ -96,7 +120,7 @@ public class CustomChunkGenerator extends ChunkGenerator {
 						}
 						//}
 					}
-					boolean doBiomeGlass = false;
+					boolean doBiomeGlass = true;
 					if(doBiomeGlass && totalDistance2D > 975) {
 						switch(Main.getBiome(chunkX*16+X, chunkZ*16+Z, world.getSeed())) {
 						case "END":
