@@ -14,7 +14,7 @@ public class TreePopulator extends BlockPopulator {
 	public void populate(World world, Random random, Chunk chunk) {
 		Main main = Main.getInstance();
 		double totalDistance = Math.sqrt((chunk.getX()*16)*(chunk.getX()*16) + (chunk.getZ()*16)*(chunk.getZ()*16));
-		if(totalDistance > 800) {
+		if(totalDistance > 975) {
 			int min = main.getConfig().getInt("trees.min-per-chunk");
 			int max = main.getConfig().getInt("trees.max-per-chunk");
 			int obMax = main.getConfig().getInt("trees.obsidian-pillars.max-height");
@@ -34,14 +34,19 @@ public class TreePopulator extends BlockPopulator {
 						}
 						break;
 					case "AETHER":
-						int tree = random.nextInt(100);
-						if(blockLocation.getBlock().getType() == Material.GRASS_BLOCK || blockLocation.subtract(0, 1, 0).getBlock().getType() == Material.GRASS_BLOCK) {
-							if(tree < 45) {
-								world.generateTree(blockLocation, TreeType.TREE);
-							}  else if(tree < 93) {
-								world.generateTree(blockLocation, TreeType.JUNGLE_BUSH);
-							} else {
-								world.generateTree(blockLocation, TreeType.BIG_TREE);
+						for (int j = 0; j < 2; j++) {
+							X = random.nextInt(15);
+							Z = random.nextInt(15);
+							for (Y = world.getMaxHeight()-1; chunk.getBlock(X, Y, Z).getType() == Material.AIR && Y>0; Y--);
+							int tree = random.nextInt(100);
+							if(blockLocation.getBlock().getType() == Material.GRASS_BLOCK || blockLocation.subtract(0, 1, 0).getBlock().getType() == Material.GRASS_BLOCK) {
+								if(tree < 45) {
+									world.generateTree(blockLocation, TreeType.TREE);
+								}  else if(tree < 93) {
+									world.generateTree(blockLocation, TreeType.JUNGLE_BUSH);
+								} else {
+									world.generateTree(blockLocation, TreeType.BIG_TREE);
+								}
 							}
 						}
 						break;

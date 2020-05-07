@@ -11,6 +11,7 @@ import java.util.Random;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.World;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Chest;
@@ -18,6 +19,7 @@ import org.bukkit.block.Container;
 import org.bukkit.block.DoubleChest;
 import org.bukkit.generator.BlockPopulator;
 import org.bukkit.inventory.InventoryHolder;
+import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.util.noise.SimplexOctaveGenerator;
 
 import com.sk89q.worldedit.EditSession;
@@ -38,36 +40,42 @@ public class StructurePopulator extends BlockPopulator {
 
 	@Override
 	public void populate(World world, Random random, Chunk chunk) {
+		Main main = Main.getInstance();
 		int X = random.nextInt(15);
 		int Z = random.nextInt(15);
-		if(random.nextInt(100) < 25 && Math.sqrt(Math.pow(chunk.getX()*16+X, 2) + Math.pow(chunk.getZ()*16+Z, 2)) >= 1000) {
-			Main main = Main.getInstance();
+		if(random.nextInt(100) < main.getConfig().getInt("outer-islands.structures.chance-per-chunk") && Math.sqrt(Math.pow(chunk.getX()*16+X, 2) + Math.pow(chunk.getZ()*16+Z, 2)) >= 1000) {
 			File file;
 			boolean aboveGround = true;
 			int type = random.nextInt(100);
 			Location pasteLocation;
 			String name;
 			if(type < 70) {
-				if(random.nextBoolean()) {
-					name = "wood_house_s";
-					file = new File(main.getDataFolder() + "/scm/wood_house_s/wood_house_s_" + random.nextInt(4) + ".schem");
-					int highY;
-					for (highY = world.getMaxHeight()-1; chunk.getBlock(X, highY, Z).getType() != Material.GRASS_BLOCK && highY>0; highY--);
-					if(highY < 1) return;
-					pasteLocation = new Location(world, chunk.getX()*16+X, highY+1, chunk.getZ()*16+Z);
-					if(pasteLocation.getBlock().getType() != Material.GRASS_BLOCK && pasteLocation.getBlock().getType() != Material.STONE) {
-						pasteLocation = pasteLocation.subtract(0, 1, 0);
+				if(Main.getBiomeNoise(chunk.getX()*16+X, chunk.getZ()*16+Z, world.getSeed()) > 0.5) {
+					if(random.nextBoolean()) {
+						name = "wood_house_s";
+						file = new File(main.getDataFolder() + "/scm/wood_house_s/wood_house_s_" + random.nextInt(4) + ".schem");
+						int highY;
+						for (highY = world.getMaxHeight()-1; chunk.getBlock(X, highY, Z).getType() != Material.GRASS_BLOCK && highY>0; highY--);
+						if(highY < 1) return;
+						pasteLocation = new Location(world, chunk.getX()*16+X, highY+1, chunk.getZ()*16+Z);
+						if(pasteLocation.getBlock().getType() != Material.GRASS_BLOCK && pasteLocation.getBlock().getType() != Material.STONE) {
+							pasteLocation = pasteLocation.subtract(0, 1, 0);
+						}
+					} else {
+						name = "cobble_house_s";
+						int highY;
+						file = new File(main.getDataFolder() + "/scm/cobble_house_s/cobble_house_s_" + random.nextInt(5) + ".schem");
+						for (highY = world.getMaxHeight()-1; chunk.getBlock(X, highY, Z).getType() != Material.GRASS_BLOCK && highY>0; highY--);
+						if(highY < 1) return;
+						pasteLocation = new Location(world, chunk.getX()*16+X, highY, chunk.getZ()*16+Z);
+						if(pasteLocation.getBlock().getType() != Material.GRASS_BLOCK && pasteLocation.getBlock().getType() != Material.STONE) {
+							pasteLocation = pasteLocation.subtract(0, 1, 0);
+						}
 					}
 				} else {
-					name = "cobble_house_s";
-					int highY;
-					file = new File(main.getDataFolder() + "/scm/cobble_house_s/cobble_house_s_" + random.nextInt(4) + ".schem");
-					for (highY = world.getMaxHeight()-1; chunk.getBlock(X, highY, Z).getType() != Material.GRASS_BLOCK && highY>0; highY--);
-					if(highY < 1) return;
-					pasteLocation = new Location(world, chunk.getX()*16+X, highY, chunk.getZ()*16+Z);
-					if(pasteLocation.getBlock().getType() != Material.GRASS_BLOCK && pasteLocation.getBlock().getType() != Material.STONE) {
-						pasteLocation = pasteLocation.subtract(0, 1, 0);
-					}
+					name = "end_house";
+					file = new File(main.getDataFolder() + "/scm/end_house/end_house_" + random.nextInt(3) + ".schem");
+					pasteLocation = new Location(world, chunk.getX()*16+X, world.getHighestBlockYAt(chunk.getX()*16+X, chunk.getZ()*16+Z), chunk.getZ()*16+Z);
 				}
 			} else {
 				name = "stronghold";
@@ -112,15 +120,18 @@ public class StructurePopulator extends BlockPopulator {
 							.ignoreAirBlocks(aboveGround)
 							.build();
 					Operations.complete(operation);
+					
 				} catch (WorldEditException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				List<Location> locations = getChestsIn(minLoc, maxLoc);
-				for (Location location : locations) {
-					if (location.getBlock().getState() instanceof Container) {
-						location.add(0, 1, 0).getBlock().setType(Material.DIAMOND_BLOCK);
-					}
+			}
+			NamespacedKey key = new NamespacedKey(main, "valkyrie-spawner");
+			List<Location> locations = getChestsIn(minLoc, maxLoc);
+			for (Location location : locations) {
+				if (location.getBlock().getState() instanceof Container) {
+					location.add(0, 1, 0).getBlock().setType(Material.DIAMOND_BLOCK);
+					//Chest chest = (Chest) location.getBlock().getState();
+					//chest.getPersistentDataContainer().set(key, PersistentDataType.INTEGER, 1);
 				}
 			}
 		}

@@ -2,10 +2,20 @@ package com.dfsek.betterEnd;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.NamespacedKey;
+import org.bukkit.Server;
+import org.bukkit.block.Chest;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.inventory.InventoryOpenEvent;
+import org.bukkit.event.inventory.InventoryType;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryHolder;
+import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.StringUtil;
 import org.bukkit.util.noise.SimplexOctaveGenerator;
@@ -24,6 +34,7 @@ public class Main extends JavaPlugin {
 	private static Main instance;
 	@Override
 	public void onEnable() {	
+		config.addDefault("outer-islands.structures.chance-per-chunk", 10);
 		config.addDefault("outer-islands.noise", 96);
 		config.addDefault("outer-islands.island-height", 64);
 		config.addDefault("aether.clouds.enable-clouds", true);
@@ -40,6 +51,7 @@ public class Main extends JavaPlugin {
 
 		saveConfig();
 		dumpSchemFile("wood_house_s", 4);
+		dumpSchemFile("end_house", 3);
 		dumpSchemFile("stronghold", 1);
 		dumpSchemFile("cobble_house_s", 5);
 	}
@@ -117,6 +129,7 @@ public class Main extends JavaPlugin {
 		}
 		return false;
 	} 
+
 	private static final List<String> COMMANDS = Arrays.asList("biome", "tpbiome", "version");
 	//private static final List<String> BIOMES = Arrays.asList("AETHER", "END", "SHATTERED_END", "OBSIDIAN_FOREST");
 	@Override
@@ -169,5 +182,20 @@ public class Main extends JavaPlugin {
 			}
 		}
 
+	}
+	@EventHandler (ignoreCancelled=true)
+	public void onInventoryOpenEvent(InventoryOpenEvent event) {
+	    //get the destination inventory
+	    InventoryHolder holder = event.getInventory().getHolder();
+	    Inventory inventory = event.getInventory();
+	    if (inventory.getHolder() instanceof Chest) {
+	    	Location l = ((Chest) holder).getLocation();
+	        System.out.println("[BetterEnd] Player opened chest in " + l.getWorld() + " at " + l.getBlockX() + ", " + l.getBlockY() + ", " + l.getBlockZ());
+	        Chest chest = (Chest) l.getBlock().getState();
+	        NamespacedKey key = new NamespacedKey(this, "valkyrie-spawner");
+			if(chest.getPersistentDataContainer().get(key, PersistentDataType.INTEGER) == 1) {
+				System.out.println("[BetterEnd] Chest is a Valkyrie Queen Spawn Chest.");
+			}
+	    }
 	}
 }

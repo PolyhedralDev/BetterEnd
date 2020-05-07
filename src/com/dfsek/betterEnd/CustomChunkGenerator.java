@@ -4,12 +4,12 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Server;
 import org.bukkit.World;
-import org.bukkit.block.Block;
-import org.bukkit.block.data.Bisected;
 import org.bukkit.block.data.BlockData;
+import org.bukkit.block.data.type.Slab;
+import org.bukkit.block.data.type.Slab.Type;
 import org.bukkit.generator.BlockPopulator;
 import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.util.noise.SimplexOctaveGenerator;
@@ -63,11 +63,27 @@ public class CustomChunkGenerator extends ChunkGenerator {
 							double noiseM = (-Math.pow(1.1, -totalDistance2D+1000))+1;
 							if(noiseM > 1) noiseM = 1;
 							if(noiseM < 0) noiseM = 0;
-							yMinc = (int) ((-6*noiseM*aetherLvl*(generator.noise((double) (chunkX*16+X)/cloudNoise, (double) (chunkZ*16+Z)/cloudNoise, 0.1D, 0.55D)-0.2)+cloudHeight)+1);
-							yMaxc = (int) ((6*noiseM*aetherLvl*(generator.noise((double) (chunkX*16+X)/cloudNoise, (double) (chunkZ*16+Z)/cloudNoise, 0.1D, 0.55D)-0.2)+cloudHeight-1));
+							yMinc = (int) ((-5*noiseM*aetherLvl*(generator.noise((double) (chunkX*16+X)/cloudNoise, (double) (chunkZ*16+Z)/cloudNoise, 0.1D, 0.55D)-0.2)+cloudHeight)+1);
+							yMaxc = (int) ((5*noiseM*aetherLvl*(generator.noise((double) (chunkX*16+X)/cloudNoise, (double) (chunkZ*16+Z)/cloudNoise, 0.1D, 0.55D)-0.2)+cloudHeight-1));
 						} else {
-							yMinc = (int) (-6*aetherLvl*(generator.noise((double) (chunkX*16+X)/cloudNoise, (double) (chunkZ*16+Z)/cloudNoise, 0.1D, 0.55D)-0.2)+cloudHeight)+1;
-							yMaxc = (int) (6*aetherLvl*(generator.noise((double) (chunkX*16+X)/cloudNoise, (double) (chunkZ*16+Z)/cloudNoise, 0.1D, 0.55D)-0.2)+cloudHeight-1);
+							yMinc = (int) (-5*aetherLvl*(generator.noise((double) (chunkX*16+X)/cloudNoise, (double) (chunkZ*16+Z)/cloudNoise, 0.1D, 0.55D)-0.15)+cloudHeight)+1;
+							yMaxc = (int) (5*aetherLvl*(generator.noise((double) (chunkX*16+X)/cloudNoise, (double) (chunkZ*16+Z)/cloudNoise, 0.1D, 0.55D)-0.15)+cloudHeight-1);
+						}
+						for (int Y = yMaxc; Y > yMinc; Y--) {
+							chunk.setBlock(X, Y, Z, Material.WHITE_STAINED_GLASS);
+						}
+						if(totalDistance2D < 975) {
+							yMinc = 255;
+							yMaxc = 0;
+						} else if(totalDistance2D < 1050) {
+							double noiseM = (-Math.pow(1.1, -totalDistance2D+1000))+1;
+							if(noiseM > 1) noiseM = 1;
+							if(noiseM < 0) noiseM = 0;
+							yMinc = (int) ((-4*noiseM*aetherLvl*(generator.noise((double) ((chunkX*16+X)-1000)/cloudNoise, (double) ((chunkZ*16+Z)-1000)/cloudNoise, 0.1D, 0.55D)-0.125)+cloudHeight+8)+1);
+							yMaxc = (int) ((4*noiseM*aetherLvl*(generator.noise((double) ((chunkX*16+X)-1000)/cloudNoise, (double) ((chunkZ*16+Z)-1000)/cloudNoise, 0.1D, 0.55D)-0.125)+cloudHeight+7));
+						} else {
+							yMinc = (int) (-4*aetherLvl*(generator.noise((double) ((chunkX*16+X)-1000)/cloudNoise, (double) ((chunkZ*16+Z)-1000)/cloudNoise, 0.1D, 0.55D)-0.125)+cloudHeight+8)+1;
+							yMaxc = (int) (4*aetherLvl*(generator.noise((double) ((chunkX*16+X)-1000)/cloudNoise, (double) ((chunkZ*16+Z)-1000)/cloudNoise, 0.1D, 0.55D)-0.125)+cloudHeight+7);
 						}
 						for (int Y = yMaxc; Y > yMinc; Y--) {
 							chunk.setBlock(X, Y, Z, Material.WHITE_STAINED_GLASS);
@@ -83,17 +99,20 @@ public class CustomChunkGenerator extends ChunkGenerator {
 									if(Y > 62) {
 										if(chunk.getBlockData(X, Y+1, Z).getMaterial() == Material.AIR) {
 											chunk.setBlock(X, Y, Z, Material.GRASS_BLOCK);
-											if(random.nextInt(100) < 55) {
+											if(random.nextInt(100) < 45) {
 												double grassType = random.nextDouble()*100;
-												if(grassType < 85) {
+												if(grassType < 70) {
 													chunk.setBlock(X, Y+1, Z, Material.GRASS);
+												} else if(grassType < 85) {
+													chunk.setBlock(X, Y+1, Z, Material.TALL_GRASS);
+													chunk.setBlock(X, Y+2, Z, main.getServer().createBlockData("minecraft:tall_grass[half=upper]"));
 												} else if(grassType < 88) {
 													chunk.setBlock(X, Y+1, Z, Material.LILY_OF_THE_VALLEY);
 												} else if(grassType < 91)  {
 													chunk.setBlock(X, Y+1, Z, Material.FERN);
 												} else if(grassType < 96) {
 													chunk.setBlock(X, Y+1, Z, Material.AZURE_BLUET);
-												} else if(grassType < 99.95) {
+												} else if(grassType < 99.9) {
 													chunk.setBlock(X, Y+1, Z, Material.BLUE_ORCHID);
 												} else {
 													chunk.setBlock(X, Y+1, Z, Material.WITHER_ROSE);	
@@ -101,13 +120,42 @@ public class CustomChunkGenerator extends ChunkGenerator {
 											}
 										} else chunk.setBlock(X, Y, Z, Material.DIRT);
 									} else {
-										double ore = 1;//generator.noise((double) (chunkX*16+X)/16D, (double) Y/16D, (double) (chunkZ*16+Z)/16D, 0.25D, 0.5D);
 										Material material;
-										if(ore < -0.4 && ore > -0.5) material = Material.GRANITE;
-										else if(ore < 0.05 && ore > -0.05) material = Material.ANDESITE;
-										else if(ore < 0.5 && ore > 0.4) material = Material.DIORITE;
-										else material = Material.STONE;
+										material = Material.STONE;
 										chunk.setBlock(X, Y, Z, material);
+										if(material == Material.STONE && chunk.getBlockData(X, Y+1, Z).getMaterial() == Material.AIR && random.nextInt(100) < 48) {
+											switch(random.nextInt(6)) {
+											case 0:
+												if(random.nextInt(100) < 35)chunk.setBlock(X, Y+1, Z, Material.BROWN_MUSHROOM);
+												break;
+											case 1:
+												if(random.nextInt(100) < 35)chunk.setBlock(X, Y+1, Z, Material.RED_MUSHROOM);
+												break;
+											case 2:
+												chunk.setBlock(X, Y+1, Z, Material.STONE_SLAB);
+												break;
+											case 3:
+												if(random.nextInt(100) < 25) chunk.setBlock(X, Y+1, Z, Material.COBBLESTONE_WALL);
+												break;
+											case 4:
+												if(chunk.getBlockData(X, Y+2, Z).getMaterial() == Material.AIR && random.nextInt(100) < 20) {
+													chunk.setBlock(X, Y+1, Z, Material.COBBLESTONE_WALL);
+													chunk.setBlock(X, Y+2, Z, Material.IRON_BARS);
+												}
+												break;
+											case 5:
+												switch(random.nextInt(2)) {
+												case 0:
+													if(random.nextInt(100) < 50) chunk.setBlock(X, Y+1, Z, main.getServer().createBlockData("minecraft:stone_button[face=floor,facing=north]"));
+													break;
+												case 1:
+													if(random.nextInt(100) < 50) chunk.setBlock(X, Y+1, Z, main.getServer().createBlockData("minecraft:stone_button[face=floor,facing=east]"));
+													break;
+												}
+												break;
+											}
+
+										}
 
 									}
 								} else {
@@ -118,6 +166,28 @@ public class CustomChunkGenerator extends ChunkGenerator {
 								chunk.setBlock(X, Y, Z, Material.END_STONE);
 							}
 						}
+						if(chunk.getBlockData(X, Y, Z).getMaterial() == Material.AIR && chunk.getBlockData(X, Y+1, Z).getMaterial() == Material.STONE && random.nextInt(100) < 28) {
+							if(Y >= yMin) {
+								switch(random.nextInt(4)) {
+								case 0:
+									if(chunk.getBlockData(X, Y-1, Z).getMaterial() == Material.AIR && random.nextInt(100) < 20) {
+										chunk.setBlock(X, Y, Z, Material.COBBLESTONE_WALL);
+										chunk.setBlock(X, Y-1, Z, Material.IRON_BARS);
+									}
+									break;
+								case 1:
+									if(random.nextInt(100) < 10) chunk.setBlock(X, Y+1, Z, main.getServer().createBlockData("minecraft:lantern[hanging=true]"));
+									break;
+								case 2:
+									if(random.nextInt(100) < 25) chunk.setBlock(X, Y, Z, Material.COBBLESTONE_WALL);
+									break;
+								case 3:
+									chunk.setBlock(X, Y, Z, main.getServer().createBlockData("minecraft:stone_slab[type=top]"));
+									break;
+								}
+							}
+						}
+						
 						//}
 					}
 					boolean doBiomeGlass = true;
@@ -148,7 +218,7 @@ public class CustomChunkGenerator extends ChunkGenerator {
 	}
 	@Override
 	public boolean shouldGenerateStructures() {
-		return true;
+		return false;
 	}
 	@Override
 	public boolean shouldGenerateDecorations() {
