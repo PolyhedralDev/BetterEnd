@@ -1,9 +1,12 @@
 package com.dfsek.betterEnd;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -11,16 +14,21 @@ import java.util.Random;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.World;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Chest;
 import org.bukkit.block.Container;
 import org.bukkit.block.DoubleChest;
 import org.bukkit.generator.BlockPopulator;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
-import org.bukkit.persistence.PersistentDataType;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.util.noise.SimplexOctaveGenerator;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import com.sk89q.worldedit.EditSession;
 import com.sk89q.worldedit.WorldEdit;
@@ -56,7 +64,7 @@ public class StructurePopulator extends BlockPopulator {
 						file = new File(main.getDataFolder() + "/scm/wood_house_s/wood_house_s_" + random.nextInt(4) + ".schem");
 						int highY;
 						for (highY = world.getMaxHeight()-1; chunk.getBlock(X, highY, Z).getType() != Material.GRASS_BLOCK && highY>0; highY--);
-						if(highY < 1) return;
+						if(highY < 64) return;
 						pasteLocation = new Location(world, chunk.getX()*16+X, highY+1, chunk.getZ()*16+Z);
 						if(pasteLocation.getBlock().getType() != Material.GRASS_BLOCK && pasteLocation.getBlock().getType() != Material.STONE) {
 							pasteLocation = pasteLocation.subtract(0, 1, 0);
@@ -66,7 +74,7 @@ public class StructurePopulator extends BlockPopulator {
 						int highY;
 						file = new File(main.getDataFolder() + "/scm/cobble_house_s/cobble_house_s_" + random.nextInt(5) + ".schem");
 						for (highY = world.getMaxHeight()-1; chunk.getBlock(X, highY, Z).getType() != Material.GRASS_BLOCK && highY>0; highY--);
-						if(highY < 1) return;
+						if(highY < 64) return;
 						pasteLocation = new Location(world, chunk.getX()*16+X, highY, chunk.getZ()*16+Z);
 						if(pasteLocation.getBlock().getType() != Material.GRASS_BLOCK && pasteLocation.getBlock().getType() != Material.STONE) {
 							pasteLocation = pasteLocation.subtract(0, 1, 0);
@@ -75,6 +83,7 @@ public class StructurePopulator extends BlockPopulator {
 				} else {
 					name = "end_house";
 					file = new File(main.getDataFolder() + "/scm/end_house/end_house_" + random.nextInt(3) + ".schem");
+					if(world.getHighestBlockYAt(chunk.getX()*16+X, chunk.getZ()*16+Z) < 64) return;
 					pasteLocation = new Location(world, chunk.getX()*16+X, world.getHighestBlockYAt(chunk.getX()*16+X, chunk.getZ()*16+Z), chunk.getZ()*16+Z);
 				}
 			} else {
@@ -120,22 +129,133 @@ public class StructurePopulator extends BlockPopulator {
 							.ignoreAirBlocks(aboveGround)
 							.build();
 					Operations.complete(operation);
-					
+
 				} catch (WorldEditException e) {
 					e.printStackTrace();
 				}
 			}
-			NamespacedKey key = new NamespacedKey(main, "valkyrie-spawner");
+			//NamespacedKey key = new NamespacedKey(main, "valkyrie-spawner");
 			List<Location> locations = getChestsIn(minLoc, maxLoc);
 			for (Location location : locations) {
 				if (location.getBlock().getState() instanceof Container) {
+					JSONArray poolArray = (JSONArray) ((JSONObject) getLootTable(name)).get("pools");
+					for (Object pool : poolArray) {
+						JSONObject pooldata = (JSONObject) pool;
+						int max = Math.toIntExact((long) ((JSONObject)pooldata.get("rolls")).get("max"));
+						int min = Math.toIntExact((long) ((JSONObject)pooldata.get("rolls")).get("min"));
+						
+						JSONArray itemArray = (JSONArray) pooldata.get("entries");
+						int rolls = random.nextInt(max-min+1)+min;
+						System.out.println("[BetterEnd] min: " + min + ", max: " + max + ", " + rolls + " rolls.");
+						for(int i = 0; i < rolls; i++) {
+							int count = 1;
+							JSONObject itemdata = (JSONObject) chooseOnWeight(itemArray);
+							String itemname = (String) itemdata.get("name");
+							if(itemdata.containsKey("functions")) {
+								for (Object function : (JSONArray) itemdata.get("functions")) {
+									if(((String) ((JSONObject) function).get("function")).equalsIgnoreCase("set_count")) {
+										long maxc = (long) ((JSONObject)((JSONObject)function).get("count")).get("max");
+										long minc = (long) ((JSONObject)((JSONObject)function).get("count")).get("min");
+										count = random.nextInt(Math.toIntExact(maxc)-Math.toIntExact(minc)) + Math.toIntExact(minc);
+									}
+								}
+							}
+							System.out.println("[BetterEnd] "+ itemname + " x" + count);
+							try {
+							ItemStack randomItem = new ItemStack(Material.valueOf(itemname.toUpperCase()), count);
+							BlockState blockState = location.getBlock().getState();
+							Container container = (Container) blockState;
+							Inventory containerInventory = container.getInventory();
+							ItemStack[] containerContent = containerInventory.getContents();
+							for (int j = 0; j < randomItem.getAmount(); j++) {
+								boolean done = false;
+								int attemps = 0;
+								while (!done) {
+									int randomPos = random.nextInt(containerContent.length);
+									ItemStack randomPosItem = containerInventory.getItem(randomPos);
+									if (randomPosItem != null) {
+										if (this.isSameItem(randomPosItem, randomItem)) {
+											if (randomPosItem.getAmount() < randomItem.getMaxStackSize()) {
+												ItemStack randomItemCopy = randomItem.clone();
+												int newAmount = randomPosItem.getAmount() + 1;
+												randomItemCopy.setAmount(newAmount);
+												containerContent[randomPos] = randomItemCopy;
+												containerInventory.setContents(containerContent);
+												done = true;
+											}
+										}
+									} else {
+										ItemStack randomItemCopy = randomItem.clone();
+										randomItemCopy.setAmount(1);
+										containerContent[randomPos] = randomItemCopy;
+										containerInventory.setContents(containerContent);
+										done = true;
+									}
+									attemps++;
+									if (attemps >= containerContent.length) {
+										done = true;
+									}
+								}
+							}
+							} catch(IllegalArgumentException exception) {
+								System.out.println("[BetterEnd] Invalid item \""+ itemname + "\"");
+							}
+							
+						}
+					}
 					location.add(0, 1, 0).getBlock().setType(Material.DIAMOND_BLOCK);
 					//Chest chest = (Chest) location.getBlock().getState();
 					//chest.getPersistentDataContainer().set(key, PersistentDataType.INTEGER, 1);
 				}
 			}
+			
+
 		}
 
+	}
+	private boolean isSameItem(ItemStack randomPosItem, ItemStack randomItem) {
+		ItemMeta randomPosItemMeta = randomPosItem.getItemMeta();
+		ItemMeta randomItemMeta = randomItem.getItemMeta();
+
+		return randomPosItem.getType().equals(randomItem.getType()) && randomPosItemMeta.equals(randomItemMeta);
+	}
+	public Object chooseOnWeight(JSONArray items) {
+        double completeWeight = 0.0;
+        for (Object item : items)
+            completeWeight += Math.toIntExact((long) ((JSONObject) item).get("weight"));
+        double r = Math.random() * completeWeight;
+        double countWeight = 0.0;
+        for (Object item : items) {
+            countWeight += Math.toIntExact((long) ((JSONObject) item).get("weight"));
+            if (countWeight >= r)
+                return item;
+        }
+		return null;
+    }
+	private Object getLootTable(String name) {
+		Main main = Main.getInstance();
+		InputStream  inputStream = main.getResource("loot/" + name + ".json");
+
+		InputStreamReader isReader = new InputStreamReader(inputStream);
+
+		BufferedReader reader = new BufferedReader(isReader);
+		StringBuffer sb = new StringBuffer();
+		String str;
+		try {
+			while((str = reader.readLine())!= null){
+				sb.append(str);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		JSONParser jsonParser = new JSONParser();
+		try {
+			return jsonParser.parse(sb.toString());
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 	private BlockVector3 rotateAround(BlockVector3 point, BlockVector3 center, double angle){
 		angle = Math.toRadians(angle * -1);
