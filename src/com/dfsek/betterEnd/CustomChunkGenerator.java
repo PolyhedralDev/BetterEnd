@@ -5,19 +5,18 @@ import java.util.List;
 import java.util.Random;
 
 import org.bukkit.Material;
-import org.bukkit.Server;
 import org.bukkit.World;
-import org.bukkit.block.data.BlockData;
-import org.bukkit.block.data.type.Slab;
-import org.bukkit.block.data.type.Slab.Type;
+import org.bukkit.block.Biome;
 import org.bukkit.generator.BlockPopulator;
 import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.util.noise.SimplexOctaveGenerator;
 
 public class CustomChunkGenerator extends ChunkGenerator {
+	boolean doBiomeGlass = true;
+	Main main = Main.getInstance();
 	@Override
 	public ChunkData generateChunkData(World world, Random random, int chunkX, int chunkZ, BiomeGrid biome) {
-		Main main = Main.getInstance();
+		
 		SimplexOctaveGenerator generator = new SimplexOctaveGenerator(world.getSeed(), 4);
 		//SimplexOctaveGenerator biomeGenerator = new SimplexOctaveGenerator(world.getSeed(), 6);
 		ChunkData chunk = createChunkData(world);
@@ -26,16 +25,32 @@ public class CustomChunkGenerator extends ChunkGenerator {
 			//if(Math.sqrt(chunkX*chunkX + chunkZ*chunkZ) > 62.5) { 
 			int outNoise = main.getConfig().getInt("outer-islands.noise");
 			boolean clouds = main.getConfig().getBoolean("aether.clouds.enable-clouds");
+			boolean aetherCaveDec = main.getConfig().getBoolean("aether.cave-decoration");
+			boolean endCaveDec = main.getConfig().getBoolean("outer-islands.cave-decoration");
 			int cloudNoise = main.getConfig().getInt("aether.clouds.cloud-noise");
 			int cloudHeight = main.getConfig().getInt("aether.clouds.cloud-height");
 			for (int X = 0; X < 16; X++)
 				for (int Z = 0; Z < 16; Z++) {
+						switch(Main.getBiome(chunkX*16+X, chunkZ*16+Z, world.getSeed())) {
+						case "END":
+							for (int Y = world.getMaxHeight()-1; Y > 0; Y--) biome.setBiome(X, Y, Z, Biome.SMALL_END_ISLANDS);
+							break;
+						case "SHATTERED_END":
+							for (int Y = world.getMaxHeight()-1; Y > 0; Y--) biome.setBiome(X, Y, Z, Biome.END_BARRENS);
+							break;
+						case "AETHER":
+							for (int Y = world.getMaxHeight()-1; Y > 0; Y--) biome.setBiome(X, Y, Z, Biome.END_HIGHLANDS);
+							break; 
+						case "OBSIDIAN_FOREST":
+							for (int Y = world.getMaxHeight()-1; Y > 0; Y--) biome.setBiome(X, Y, Z, Biome.END_MIDLANDS);
+							break;
+						} 
 					double biomeNoiseLvl = Main.getBiomeNoise(chunkX*16+X, chunkZ*16+Z, world.getSeed());
 					double totalDistance2D = Math.sqrt(Math.pow(chunkX*16+X, 2)+Math.pow(chunkZ*16+Z, 2));
-					int height = (int) ((generator.noise((double) (chunkX*16+X)/16, (double) (chunkZ*16+Z)/16, 0.5D, 0.7D)-0.4))+main.getConfig().getInt("outer-islands.island-height");
+					int height = (int) ((generator.noise((double) (chunkX*16+X)/24, (double) (chunkZ*16+Z)/24, 0.5D, 0.7D)-0.4))+main.getConfig().getInt("outer-islands.island-height");
 					int biomeNoise = 0;
 					if(biomeNoiseLvl < 0) {
-						biomeNoise = (int) (biomeNoiseLvl*2.5*(generator.noise((double) (chunkX*16+X)/8, (double) (chunkZ*16+Z)/8, 0.5D, 0.7D)-0.4));
+						biomeNoise = (int) (biomeNoiseLvl*2.5*(generator.noise((double) (chunkX*16+X)/12, (double) (chunkZ*16+Z)/12, 0.5D, 0.7D)-0.4));
 						height = (int) (biomeNoiseLvl*4*(generator.noise((double) (chunkX*16+X)/16, (double) (chunkZ*16+Z)/16, 0.5D, 0.7D)-0.4))+main.getConfig().getInt("outer-islands.island-height");
 					}
 					int yMin, yMax;
@@ -123,7 +138,7 @@ public class CustomChunkGenerator extends ChunkGenerator {
 										Material material;
 										material = Material.STONE;
 										chunk.setBlock(X, Y, Z, material);
-										if(material == Material.STONE && chunk.getBlockData(X, Y+1, Z).getMaterial() == Material.AIR && random.nextInt(100) < 48) {
+										if(material == Material.STONE && chunk.getBlockData(X, Y+1, Z).getMaterial() == Material.AIR && random.nextInt(100) < 48 && aetherCaveDec) {
 											switch(random.nextInt(6)) {
 											case 0:
 												if(random.nextInt(100) < 35)chunk.setBlock(X, Y+1, Z, Material.BROWN_MUSHROOM);
@@ -156,7 +171,7 @@ public class CustomChunkGenerator extends ChunkGenerator {
 											}
 
 										}
-
+										
 									}
 								} else {
 									chunk.setBlock(X, Y, Z, Material.END_STONE);
@@ -164,9 +179,45 @@ public class CustomChunkGenerator extends ChunkGenerator {
 
 							} else {
 								chunk.setBlock(X, Y, Z, Material.END_STONE);
+								if(Y < yMax-1 && random.nextInt(100) < 32 && chunk.getBlockData(X, Y+1, Z).getMaterial() == Material.AIR && chunk.getBlockData(X, Y, Z).getMaterial() == Material.END_STONE && endCaveDec) {
+									switch(random.nextInt(3)) {
+									case 0:
+										chunk.setBlock(X, Y+1, Z, Material.END_STONE_BRICK_SLAB);
+										break;
+									case 1:
+										if(random.nextInt(100) < 25) chunk.setBlock(X, Y+1, Z, Material.END_STONE_BRICK_WALL);
+										break;
+									case 2:
+										if(chunk.getBlockData(X, Y+2, Z).getMaterial() == Material.AIR && random.nextInt(100) < 20) {
+											chunk.setBlock(X, Y+1, Z, Material.END_STONE_BRICK_WALL);
+											chunk.setBlock(X, Y+2, Z, Material.END_ROD);
+										}
+										break;
+									}
+
+								}
+							}
+							
+						}
+						if(chunk.getBlockData(X, Y, Z).getMaterial() == Material.AIR && chunk.getBlockData(X, Y+1, Z).getMaterial() == Material.END_STONE && random.nextInt(100) < 28 && endCaveDec) {
+							if(Y >= yMin) {
+								switch(random.nextInt(3)) {
+								case 0:
+									if(chunk.getBlockData(X, Y-1, Z).getMaterial() == Material.AIR && random.nextInt(100) < 20) {
+										chunk.setBlock(X, Y, Z, Material.END_STONE_BRICK_WALL);
+										chunk.setBlock(X, Y-1, Z, main.getServer().createBlockData("minecraft:end_rod[facing=down]"));
+									}
+									break;
+								case 1:
+									if(random.nextInt(100) < 25) chunk.setBlock(X, Y, Z, Material.END_STONE_BRICK_WALL);
+									break;
+								case 2:
+									chunk.setBlock(X, Y, Z, main.getServer().createBlockData("minecraft:end_stone_brick_slab[type=top]"));
+									break;
+								}
 							}
 						}
-						if(chunk.getBlockData(X, Y, Z).getMaterial() == Material.AIR && chunk.getBlockData(X, Y+1, Z).getMaterial() == Material.STONE && random.nextInt(100) < 28) {
+						if(chunk.getBlockData(X, Y, Z).getMaterial() == Material.AIR && chunk.getBlockData(X, Y+1, Z).getMaterial() == Material.STONE && random.nextInt(100) < 28 && aetherCaveDec) {
 							if(Y >= yMin) {
 								switch(random.nextInt(4)) {
 								case 0:
@@ -176,7 +227,7 @@ public class CustomChunkGenerator extends ChunkGenerator {
 									}
 									break;
 								case 1:
-									if(random.nextInt(100) < 10) chunk.setBlock(X, Y+1, Z, main.getServer().createBlockData("minecraft:lantern[hanging=true]"));
+									if(random.nextInt(100) < 10) chunk.setBlock(X, Y, Z, main.getServer().createBlockData("minecraft:lantern[hanging=true]"));
 									break;
 								case 2:
 									if(random.nextInt(100) < 25) chunk.setBlock(X, Y, Z, Material.COBBLESTONE_WALL);
@@ -190,7 +241,6 @@ public class CustomChunkGenerator extends ChunkGenerator {
 						
 						//}
 					}
-					boolean doBiomeGlass = true;
 					if(doBiomeGlass && totalDistance2D > 975) {
 						switch(Main.getBiome(chunkX*16+X, chunkZ*16+Z, world.getSeed())) {
 						case "END":
@@ -218,7 +268,7 @@ public class CustomChunkGenerator extends ChunkGenerator {
 	}
 	@Override
 	public boolean shouldGenerateStructures() {
-		return false;
+		return main.getConfig().getBoolean("outer-islands.generate-end-cities");
 	}
 	@Override
 	public boolean shouldGenerateDecorations() {

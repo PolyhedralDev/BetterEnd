@@ -16,5 +16,6 @@
 			<attribute name="javadoc_location" value="https://papermc.io/javadocs/paper/1.15/"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="C:/Users/dfsek.DFSEK/eclipse-workspace/betterEnd/EnchantmentSolution.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -1,8 +1,21 @@
 {
     "pools": [
+		{
+            "rolls": {
+                "min": 1,
+                "max": 1
+            },
+            "entries": [
+                {
+                    "type": "item",
+                    "weight": 1,
+                    "name": "elytra"
+                }
+            ]
+        },
         {
             "rolls": {
-                "min": 2,
+                "min": 3,
                 "max": 6
             },
             "entries": [
@@ -15,7 +28,7 @@
                             "function": "set_count",
                             "count": {
                                 "min": 2,
-                                "max": 7
+                                "max": 8
                             }
                         }
                     ]
@@ -36,21 +49,21 @@
                 },
                 {
                     "type": "item",
-                    "weight": 15,
+                    "weight": 12,
                     "name": "gold_ingot",
                     "functions": [
                         {
                             "function": "set_count",
                             "count": {
                                 "min": 2,
-                                "max": 7
+                                "max": 8
                             }
                         }
                     ]
                 },
                 {
                     "type": "item",
-                    "weight": 2,
+                    "weight": 4,
                     "name": "emerald",
                     "functions": [
                         {
@@ -79,7 +92,7 @@
                 },
                 {
                     "type": "item",
-                    "weight": 3,
+                    "weight": 2,
                     "name": "diamond_boots",
                     "functions": [
                         {
@@ -94,7 +107,7 @@
                 },
                 {
                     "type": "item",
-                    "weight": 3,
+                    "weight": 2,
                     "name": "diamond_chestplate",
                     "functions": [
                         {
@@ -109,7 +122,7 @@
                 },
                 {
                     "type": "item",
-                    "weight": 3,
+                    "weight": 2,
                     "name": "diamond_leggings",
                     "functions": [
                         {
@@ -124,7 +137,7 @@
                 },
                 {
                     "type": "item",
-                    "weight": 3,
+                    "weight": 2,
                     "name": "diamond_helmet",
                     "functions": [
                         {
@@ -186,6 +199,7 @@
                     "type": "item",
                     "weight": 3,
                     "name": "iron_boots",
+                    "quality": 39,
                     "functions": [
                         {
                             "function": "enchant_with_levels",
@@ -271,25 +285,100 @@
                             "treasure": true
                         }
                     ]
-                }
-            ]
-        },
-        {
-            "rolls": {
-                "min": 3,
-                "max": 4
-            },
-            "entries": [
+                },
                 {
                     "type": "item",
-                    "weight": 5,
-                    "name": "tnt",
+                    "weight": 2,
+                    "name": "gold_block",
+                    "functions": [
+                        {
+                            "function": "set_count",
+                            "count": {
+                                "min": 2,
+                                "max": 4
+                            }
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "weight": 2,
+                    "name": "iron_block"
+                },
+                {
+                    "type": "item",
+                    "weight": 2,
+                    "name": "golden_apple",
                     "functions": [
                         {
                             "function": "set_count",
                             "count": {
                                 "min": 1,
-                                "max": 6
+                                "max": 3
+                            }
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "weight": 1,
+                    "name": "enchanted_golden_apple",
+                    "functions": [
+                        {
+                            "function": "set_count",
+                            "count": {
+                                "min": 1,
+                                "max": 2
+                            }
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "weight": 1,
+                    "name": "diamond_block",
+                    "functions": [
+                        {
+                            "function": "set_count",
+                            "count": {
+                                "min": 1,
+                                "max": 2
+                            }
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "weight": 1,
+                    "name": "emerald_block",
+                    "functions": [
+                        {
+                            "function": "set_count",
+                            "count": {
+                                "min": 1,
+                                "max": 2
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "rolls": {
+                "min": 2,
+                "max": 4
+            },
+            "entries": [
+                {
+                    "type": "item",
+                    "weight": 8,
+                    "name": "quartz",
+                    "functions": [
+                        {
+                            "function": "set_count",
+                            "count": {
+                                "min": 8,
+                                "max": 24
                             }
                         }
                     ]
@@ -297,111 +386,13 @@
                 {
                     "type": "item",
                     "weight": 6,
-                    "name": "redstone",
-                    "functions": [
-                        {
-                            "function": "set_count",
-                            "count": {
-                                "min": 4,
-                                "max": 16
-                            }
-                        }
-                    ]
-                },
-                {
-                    "type": "item",
-                    "weight": 4,
-                    "name": "redstone_torch",
+                    "name": "quartz_block",
                     "functions": [
                         {
                             "function": "set_count",
                             "count": {
                                 "min": 2,
-                                "max": 6
-                            }
-                        }
-                    ]
-                },
-                {
-                    "type": "item",
-                    "weight": 3,
-                    "name": "redstone_block",
-                    "functions": [
-                        {
-                            "function": "set_count",
-                            "count": {
-                                "min": 1,
-                                "max": 4
-                            }
-                        }
-                    ]
-                },
-                {
-                    "type": "item",
-                    "weight": 4,
-                    "name": "tripwire_hook",
-                    "functions": [
-                        {
-                            "function": "set_count",
-                            "count": {
-                                "min": 1,
-                                "max": 5
-                            }
-                        }
-                    ]
-                },
-                {
-                    "type": "item",
-                    "weight": 2,
-                    "name": "observer",
-                    "functions": [
-                        {
-                            "function": "set_count",
-                            "count": {
-                                "min": 1,
-                                "max": 3
-                            }
-                        }
-                    ]
-                },
-                {
-                    "type": "item",
-                    "weight": 2,
-                    "name": "repeater",
-                    "functions": [
-                        {
-                            "function": "set_count",
-                            "count": {
-                                "min": 1,
-                                "max": 4
-                            }
-                        }
-                    ]
-                },
-                {
-                    "type": "item",
-                    "weight": 2,
-                    "name": "comparator",
-                    "functions": [
-                        {
-                            "function": "set_count",
-                            "count": {
-                                "min": 1,
-                                "max": 3
-                            }
-                        }
-                    ]
-                },
-                {
-                    "type": "item",
-                    "weight": 2,
-                    "name": "piston",
-                    "functions": [
-                        {
-                            "function": "set_count",
-                            "count": {
-                                "min": 1,
-                                "max": 4
+                                "max": 16
                             }
                         }
                     ]

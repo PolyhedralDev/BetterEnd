@@ -23,6 +23,7 @@ import org.bukkit.generator.BlockPopulator;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.util.noise.SimplexOctaveGenerator;
 import org.json.simple.JSONArray;
@@ -45,10 +46,9 @@ import com.sk89q.worldedit.math.transform.AffineTransform;
 import com.sk89q.worldedit.session.ClipboardHolder;
 
 public class StructurePopulator extends BlockPopulator {
-
+	Main main = Main.getInstance();
 	@Override
 	public void populate(World world, Random random, Chunk chunk) {
-		Main main = Main.getInstance();
 		int X = random.nextInt(15);
 		int Z = random.nextInt(15);
 		if(random.nextInt(100) < main.getConfig().getInt("outer-islands.structures.chance-per-chunk") && Math.sqrt(Math.pow(chunk.getX()*16+X, 2) + Math.pow(chunk.getZ()*16+Z, 2)) >= 1000) {
@@ -57,35 +57,45 @@ public class StructurePopulator extends BlockPopulator {
 			int type = random.nextInt(100);
 			Location pasteLocation;
 			String name;
+			boolean overrideSpawnCheck = false;
 			if(type < 70) {
 				if(Main.getBiomeNoise(chunk.getX()*16+X, chunk.getZ()*16+Z, world.getSeed()) > 0.5) {
-					if(random.nextBoolean()) {
-						name = "wood_house_s";
-						file = new File(main.getDataFolder() + "/scm/wood_house_s/wood_house_s_" + random.nextInt(4) + ".schem");
-						int highY;
-						for (highY = world.getMaxHeight()-1; chunk.getBlock(X, highY, Z).getType() != Material.GRASS_BLOCK && highY>0; highY--);
-						if(highY < 64) return;
-						pasteLocation = new Location(world, chunk.getX()*16+X, highY+1, chunk.getZ()*16+Z);
-						if(pasteLocation.getBlock().getType() != Material.GRASS_BLOCK && pasteLocation.getBlock().getType() != Material.STONE) {
-							pasteLocation = pasteLocation.subtract(0, 1, 0);
+					if(random.nextInt(100) < 90) {
+						if(random.nextBoolean()) {
+							name = "wood_house_s";
+							file = new File(main.getDataFolder() + "/scm/wood_house_s/wood_house_s_" + random.nextInt(4) + ".schem");
+							int highY;
+							for (highY = world.getMaxHeight()-1; chunk.getBlock(X, highY, Z).getType() != Material.GRASS_BLOCK && highY>0; highY--);
+							if(highY < 64) return;
+							pasteLocation = new Location(world, chunk.getX()*16+X, highY+1, chunk.getZ()*16+Z);
+							if(pasteLocation.getBlock().getType() != Material.GRASS_BLOCK && pasteLocation.getBlock().getType() != Material.STONE) {
+								pasteLocation = pasteLocation.subtract(0, 1, 0);
+							}
+						} else {
+							name = "cobble_house_s";
+							int highY;
+							file = new File(main.getDataFolder() + "/scm/cobble_house_s/cobble_house_s_" + random.nextInt(5) + ".schem");
+							for (highY = world.getMaxHeight()-1; chunk.getBlock(X, highY, Z).getType() != Material.GRASS_BLOCK && highY>0; highY--);
+							if(highY < 64) return;
+							pasteLocation = new Location(world, chunk.getX()*16+X, highY, chunk.getZ()*16+Z);
+							if(pasteLocation.getBlock().getType() != Material.GRASS_BLOCK && pasteLocation.getBlock().getType() != Material.STONE) {
+								pasteLocation = pasteLocation.subtract(0, 1, 0);
+							}
 						}
 					} else {
-						name = "cobble_house_s";
-						int highY;
-						file = new File(main.getDataFolder() + "/scm/cobble_house_s/cobble_house_s_" + random.nextInt(5) + ".schem");
-						for (highY = world.getMaxHeight()-1; chunk.getBlock(X, highY, Z).getType() != Material.GRASS_BLOCK && highY>0; highY--);
-						if(highY < 64) return;
-						pasteLocation = new Location(world, chunk.getX()*16+X, highY, chunk.getZ()*16+Z);
-						if(pasteLocation.getBlock().getType() != Material.GRASS_BLOCK && pasteLocation.getBlock().getType() != Material.STONE) {
-							pasteLocation = pasteLocation.subtract(0, 1, 0);
-						}
+						if(Main.getBiomeNoise(chunk.getX()*16+X, chunk.getZ()*16+Z, world.getSeed()) < 0.65) return;
+						overrideSpawnCheck = true;
+						aboveGround = false;
+						name = "gold_dungeon";
+						file = new File(main.getDataFolder() + "/scm/gold_dungeon/gold_dungeon_0.schem");
+						pasteLocation = new Location(world, chunk.getX()*16+X, main.getConfig().getInt("aether.clouds.cloud-height")+8, chunk.getZ()*16+Z);
 					}
-				} else {
+				} else if(Main.getBiomeNoise(chunk.getX()*16+X, chunk.getZ()*16+Z, world.getSeed()) > -0.5) {
 					name = "end_house";
 					file = new File(main.getDataFolder() + "/scm/end_house/end_house_" + random.nextInt(3) + ".schem");
 					if(world.getHighestBlockYAt(chunk.getX()*16+X, chunk.getZ()*16+Z) < 64) return;
 					pasteLocation = new Location(world, chunk.getX()*16+X, world.getHighestBlockYAt(chunk.getX()*16+X, chunk.getZ()*16+Z), chunk.getZ()*16+Z);
-				}
+				} else return;
 			} else {
 				name = "stronghold";
 				file = new File(main.getDataFolder() + "/scm/stronghold/stronghold_0.schem");
@@ -93,7 +103,6 @@ public class StructurePopulator extends BlockPopulator {
 				if(pasteLocation.getBlock().getType() != Material.END_STONE) return; 
 				aboveGround = false;
 			}
-			pasteLocation.getBlock().setType(Material.EMERALD_BLOCK);
 			if(pasteLocation.getY() < 1) return;
 			BlockVector3 newOrigin = BukkitAdapter.asBlockVector(pasteLocation);
 
@@ -103,10 +112,8 @@ public class StructurePopulator extends BlockPopulator {
 			try (ClipboardReader reader = format.getReader(new FileInputStream(file))) {
 				clipboard = reader.read();
 			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} 
 
@@ -116,7 +123,7 @@ public class StructurePopulator extends BlockPopulator {
 			Location maxLoc = new Location(pasteLocation.getWorld(), newRotatedMaximumPoint.getX(), newRotatedMaximumPoint.getY(), newRotatedMaximumPoint.getZ());
 
 			//System.out.println(main.getDataFolder());
-			if(isValidSpawn(minLoc, maxLoc, aboveGround)) {
+			if(isValidSpawn(minLoc, maxLoc, aboveGround) || overrideSpawnCheck) {
 				System.out.println("[BetterEnd] Generating structure \"" + name + "\" at " + pasteLocation.getBlockX() + ", " + pasteLocation.getBlockY() + ", " + pasteLocation.getBlockZ() + ", underground:" + !aboveGround);
 				try (EditSession editSession = WorldEdit.getInstance().getEditSessionFactory().getEditSession(BukkitAdapter.adapt(world), -1)) {
 					AffineTransform transform = new AffineTransform();
@@ -143,73 +150,134 @@ public class StructurePopulator extends BlockPopulator {
 						JSONObject pooldata = (JSONObject) pool;
 						int max = Math.toIntExact((long) ((JSONObject)pooldata.get("rolls")).get("max"));
 						int min = Math.toIntExact((long) ((JSONObject)pooldata.get("rolls")).get("min"));
-						
+
 						JSONArray itemArray = (JSONArray) pooldata.get("entries");
 						int rolls = random.nextInt(max-min+1)+min;
 						System.out.println("[BetterEnd] min: " + min + ", max: " + max + ", " + rolls + " rolls.");
+
 						for(int i = 0; i < rolls; i++) {
 							int count = 1;
 							JSONObject itemdata = (JSONObject) chooseOnWeight(itemArray);
 							String itemname = (String) itemdata.get("name");
+							double itemDurability = 100;
 							if(itemdata.containsKey("functions")) {
-								for (Object function : (JSONArray) itemdata.get("functions")) {
-									if(((String) ((JSONObject) function).get("function")).equalsIgnoreCase("set_count")) {
-										long maxc = (long) ((JSONObject)((JSONObject)function).get("count")).get("max");
-										long minc = (long) ((JSONObject)((JSONObject)function).get("count")).get("min");
-										count = random.nextInt(Math.toIntExact(maxc)-Math.toIntExact(minc)) + Math.toIntExact(minc);
-									}
-								}
-							}
-							System.out.println("[BetterEnd] "+ itemname + " x" + count);
-							try {
-							ItemStack randomItem = new ItemStack(Material.valueOf(itemname.toUpperCase()), count);
-							BlockState blockState = location.getBlock().getState();
-							Container container = (Container) blockState;
-							Inventory containerInventory = container.getInventory();
-							ItemStack[] containerContent = containerInventory.getContents();
-							for (int j = 0; j < randomItem.getAmount(); j++) {
-								boolean done = false;
-								int attemps = 0;
-								while (!done) {
-									int randomPos = random.nextInt(containerContent.length);
-									ItemStack randomPosItem = containerInventory.getItem(randomPos);
-									if (randomPosItem != null) {
-										if (this.isSameItem(randomPosItem, randomItem)) {
-											if (randomPosItem.getAmount() < randomItem.getMaxStackSize()) {
-												ItemStack randomItemCopy = randomItem.clone();
-												int newAmount = randomPosItem.getAmount() + 1;
-												randomItemCopy.setAmount(newAmount);
-												containerContent[randomPos] = randomItemCopy;
-												containerInventory.setContents(containerContent);
-												done = true;
-											}
+								try {
+									for (Object function : (JSONArray) itemdata.get("functions")) {
+										if(((String) ((JSONObject) function).get("function")).equalsIgnoreCase("set_count")) {
+											long maxc = (long) ((JSONObject)((JSONObject)function).get("count")).get("max");
+											long minc = (long) ((JSONObject)((JSONObject)function).get("count")).get("min");
+											count = random.nextInt(Math.toIntExact(maxc)-Math.toIntExact(minc)) + Math.toIntExact(minc);
 										}
-									} else {
-										ItemStack randomItemCopy = randomItem.clone();
-										randomItemCopy.setAmount(1);
-										containerContent[randomPos] = randomItemCopy;
-										containerInventory.setContents(containerContent);
-										done = true;
+										if(((String) ((JSONObject) function).get("function")).equalsIgnoreCase("set_damage")) {
+											long maxd = (long) ((JSONObject)((JSONObject)function).get("damage")).get("max");
+											long mind = (long) ((JSONObject)((JSONObject)function).get("damage")).get("min");
+											itemDurability = (random.nextDouble()*(maxd-mind))+mind;
+										}
 									}
-									attemps++;
-									if (attemps >= containerContent.length) {
-										done = true;
-									}
+								} catch(ClassCastException e) {
+									System.out.println("[BetterEnd] Error on item \""+ itemname + "\"");
 								}
 							}
-							} catch(IllegalArgumentException exception) {
+							System.out.println("[BetterEnd] "+ itemname + " x" + count + ", durability=" + itemDurability);
+							try {
+								ItemStack randomItem = new ItemStack(Material.valueOf(itemname.toUpperCase()), count);
+								Damageable damage = (Damageable) randomItem.getItemMeta();
+								damage.setDamage((int) (Material.valueOf(itemname.toUpperCase()).getMaxDurability()-(itemDurability/100)*Material.valueOf(itemname.toUpperCase()).getMaxDurability()));
+								randomItem.setItemMeta((ItemMeta) damage);
+								BlockState blockState = location.getBlock().getState();
+								Container container = (Container) blockState;
+								Inventory containerInventory = container.getInventory();
+								ItemStack[] containerContent = containerInventory.getContents();
+								for (int j = 0; j < randomItem.getAmount(); j++) {
+									boolean done = false;
+									int attemps = 0;
+									while (!done) {
+										int randomPos = random.nextInt(containerContent.length);
+										ItemStack randomPosItem = containerInventory.getItem(randomPos);
+										if (randomPosItem != null) {
+											if (this.isSameItem(randomPosItem, randomItem)) {
+												if (randomPosItem.getAmount() < randomItem.getMaxStackSize()) {
+													ItemStack randomItemCopy = randomItem.clone();
+													int newAmount = randomPosItem.getAmount() + 1;
+													randomItemCopy.setAmount(newAmount);
+													containerContent[randomPos] = randomItemCopy;
+													containerInventory.setContents(containerContent);
+													done = true;
+												}
+											}
+										} else {
+											ItemStack randomItemCopy = randomItem.clone();
+											randomItemCopy.setAmount(1);
+											containerContent[randomPos] = randomItemCopy;
+											containerInventory.setContents(containerContent);
+											done = true;
+										}
+										attemps++;
+										if (attemps >= containerContent.length) {
+											done = true;
+										}
+									}
+								}
+							} catch(IllegalArgumentException e) {
 								System.out.println("[BetterEnd] Invalid item \""+ itemname + "\"");
 							}
-							
+
 						}
+
 					}
-					location.add(0, 1, 0).getBlock().setType(Material.DIAMOND_BLOCK);
 					//Chest chest = (Chest) location.getBlock().getState();
 					//chest.getPersistentDataContainer().set(key, PersistentDataType.INTEGER, 1);
 				}
 			}
-			
 
+
+		} else if(random.nextInt(100) < main.getConfig().getInt("outer-islands.ruins.chance-per-chunk") && Math.sqrt(Math.pow(chunk.getX()*16+X, 2) + Math.pow(chunk.getZ()*16+Z, 2)) >= 1000) {
+			File file = new File(main.getDataFolder() + "/scm/stone_ruin/stone_ruin_" + random.nextInt(18) + ".schem");
+			int highY;
+			for (highY = world.getMaxHeight()-1; chunk.getBlock(X, highY, Z).getType() != Material.GRASS_BLOCK && highY>0; highY--);
+			if(highY < 64) return;
+			Location pasteLocation = new Location(world, chunk.getX()*16+X, highY+1, chunk.getZ()*16+Z);
+			if(pasteLocation.getBlock().getType() != Material.GRASS_BLOCK && pasteLocation.getBlock().getType() != Material.STONE) {
+				pasteLocation = pasteLocation.subtract(0, 1, 0);
+			}
+
+			if(pasteLocation.getY() < 1) return;
+			BlockVector3 newOrigin = BukkitAdapter.asBlockVector(pasteLocation);
+
+			Clipboard clipboard = null;
+			double rotation = random.nextInt(3)*90;
+			ClipboardFormat format = ClipboardFormats.findByFile(file);
+			try (ClipboardReader reader = format.getReader(new FileInputStream(file))) {
+				clipboard = reader.read();
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} 
+
+			BlockVector3 newRotatedMinimumPoint = rotateAround(newOrigin.subtract(clipboard.getOrigin().subtract(clipboard.getRegion().getMinimumPoint())), newOrigin, rotation);
+			BlockVector3 newRotatedMaximumPoint = rotateAround(newOrigin.subtract(clipboard.getOrigin().subtract(clipboard.getRegion().getMaximumPoint())), newOrigin, rotation);
+			Location minLoc = new Location(pasteLocation.getWorld(), newRotatedMinimumPoint.getX(), newRotatedMinimumPoint.getY(), newRotatedMinimumPoint.getZ());
+			Location maxLoc = new Location(pasteLocation.getWorld(), newRotatedMaximumPoint.getX(), newRotatedMaximumPoint.getY(), newRotatedMaximumPoint.getZ());
+
+			//System.out.println(main.getDataFolder());
+			if(isValidRuinSpawn(minLoc, maxLoc)) {
+				try (EditSession editSession = WorldEdit.getInstance().getEditSessionFactory().getEditSession(BukkitAdapter.adapt(world), -1)) {
+					AffineTransform transform = new AffineTransform();
+					transform = transform.rotateY(rotation);
+					ClipboardHolder holder = new ClipboardHolder(clipboard);
+					holder.setTransform(transform);
+					Operation operation = holder
+							.createPaste(editSession)
+							.to(BukkitAdapter.asBlockVector(pasteLocation))
+							.ignoreAirBlocks(true)
+							.build();
+					Operations.complete(operation);
+
+				} catch (WorldEditException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 
 	}
@@ -220,20 +288,19 @@ public class StructurePopulator extends BlockPopulator {
 		return randomPosItem.getType().equals(randomItem.getType()) && randomPosItemMeta.equals(randomItemMeta);
 	}
 	public Object chooseOnWeight(JSONArray items) {
-        double completeWeight = 0.0;
-        for (Object item : items)
-            completeWeight += Math.toIntExact((long) ((JSONObject) item).get("weight"));
-        double r = Math.random() * completeWeight;
-        double countWeight = 0.0;
-        for (Object item : items) {
-            countWeight += Math.toIntExact((long) ((JSONObject) item).get("weight"));
-            if (countWeight >= r)
-                return item;
-        }
+		double completeWeight = 0.0;
+		for (Object item : items)
+			completeWeight += Math.toIntExact((long) ((JSONObject) item).get("weight"));
+		double r = Math.random() * completeWeight;
+		double countWeight = 0.0;
+		for (Object item : items) {
+			countWeight += Math.toIntExact((long) ((JSONObject) item).get("weight"));
+			if (countWeight >= r)
+				return item;
+		}
 		return null;
-    }
+	}
 	private Object getLootTable(String name) {
-		Main main = Main.getInstance();
 		InputStream  inputStream = main.getResource("loot/" + name + ".json");
 
 		InputStreamReader isReader = new InputStreamReader(inputStream);
@@ -252,7 +319,6 @@ public class StructurePopulator extends BlockPopulator {
 		try {
 			return jsonParser.parse(sb.toString());
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
@@ -273,7 +339,6 @@ public class StructurePopulator extends BlockPopulator {
 		return true;
 	}
 	private boolean isValidSpawn(Location l1, Location l2, boolean ground) {
-		Main main = Main.getInstance();
 		SimplexOctaveGenerator generator = new SimplexOctaveGenerator(l1.getWorld().getSeed(), 4);
 		int outNoise = main.getConfig().getInt("outer-islands.noise");
 		int lowX = Math.min(l1.getBlockX(), l2.getBlockX());
@@ -305,6 +370,15 @@ public class StructurePopulator extends BlockPopulator {
 				if (generator.noise((double) (location.getBlockX())/outNoise, (double) (location.getBlockZ())/outNoise, 0.1D, 0.55D) < 0.45) {
 					return false;
 				}
+			}
+		}
+		return true;
+	}
+	private boolean isValidRuinSpawn(Location l1, Location l2) {
+		for(int x = 0; x<= Math.abs(l1.getBlockX() - l2.getBlockX()); x++){
+			for(int z = 0; z<= Math.abs(l1.getBlockZ() - l2.getBlockZ()); z++){
+				Location loc = new Location(l1.getWorld(), Math.min(l1.getBlockX(), l2.getBlockX()) + x, Math.min(l1.getBlockY(), l2.getBlockY()), Math.min(l1.getBlockZ(), l2.getBlockZ()) + z);
+				if(loc.getBlock().getType() != Material.GRASS_BLOCK && loc.getBlock().getType() != Material.END_STONE && loc.getBlock().getType() != Material.DIRT && loc.getBlock().getType() != Material.STONE) return false;
 			}
 		}
 		return true;

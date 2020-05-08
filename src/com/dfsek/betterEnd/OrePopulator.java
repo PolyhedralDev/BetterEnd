@@ -8,10 +8,10 @@ import org.bukkit.World;
 import org.bukkit.generator.BlockPopulator;
 
 public class OrePopulator extends BlockPopulator {
-
+	Main main = Main.getInstance();
 	@Override
 	public void populate(World world, Random random, Chunk chunk) {
-		Main main = Main.getInstance();
+		
 		int X, Y, Z;
 		boolean isStone;
 		if(!main.getConfig().getBoolean("aether.ores.enable-ores")) return;
@@ -28,7 +28,7 @@ public class OrePopulator extends BlockPopulator {
 						while (isStone) {
 							world.getBlockAt(X+chunk.getX()*16, Y, Z+chunk.getZ()*16).setType(Material.COAL_ORE);
 							if (random.nextInt(100) < 85)  {   // The chance of continuing the vein
-								switch (random.nextInt(5)) {  // The direction chooser
+								switch (random.nextInt(6)) {  // The direction chooser
 								case 0: X++; break;
 								case 1: Y++; break;
 								case 2: Z++; break;
@@ -46,7 +46,7 @@ public class OrePopulator extends BlockPopulator {
 						while (isStone) {
 							world.getBlockAt(X+chunk.getX()*16, Y, Z+chunk.getZ()*16).setType(Material.IRON_ORE);
 							if (random.nextInt(100) < 50)  {   // The chance of continuing the vein
-								switch (random.nextInt(5)) {  // The direction chooser
+								switch (random.nextInt(6)) {  // The direction chooser
 								case 0: X++; break;
 								case 1: Y++; break;
 								case 2: Z++; break;
@@ -64,7 +64,7 @@ public class OrePopulator extends BlockPopulator {
 						while (isStone) {
 							world.getBlockAt(X+chunk.getX()*16, Y, Z+chunk.getZ()*16).setType(Material.GOLD_ORE);
 							if (random.nextInt(100) < 50)  {   // The chance of continuing the vein
-								switch (random.nextInt(5)) {  // The direction chooser
+								switch (random.nextInt(6)) {  // The direction chooser
 								case 0: X++; break;
 								case 1: Y++; break;
 								case 2: Z++; break;
@@ -82,7 +82,7 @@ public class OrePopulator extends BlockPopulator {
 						while (isStone) {
 							world.getBlockAt(X+chunk.getX()*16, Y, Z+chunk.getZ()*16).setType(Material.REDSTONE_ORE);
 							if (random.nextInt(100) < 50)  {   // The chance of continuing the vein
-								switch (random.nextInt(5)) {  // The direction chooser
+								switch (random.nextInt(6)) {  // The direction chooser
 								case 0: X++; break;
 								case 1: Y++; break;
 								case 2: Z++; break;
@@ -100,7 +100,7 @@ public class OrePopulator extends BlockPopulator {
 						while (isStone) {
 							world.getBlockAt(X+chunk.getX()*16, Y, Z+chunk.getZ()*16).setType(Material.LAPIS_ORE);
 							if (random.nextInt(100) < 50)  {   // The chance of continuing the vein
-								switch (random.nextInt(5)) {  // The direction chooser
+								switch (random.nextInt(6)) {  // The direction chooser
 								case 0: X++; break;
 								case 1: Y++; break;
 								case 2: Z++; break;
@@ -118,7 +118,7 @@ public class OrePopulator extends BlockPopulator {
 						while (isStone) {
 							world.getBlockAt(X+chunk.getX()*16, Y, Z+chunk.getZ()*16).setType(Material.DIAMOND_ORE);
 							if (random.nextInt(100) < 50)  {   // The chance of continuing the vein
-								switch (random.nextInt(5)) {  // The direction chooser
+								switch (random.nextInt(6)) {  // The direction chooser
 								case 0: X++; break;
 								case 1: Y++; break;
 								case 2: Z++; break;
@@ -136,7 +136,7 @@ public class OrePopulator extends BlockPopulator {
 						while (isStone) {
 							world.getBlockAt(X+chunk.getX()*16, Y, Z+chunk.getZ()*16).setType(Material.EMERALD_ORE);
 							if (random.nextInt(100) < 50)  {   // The chance of continuing the vein
-								switch (random.nextInt(5)) {  // The direction chooser
+								switch (random.nextInt(6)) {  // The direction chooser
 								case 0: X++; break;
 								case 1: Y++; break;
 								case 2: Z++; break;

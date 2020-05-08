@@ -14,8 +14,8 @@
                         {
                             "function": "set_count",
                             "count": {
-                                "min": 8,
-                                "max": 24
+                                "min": 3,
+                                "max": 20
                             }
                         }
                     ]
@@ -28,22 +28,22 @@
                         {
                             "function": "set_count",
                             "count": {
-                                "min": 4,
-                                "max": 12
+                                "min": 2,
+                                "max": 8
                             }
                         }
                     ]
                 },
                 {
                     "type": "item",
-                    "weight": 4,
-                    "name": "",
+                    "weight": 3,
+                    "name": "cobblestone",
                     "functions": [
                         {
                             "function": "set_count",
                             "count": {
-                                "min": 16,
-                                "max": 32
+                                "min": 2,
+                                "max": 12
                             }
                         }
                     ]
@@ -56,8 +56,8 @@
                         {
                             "function": "set_count",
                             "count": {
-                                "min": 8,
-                                "max": 32
+                                "min": 2,
+                                "max": 14
                             }
                         }
                     ]
@@ -78,8 +78,8 @@
                         {
                             "function": "set_damage",
                             "damage": {
-                                "min": 0.33,
-                                "max": 1
+                                "min": 33,
+                                "max": 100
                             }
                         }
                     ]
@@ -93,8 +93,8 @@
                         {
                             "function": "set_damage",
                             "damage": {
-                                "min": 0.33,
-                                "max": 1
+                                "min": 33,
+                                "max": 100
                             }
                         }
                     ]
@@ -107,8 +107,8 @@
                         {
                             "function": "set_damage",
                             "damage": {
-                                "min": 0.33,
-                                "max": 1
+                                "min": 33,
+                                "max": 100
                             }
                         }
                     ]
@@ -121,8 +121,8 @@
                         {
                             "function": "set_damage",
                             "damage": {
-                                "min": 0.33,
-                                "max": 1
+                                "min": 33,
+                                "max": 100
                             }
                         }
                     ]
@@ -135,8 +135,8 @@
                         {
                             "function": "set_damage",
                             "damage": {
-                                "min": 0.33,
-                                "max": 1
+                                "min": 33,
+                                "max": 100
                             }
                         }
                     ]
@@ -149,8 +149,8 @@
                         {
                             "function": "set_damage",
                             "damage": {
-                                "min": 0.33,
-                                "max": 1
+                                "min": 33,
+                                "max": 100
                             }
                         }
                     ]
@@ -163,8 +163,8 @@
                         {
                             "function": "set_damage",
                             "damage": {
-                                "min": 0.33,
-                                "max": 1
+                                "min": 33,
+                                "max": 100
                             }
                         }
                     ]
@@ -177,8 +177,8 @@
                         {
                             "function": "set_damage",
                             "damage": {
-                                "min": 0.33,
-                                "max": 1
+                                "min": 33,
+                                "max": 100
                             }
                         }
                     ]
@@ -191,8 +191,8 @@
                         {
                             "function": "set_damage",
                             "damage": {
-                                "min": 0.33,
-                                "max": 1
+                                "min": 33,
+                                "max": 100
                             }
                         }
                     ]
@@ -205,8 +205,8 @@
                         {
                             "function": "set_damage",
                             "damage": {
-                                "min": 0.33,
-                                "max": 1
+                                "min": 33,
+                                "max": 100
                             }
                         }
                     ]
@@ -219,8 +219,8 @@
                         {
                             "function": "set_damage",
                             "damage": {
-                                "min": 0.33,
-                                "max": 1
+                                "min": 33,
+                                "max": 100
                             }
                         }
                     ]
@@ -233,8 +233,8 @@
                         {
                             "function": "set_damage",
                             "damage": {
-                                "min": 0.33,
-                                "max": 1
+                                "min": 33,
+                                "max": 100
                             }
                         }
                     ]
@@ -247,8 +247,8 @@
                         {
                             "function": "set_damage",
                             "damage": {
-                                "min": 0.33,
-                                "max": 1
+                                "min": 33,
+                                "max": 100
                             }
                         }
                     ]
@@ -261,8 +261,8 @@
                         {
                             "function": "set_damage",
                             "damage": {
-                                "min": 0.33,
-                                "max": 1
+                                "min": 33,
+                                "max": 100
                             }
                         }
                     ]
@@ -275,8 +275,8 @@
                         {
                             "function": "set_damage",
                             "damage": {
-                                "min": 0.33,
-                                "max": 1
+                                "min": 33,
+                                "max": 100
                             }
                         }
                     ]
