@@ -237,9 +237,6 @@ public class StructurePopulator extends BlockPopulator {
 			for (highY = world.getMaxHeight()-1; chunk.getBlock(X, highY, Z).getType() != Material.GRASS_BLOCK && highY>0; highY--);
 			if(highY < 64) return;
 			Location pasteLocation = new Location(world, chunk.getX()*16+X, highY+1, chunk.getZ()*16+Z);
-			if(pasteLocation.getBlock().getType() != Material.GRASS_BLOCK && pasteLocation.getBlock().getType() != Material.STONE) {
-				pasteLocation = pasteLocation.subtract(0, 1, 0);
-			}
 
 			if(pasteLocation.getY() < 1) return;
 			BlockVector3 newOrigin = BukkitAdapter.asBlockVector(pasteLocation);
@@ -377,7 +374,7 @@ public class StructurePopulator extends BlockPopulator {
 	private boolean isValidRuinSpawn(Location l1, Location l2) {
 		for(int x = 0; x<= Math.abs(l1.getBlockX() - l2.getBlockX()); x++){
 			for(int z = 0; z<= Math.abs(l1.getBlockZ() - l2.getBlockZ()); z++){
-				Location loc = new Location(l1.getWorld(), Math.min(l1.getBlockX(), l2.getBlockX()) + x, Math.min(l1.getBlockY(), l2.getBlockY()), Math.min(l1.getBlockZ(), l2.getBlockZ()) + z);
+				Location loc = new Location(l1.getWorld(), Math.min(l1.getBlockX(), l2.getBlockX()) + x, Math.min(l1.getBlockY(), l2.getBlockY())-1, Math.min(l1.getBlockZ(), l2.getBlockZ()) + z);
 				if(loc.getBlock().getType() != Material.GRASS_BLOCK && loc.getBlock().getType() != Material.END_STONE && loc.getBlock().getType() != Material.DIRT && loc.getBlock().getType() != Material.STONE) return false;
 			}
 		}

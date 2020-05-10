@@ -12,7 +12,7 @@ import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.util.noise.SimplexOctaveGenerator;
 
 public class CustomChunkGenerator extends ChunkGenerator {
-	boolean doBiomeGlass = true;
+	boolean doBiomeGlass = false;
 	Main main = Main.getInstance();
 	@Override
 	public ChunkData generateChunkData(World world, Random random, int chunkX, int chunkZ, BiomeGrid biome) {
@@ -104,9 +104,10 @@ public class CustomChunkGenerator extends ChunkGenerator {
 							chunk.setBlock(X, Y, Z, Material.WHITE_STAINED_GLASS);
 						}
 					}
+					double caveM = biomeNoiseLvl;
 					for (int Y = yMax; Y > yMin; Y--) {
 						//if(generator.noise((double) (chunkX*16+X)/outNoise, (double) (chunkZ*16+Z)/outNoise, 0.1D, 0.55D) > 0.6) {
-						if(generator.noise((double) (chunkX*16+X)/12D, (double) Y/12D, (double) (chunkZ*16+Z)/12D, 0.5D, 0.5D) > -0.7) {
+						if(Math.abs(generator.noise((double) (chunkX*16+X)/12D, (double) Y/12D, (double) (chunkZ*16+Z)/12D, 0.5D, 0.5D)) < 0.8) {
 							if(biomeNoiseLvl > 0.5) {
 								int grassPercent = (int) ((biomeNoiseLvl-0.5)*1500);
 
