@@ -1,6 +1,6 @@
 main: com.dfsek.betterEnd.Main
 name: BetterEnd
-version: 1.0
+version: 1.0.0
 author: dfsek
 description: Improvement on default End Dimension
 load: startup

@@ -14,17 +14,20 @@ import java.util.Random;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.World;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Chest;
 import org.bukkit.block.Container;
 import org.bukkit.block.DoubleChest;
+import org.bukkit.entity.Shulker;
 import org.bukkit.generator.BlockPopulator;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.util.noise.SimplexOctaveGenerator;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -57,10 +60,11 @@ public class StructurePopulator extends BlockPopulator {
 			int type = random.nextInt(100);
 			Location pasteLocation;
 			String name;
+			boolean spawnShulkers = false;
 			boolean overrideSpawnCheck = false;
 			if(type < 70) {
 				if(Main.getBiomeNoise(chunk.getX()*16+X, chunk.getZ()*16+Z, world.getSeed()) > 0.5) {
-					if(random.nextInt(100) < 90) {
+					if(random.nextInt(100) < 98) {
 						if(random.nextBoolean()) {
 							name = "wood_house_s";
 							file = new File(main.getDataFolder() + "/scm/wood_house_s/wood_house_s_" + random.nextInt(4) + ".schem");
@@ -91,10 +95,18 @@ public class StructurePopulator extends BlockPopulator {
 						pasteLocation = new Location(world, chunk.getX()*16+X, main.getConfig().getInt("aether.clouds.cloud-height")+8, chunk.getZ()*16+Z);
 					}
 				} else if(Main.getBiomeNoise(chunk.getX()*16+X, chunk.getZ()*16+Z, world.getSeed()) > -0.5) {
-					name = "end_house";
-					file = new File(main.getDataFolder() + "/scm/end_house/end_house_" + random.nextInt(3) + ".schem");
-					if(world.getHighestBlockYAt(chunk.getX()*16+X, chunk.getZ()*16+Z) < 64) return;
-					pasteLocation = new Location(world, chunk.getX()*16+X, world.getHighestBlockYAt(chunk.getX()*16+X, chunk.getZ()*16+Z), chunk.getZ()*16+Z);
+					if(random.nextBoolean()) {
+						name = "end_house";
+						file = new File(main.getDataFolder() + "/scm/end_house/end_house_" + random.nextInt(3) + ".schem");
+						if(world.getHighestBlockYAt(chunk.getX()*16+X, chunk.getZ()*16+Z) < 64) return;
+						pasteLocation = new Location(world, chunk.getX()*16+X, world.getHighestBlockYAt(chunk.getX()*16+X, chunk.getZ()*16+Z), chunk.getZ()*16+Z);
+					} else {
+						name = "shulker_nest";
+						spawnShulkers = true;
+						file = new File(main.getDataFolder() + "/scm/shulker_nest/shulker_nest_" + random.nextInt(2) + ".schem");
+						if(world.getHighestBlockYAt(chunk.getX()*16+X, chunk.getZ()*16+Z) < 64) return;
+						pasteLocation = new Location(world, chunk.getX()*16+X, world.getHighestBlockYAt(chunk.getX()*16+X, chunk.getZ()*16+Z), chunk.getZ()*16+Z);
+					}
 				} else return;
 			} else {
 				name = "stronghold";
@@ -104,7 +116,7 @@ public class StructurePopulator extends BlockPopulator {
 				aboveGround = false;
 			}
 			if(pasteLocation.getY() < 1) return;
-			BlockVector3 newOrigin = BukkitAdapter.asBlockVector(pasteLocation);
+			BlockVector3 origin = BukkitAdapter.asBlockVector(pasteLocation);
 
 			Clipboard clipboard = null;
 			double rotation = random.nextInt(3)*90;
@@ -117,8 +129,8 @@ public class StructurePopulator extends BlockPopulator {
 				e.printStackTrace();
 			} 
 
-			BlockVector3 newRotatedMinimumPoint = rotateAround(newOrigin.subtract(clipboard.getOrigin().subtract(clipboard.getRegion().getMinimumPoint())), newOrigin, rotation);
-			BlockVector3 newRotatedMaximumPoint = rotateAround(newOrigin.subtract(clipboard.getOrigin().subtract(clipboard.getRegion().getMaximumPoint())), newOrigin, rotation);
+			BlockVector3 newRotatedMinimumPoint = rotateAround(origin.subtract(clipboard.getOrigin().subtract(clipboard.getRegion().getMinimumPoint())), origin, rotation);
+			BlockVector3 newRotatedMaximumPoint = rotateAround(origin.subtract(clipboard.getOrigin().subtract(clipboard.getRegion().getMaximumPoint())), origin, rotation);
 			Location minLoc = new Location(pasteLocation.getWorld(), newRotatedMinimumPoint.getX(), newRotatedMinimumPoint.getY(), newRotatedMinimumPoint.getZ());
 			Location maxLoc = new Location(pasteLocation.getWorld(), newRotatedMaximumPoint.getX(), newRotatedMaximumPoint.getY(), newRotatedMaximumPoint.getZ());
 
@@ -141,10 +153,33 @@ public class StructurePopulator extends BlockPopulator {
 					e.printStackTrace();
 				}
 			}
-			//NamespacedKey key = new NamespacedKey(main, "valkyrie-spawner");
+			NamespacedKey key = new NamespacedKey(main, "valkyrie-spawner");
+			if(spawnShulkers) {
+				List<Location> locations = getLocationListBetween(minLoc, maxLoc);
+				for(int i = 0; i < 5; i++) {
+					boolean done = false;
+					int attempts = 0;
+					while(!done) {
+						Location candidate = locations.get(random.nextInt(locations.size()));
+						if(!candidate.getBlock().isEmpty()) {
+							world.spawn(candidate, Shulker.class);
+							done = true;
+						}
+						attempts++;
+						if(attempts > 10) done = true;
+					}
+				}
+			}
 			List<Location> locations = getChestsIn(minLoc, maxLoc);
+			
 			for (Location location : locations) {
+				
 				if (location.getBlock().getState() instanceof Container) {
+					if(name.equals("gold_dungeon")) {
+						Chest chest = (Chest) location.getBlock().getState();
+						chest.getPersistentDataContainer().set(key, PersistentDataType.INTEGER, (int) (rotation/90));
+						chest.update();
+					}
 					JSONArray poolArray = (JSONArray) ((JSONObject) getLootTable(name)).get("pools");
 					for (Object pool : poolArray) {
 						JSONObject pooldata = (JSONObject) pool;
@@ -225,8 +260,6 @@ public class StructurePopulator extends BlockPopulator {
 						}
 
 					}
-					//Chest chest = (Chest) location.getBlock().getState();
-					//chest.getPersistentDataContainer().set(key, PersistentDataType.INTEGER, 1);
 				}
 			}
 
@@ -239,7 +272,7 @@ public class StructurePopulator extends BlockPopulator {
 			Location pasteLocation = new Location(world, chunk.getX()*16+X, highY+1, chunk.getZ()*16+Z);
 
 			if(pasteLocation.getY() < 1) return;
-			BlockVector3 newOrigin = BukkitAdapter.asBlockVector(pasteLocation);
+			BlockVector3 origin = BukkitAdapter.asBlockVector(pasteLocation);
 
 			Clipboard clipboard = null;
 			double rotation = random.nextInt(3)*90;
@@ -252,8 +285,8 @@ public class StructurePopulator extends BlockPopulator {
 				e.printStackTrace();
 			} 
 
-			BlockVector3 newRotatedMinimumPoint = rotateAround(newOrigin.subtract(clipboard.getOrigin().subtract(clipboard.getRegion().getMinimumPoint())), newOrigin, rotation);
-			BlockVector3 newRotatedMaximumPoint = rotateAround(newOrigin.subtract(clipboard.getOrigin().subtract(clipboard.getRegion().getMaximumPoint())), newOrigin, rotation);
+			BlockVector3 newRotatedMinimumPoint = rotateAround(origin.subtract(clipboard.getOrigin().subtract(clipboard.getRegion().getMinimumPoint())), origin, rotation);
+			BlockVector3 newRotatedMaximumPoint = rotateAround(origin.subtract(clipboard.getOrigin().subtract(clipboard.getRegion().getMaximumPoint())), origin, rotation);
 			Location minLoc = new Location(pasteLocation.getWorld(), newRotatedMinimumPoint.getX(), newRotatedMinimumPoint.getY(), newRotatedMinimumPoint.getZ());
 			Location maxLoc = new Location(pasteLocation.getWorld(), newRotatedMaximumPoint.getX(), newRotatedMaximumPoint.getY(), newRotatedMaximumPoint.getZ());
 
@@ -324,7 +357,6 @@ public class StructurePopulator extends BlockPopulator {
 		angle = Math.toRadians(angle * -1);
 		double rotatedX = Math.cos(angle) * (point.getX() - center.getX()) - Math.sin(angle) * (point.getZ() - center.getZ()) + center.getX();
 		double rotatedZ = Math.sin(angle) * (point.getX() - center.getX()) + Math.cos(angle) * (point.getZ() - center.getZ()) + center.getZ();
-
 		return BlockVector3.at(rotatedX, point.getY(), rotatedZ);
 	}
 	private boolean isNotAlreadyIn(List<Location> locations, Location location) {

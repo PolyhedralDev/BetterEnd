@@ -8,9 +8,11 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Enderman;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityChangeBlockEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.inventory.Inventory;
@@ -28,34 +30,38 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class Main extends JavaPlugin {	
+public class Main extends JavaPlugin implements Listener {	
 	FileConfiguration config = this.getConfig();
 
 	private static Main instance;
 	@Override
 	public void onEnable() {	
-		config.addDefault("outer-islands.structures.chance-per-chunk", 10);
-		config.addDefault("outer-islands.ruins.chance-per-chunk", 40);
+		instance = this;
+		this.getServer().getPluginManager().registerEvents(this, this);
+		config.addDefault("outer-islands.structures.chance-per-chunk", 4);
+		config.addDefault("outer-islands.ruins.chance-per-chunk", 15);
 		config.addDefault("outer-islands.noise", 96);
 		config.addDefault("outer-islands.island-height", 64);
 		config.addDefault("aether.clouds.enable-clouds", true);
-		config.addDefault("aether.clouds.cloud-noise", 24);
+		config.addDefault("aether.clouds.cloud-noise", 36);
 		config.addDefault("aether.ores.enable-ores", true);
 		config.addDefault("aether.cave-decoration", true);
 		config.addDefault("outer-islands.cave-decoration", true);
 		config.addDefault("aether.clouds.cloud-height", 128);
 		config.addDefault("aether.tree-multiplier", 4);
-		config.addDefault("outer-islands.biome-size", 512);
+		config.addDefault("outer-islands.biome-size", 1024);
 		config.addDefault("trees.min-per-chunk", 3);
 		config.addDefault("trees.max-per-chunk", 6);
 		config.addDefault("trees.obsidian-pillars.max-height", 14);
 		config.addDefault("trees.obsidian-pillars.min-height", 5);
 		config.addDefault("outer-islands.generate-end-cities", false);
+		config.addDefault("enable-beta-boss", false);
 		config.options().copyDefaults(true);
-		instance = this;
+
 
 		saveConfig();
 		dumpSchemFile("wood_house_s", 4);
+		dumpSchemFile("shulker_nest", 2);
 		dumpSchemFile("stone_ruin", 18);
 		dumpSchemFile("shattered_ruin", 16);
 		dumpSchemFile("end_house", 3);
@@ -91,7 +97,7 @@ public class Main extends JavaPlugin {
 			}
 			Player p = (Player) sender;
 			if (sender.hasPermission("betterend.gotobiome")) {
-				if(args[1].equalsIgnoreCase("END") || args[1].equalsIgnoreCase("SHATTERED_END") || args[1].equalsIgnoreCase("OBSIDIAN_FOREST") || args[1].equalsIgnoreCase("AETHER")) {
+				if(args[1].equalsIgnoreCase("END") || args[1].equalsIgnoreCase("SHATTERED_END") || args[1].equalsIgnoreCase("VOID") || args[1].equalsIgnoreCase("AETHER")) {
 					sender.sendMessage("[BetterEnd] Locating biome \"" + args[1] + "\"");
 					boolean foundBiome = false;
 					int tries = 0;
@@ -150,7 +156,7 @@ public class Main extends JavaPlugin {
 		double d = biomeGenerator.noise((double) (X)/main.getConfig().getInt("outer-islands.biome-size"), (double) (Z)/main.getConfig().getInt("outer-islands.biome-size"), 0.5D, 0.5D);
 		if (d < -0.5) return "SHATTERED_END";//green
 		else if (d < 0) return "END";//red
-		else if (d < 0.5) return "OBSIDIAN_FOREST";//blue
+		else if (d < 0.5) return "VOID";//blue
 		else return "AETHER";//orange
 	}
 	public static double getBiomeNoise(int X, int Z, long l) {
@@ -159,8 +165,8 @@ public class Main extends JavaPlugin {
 		return biomeGenerator.noise((double) (X)/main.getConfig().getInt("outer-islands.biome-size"), (double) (Z)/main.getConfig().getInt("outer-islands.biome-size"), 0.5D, 0.5D);
 	}
 	@Override
-	public CustomChunkGenerator getDefaultWorldGenerator(String worldName, String id) {
-		return new CustomChunkGenerator();
+	public EndChunkGenerator getDefaultWorldGenerator(String worldName, String id) {
+		return new EndChunkGenerator();
 	}
 	private void dumpSchemFile(String name, int perms) {
 		new File(this.getDataFolder() + "/scm/").mkdir();
@@ -197,16 +203,40 @@ public class Main extends JavaPlugin {
 	}
 	@EventHandler (ignoreCancelled=true)
 	public void onInventoryOpenEvent(InventoryOpenEvent event) {
-		//get the destination inventory
-		InventoryHolder holder = event.getInventory().getHolder();
-		Inventory inventory = event.getInventory();
-		if (inventory.getHolder() instanceof Chest) {
-			Location l = ((Chest) holder).getLocation();
-			System.out.println("[BetterEnd] Player opened chest in " + l.getWorld() + " at " + l.getBlockX() + ", " + l.getBlockY() + ", " + l.getBlockZ());
-			Chest chest = (Chest) l.getBlock().getState();
-			NamespacedKey key = new NamespacedKey(this, "valkyrie-spawner");
-			if(chest.getPersistentDataContainer().get(key, PersistentDataType.INTEGER) == 1) {
-				System.out.println("[BetterEnd] Chest is a Valkyrie Queen Spawn Chest.");
+		if(config.getBoolean("enable-beta-boss")) {
+			//get the destination inventory
+			InventoryHolder holder = event.getInventory().getHolder();
+			Inventory inventory = event.getInventory();
+			if (inventory.getHolder() instanceof Chest) {
+				Location l = ((Chest) holder).getLocation();
+				System.out.println("[BetterEnd] Player opened chest in " + l.getWorld() + " at " + l.getBlockX() + ", " + l.getBlockY() + ", " + l.getBlockZ());
+				Chest chest = (Chest) l.getBlock().getState();
+				NamespacedKey key = new NamespacedKey(this, "valkyrie-spawner");
+				if(chest.getPersistentDataContainer().has(key, PersistentDataType.INTEGER)) {
+					Location spawn;
+					switch(chest.getPersistentDataContainer().get(key, PersistentDataType.INTEGER)) {
+					case 0:
+						spawn = chest.getLocation().subtract(9.5, 2, -0.5);
+						break;
+					case 1:
+						spawn = chest.getLocation().add(0.5, -2, 10.5);
+						break;
+					case 2:
+						spawn = chest.getLocation().add(10.5, -2, 0.5);
+						break;
+					case 3:
+						spawn = chest.getLocation().subtract(-0.5, 2, 9.5);
+						break;
+					default:
+						chest.getPersistentDataContainer().remove(key);
+						chest.update();
+						return;
+					}
+					System.out.println("[BetterEnd] Chest is a Valkyrie Queen Spawn Chest.");
+					chest.getWorld().spawnEntity(spawn, EntityType.ZOMBIE);
+					chest.getPersistentDataContainer().remove(key);
+					chest.update();
+				}
 			}
 		}
 	}
