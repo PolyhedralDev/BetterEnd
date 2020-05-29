@@ -54,6 +54,7 @@ public class StructurePopulator extends BlockPopulator {
 	public void populate(World world, Random random, Chunk chunk) {
 		int X = random.nextInt(15);
 		int Z = random.nextInt(15);
+		if(chunk.getX()*16+X >= 29999900 || chunk.getZ()*16+Z >= 29999900) return;
 		int shulkerSpawns = main.getConfig().getInt("outer-islands.structures.shulker-nest.shulker-spawn-attempts");
 		if(random.nextInt(100) < main.getConfig().getInt("outer-islands.structures.chance-per-chunk") && Math.sqrt(Math.pow(chunk.getX()*16+X, 2) + Math.pow(chunk.getZ()*16+Z, 2)) >= 1000) {
 			File file;

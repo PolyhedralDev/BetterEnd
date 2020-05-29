@@ -123,7 +123,7 @@ public class EndChunkGenerator extends ChunkGenerator {
 									} else chunk.setBlock(X, Y, Z, Material.DIRT);
 								} else {
 									Material ore = Material.STONE;
-									if(random.nextInt(1000) < 5) {
+									if(random.nextInt(1000) < main.getConfig().getInt("aether.ores.ore-chance", 5) && main.getConfig().getBoolean("aether.ores.enable-ores", true)) {
 										ore = chooseOreWeight();
 									}
 									chunk.setBlock(X, Y, Z, ore);
@@ -279,7 +279,7 @@ public class EndChunkGenerator extends ChunkGenerator {
 	}
 	@Override
 	public boolean shouldGenerateStructures() {
-		return main.getConfig().getBoolean("outer-islands.generate-end-cities");
+		return main.getConfig().getBoolean("outer-islands.generate-end-cities", false);
 	}
 	@Override
 	public boolean shouldGenerateDecorations() {
