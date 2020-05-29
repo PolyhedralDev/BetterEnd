@@ -54,6 +54,7 @@ public class StructurePopulator extends BlockPopulator {
 	public void populate(World world, Random random, Chunk chunk) {
 		int X = random.nextInt(15);
 		int Z = random.nextInt(15);
+		int shulkerSpawns = main.getConfig().getInt("outer-islands.structures.shulker-nest.shulker-spawn-attempts");
 		if(random.nextInt(100) < main.getConfig().getInt("outer-islands.structures.chance-per-chunk") && Math.sqrt(Math.pow(chunk.getX()*16+X, 2) + Math.pow(chunk.getZ()*16+Z, 2)) >= 1000) {
 			File file;
 			boolean aboveGround = true;
@@ -136,7 +137,7 @@ public class StructurePopulator extends BlockPopulator {
 
 			//System.out.println(main.getDataFolder());
 			if(isValidSpawn(minLoc, maxLoc, aboveGround) || overrideSpawnCheck) {
-				System.out.println("[BetterEnd] Generating structure \"" + name + "\" at " + pasteLocation.getBlockX() + ", " + pasteLocation.getBlockY() + ", " + pasteLocation.getBlockZ() + ", underground:" + !aboveGround);
+				System.out.println("[BetterEnd] Generating structure \"" + name + "\" at " + pasteLocation.getBlockX() + ", " + pasteLocation.getBlockY() + ", " + pasteLocation.getBlockZ());
 				try (EditSession editSession = WorldEdit.getInstance().getEditSessionFactory().getEditSession(BukkitAdapter.adapt(world), -1)) {
 					AffineTransform transform = new AffineTransform();
 					transform = transform.rotateY(rotation);
@@ -156,12 +157,12 @@ public class StructurePopulator extends BlockPopulator {
 			NamespacedKey key = new NamespacedKey(main, "valkyrie-spawner");
 			if(spawnShulkers) {
 				List<Location> locations = getLocationListBetween(minLoc, maxLoc);
-				for(int i = 0; i < 5; i++) {
+				for(int i = 0; i < shulkerSpawns; i++) {
 					boolean done = false;
 					int attempts = 0;
 					while(!done) {
 						Location candidate = locations.get(random.nextInt(locations.size()));
-						if(!candidate.getBlock().isEmpty()) {
+						if(candidate.getBlock().isEmpty()) {
 							world.spawn(candidate, Shulker.class);
 							done = true;
 						}
@@ -188,7 +189,7 @@ public class StructurePopulator extends BlockPopulator {
 
 						JSONArray itemArray = (JSONArray) pooldata.get("entries");
 						int rolls = random.nextInt(max-min+1)+min;
-						System.out.println("[BetterEnd] min: " + min + ", max: " + max + ", " + rolls + " rolls.");
+						if(main.config.getBoolean("debug")) System.out.println("[BetterEnd] min: " + min + ", max: " + max + ", " + rolls + " rolls.");
 
 						for(int i = 0; i < rolls; i++) {
 							int count = 1;
@@ -210,10 +211,10 @@ public class StructurePopulator extends BlockPopulator {
 										}
 									}
 								} catch(ClassCastException e) {
-									System.out.println("[BetterEnd] Error on item \""+ itemname + "\"");
+									if(main.config.getBoolean("debug")) System.out.println("[BetterEnd] Error on item \""+ itemname + "\"");
 								}
 							}
-							System.out.println("[BetterEnd] "+ itemname + " x" + count + ", durability=" + itemDurability);
+							if(main.config.getBoolean("debug")) System.out.println("[BetterEnd] "+ itemname + " x" + count + ", durability=" + itemDurability);
 							try {
 								ItemStack randomItem = new ItemStack(Material.valueOf(itemname.toUpperCase()), count);
 								Damageable damage = (Damageable) randomItem.getItemMeta();

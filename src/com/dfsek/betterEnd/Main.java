@@ -39,6 +39,7 @@ public class Main extends JavaPlugin implements Listener {
 		instance = this;
 		this.getServer().getPluginManager().registerEvents(this, this);
 		config.addDefault("outer-islands.structures.chance-per-chunk", 4);
+		config.addDefault("outer-islands.structures.shulker-nest.shulker-spawn-attempts", 8);
 		config.addDefault("outer-islands.ruins.chance-per-chunk", 15);
 		config.addDefault("outer-islands.noise", 96);
 		config.addDefault("outer-islands.island-height", 64);
@@ -56,10 +57,21 @@ public class Main extends JavaPlugin implements Listener {
 		config.addDefault("trees.obsidian-pillars.min-height", 5);
 		config.addDefault("outer-islands.generate-end-cities", false);
 		config.addDefault("enable-beta-boss", false);
+		config.addDefault("prevent-enderman-block-pickup", true);
+		config.addDefault("debug", false);
 		config.options().copyDefaults(true);
-
-
 		saveConfig();
+		
+		System.out.println("[BetterEnd]");
+		System.out.println("[BetterEnd]");
+		System.out.println("[BetterEnd] |---------------------------------------------------------------------------------|");
+		System.out.println("[BetterEnd] BetterEnd would not have been possible without the support of the following people:");
+		System.out.println("[BetterEnd] Developers: dfsek and Baer");
+		System.out.println("[BetterEnd] Builders: GucciPoochie, sgtmushroom39, Daverono, and Merazmus");
+		System.out.println("[BetterEnd] |---------------------------------------------------------------------------------|");
+		System.out.println("[BetterEnd]");
+		System.out.println("[BetterEnd]");
+		
 		dumpSchemFile("wood_house_s", 4);
 		dumpSchemFile("shulker_nest", 2);
 		dumpSchemFile("stone_ruin", 18);
@@ -171,9 +183,9 @@ public class Main extends JavaPlugin implements Listener {
 	private void dumpSchemFile(String name, int perms) {
 		new File(this.getDataFolder() + "/scm/").mkdir();
 		new File(this.getDataFolder() + "/scm/" + name + "/").mkdir();
-		System.out.println("[BetterEnd] Generating schematic files...");
+		System.out.println("[BetterEnd] Dumping schematic files...");
 		for(int i = 0; i < perms; i++) {
-			System.out.println("[BetterEnd] dumping internal schematic " + "/scm/" + name + "/" + name + "_" + i + ".schem");
+			if(config.getBoolean("debug")) System.out.println("[BetterEnd] dumping internal schematic " + "/scm/" + name + "/" + name + "_" + i + ".schem");
 			File file = new File(this.getDataFolder() + "/scm/" + name + "/",  name + "_" + i + ".schem");
 			try {
 				// create the file
@@ -197,7 +209,7 @@ public class Main extends JavaPlugin implements Listener {
 	}
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void onEntityPickup(EntityChangeBlockEvent event) {
-		if(event.getEntity() instanceof Enderman) {
+		if(event.getEntity() instanceof Enderman && config.getBoolean("prevent-enderman-block-pickup")) {
 			event.setCancelled(true);
 		}
 	}
@@ -209,7 +221,7 @@ public class Main extends JavaPlugin implements Listener {
 			Inventory inventory = event.getInventory();
 			if (inventory.getHolder() instanceof Chest) {
 				Location l = ((Chest) holder).getLocation();
-				System.out.println("[BetterEnd] Player opened chest in " + l.getWorld() + " at " + l.getBlockX() + ", " + l.getBlockY() + ", " + l.getBlockZ());
+				if(config.getBoolean("debug")) System.out.println("[BetterEnd] Player opened chest in " + l.getWorld() + " at " + l.getBlockX() + ", " + l.getBlockY() + ", " + l.getBlockZ());
 				Chest chest = (Chest) l.getBlock().getState();
 				NamespacedKey key = new NamespacedKey(this, "valkyrie-spawner");
 				if(chest.getPersistentDataContainer().has(key, PersistentDataType.INTEGER)) {
@@ -232,7 +244,7 @@ public class Main extends JavaPlugin implements Listener {
 						chest.update();
 						return;
 					}
-					System.out.println("[BetterEnd] Chest is a Valkyrie Queen Spawn Chest.");
+					if(config.getBoolean("debug")) System.out.println("[BetterEnd] Chest is a Valkyrie Queen Spawn Chest.");
 					chest.getWorld().spawnEntity(spawn, EntityType.ZOMBIE);
 					chest.getPersistentDataContainer().remove(key);
 					chest.update();
