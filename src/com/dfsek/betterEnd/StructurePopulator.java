@@ -153,8 +153,9 @@ public class StructurePopulator extends BlockPopulator {
 
 				} catch (WorldEditException e) {
 					e.printStackTrace();
+					return;
 				}
-			}
+			} else return;
 			NamespacedKey key = new NamespacedKey(main, "valkyrie-spawner");
 			if(spawnShulkers) {
 				List<Location> locations = getLocationListBetween(minLoc, maxLoc);

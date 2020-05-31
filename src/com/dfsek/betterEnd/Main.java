@@ -22,6 +22,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.StringUtil;
 import org.bukkit.util.noise.SimplexOctaveGenerator;
 
+import com.dfsek.betterEnd.UpdateChecker.UpdateReason;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -29,6 +31,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class Main extends JavaPlugin implements Listener {	
 	FileConfiguration config = this.getConfig();
@@ -37,16 +40,20 @@ public class Main extends JavaPlugin implements Listener {
 	@Override
 	public void onEnable() {	
 		instance = this;
+		Logger logger = this.getLogger();
 		this.getServer().getPluginManager().registerEvents(this, this);
+		config.addDefault("update-checker.enable", true);
+		config.addDefault("update-checker.frequency", 3600);
 		config.addDefault("outer-islands.structures.chance-per-chunk", 4);
 		config.addDefault("outer-islands.structures.shulker-nest.shulker-spawn-attempts", 8);
 		config.addDefault("outer-islands.ruins.chance-per-chunk", 15);
-		config.addDefault("outer-islands.noise", 96);
+		config.addDefault("outer-islands.noise", 56);
 		config.addDefault("outer-islands.island-height", 64);
+		config.addDefault("outer-islands.island-threshold", 30);
 		config.addDefault("aether.clouds.enable-clouds", true);
 		config.addDefault("aether.clouds.cloud-noise", 36);
 		config.addDefault("aether.ores.enable-ores", true);
-		config.addDefault("aether.ores.ore-chance", 5);
+		config.addDefault("aether.ores.ore-chance", 20);
 		config.addDefault("aether.cave-decoration", true);
 		config.addDefault("outer-islands.cave-decoration", true);
 		config.addDefault("aether.clouds.cloud-height", 128);
@@ -62,17 +69,17 @@ public class Main extends JavaPlugin implements Listener {
 		config.addDefault("debug", false);
 		config.options().copyDefaults(true);
 		saveConfig();
-		
-		System.out.println("[BetterEnd]");
-		System.out.println("[BetterEnd]");
-		System.out.println("[BetterEnd] |---------------------------------------------------------------------------------|");
-		System.out.println("[BetterEnd] BetterEnd would not have been possible without the support of the following people:");
-		System.out.println("[BetterEnd] Developers: dfsek and Baer");
-		System.out.println("[BetterEnd] Builders: GucciPoochie, sgtmushroom39, Daverono, and Merazmus");
-		System.out.println("[BetterEnd] |---------------------------------------------------------------------------------|");
-		System.out.println("[BetterEnd]");
-		System.out.println("[BetterEnd]");
-		
+
+		logger.info(" ");
+		logger.info(" ");
+		logger.info("|---------------------------------------------------------------------------------|");
+		logger.info("BetterEnd would not have been possible without the support of the following people:");
+		logger.info("Developers: dfsek and Baer");
+		logger.info("Builders: GucciPoochie, sgtmushroom39, Daverono, and Merazmus");
+		logger.info("|---------------------------------------------------------------------------------|");
+		logger.info(" ");
+		logger.info(" ");
+
 		dumpSchemFile("wood_house_s", 4);
 		dumpSchemFile("shulker_nest", 2);
 		dumpSchemFile("stone_ruin", 18);
@@ -81,6 +88,45 @@ public class Main extends JavaPlugin implements Listener {
 		dumpSchemFile("stronghold", 1);
 		dumpSchemFile("gold_dungeon", 1);
 		dumpSchemFile("cobble_house_s", 5);
+		int sec = config.getInt("update-checker.frequency", 3600);
+		if(config.getBoolean("update-checker.enable", true)) {
+			getServer().getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
+				@Override
+				public void run() {
+					UpdateChecker.init(instance, 79389).requestUpdateCheck().whenComplete((result, exception) -> {
+					    if (result.requiresUpdate()) {
+					        instance.getLogger().info(String.format("A new version of BetterEnd is available: %s ", result.getNewestVersion()));
+					        return;
+					    }
+
+					    UpdateReason reason = result.getReason();
+					    if (reason == UpdateReason.UP_TO_DATE) {
+					    	instance.getLogger().info(String.format("Your version of BetterEnd (%s) is up to date!", result.getNewestVersion()));
+					    } else if (reason == UpdateReason.UNRELEASED_VERSION) {
+					    	instance.getLogger().info(String.format("Your version of BetterEnd (%s) is more recent than the one publicly available.", result.getNewestVersion()));
+					    } else {
+					    	instance.getLogger().warning("An error occurred while checking for an update. Reason: " + reason);//Occurred
+					    }
+					});
+				}
+			}, 20L * sec, 20L * sec);
+			UpdateChecker.init(instance, 79389).requestUpdateCheck().whenComplete((result, exception) -> {
+			    if (result.requiresUpdate()) {
+			        instance.getLogger().info(String.format("A new version of BetterEnd is available: %s ", result.getNewestVersion()));
+			        return;
+			    }
+
+			    UpdateReason reason = result.getReason();
+			    if (reason == UpdateReason.UP_TO_DATE) {
+			    	instance.getLogger().info(String.format("Your version of BetterEnd (%s) is up to date!", result.getNewestVersion()));
+			    } else if (reason == UpdateReason.UNRELEASED_VERSION) {
+			    	instance.getLogger().info(String.format("Your version of BetterEnd (%s) is more recent than the one publicly available.", result.getNewestVersion()));
+			    } else {
+			    	instance.getLogger().warning("An error occurred while checking for an update. Reason: " + reason);//Occurred
+			    }
+			});
+		}
+
 	}
 	@Override
 	public void onDisable() {
