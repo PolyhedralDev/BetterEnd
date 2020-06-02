@@ -56,6 +56,7 @@ public class StructurePopulator extends BlockPopulator {
 		int Z = random.nextInt(15);
 		if(chunk.getX()*16+X >= 29999900 || chunk.getZ()*16+Z >= 29999900) return;
 		int shulkerSpawns = main.getConfig().getInt("outer-islands.structures.shulker-nest.shulker-spawn-attempts");
+		boolean allAether = main.getConfig().getBoolean("all-aether", false);
 		if(random.nextInt(100) < main.getConfig().getInt("outer-islands.structures.chance-per-chunk") && Math.sqrt(Math.pow(chunk.getX()*16+X, 2) + Math.pow(chunk.getZ()*16+Z, 2)) >= 1000) {
 			File file;
 			boolean aboveGround = true;
@@ -65,13 +66,16 @@ public class StructurePopulator extends BlockPopulator {
 			boolean spawnShulkers = false;
 			boolean overrideSpawnCheck = false;
 			if(type < 70) {
-				if(Main.getBiomeNoise(chunk.getX()*16+X, chunk.getZ()*16+Z, world.getSeed()) > 0.5) {
+				if(Main.getBiomeNoise(chunk.getX()*16+X, chunk.getZ()*16+Z, world.getSeed()) > 0.5 || allAether) {
 					if(random.nextInt(100) < 98) {
 						if(random.nextBoolean()) {
 							name = "wood_house_s";
 							file = new File(main.getDataFolder() + "/scm/wood_house_s/wood_house_s_" + random.nextInt(4) + ".schem");
 							int highY;
-							for (highY = world.getMaxHeight()-1; chunk.getBlock(X, highY, Z).getType() != Material.GRASS_BLOCK && highY>0; highY--);
+							for (highY = world.getMaxHeight()-1; (chunk.getBlock(X, highY, Z).getType() != Material.GRASS_BLOCK &&
+									chunk.getBlock(X, highY, Z).getType() != Material.GRAVEL &&
+									chunk.getBlock(X, highY, Z).getType() != Material.PODZOL &&
+									chunk.getBlock(X, highY, Z).getType() != Material.COARSE_DIRT) && highY>0; highY--);
 							if(highY < 64) return;
 							pasteLocation = new Location(world, chunk.getX()*16+X, highY+1, chunk.getZ()*16+Z);
 							if(pasteLocation.getBlock().getType() != Material.GRASS_BLOCK && pasteLocation.getBlock().getType() != Material.STONE) {
@@ -156,6 +160,9 @@ public class StructurePopulator extends BlockPopulator {
 					return;
 				}
 			} else return;
+			if(Main.getBiome(X, Z, world.getSeed()).equals("AETHER_HIGHLANDS")) {
+				
+			}
 			NamespacedKey key = new NamespacedKey(main, "valkyrie-spawner");
 			if(spawnShulkers) {
 				List<Location> locations = getLocationListBetween(minLoc, maxLoc);
@@ -164,12 +171,18 @@ public class StructurePopulator extends BlockPopulator {
 					int attempts = 0;
 					while(!done) {
 						Location candidate = locations.get(random.nextInt(locations.size()));
-						if(candidate.getBlock().isEmpty()) {
+						if(candidate.getBlock().isEmpty() && (
+								(!candidate.add(1,0,0).getBlock().isEmpty() && !candidate.add(1,0,0).getBlock().getType().toString().contains("slab") && !candidate.add(1,0,0).getBlock().getType().toString().contains("stair")) || 
+								(!candidate.add(0,1,0).getBlock().isEmpty() && !candidate.add(0,1,0).getBlock().getType().toString().contains("slab") && !candidate.add(0,1,0).getBlock().getType().toString().contains("stair")) || 
+								(!candidate.add(0,0,1).getBlock().isEmpty() && !candidate.add(0,0,1).getBlock().getType().toString().contains("slab") && !candidate.add(0,0,1).getBlock().getType().toString().contains("stair")) ||
+								(!candidate.subtract(1,0,0).getBlock().isEmpty() && !candidate.subtract(1,0,0).getBlock().getType().toString().contains("slab") && !candidate.subtract(1,0,0).getBlock().getType().toString().contains("stair")) ||
+								(!candidate.subtract(0,1,0).getBlock().isEmpty() && !candidate.subtract(0,1,0).getBlock().getType().toString().contains("slab") && !candidate.subtract(0,1,0).getBlock().getType().toString().contains("stair")) ||
+								(!candidate.subtract(0,0,1).getBlock().isEmpty() && !candidate.subtract(0,0,1).getBlock().getType().toString().contains("slab") && !candidate.subtract(0,0,1).getBlock().getType().toString().contains("stair")))) {
 							world.spawn(candidate, Shulker.class);
 							done = true;
 						}
 						attempts++;
-						if(attempts > 10) done = true;
+						if(attempts > 15) done = true;
 					}
 				}
 			}
@@ -178,12 +191,15 @@ public class StructurePopulator extends BlockPopulator {
 			for (Location location : locations) {
 				
 				if (location.getBlock().getState() instanceof Container) {
+					JSONArray poolArray = (JSONArray) ((JSONObject) getLootTable(name)).get("pools");
 					if(name.equals("gold_dungeon")) {
 						Chest chest = (Chest) location.getBlock().getState();
 						chest.getPersistentDataContainer().set(key, PersistentDataType.INTEGER, (int) (rotation/90));
 						chest.update();
+						if(main.getConfig().getBoolean("aether.mythic-boss.enable", false)) poolArray = (JSONArray) ((JSONObject) getLootTable("gold_dungeon_boss")).get("pools");
 					}
-					JSONArray poolArray = (JSONArray) ((JSONObject) getLootTable(name)).get("pools");
+					
+					
 					for (Object pool : poolArray) {
 						JSONObject pooldata = (JSONObject) pool;
 						int max = Math.toIntExact((long) ((JSONObject)pooldata.get("rolls")).get("max"));
@@ -270,7 +286,10 @@ public class StructurePopulator extends BlockPopulator {
 		} else if(random.nextInt(100) < main.getConfig().getInt("outer-islands.ruins.chance-per-chunk") && Math.sqrt(Math.pow(chunk.getX()*16+X, 2) + Math.pow(chunk.getZ()*16+Z, 2)) >= 1000) {
 			File file = new File(main.getDataFolder() + "/scm/stone_ruin/stone_ruin_" + random.nextInt(18) + ".schem");
 			int highY;
-			for (highY = world.getMaxHeight()-1; chunk.getBlock(X, highY, Z).getType() != Material.GRASS_BLOCK && highY>0; highY--);
+			for (highY = world.getMaxHeight()-1; (chunk.getBlock(X, highY, Z).getType() != Material.GRASS_BLOCK &&
+					chunk.getBlock(X, highY, Z).getType() != Material.GRAVEL &&
+					chunk.getBlock(X, highY, Z).getType() != Material.PODZOL &&
+					chunk.getBlock(X, highY, Z).getType() != Material.COARSE_DIRT) && highY>0; highY--);
 			if(highY < 64) return;
 			Location pasteLocation = new Location(world, chunk.getX()*16+X, highY+1, chunk.getZ()*16+Z);
 
@@ -409,8 +428,14 @@ public class StructurePopulator extends BlockPopulator {
 	private boolean isValidRuinSpawn(Location l1, Location l2) {
 		for(int x = 0; x<= Math.abs(l1.getBlockX() - l2.getBlockX()); x++){
 			for(int z = 0; z<= Math.abs(l1.getBlockZ() - l2.getBlockZ()); z++){
-				Location loc = new Location(l1.getWorld(), Math.min(l1.getBlockX(), l2.getBlockX()) + x, Math.min(l1.getBlockY(), l2.getBlockY())-1, Math.min(l1.getBlockZ(), l2.getBlockZ()) + z);
-				if(loc.getBlock().getType() != Material.GRASS_BLOCK && loc.getBlock().getType() != Material.END_STONE && loc.getBlock().getType() != Material.DIRT && loc.getBlock().getType() != Material.STONE) return false;
+				Location loc = new Location(l1.getWorld(), Math.min(l1.getBlockX(), l2.getBlockX()) + x, Math.min(l1.getBlockY(), l2.getBlockY()), Math.min(l1.getBlockZ(), l2.getBlockZ()) + z);
+				if(loc.getBlock().getType() != Material.GRASS_BLOCK && 
+						loc.getBlock().getType() != Material.END_STONE && 
+						loc.getBlock().getType() != Material.DIRT && 
+						loc.getBlock().getType() != Material.STONE &&
+						loc.getBlock().getType() != Material.PODZOL &&
+						loc.getBlock().getType() != Material.COARSE_DIRT &&
+						loc.getBlock().getType() != Material.GRAVEL) return false;
 			}
 		}
 		return true;

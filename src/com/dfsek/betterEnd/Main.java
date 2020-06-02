@@ -24,6 +24,9 @@ import org.bukkit.util.noise.SimplexOctaveGenerator;
 
 import com.dfsek.betterEnd.UpdateChecker.UpdateReason;
 
+import io.lumine.xikage.mythicmobs.MythicMobs;
+import io.lumine.xikage.mythicmobs.mobs.MobManager;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -41,13 +44,18 @@ public class Main extends JavaPlugin implements Listener {
 	public void onEnable() {	
 		instance = this;
 		Logger logger = this.getLogger();
+		new MetricsLite(this, 7709);
+
 		this.getServer().getPluginManager().registerEvents(this, this);
+		config.addDefault("all-aether", false);
 		config.addDefault("update-checker.enable", true);
 		config.addDefault("update-checker.frequency", 3600);
-		config.addDefault("outer-islands.structures.chance-per-chunk", 4);
+		config.addDefault("outer-islands.structures.chance-per-chunk", 5);
 		config.addDefault("outer-islands.structures.shulker-nest.shulker-spawn-attempts", 8);
-		config.addDefault("outer-islands.ruins.chance-per-chunk", 15);
+		config.addDefault("outer-islands.ruins.chance-per-chunk", 30);
 		config.addDefault("outer-islands.noise", 56);
+		config.addDefault("outer-islands.height-multiplier.top", 6);
+		config.addDefault("outer-islands.height-multiplier.bottom", 52);
 		config.addDefault("outer-islands.island-height", 64);
 		config.addDefault("outer-islands.island-threshold", 30);
 		config.addDefault("aether.clouds.enable-clouds", true);
@@ -57,14 +65,19 @@ public class Main extends JavaPlugin implements Listener {
 		config.addDefault("aether.cave-decoration", true);
 		config.addDefault("outer-islands.cave-decoration", true);
 		config.addDefault("aether.clouds.cloud-height", 128);
+		config.addDefault("aether.animals.herd-chance-per-chunk", 15);
+		config.addDefault("aether.animals.herd-min-size", 2);
+		config.addDefault("aether.animals.herd-max-size", 5);
 		config.addDefault("aether.tree-multiplier", 4);
+		config.addDefault("aether.mythic-boss.enable", false);
+		config.addDefault("aether.mythic-boss.gold-name", "SkeletonKing");
 		config.addDefault("outer-islands.biome-size", 1024);
+		config.addDefault("outer-islands.heat-noise", 512);
 		config.addDefault("trees.min-per-chunk", 4);
 		config.addDefault("trees.max-per-chunk", 7);
 		config.addDefault("trees.obsidian-pillars.max-height", 14);
 		config.addDefault("trees.obsidian-pillars.min-height", 7);
 		config.addDefault("outer-islands.generate-end-cities", false);
-		config.addDefault("enable-beta-boss", false);
 		config.addDefault("prevent-enderman-block-pickup", true);
 		config.addDefault("debug", false);
 		config.options().copyDefaults(true);
@@ -94,36 +107,36 @@ public class Main extends JavaPlugin implements Listener {
 				@Override
 				public void run() {
 					UpdateChecker.init(instance, 79389).requestUpdateCheck().whenComplete((result, exception) -> {
-					    if (result.requiresUpdate()) {
-					        instance.getLogger().info(String.format("A new version of BetterEnd is available: %s ", result.getNewestVersion()));
-					        return;
-					    }
+						if (result.requiresUpdate()) {
+							instance.getLogger().info(String.format("A new version of BetterEnd is available: %s ", result.getNewestVersion()));
+							return;
+						}
 
-					    UpdateReason reason = result.getReason();
-					    if (reason == UpdateReason.UP_TO_DATE) {
-					    	instance.getLogger().info(String.format("Your version of BetterEnd (%s) is up to date!", result.getNewestVersion()));
-					    } else if (reason == UpdateReason.UNRELEASED_VERSION) {
-					    	instance.getLogger().info(String.format("Your version of BetterEnd (%s) is more recent than the one publicly available.", result.getNewestVersion()));
-					    } else {
-					    	instance.getLogger().warning("An error occurred while checking for an update. Reason: " + reason);//Occurred
-					    }
+						UpdateReason reason = result.getReason();
+						if (reason == UpdateReason.UP_TO_DATE) {
+							instance.getLogger().info(String.format("Your version of BetterEnd (%s) is up to date!", result.getNewestVersion()));
+						} else if (reason == UpdateReason.UNRELEASED_VERSION) {
+							instance.getLogger().info(String.format("Your version of BetterEnd (%s) is more recent than the one publicly available.", result.getNewestVersion()));
+						} else {
+							instance.getLogger().warning("An error occurred while checking for an update. Reason: " + reason);//Occurred
+						}
 					});
 				}
 			}, 20L * sec, 20L * sec);
 			UpdateChecker.init(instance, 79389).requestUpdateCheck().whenComplete((result, exception) -> {
-			    if (result.requiresUpdate()) {
-			        instance.getLogger().info(String.format("A new version of BetterEnd is available: %s ", result.getNewestVersion()));
-			        return;
-			    }
+				if (result.requiresUpdate()) {
+					instance.getLogger().info(String.format("A new version of BetterEnd is available: %s ", result.getNewestVersion()));
+					return;
+				}
 
-			    UpdateReason reason = result.getReason();
-			    if (reason == UpdateReason.UP_TO_DATE) {
-			    	instance.getLogger().info(String.format("Your version of BetterEnd (%s) is up to date!", result.getNewestVersion()));
-			    } else if (reason == UpdateReason.UNRELEASED_VERSION) {
-			    	instance.getLogger().info(String.format("Your version of BetterEnd (%s) is more recent than the one publicly available.", result.getNewestVersion()));
-			    } else {
-			    	instance.getLogger().warning("An error occurred while checking for an update. Reason: " + reason);//Occurred
-			    }
+				UpdateReason reason = result.getReason();
+				if (reason == UpdateReason.UP_TO_DATE) {
+					instance.getLogger().info(String.format("Your version of BetterEnd (%s) is up to date!", result.getNewestVersion()));
+				} else if (reason == UpdateReason.UNRELEASED_VERSION) {
+					instance.getLogger().info(String.format("Your version of BetterEnd (%s) is more recent than the one publicly available.", result.getNewestVersion()));
+				} else {
+					instance.getLogger().warning("An error occurred while checking for an update. Reason: " + reason);//Occurred
+				}
 			});
 		}
 
@@ -156,7 +169,7 @@ public class Main extends JavaPlugin implements Listener {
 			}
 			Player p = (Player) sender;
 			if (sender.hasPermission("betterend.gotobiome")) {
-				if(args[1].equalsIgnoreCase("END") || args[1].equalsIgnoreCase("SHATTERED_END") || args[1].equalsIgnoreCase("VOID") || args[1].equalsIgnoreCase("AETHER")) {
+				if(args[1].equalsIgnoreCase("END") || args[1].equalsIgnoreCase("SHATTERED_END") || args[1].equalsIgnoreCase("VOID") || args[1].equalsIgnoreCase("AETHER") || args[1].equalsIgnoreCase("AETHER_HIGHLANDS")) {
 					sender.sendMessage("[BetterEnd] Locating biome \"" + args[1] + "\"");
 					boolean foundBiome = false;
 					int tries = 0;
@@ -204,18 +217,23 @@ public class Main extends JavaPlugin implements Listener {
 	} 
 
 	private static final List<String> COMMANDS = Arrays.asList("biome", "tpbiome", "version");
-	//private static final List<String> BIOMES = Arrays.asList("AETHER", "END", "SHATTERED_END", "OBSIDIAN_FOREST");
+	private static final List<String> BIOMES = Arrays.asList("AETHER", "END", "SHATTERED_END", "OBSIDIAN_FOREST", "AETHER_HIGHLANDS");
 	@Override
 	public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
-		return (args.length > 0) ? StringUtil.copyPartialMatches(args[0], COMMANDS, new ArrayList<>()) : null;
+		return (args.length == 1) ? StringUtil.copyPartialMatches(args[0], COMMANDS, new ArrayList<>()) : StringUtil.copyPartialMatches(args[0], BIOMES, new ArrayList<>());
 	}
 	public static String getBiome(int X, int Z, long l) {
 		SimplexOctaveGenerator biomeGenerator = new SimplexOctaveGenerator(l, 4);
 		Main main = Main.getInstance();
+		boolean allAether = main.getConfig().getBoolean("all-aether", false);
+		int heatNoise = main.getConfig().getInt("outer-islands.heat-noise");
+		if(allAether) return "AETHER";
+		double h = biomeGenerator.noise((double) (X)/heatNoise, (double) (Z)/heatNoise, 0.5D, 0.5D);
 		double d = biomeGenerator.noise((double) (X)/main.getConfig().getInt("outer-islands.biome-size"), (double) (Z)/main.getConfig().getInt("outer-islands.biome-size"), 0.5D, 0.5D);
 		if (d < -0.5) return "SHATTERED_END";//green
 		else if (d < 0) return "END";//red
 		else if (d < 0.5) return "VOID";//blue
+		else if(h < -0.5) return "AETHER_HIGHLANDS";
 		else return "AETHER";//orange
 	}
 	public static double getBiomeNoise(int X, int Z, long l) {
@@ -262,7 +280,7 @@ public class Main extends JavaPlugin implements Listener {
 	}
 	@EventHandler (ignoreCancelled=true)
 	public void onInventoryOpenEvent(InventoryOpenEvent event) {
-		if(config.getBoolean("enable-beta-boss")) {
+		if(config.getBoolean("aether.mythic-boss.enable", false)) {
 			//get the destination inventory
 			InventoryHolder holder = event.getInventory().getHolder();
 			Inventory inventory = event.getInventory();
@@ -291,11 +309,18 @@ public class Main extends JavaPlugin implements Listener {
 						chest.update();
 						return;
 					}
-					if(config.getBoolean("debug")) System.out.println("[BetterEnd] Chest is a Valkyrie Queen Spawn Chest.");
-					chest.getWorld().spawnEntity(spawn, EntityType.ZOMBIE);
-					chest.getPersistentDataContainer().remove(key);
-					chest.update();
+					if(config.getBoolean("debug")) System.out.println("[BetterEnd] Chest is a Mythic Boss Spawn Chest.");
+					String boss = config.getString("aether.mythic-boss.gold-name", "SkeletonKing");
+					try {
+						MythicMobs.inst().getMobManager().spawnMob(boss, spawn);
+					} catch(NoClassDefFoundError e) {
+						this.getLogger().warning("Failed to spawn Mythic Boss. Is MythicMobs installed?");
+					}
+					//chest.getWorld().spawnEntity(spawn, EntityType.ZOMBIE);
+											
 				}
+				chest.getPersistentDataContainer().remove(key);
+				chest.update();
 			}
 		}
 	}

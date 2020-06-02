@@ -17,5 +17,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="C:/Users/dfsek.DFSEK/eclipse-workspace/betterEnd/EnchantmentSolution.jar"/>
+	<classpathentry kind="lib" path="C:/Users/dfsek.DFSEK/eclipse-workspace/betterEnd/MythicMobs-4.9.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
