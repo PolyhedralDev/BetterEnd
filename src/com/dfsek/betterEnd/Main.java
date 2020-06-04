@@ -8,7 +8,6 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Enderman;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -25,8 +24,6 @@ import org.bukkit.util.noise.SimplexOctaveGenerator;
 import com.dfsek.betterEnd.UpdateChecker.UpdateReason;
 
 import io.lumine.xikage.mythicmobs.MythicMobs;
-import io.lumine.xikage.mythicmobs.mobs.MobManager;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -37,7 +34,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 public class Main extends JavaPlugin implements Listener {	
-	FileConfiguration config = this.getConfig();
+	public FileConfiguration config = this.getConfig();
 
 	private static Main instance;
 	@Override

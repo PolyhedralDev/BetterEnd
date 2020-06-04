@@ -9,7 +9,6 @@ import org.bukkit.TreeType;
 import org.bukkit.World;
 import org.bukkit.entity.EnderCrystal;
 import org.bukkit.generator.BlockPopulator;
-import org.bukkit.util.noise.SimplexOctaveGenerator;
 
 public class TreePopulator extends BlockPopulator {
 	Main main = Main.getInstance();
