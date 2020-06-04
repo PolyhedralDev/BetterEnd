@@ -45,6 +45,23 @@ public class NMSStructure {
         return this.dimension;
 	}
 	
+	public Location[] getBoundingLocations(Location origin, int rotation) {
+		switch(rotation) {
+		case 0:
+		case 360:
+			return new Location[] {origin, new Location(origin.getWorld(), origin.getX() + this.getX(), origin.getY() + this.getY(), origin.getZ() + this.getZ())};
+		case 90:
+			return new Location[] {origin, new Location(origin.getWorld(), origin.getX() - this.getZ(), origin.getY() + this.getY(), origin.getZ() + this.getX())};
+		case 180:
+			return new Location[] {origin, new Location(origin.getWorld(), origin.getX() - this.getX(), origin.getY() + this.getY(), origin.getZ() - this.getZ())};
+		case 270:
+			return new Location[] {origin, new Location(origin.getWorld(), origin.getX() + this.getZ(), origin.getY() + this.getY(), origin.getZ() - this.getX())};
+		default:
+			throw new IllegalArgumentException("Invalid rotation provided. Rotation must be multiple of 90.");
+		}
+		
+	}
+	
 	/**
 	 * Gets X dimension of a structure.
 	 * @return int - The X dimension of the structure
@@ -95,12 +112,6 @@ public class NMSStructure {
 		}
 	    WorldServer world = ((CraftWorld) startEdge.getWorld()).getHandle();
 	    DefinedStructureInfo structInfo = new DefinedStructureInfo().a(EnumBlockMirror.NONE).a(rotationBM).a(false).a((ChunkCoordIntPair) null).c(false).a(new Random());
-	    // false sets ignore entities to false (so it does NOT ignore them)
-	    // 1.0f sets the amount of to be pasted blocks to 100%
-	    // mirror & rotation are self explaining
-	    // the block does the thing like the block does, which can be set in the ingame structure block GUI
-	    // no idea at the moment, what the coord pair, the random and the second false does
-	    // If you want to find out more about it, see net.minecraft.server.v1_13_R1.TileEntityStructure.c(boolean), there mojang calls the method and compare it with the ingame GUI
 	    this.structure.a(world, new BlockPosition(startEdge.getBlockX(), startEdge.getBlockY(), startEdge.getBlockZ()), structInfo);
 	}
 }
