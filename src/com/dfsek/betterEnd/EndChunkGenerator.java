@@ -11,6 +11,12 @@ import org.bukkit.generator.BlockPopulator;
 import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.util.noise.SimplexOctaveGenerator;
 
+import com.dfsek.betterEnd.populators.HerdPopulator;
+import com.dfsek.betterEnd.populators.OrePopulator;
+import com.dfsek.betterEnd.populators.StructurePopulator;
+import com.dfsek.betterEnd.populators.TaigaChangePopulator;
+import com.dfsek.betterEnd.populators.TreePopulator;
+
 public class EndChunkGenerator extends ChunkGenerator {
 	boolean doBiomeGlass = false;
 	Main main = Main.getInstance();
@@ -288,7 +294,7 @@ public class EndChunkGenerator extends ChunkGenerator {
 	}
 	@Override
 	public List<BlockPopulator> getDefaultPopulators(World world) {
-		return Arrays.asList((BlockPopulator) new TreePopulator(), new StructurePopulator(), new OrePopulator(), new HerdPopulator(), new TaigaChangePopulator());
+		return Arrays.asList((BlockPopulator) new StructurePopulator(), new TreePopulator(), new OrePopulator(), new HerdPopulator(), new TaigaChangePopulator());
 	}
 
 }
