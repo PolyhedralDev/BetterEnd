@@ -25,6 +25,7 @@ public class NMSStructure {
 	private Location origin;
 	private int rotation = 0;
 	private String name;
+	private int permutation;
 	/**
 	 * Load a structure from a packaged NBT structure file.
 	 * @param name - The structure name
@@ -45,6 +46,7 @@ public class NMSStructure {
 		this.structure = structure;
 		this.origin = origin;
 		this.name = name;
+		this.permutation = permutation;
 	}
 
 	/**
@@ -53,6 +55,10 @@ public class NMSStructure {
 	 */
 	public Location getOrigin() {
         return this.origin;
+	}
+	
+	public int getPermutation() {
+        return this.permutation;
 	}
 	
 	/**
@@ -156,3 +162,4 @@ public class NMSStructure {
 	    this.structure.a(world, new BlockPosition(this.origin.getBlockX(), this.origin.getBlockY(), this.origin.getBlockZ()), structInfo);
 	}
 }
+

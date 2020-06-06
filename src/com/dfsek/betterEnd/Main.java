@@ -22,12 +22,7 @@ import org.bukkit.util.StringUtil;
 import org.bukkit.util.noise.SimplexOctaveGenerator;
 
 import com.dfsek.betterEnd.UpdateChecker.UpdateReason;
-
 import io.lumine.xikage.mythicmobs.MythicMobs;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -44,6 +39,16 @@ public class Main extends JavaPlugin implements Listener {
 		new MetricsLite(this, 7709);
 
 		this.getServer().getPluginManager().registerEvents(this, this);
+		
+		config.addDefault("structure-weight.end.stronghold", 30);
+		config.addDefault("structure-weight.end.end_house", 35);
+		config.addDefault("structure-weight.end.shulker_nest", 35);
+		
+		config.addDefault("structure-weight.aether.gold_dungeon", 2);
+		config.addDefault("structure-weight.aether.cobble_house", 49);
+		config.addDefault("structure-weight.aether.wood_house", 49);
+		
+		
 		config.addDefault("all-aether", false);
 		config.addDefault("update-checker.enable", true);
 		config.addDefault("update-checker.frequency", 3600);
@@ -89,15 +94,7 @@ public class Main extends JavaPlugin implements Listener {
 		logger.info("|---------------------------------------------------------------------------------|");
 		logger.info(" ");
 		logger.info(" ");
-
-		dumpSchemFile("wood_house_s", 4);
-		dumpSchemFile("shulker_nest", 2);
-		dumpSchemFile("stone_ruin", 18);
-		dumpSchemFile("shattered_ruin", 16);
-		dumpSchemFile("end_house", 3);
-		dumpSchemFile("stronghold", 1);
-		dumpSchemFile("gold_dungeon", 1);
-		dumpSchemFile("cobble_house_s", 5);
+		
 		int sec = config.getInt("update-checker.frequency", 3600);
 		if(config.getBoolean("update-checker.enable", true)) {
 			getServer().getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
@@ -242,33 +239,6 @@ public class Main extends JavaPlugin implements Listener {
 	public EndChunkGenerator getDefaultWorldGenerator(String worldName, String id) {
 		return new EndChunkGenerator();
 	}
-	private void dumpSchemFile(String name, int perms) {
-		new File(this.getDataFolder() + "/scm/").mkdir();
-		new File(this.getDataFolder() + "/scm/" + name + "/").mkdir();
-		System.out.println("[BetterEnd] Dumping schematic files...");
-		for(int i = 0; i < perms; i++) {
-			if(config.getBoolean("debug")) System.out.println("[BetterEnd] dumping internal schematic " + "/scm/" + name + "/" + name + "_" + i + ".schem");
-			File file = new File(this.getDataFolder() + "/scm/" + name + "/",  name + "_" + i + ".schem");
-			try {
-				// create the file
-				if (file.createNewFile()) {
-					copyInputStreamToFile(getResource("scm/" + name + "/" + name + "_" + i + ".schem"), file);
-				}
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-	}
-	private static void copyInputStreamToFile(InputStream inputStream, File file)
-			throws IOException {
-		try (FileOutputStream outputStream = new FileOutputStream(file)) {
-			int read;
-			byte[] bytes = new byte[1024];
-			while ((read = inputStream.read(bytes)) != -1) {
-				outputStream.write(bytes, 0, read);
-			}
-		}
-	}
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void onEntityPickup(EntityChangeBlockEvent event) {
 		if(event.getEntity() instanceof Enderman && config.getBoolean("prevent-enderman-block-pickup")) {
@@ -293,13 +263,13 @@ public class Main extends JavaPlugin implements Listener {
 						spawn = chest.getLocation().subtract(9.5, 2, -0.5);
 						break;
 					case 1:
-						spawn = chest.getLocation().add(0.5, -2, 10.5);
+						spawn = chest.getLocation().subtract(-0.5, 2, 10.5);
 						break;
 					case 2:
 						spawn = chest.getLocation().add(10.5, -2, 0.5);
 						break;
 					case 3:
-						spawn = chest.getLocation().subtract(-0.5, 2, 9.5);
+						spawn = chest.getLocation().add(0.5, -2, 9.5);
 						break;
 					default:
 						chest.getPersistentDataContainer().remove(key);
