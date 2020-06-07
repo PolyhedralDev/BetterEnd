@@ -18,6 +18,8 @@ import org.bukkit.entity.Shulker;
 import org.bukkit.generator.BlockPopulator;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.persistence.PersistentDataType;
+import org.bukkit.util.noise.SimplexOctaveGenerator;
+
 import com.dfsek.betterEnd.Main;
 import com.dfsek.betterEnd.structures.LootTable;
 import com.dfsek.betterEnd.structures.NMSStructure;
@@ -32,8 +34,15 @@ public class StructurePopulator extends BlockPopulator {
 	int ruinChance = config.getInt("outer-islands.ruins.chance-per-chunk");
 	int cloudHeight = config.getInt("aether.clouds.cloud-height");
 
+	private void generateFortress(Location origin) {
+		new NMSStructure(origin, "end_fortress/end_fortress_b_cross_0").paste();
+		origin.getBlock().setType(Material.BEDROCK);
+		new NMSStructure(origin.add(21,0,0), "end_fortress/end_fortress_b_cross_0").paste();
+		new NMSStructure(origin.add(0,0,21), "end_fortress/end_fortress_b_cross_0").paste();
+	}
 	@Override
 	public void populate(World world, Random random, Chunk chunk) {
+		//if(chunk.getX() == 0 && chunk.getZ() == 0) generateFortress(new Location(world, 0, 128, 0));
 		if(!(Math.abs(chunk.getX()) > 20 || Math.abs(chunk.getZ()) > 20 || allAether)) return;
 		int X = random.nextInt(15);
 		int Z = random.nextInt(15);
@@ -242,6 +251,22 @@ public class StructurePopulator extends BlockPopulator {
 		return true;
 	}
 	private boolean isValidSpawn(Location l1, Location l2, boolean underground, int sub, boolean strict) {
+		SimplexOctaveGenerator generator = new SimplexOctaveGenerator(l1.getWorld().getSeed(), 4);
+		int outNoise = main.getConfig().getInt("outer-islands.noise");
+		int lowX = Math.min(l1.getBlockX(), l2.getBlockX());
+		int lowY = Math.min(l1.getBlockY(), l2.getBlockY());
+		int lowZ = Math.min(l1.getBlockZ(), l2.getBlockZ());
+		List<Location> locs = new ArrayList<>();
+		for(int x = 0; x<= Math.abs(l1.getBlockX() - l2.getBlockX()); x++){
+			for(int z = 0; z<= Math.abs(l1.getBlockZ() - l2.getBlockZ()); z++){
+				locs.add(new Location(l1.getWorld(), lowX + x, lowY, lowZ + z));
+			}
+		}
+		for (Location location : locs) {
+			if (generator.noise((double) (location.getBlockX())/outNoise, (double) (location.getBlockZ())/outNoise, 0.1D, 0.55D) < 0.45) {
+				return false;
+			}
+		}
 		if(underground) {
 			if (l1.getBlock().isEmpty()) {
 				return false;
@@ -290,13 +315,12 @@ public class StructurePopulator extends BlockPopulator {
 					}
 				}
 			} else {
-				Location l3 = new Location(l1.getWorld(), l1.getX(), l1.getY(), l2.getZ());
-				Location l4 = new Location(l1.getWorld(), l2.getX(), l1.getY(), l2.getZ());
-				Location l5 = new Location(l1.getWorld(), l2.getX(), l1.getY(), l2.getZ());
+				Location l3 = new Location(l1.getWorld(), l1.getX(), Math.min(l1.getBlockY(), l2.getBlockY()), l1.getZ());
+				Location l4 = new Location(l1.getWorld(), l1.getX(), Math.min(l1.getBlockY(), l2.getBlockY()), l2.getZ());
+				Location l5 = new Location(l1.getWorld(), l2.getX(), Math.min(l1.getBlockY(), l2.getBlockY()), l1.getZ());
+				Location l6 = new Location(l1.getWorld(), l2.getX(), Math.min(l1.getBlockY(), l2.getBlockY()), l2.getZ());
 
-				if (l1.getBlock().isEmpty()) {
-					return false;
-				}
+				
 				if (l3.getBlock().isEmpty()) {
 					return false;
 				}
@@ -304,6 +328,9 @@ public class StructurePopulator extends BlockPopulator {
 					return false;
 				}
 				if (l5.getBlock().isEmpty()) {
+					return false;
+				}
+				if (l6.getBlock().isEmpty()) {
 					return false;
 				}
 			} 

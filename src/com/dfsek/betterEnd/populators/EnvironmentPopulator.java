@@ -7,21 +7,50 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.TreeType;
 import org.bukkit.World;
+import org.bukkit.block.Biome;
 import org.bukkit.entity.EnderCrystal;
+import org.bukkit.entity.EntityType;
 import org.bukkit.generator.BlockPopulator;
+import org.bukkit.util.noise.SimplexOctaveGenerator;
 
 import com.dfsek.betterEnd.Main;
 
-public class TreePopulator extends BlockPopulator {
+public class EnvironmentPopulator extends BlockPopulator {
 	Main main = Main.getInstance();
 	int min = main.getConfig().getInt("trees.min-per-chunk");
 	int max = main.getConfig().getInt("trees.max-per-chunk");
+	int herdChance = main.getConfig().getInt("aether.animals.herd-chance-per-chunk", 15);
+	int herdMin = main.getConfig().getInt("aether.animals.herd-min-size", 2);
+	int herdMax = main.getConfig().getInt("aether.animals.herd-max-size", 5);
 	int obMax = main.getConfig().getInt("trees.obsidian-pillars.max-height");
 	int obMin = main.getConfig().getInt("trees.obsidian-pillars.min-height");
 	int heatNoise = main.getConfig().getInt("outer-islands.heat-noise");
+	int biomeSize = main.getConfig().getInt("outer-islands.biome-size");
 	boolean allAether = main.getConfig().getBoolean("all-aether", false);
-	public void populate(World world, Random random, Chunk chunk) {
+	int h = main.getConfig().getInt("outer-islands.island-height");
 
+	@SuppressWarnings("deprecation")
+	public void populate(World world, Random random, Chunk chunk) {
+		//taiga
+		SimplexOctaveGenerator biomeGenerator = new SimplexOctaveGenerator(world.getSeed(), 4);
+		for(int X = 0; X < 16; X++) {
+			for(int Z = 0; Z < 16; Z++) {
+				double biomeNoiseLvl = biomeGenerator.noise((double) (chunk.getX()*16+X)/biomeSize, (double) (chunk.getZ()*16+Z)/biomeSize, 0.5D, 0.5D);
+				double heatNoiseLvl = biomeGenerator.noise((double) (chunk.getX()*16+X)/heatNoise, (double) (chunk.getZ()*16+Z)/heatNoise, 0.5D, 0.5D);
+				if(heatNoiseLvl < -0.5 && (biomeNoiseLvl > 0.5 || allAether)) {
+					world.setBiome(chunk.getX()*16+X, chunk.getZ()*16+Z, Biome.TAIGA);
+					int Y;
+					if(random.nextInt(1000) < 2) {
+						for (Y = world.getMaxHeight()-1; (chunk.getBlock(X, Y, Z).getType() != Material.GRASS_BLOCK && 
+								chunk.getBlock(X, Y, Z).getType() != Material.GRAVEL &&
+								chunk.getBlock(X, Y, Z).getType() != Material.PODZOL &&
+								chunk.getBlock(X, Y, Z).getType() != Material.COARSE_DIRT) && Y>0; Y--);
+						if(Y > 1) world.getBlockAt(chunk.getX()*16+X, Y+1, chunk.getZ()*16+Z).setType((random.nextBoolean()) ? Material.COBBLESTONE : Material.MOSSY_COBBLESTONE);
+					}
+				}
+			}
+		}
+		//trees
 		int amount = random.nextInt(max-min)+min;  // Amount of trees
 		if((Math.abs(chunk.getX()) > 20 || Math.abs(chunk.getZ()) > 20) || allAether)
 			for (int i = 0; i < amount; i++) {
@@ -51,10 +80,14 @@ public class TreePopulator extends BlockPopulator {
 							int Y1;
 							for (Y1 = world.getMaxHeight()-1; (chunk.getBlock(X1, Y1, Z1).getType() != Material.GRASS_BLOCK && 
 									chunk.getBlock(X1, Y1, Z1).getType() != Material.PODZOL &&
-									chunk.getBlock(X1, Y1, Z1).getType() != Material.COARSE_DIRT) && Y1>0; Y1--);
+									chunk.getBlock(X1, Y1, Z1).getType() != Material.COARSE_DIRT &&
+									chunk.getBlock(X1, Y1, Z1).getType() != Material.SNOW) && Y1>0; Y1--);
 							if(Y1 > 1) {
 								blockLocation = chunk.getBlock(X, Y1, Z).getLocation();
-
+								if(blockLocation.getBlock().getType() == Material.SNOW) {
+									blockLocation.getBlock().setType(Material.AIR);
+									blockLocation.subtract(0, 1, 0);
+								}
 								if(random.nextInt(100) < 85) {
 									world.generateTree(blockLocation, TreeType.REDWOOD);
 								} else {
@@ -125,6 +158,31 @@ public class TreePopulator extends BlockPopulator {
 					}
 				}
 			}
+		//animals
+		if(random.nextInt(100) < herdChance) {
+			int size = random.nextInt(herdMax-herdMin)+herdMin;
+			EntityType type;
+			switch(random.nextInt(3)) {
+			case 0:
+				type = EntityType.CHICKEN;
+				break;
+			case 1:
+				type = EntityType.COW;
+				break;
+			default:
+				type = EntityType.SHEEP;
+				break;
+			}
+			int X = random.nextInt(16);
+			int Z = random.nextInt(16);
+			if(Main.getBiome(chunk.getX()*16 + X, chunk.getZ()*16 + Z, world.getSeed()).equals("AETHER") || Main.getBiome(chunk.getX()*16 + X, chunk.getZ()*16 + Z, world.getSeed()).equals("AETHER_HIGHLANDS")) {
+				for (int i = 0; i < size; i++) {
+					int Y;
+					for (Y = world.getMaxHeight()-1; chunk.getBlock(X, Y, Z).getType() != Material.GRASS_BLOCK && Y>0; Y--);
+					if(Y > 1) world.spawnEntity(new Location(world, chunk.getX()*16 + X + random.nextInt(3), Y + 1, chunk.getZ()*16 + Z + random.nextInt(3)), type);
+				}
+			}
+		}
 	}
 
 } 

@@ -3,7 +3,11 @@ package com.dfsek.betterEnd;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Biome;
@@ -11,11 +15,9 @@ import org.bukkit.generator.BlockPopulator;
 import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.util.noise.SimplexOctaveGenerator;
 
-import com.dfsek.betterEnd.populators.HerdPopulator;
+import com.dfsek.betterEnd.populators.EnvironmentPopulator;
 import com.dfsek.betterEnd.populators.OrePopulator;
 import com.dfsek.betterEnd.populators.StructurePopulator;
-import com.dfsek.betterEnd.populators.TaigaChangePopulator;
-import com.dfsek.betterEnd.populators.TreePopulator;
 
 public class EndChunkGenerator extends ChunkGenerator {
 	boolean doBiomeGlass = false;
@@ -49,9 +51,10 @@ public class EndChunkGenerator extends ChunkGenerator {
 	int bottomH = main.getConfig().getInt("outer-islands.height-multiplier.bottom", 52);
 	double landPercent = 1-((double) ((main.getConfig().getInt("outer-islands.island-threshold"))/50D));
 
+
 	@SuppressWarnings("deprecation")
 	@Override
-	public ChunkData generateChunkData(World world, Random random, int chunkX, int chunkZ, BiomeGrid biome) {
+	public ChunkData generateChunkData(World world, Random random, int chunkX, int chunkZ, BiomeGrid biome) {		
 		SimplexOctaveGenerator generator = new SimplexOctaveGenerator(world.getSeed(), 4);
 		SimplexOctaveGenerator biomeGenerator = new SimplexOctaveGenerator(world.getSeed(), 4);
 		ChunkData chunk = createChunkData(world);
@@ -62,35 +65,12 @@ public class EndChunkGenerator extends ChunkGenerator {
 					//double biomeNoiseLvl = Main.getBiomeNoise(chunkX*16+X, chunkZ*16+Z, world.getSeed());
 					double biomeNoiseLvl = (allAether) ? 1 : biomeGenerator.noise((double) (chunkX*16+X)/biomeSize, (double) (chunkZ*16+Z)/biomeSize, 0.5D, 0.5D);
 					double heatNoiseLvl = biomeGenerator.noise((double) (chunkX*16+X)/heatNoise, (double) (chunkZ*16+Z)/heatNoise, 0.5D, 0.5D);
+					double totalDistance2D = (chunkX*16+X > 1250 || chunkZ*16+Z > 1250)  ? totalDistance2D = 2000 : Math.sqrt(Math.pow(chunkX*16+X, 2)+Math.pow(chunkZ*16+Z, 2));
+
 					if (biomeNoiseLvl < -0.5) biome.setBiome(X, Z, Biome.END_BARRENS);
 					else if (biomeNoiseLvl < 0) biome.setBiome(X, Z, Biome.SMALL_END_ISLANDS);
 					else if (biomeNoiseLvl < 0.5) biome.setBiome(X, Z, Biome.END_MIDLANDS);
 					else biome.setBiome(X, Z, Biome.END_HIGHLANDS);
-					
-					double totalDistance2D = (chunkX*16+X > 1250 || chunkZ*16+Z > 1250)  ? totalDistance2D = 2000 : Math.sqrt(Math.pow(chunkX*16+X, 2)+Math.pow(chunkZ*16+Z, 2));
-					if(allAether) totalDistance2D = 2000;
-					int height = (int) ((generator.noise((double) (chunkX*16+X)/24, (double) (chunkZ*16+Z)/24, 0.5D, 0.7D)-landPercent))+baseH;
-					int biomeNoise = 0;
-					if(biomeNoiseLvl < 0) {
-						biomeNoise = (int) (biomeNoiseLvl*2.5*(generator.noise((double) (chunkX*16+X)/12, (double) (chunkZ*16+Z)/12, 0.5D, 0.7D)-landPercent));
-						height = (int) (biomeNoiseLvl*4*(generator.noise((double) (chunkX*16+X)/16, (double) (chunkZ*16+Z)/16, 0.5D, 0.7D)-landPercent))+baseH;
-					}
-					int yMin = 255, yMax = 0;
-					double voidM = 1;
-					if(biomeNoiseLvl > 0 && biomeNoiseLvl < 0.25) voidM = -4*biomeNoiseLvl+1;
-					else if(biomeNoiseLvl > 0.25 && biomeNoiseLvl < 0.5) voidM = 0;
-					else if(biomeNoiseLvl > 0.5 && biomeNoiseLvl < 0.625) voidM = 8*biomeNoiseLvl-4;
-					double iNoise = generator.noise((double) (chunkX*16+X)/outNoise, (double) (chunkZ*16+Z)/outNoise, 0.1D, 0.55D);
-					if(totalDistance2D < 1050 && totalDistance2D > 975) {
-						double noiseM = (-Math.pow(1.1, -totalDistance2D+1000))+1;
-						if(noiseM > 1) noiseM = 1;
-						if(noiseM < 0) noiseM = 0;
-						yMin = (int) ((-bottomH*voidM*noiseM*(iNoise-landPercent)+height+biomeNoise)+1);
-						yMax = (int) ((topH*voidM*noiseM*(iNoise-landPercent)+height-biomeNoise));
-					} else if(totalDistance2D > 1050) {
-						yMin = (int) (-bottomH*voidM*(iNoise-landPercent)+height+biomeNoise)+1;
-						yMax = (int) (topH*voidM*(iNoise-landPercent)+height-biomeNoise);
-					}
 					if(biomeNoiseLvl > 0.45 && clouds) {
 						double aetherLvl = -Math.pow(256, -biomeNoiseLvl+0.45)+1;
 						if(aetherLvl < 0) aetherLvl = 0;
@@ -118,6 +98,31 @@ public class EndChunkGenerator extends ChunkGenerator {
 							chunk.setBlock(X, Y, Z, Material.WHITE_STAINED_GLASS);
 						}
 					}
+
+					if(allAether) totalDistance2D = 2000;
+					int height = (int) ((generator.noise((double) (chunkX*16+X)/24, (double) (chunkZ*16+Z)/24, 0.5D, 0.7D)-landPercent))+baseH;
+					int biomeNoise = 0;
+					if(biomeNoiseLvl < 0) {
+						biomeNoise = (int) (biomeNoiseLvl*2.5*(generator.noise((double) (chunkX*16+X)/12, (double) (chunkZ*16+Z)/12, 0.5D, 0.7D)-landPercent));
+						height = (int) (biomeNoiseLvl*4*(generator.noise((double) (chunkX*16+X)/16, (double) (chunkZ*16+Z)/16, 0.5D, 0.7D)-landPercent))+baseH;
+					}
+					int yMin = 255, yMax = 0;
+					double voidM = 1;
+					if(biomeNoiseLvl > 0 && biomeNoiseLvl < 0.25) voidM = -4*biomeNoiseLvl+1;
+					else if(biomeNoiseLvl > 0.25 && biomeNoiseLvl < 0.5) voidM = 0;
+					else if(biomeNoiseLvl > 0.5 && biomeNoiseLvl < 0.625) voidM = 8*biomeNoiseLvl-4;
+					double iNoise = generator.noise((double) (chunkX*16+X)/outNoise, (double) (chunkZ*16+Z)/outNoise, 0.1D, 0.55D);
+					if(totalDistance2D < 1050 && totalDistance2D > 975) {
+						double noiseM = (-Math.pow(1.1, -totalDistance2D+1000))+1;
+						if(noiseM > 1) noiseM = 1;
+						if(noiseM < 0) noiseM = 0;
+						yMin = (int) ((-bottomH*voidM*noiseM*(iNoise-landPercent)+height+biomeNoise)+1);
+						yMax = (int) ((topH*voidM*noiseM*(iNoise-landPercent)+height-biomeNoise));
+					} else if(totalDistance2D > 1050) {
+						yMin = (int) (-bottomH*voidM*(iNoise-landPercent)+height+biomeNoise)+1;
+						yMax = (int) (topH*voidM*(iNoise-landPercent)+height-biomeNoise);
+					}
+
 					for (int Y = yMax; Y > yMin; Y--) {
 						if(Math.abs(generator.noise((double) (chunkX*16+X)/12D, (double) Y/12D, (double) (chunkZ*16+Z)/12D, 0.5D, 0.5D)) < 0.8) {
 							Material upOne = chunk.getBlockData(X, Y+1, Z).getMaterial();
@@ -126,7 +131,7 @@ public class EndChunkGenerator extends ChunkGenerator {
 									if(upOne == Material.AIR) {
 										if(heatNoiseLvl > -0.5) {
 											chunk.setBlock(X, Y, Z, Material.GRASS_BLOCK);
-										} else {
+										} else {											
 											int type = random.nextInt(100);
 											if(type < (-2*(heatNoiseLvl+0.5)*40)) {
 												chunk.setBlock(X, Y, Z, Material.PODZOL);
@@ -136,7 +141,9 @@ public class EndChunkGenerator extends ChunkGenerator {
 												chunk.setBlock(X, Y, Z, Material.COARSE_DIRT);
 											} else chunk.setBlock(X, Y, Z, Material.GRASS_BLOCK);
 										}
-										if(random.nextInt(100) < 40 && chunk.getBlockData(X, Y, Z).getMaterial() == Material.GRASS_BLOCK) {
+										if(heatNoiseLvl < -0.5 && random.nextInt(100) < -75*(heatNoiseLvl+0.5) && chunk.getBlockData(X, Y, Z).getMaterial() != Material.AIR) {
+											chunk.setBlock(X, Y+1, Z, Material.SNOW);
+										} else if(random.nextInt(100) < 40 && chunk.getBlockData(X, Y, Z).getMaterial() == Material.GRASS_BLOCK) {
 											Material plant = chooseOnWeight(plants, weight);
 											if(plant != Material.TALL_GRASS) {
 												chunk.setBlock(X, Y+1, Z, plant);
@@ -292,9 +299,15 @@ public class EndChunkGenerator extends ChunkGenerator {
 	public boolean shouldGenerateDecorations() {
 		return true;
 	}
+	public boolean shouldGenerateMobs() {
+		return false;
+	}
+	public boolean shouldGenerateCaves() {
+		return false;
+	}
 	@Override
 	public List<BlockPopulator> getDefaultPopulators(World world) {
-		return Arrays.asList((BlockPopulator) new StructurePopulator(), new TreePopulator(), new OrePopulator(), new HerdPopulator(), new TaigaChangePopulator());
+		return Arrays.asList((BlockPopulator) new StructurePopulator(), new EnvironmentPopulator(), new OrePopulator());
 	}
 
 }

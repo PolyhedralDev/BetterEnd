@@ -25,7 +25,7 @@ public class NMSStructure {
 	private Location origin;
 	private int rotation = 0;
 	private String name;
-	private int permutation;
+	private int permutation = 0;
 	/**
 	 * Load a structure from a packaged NBT structure file.
 	 * @param name - The structure name
@@ -47,6 +47,20 @@ public class NMSStructure {
 		this.origin = origin;
 		this.name = name;
 		this.permutation = permutation;
+	}
+	
+	public NMSStructure(Location origin, String name) {
+		DefinedStructure structure = new DefinedStructure();
+		try {
+			structure.b(NBTCompressedStreamTools.a(main.getResource("struc/" + name + ".nbt"))); //Load structure from packaged NBT file in /struc/*/*.nbt
+		} catch (NullPointerException | IOException e) {
+			throw new IllegalArgumentException("Structure with name \"" + name + "\" could not be found.");
+		}
+		NBTTagCompound tag = structure.a(new NBTTagCompound());
+        this.dimension = new int[] {tag.getList("size", 3).e(0), tag.getList("size", 3).e(1), tag.getList("size", 3).e(2)};
+		this.structure = structure;
+		this.origin = origin;
+		this.name = name;
 	}
 
 	/**
