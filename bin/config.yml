@@ -1,0 +1,126 @@
+#BetterEnd Generator Configuration
+
+#Do not change this value. It tells the plugin whether or not to update the config.
+config-version: 0
+
+#Update Checker settings
+update-checker:
+  #Enable/Disable the Update Checker
+  enable: true
+  #Frequency at which updates are checked for (in seconds)
+  frequency: 3600
+
+#When enabled, the entire world will be an Aether biome. 
+#Keep in mind that this prevents the Main Island from generating.
+all-aether: false
+
+#Weights of structures, used in random selections.
+#When a structure spawn candidate location is chosen, a structure is randomly selected from a list, 
+#based on its weight. The probability of any one structure being chosen is:
+#(Structure Weight) / (Total Weight)
+#The default weights are out of 100, but they can add up to any number. If they add to 100, the weight
+#is equal to the percent chance of that structure being chosen.
+structure-weight:
+  #Structures that generate in the End, Shattered End, and Void biomes
+  end:
+    stronghold: 30
+    end_house: 32
+    shulker_nest: 32
+    end_ship: 6
+  #Structures that generate in the Aether biome
+  aether:
+    gold_dungeon: 2
+    cobble_house: 49
+    wood_house: 49
+
+#Configuration options for the Outer End Islands
+outer-islands:
+  #Structure options
+  structures:
+    #The percent chance that a structure will attempt to generate in a chunk.
+    chance-per-chunk: 6
+    #Options for the Shulker Nest structure
+    shulker-nest:
+      #Number of attempts made to spawn Shulkers after generation
+      shulker-spawn-attempts: 8
+  #Ruin options
+  ruins:
+    #The percent chance that a ruin will attempt to generate in a chunk.
+    chance-per-chunk: 30
+  #This value sets island size; larger values generate larger islands.
+  noise: 56
+  #The height of islands, on the top and bottom.
+  height-multiplier:
+    #Top height multiplier. Increasing this causes islands to become taller and more round on the top.
+    top: 6
+    #Botom height multiplier. Increasing this causes islands to have taller undersides.
+    bottom: 52
+  #The Y-value of the surface of the island.
+  island-height: 64
+  #The percent of area that will be land. Smaller values generate many disconnected, small islands, while larger
+  #values generate a large landmass with holes in it. Any value over 100 will generate all land.
+  island-threshold: 30
+  #Whether or not to enable End Cave decoration.
+  cave-decoration: true
+  #The average size of the biomes; bigger values correspond to larger biome sizes.
+  biome-size: 1024
+  #The amount of spread of the heat noise (used to calculate Aether/Aether Highlands difference), larger values correspond to
+  #larger, but much farther apart, Aether Highlands biomes.
+  heat-noise: 512
+  #Whether or not to generate Vanilla End Cities. Enabling this is not recommended, as every resource found in End Cities has been
+  #accounted for, and Minecraft has no spawn checking for End Cities, meaning they will generate in the void very frequently.
+  generate-end-cities: false
+
+#Configuration options for the Aether biome.
+aether:
+  #Configuration options for Aether Clouds.
+  clouds:
+    #Whether or not to enable Aether Clouds.
+    enable-clouds: true
+    #The average size of Aether Clouds; larger values correspond to larger clouds.
+    cloud-noise: 36
+    #The height of the first layer of clouds.
+    cloud-height: 128
+  #Configuration options for ore generation.
+  ores:
+    #Whether or not to enable ore generation.
+    enable-ores: true
+    #The number of tries made to generate ores in a chunk. Higher values generate more ores.
+    ore-chance: 20
+  #Whether or not to enable Aether Cave decoration.
+  cave-decoration: true
+  #Configuration options for Aether animals.
+  animals:
+    #The chance that an animal herd will attempt to spawn in a chunk.
+    herd-chance-per-chunk: 15
+    #The minimum size of the herd
+    herd-min-size: 2
+    #The maximum size of the herd
+    herd-max-size: 5
+  #Configuration options for MythicMobs Bosses.
+  mythic-boss:
+    #Whether or not to enable MythicMobs integration.
+    enable: false
+    #The name of the boss spawned in the Gold Dungeon.
+    gold-name: SkeletonKing
+
+#Configuration options for trees.
+trees:
+  #Minimum number of tree generation attempts per chunk.
+  min-per-chunk: 4
+  #Maximum number of tree generation attempts per chunk.
+  max-per-chunk: 7
+  #Configuration options for Obsidian Pillars found in the Shattered End.
+  obsidian-pillars:
+    #Maximum height of the pillars.
+    max-height: 14
+    #Minimum height of the pillars.
+    min-height: 7
+
+#Whether or not to prevent Endermen from picking up blocks.
+#Note that this only applies in the Aether and Aether Highlands biomes.
+#This is useful in preventing Endermen from picking apart the Aether.
+prevent-enderman-block-pickup: true
+
+#Whether or not to enable plugin debugging messages.
+debug: false

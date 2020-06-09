@@ -3,11 +3,6 @@ package com.dfsek.betterEnd;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
-
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Biome;
@@ -30,31 +25,31 @@ public class EndChunkGenerator extends ChunkGenerator {
 			completeWeight += weight;
 		double r = Math.random() * completeWeight;
 		double countWeight = 0.0;
-		for (int i = 0; i < items.length; i++) {
+		for (int i = 0; i < items.length; i++) { 
 			countWeight += weights[i];
 			if (countWeight >= r)
 				return items[i];
 		}
 		return null;
 	}
-	int outNoise = main.getConfig().getInt("outer-islands.noise");
-	boolean clouds = main.getConfig().getBoolean("aether.clouds.enable-clouds");
-	boolean aetherCaveDec = main.getConfig().getBoolean("aether.cave-decoration");
-	boolean endCaveDec = main.getConfig().getBoolean("outer-islands.cave-decoration");
+	int outNoise = main.getConfig().getInt("outer-islands.noise", 56);
+	boolean clouds = main.getConfig().getBoolean("aether.clouds.enable-clouds", true);
+	boolean aetherCaveDec = main.getConfig().getBoolean("aether.cave-decoration", true);
+	boolean endCaveDec = main.getConfig().getBoolean("outer-islands.cave-decoration", true);
 	boolean allAether = main.getConfig().getBoolean("all-aether", false);
-	int cloudNoise = main.getConfig().getInt("aether.clouds.cloud-noise");
-	int cloudHeight = main.getConfig().getInt("aether.clouds.cloud-height");
-	int baseH = main.getConfig().getInt("outer-islands.island-height");
-	int biomeSize = main.getConfig().getInt("outer-islands.biome-size");
-	int heatNoise = main.getConfig().getInt("outer-islands.heat-noise");
+	int cloudNoise = main.getConfig().getInt("aether.clouds.cloud-noise", 36);
+	int cloudHeight = main.getConfig().getInt("aether.clouds.cloud-height", 128);
+	int baseH = main.getConfig().getInt("outer-islands.island-height", 64);
+	int biomeSize = main.getConfig().getInt("outer-islands.biome-size", 1024);
+	int heatNoise = main.getConfig().getInt("outer-islands.heat-noise", 512);
 	int topH = main.getConfig().getInt("outer-islands.height-multiplier.top", 6);
 	int bottomH = main.getConfig().getInt("outer-islands.height-multiplier.bottom", 52);
-	double landPercent = 1-((double) ((main.getConfig().getInt("outer-islands.island-threshold"))/50D));
+	double landPercent = 1-((double) ((main.getConfig().getInt("outer-islands.island-threshold", 30))/50D));
 
 
 	@SuppressWarnings("deprecation")
 	@Override
-	public ChunkData generateChunkData(World world, Random random, int chunkX, int chunkZ, BiomeGrid biome) {		
+	public ChunkData generateChunkData(World world, Random random, int chunkX, int chunkZ, BiomeGrid biome) {
 		SimplexOctaveGenerator generator = new SimplexOctaveGenerator(world.getSeed(), 4);
 		SimplexOctaveGenerator biomeGenerator = new SimplexOctaveGenerator(world.getSeed(), 4);
 		ChunkData chunk = createChunkData(world);

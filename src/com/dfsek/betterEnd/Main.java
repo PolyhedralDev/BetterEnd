@@ -14,19 +14,24 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityChangeBlockEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.util.StringUtil;
 import org.bukkit.util.noise.SimplexOctaveGenerator;
 
 import com.dfsek.betterEnd.UpdateChecker.UpdateReason;
 import io.lumine.xikage.mythicmobs.MythicMobs;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.File;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 public class Main extends JavaPlugin implements Listener {	
 	public FileConfiguration config = this.getConfig();
@@ -36,55 +41,29 @@ public class Main extends JavaPlugin implements Listener {
 	public void onEnable() {	
 		instance = this;
 		Logger logger = this.getLogger();
-		new MetricsLite(this, 7709);
-
+		
+		Metrics metrics = new Metrics(this, 7709);
+        metrics.addCustomChart(new Metrics.SimplePie("premium", () -> isPremium() ? "Yes" : "No"));
+        
 		this.getServer().getPluginManager().registerEvents(this, this);
-		
-		config.addDefault("structure-weight.end.stronghold", 30);
-		config.addDefault("structure-weight.end.end_house", 35);
-		config.addDefault("structure-weight.end.shulker_nest", 35);
-		
-		config.addDefault("structure-weight.aether.gold_dungeon", 2);
-		config.addDefault("structure-weight.aether.cobble_house", 49);
-		config.addDefault("structure-weight.aether.wood_house", 49);
-		
-		
-		config.addDefault("all-aether", false);
-		config.addDefault("update-checker.enable", true);
-		config.addDefault("update-checker.frequency", 3600);
-		config.addDefault("outer-islands.structures.chance-per-chunk", 5);
-		config.addDefault("outer-islands.structures.shulker-nest.shulker-spawn-attempts", 8);
-		config.addDefault("outer-islands.ruins.chance-per-chunk", 30);
-		config.addDefault("outer-islands.noise", 56);
-		config.addDefault("outer-islands.height-multiplier.top", 6);
-		config.addDefault("outer-islands.height-multiplier.bottom", 52);
-		config.addDefault("outer-islands.island-height", 64);
-		config.addDefault("outer-islands.island-threshold", 30);
-		config.addDefault("aether.clouds.enable-clouds", true);
-		config.addDefault("aether.clouds.cloud-noise", 36);
-		config.addDefault("aether.ores.enable-ores", true);
-		config.addDefault("aether.ores.ore-chance", 20);
-		config.addDefault("aether.cave-decoration", true);
-		config.addDefault("outer-islands.cave-decoration", true);
-		config.addDefault("aether.clouds.cloud-height", 128);
-		config.addDefault("aether.animals.herd-chance-per-chunk", 15);
-		config.addDefault("aether.animals.herd-min-size", 2);
-		config.addDefault("aether.animals.herd-max-size", 5);
-		config.addDefault("aether.tree-multiplier", 4);
-		config.addDefault("aether.mythic-boss.enable", false);
-		config.addDefault("aether.mythic-boss.gold-name", "SkeletonKing");
-		config.addDefault("outer-islands.biome-size", 1024);
-		config.addDefault("outer-islands.heat-noise", 512);
-		config.addDefault("trees.min-per-chunk", 4);
-		config.addDefault("trees.max-per-chunk", 7);
-		config.addDefault("trees.obsidian-pillars.max-height", 14);
-		config.addDefault("trees.obsidian-pillars.min-height", 7);
-		config.addDefault("outer-islands.generate-end-cities", false);
-		config.addDefault("prevent-enderman-block-pickup", true);
-		config.addDefault("debug", false);
-		config.options().copyDefaults(true);
-		saveConfig();
 
+		try {
+			File configFile = new File(getDataFolder() + File.separator + "config.yml");
+			if(!configFile.exists()) {
+				configFile.getParentFile().mkdirs();
+				FileOutputStream writer = new FileOutputStream(configFile);
+				InputStream out = this.getResource("config.yml");
+				byte[] linebuffer = new byte[4096];
+				int lineLength = 0;
+				while((lineLength = out.read(linebuffer)) > 0)
+				{
+					writer.write(linebuffer, 0, lineLength);
+				}
+				writer.close();
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		logger.info(" ");
 		logger.info(" ");
 		logger.info("|---------------------------------------------------------------------------------|");
@@ -94,46 +73,41 @@ public class Main extends JavaPlugin implements Listener {
 		logger.info("|---------------------------------------------------------------------------------|");
 		logger.info(" ");
 		logger.info(" ");
-		
+
 		int sec = config.getInt("update-checker.frequency", 3600);
 		if(config.getBoolean("update-checker.enable", true)) {
 			getServer().getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
 				@Override
 				public void run() {
-					UpdateChecker.init(instance, 79389).requestUpdateCheck().whenComplete((result, exception) -> {
-						if (result.requiresUpdate()) {
-							instance.getLogger().info(String.format("A new version of BetterEnd is available: %s ", result.getNewestVersion()));
-							return;
-						}
-
-						UpdateReason reason = result.getReason();
-						if (reason == UpdateReason.UP_TO_DATE) {
-							instance.getLogger().info(String.format("Your version of BetterEnd (%s) is up to date!", result.getNewestVersion()));
-						} else if (reason == UpdateReason.UNRELEASED_VERSION) {
-							instance.getLogger().info(String.format("Your version of BetterEnd (%s) is more recent than the one publicly available.", result.getNewestVersion()));
-						} else {
-							instance.getLogger().warning("An error occurred while checking for an update. Reason: " + reason);//Occurred
-						}
-					});
+					checkUpdates();
 				}
 			}, 20L * sec, 20L * sec);
-			UpdateChecker.init(instance, 79389).requestUpdateCheck().whenComplete((result, exception) -> {
-				if (result.requiresUpdate()) {
-					instance.getLogger().info(String.format("A new version of BetterEnd is available: %s ", result.getNewestVersion()));
-					return;
-				}
-
-				UpdateReason reason = result.getReason();
-				if (reason == UpdateReason.UP_TO_DATE) {
-					instance.getLogger().info(String.format("Your version of BetterEnd (%s) is up to date!", result.getNewestVersion()));
-				} else if (reason == UpdateReason.UNRELEASED_VERSION) {
-					instance.getLogger().info(String.format("Your version of BetterEnd (%s) is more recent than the one publicly available.", result.getNewestVersion()));
-				} else {
-					instance.getLogger().warning("An error occurred while checking for an update. Reason: " + reason);//Occurred
-				}
-			});
+			
 		}
+		getServer().getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
+			@Override
+			public void run() {
+				checkUpdates();
+			}
+		}, 100);
 
+	}
+	public void checkUpdates() {
+		UpdateChecker.init(instance, 79389).requestUpdateCheck().whenComplete((result, exception) -> {
+			if (result.requiresUpdate()) {
+				instance.getLogger().info(String.format("A new version of BetterEnd is available: %s ", result.getNewestVersion()));
+				return;
+			}
+
+			UpdateReason reason = result.getReason();
+			if (reason == UpdateReason.UP_TO_DATE) {
+				instance.getLogger().info(String.format("Your version of BetterEnd (%s) is up to date!", result.getNewestVersion()));
+			} else if (reason == UpdateReason.UNRELEASED_VERSION) {
+				instance.getLogger().info(String.format("Your version of BetterEnd (%s) is more recent than the one publicly available.", result.getNewestVersion()));
+			} else {
+				instance.getLogger().warning("An error occurred while checking for an update. Reason: " + reason);//Occurred
+			}
+		});
 	}
 	@Override
 	public void onDisable() {
@@ -145,12 +119,17 @@ public class Main extends JavaPlugin implements Listener {
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		if (args.length == 1 && args[0].equalsIgnoreCase("biome")) {
 			if (!(sender instanceof Player)) {
-				sender.sendMessage("This command is for players only!");
+				sender.sendMessage(ChatColor.DARK_AQUA + "[BetterEnd] " + ChatColor.AQUA + "This command is for players only!");
 				return true;
 			}
 			Player p = (Player) sender;
 			if (sender.hasPermission("betterend.checkbiome")) {
-				sender.sendMessage("[BetterEnd] You are standing in \"" + getBiome(p.getLocation().getBlockX(), p.getLocation().getBlockZ(), p.getLocation().getWorld().getSeed()) + "\"");
+				try {
+				if(p.getWorld().getGenerator().getClass().equals(new EndChunkGenerator().getClass())) sender.sendMessage(ChatColor.DARK_AQUA + "[BetterEnd] " + ChatColor.AQUA + "You are standing in \"" + ChatColor.DARK_AQUA + getBiome(p.getLocation().getBlockX(), p.getLocation().getBlockZ(), p.getLocation().getWorld().getSeed()) + "\"");
+				else sender.sendMessage(ChatColor.DARK_AQUA +  "[BetterEnd] " + ChatColor.RED + "This world is not a BetterEnd world!");
+				} catch (NullPointerException e) {
+					sender.sendMessage(ChatColor.DARK_AQUA +  "[BetterEnd] " + ChatColor.RED + "This world is not a BetterEnd world!");
+				}
 				return true;
 			} else {
 				sender.sendMessage(ChatColor.RED + "You do not have permission for this command.");
@@ -158,54 +137,27 @@ public class Main extends JavaPlugin implements Listener {
 			}
 		} else if (args.length == 2 && args[0].equalsIgnoreCase("tpbiome")) {
 			if (!(sender instanceof Player)) {
-				sender.sendMessage("This command is for players only!");
+				sender.sendMessage(ChatColor.DARK_AQUA + "[BetterEnd] " + ChatColor.AQUA + "This command is for players only!");
 				return true;
 			}
 			Player p = (Player) sender;
-			if (sender.hasPermission("betterend.gotobiome")) {
-				if(args[1].equalsIgnoreCase("END") || args[1].equalsIgnoreCase("SHATTERED_END") || args[1].equalsIgnoreCase("VOID") || args[1].equalsIgnoreCase("AETHER") || args[1].equalsIgnoreCase("AETHER_HIGHLANDS")) {
-					sender.sendMessage("[BetterEnd] Locating biome \"" + args[1] + "\"");
-					boolean foundBiome = false;
-					int tries = 0;
-					Location candidate = p.getLocation();
-					while(foundBiome == false && tries < 10000) {
-						Location candidateN = candidate.add(tries,0,0);
-						if(getBiome(candidateN.getBlockX(), candidateN.getBlockZ(), p.getWorld().getSeed()).equalsIgnoreCase(args[1]) && Math.sqrt(Math.pow(candidateN.getBlockX(), 2) + Math.pow(candidateN.getBlockZ(), 2)) > 1000) {
-							sender.sendMessage("[BetterEnd] Teleporting...");
-							p.teleport(candidateN);
-							foundBiome = true;
-							return true;
-						}
-						candidateN = candidate.add(-tries,0,0);
-						if(getBiome(candidateN.getBlockX(), candidateN.getBlockZ(), p.getWorld().getSeed()).equalsIgnoreCase(args[1]) && Math.sqrt(Math.pow(candidateN.getBlockX(), 2) + Math.pow(candidateN.getBlockZ(), 2)) > 1000) {
-							sender.sendMessage("[BetterEnd] Teleporting...");
-							p.teleport(candidateN);
-							foundBiome = true;
-							return true;
-						}
-						candidateN = candidate.add(0,0,tries);
-						if(getBiome(candidateN.getBlockX(), candidateN.getBlockZ(), p.getWorld().getSeed()).equalsIgnoreCase(args[1]) && Math.sqrt(Math.pow(candidateN.getBlockX(), 2) + Math.pow(candidateN.getBlockZ(), 2)) > 1000) {
-							sender.sendMessage("[BetterEnd] Teleporting...");
-							p.teleport(candidateN);
-							foundBiome = true;
-							return true;
-						}
-						candidateN = candidate.add(0,0,-tries);
-						if(getBiome(candidateN.getBlockX(), candidateN.getBlockZ(), p.getWorld().getSeed()).equalsIgnoreCase(args[1]) && Math.sqrt(Math.pow(candidateN.getBlockX(), 2) + Math.pow(candidateN.getBlockZ(), 2)) > 1000) {
-							sender.sendMessage("[BetterEnd] Teleporting...");
-							p.teleport(candidateN);
-							foundBiome = true;
-							return true;
-						}
-						tries++;
-					}
-					sender.sendMessage("[BetterEnd] Unable to locate biome.");
-					return true;
-				} else return false;
+			if (p.hasPermission("betterend.gotobiome")) {
+				try {
+					if(p.getWorld().getGenerator().getClass().equals(new EndChunkGenerator().getClass())) return tpBiome(p, args);
+					else sender.sendMessage(ChatColor.DARK_AQUA +  "[BetterEnd] " + ChatColor.RED + "This world is not a BetterEnd world!");
+				} catch (NullPointerException e) {
+					sender.sendMessage(ChatColor.DARK_AQUA +  "[BetterEnd] " + ChatColor.RED + "This world is not a BetterEnd world!");
+				}
+				return true;
 			} else {
-				sender.sendMessage(ChatColor.RED + "You do not have permission for this command.");
+				sender.sendMessage(ChatColor.DARK_AQUA +  "[BetterEnd] " + ChatColor.RED + "You do not have permission for this command.");
 				return true;
 			}
+		} else if (args.length == 0) {
+			sender.sendMessage(ChatColor.RED + "You do not have permission for this command.");
+		} else if (args.length == 1 && args[0].equalsIgnoreCase("version")) {
+			sender.sendMessage(ChatColor.DARK_AQUA + "[BetterEnd]" + ChatColor.AQUA + " This server is running " + ChatColor.DARK_AQUA + "BetterEnd v" + this.getDescription().getVersion());
+			return true;
 		}
 		return false;
 	} 
@@ -214,7 +166,21 @@ public class Main extends JavaPlugin implements Listener {
 	private static final List<String> BIOMES = Arrays.asList("AETHER", "END", "SHATTERED_END", "OBSIDIAN_FOREST", "AETHER_HIGHLANDS");
 	@Override
 	public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
-		return (args.length == 1) ? StringUtil.copyPartialMatches(args[0], COMMANDS, new ArrayList<>()) : StringUtil.copyPartialMatches(args[0], BIOMES, new ArrayList<>());
+		List<String> argList = new ArrayList<>();
+		if (args.length == 1) {
+			argList.addAll(COMMANDS);
+			return argList.stream().filter(a -> a.startsWith(args[0])).collect(Collectors.toList());
+		}
+		if (args.length == 2) {
+			switch(args[0]) {
+			case "tpbiome":
+				argList.addAll(BIOMES);
+				return argList.stream().filter(a -> a.startsWith(args[1].toUpperCase())).collect(Collectors.toList());
+			}
+
+		}
+
+		return null; // returns an empty list
 	}
 	public static String getBiome(int X, int Z, long l) {
 		SimplexOctaveGenerator biomeGenerator = new SimplexOctaveGenerator(l, 4);
@@ -241,10 +207,26 @@ public class Main extends JavaPlugin implements Listener {
 	}
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void onEntityPickup(EntityChangeBlockEvent event) {
-		if(event.getEntity() instanceof Enderman && config.getBoolean("prevent-enderman-block-pickup")) {
-			event.setCancelled(true);
+		if(event.getEntity() instanceof Enderman && config.getBoolean("prevent-enderman-block-pickup", true)) {
+			if(event.getEntity().getWorld().getGenerator().getClass().equals(new EndChunkGenerator().getClass()) && getBiomeNoise(event.getEntity().getLocation().getBlockX(), event.getEntity().getLocation().getBlockZ(), event.getEntity().getWorld().getSeed()) > 0.5) {
+				event.setCancelled(true);
+			}
 		}
 	}
+	public static boolean isPremium() {
+		return false;
+	}
+	@EventHandler
+	public void onPlayerJoin(PlayerJoinEvent e){
+		if(!isPremium()) getServer().getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
+			@Override
+			public void run() {
+				if(e.getPlayer().isOp()) e.getPlayer().sendMessage(new String[] {ChatColor.AQUA + "You're running the free version of BetterEnd. To get the premium version and change/remove this message, follow the instructions here:" + ChatColor.UNDERLINE + "https://github.com/dfsek/BetterEnd-Public/wiki/Premium", ChatColor.GRAY + "The above message is only sent to Operators. The message below is sent to all players:"});
+				e.getPlayer().sendMessage(new String[] {ChatColor.AQUA + "This server runs " + ChatColor.DARK_AQUA + "BetterEnd!", ChatColor.AQUA + "For more information, type /be, or visit the Wiki: " + ChatColor.UNDERLINE + "https://github.com/dfsek/BetterEnd-Public/wiki"});
+			}
+		}, 80);
+	}
+
 	@EventHandler (ignoreCancelled=true)
 	public void onInventoryOpenEvent(InventoryOpenEvent event) {
 		if(config.getBoolean("aether.mythic-boss.enable", false)) {
@@ -284,11 +266,52 @@ public class Main extends JavaPlugin implements Listener {
 						this.getLogger().warning("Failed to spawn Mythic Boss. Is MythicMobs installed?");
 					}
 					//chest.getWorld().spawnEntity(spawn, EntityType.ZOMBIE);
-											
+
 				}
 				chest.getPersistentDataContainer().remove(key);
 				chest.update();
 			}
 		}
+	}
+	public boolean tpBiome(Player p, String[] args) {
+		if(args[1].equalsIgnoreCase("END") || args[1].equalsIgnoreCase("SHATTERED_END") || args[1].equalsIgnoreCase("VOID") || args[1].equalsIgnoreCase("AETHER") || args[1].equalsIgnoreCase("AETHER_HIGHLANDS")) {
+			p.sendMessage(ChatColor.DARK_AQUA + "[BetterEnd]" + ChatColor.AQUA + " Locating biome \"" + ChatColor.DARK_AQUA + args[1] + ChatColor.AQUA +  "\"");
+			boolean foundBiome = false;
+			int tries = 0;
+			Location candidate = p.getLocation();
+			while(foundBiome == false && tries < 10000) {
+				Location candidateN = candidate.add(tries,0,0);
+				if(getBiome(candidateN.getBlockX(), candidateN.getBlockZ(), p.getWorld().getSeed()).equalsIgnoreCase(args[1]) && Math.sqrt(Math.pow(candidateN.getBlockX(), 2) + Math.pow(candidateN.getBlockZ(), 2)) > 1000) {
+					p.sendMessage(ChatColor.DARK_AQUA + "[BetterEnd] " + ChatColor.AQUA + "Teleporting...");
+					p.teleport(candidateN);
+					foundBiome = true;
+					return true;
+				}
+				candidateN = candidate.add(-tries,0,0);
+				if(getBiome(candidateN.getBlockX(), candidateN.getBlockZ(), p.getWorld().getSeed()).equalsIgnoreCase(args[1]) && Math.sqrt(Math.pow(candidateN.getBlockX(), 2) + Math.pow(candidateN.getBlockZ(), 2)) > 1000) {
+					p.sendMessage(ChatColor.DARK_AQUA + "[BetterEnd] " + ChatColor.AQUA + "Teleporting...");
+					p.teleport(candidateN);
+					foundBiome = true;
+					return true;
+				}
+				candidateN = candidate.add(0,0,tries);
+				if(getBiome(candidateN.getBlockX(), candidateN.getBlockZ(), p.getWorld().getSeed()).equalsIgnoreCase(args[1]) && Math.sqrt(Math.pow(candidateN.getBlockX(), 2) + Math.pow(candidateN.getBlockZ(), 2)) > 1000) {
+					p.sendMessage(ChatColor.DARK_AQUA + "[BetterEnd] " + ChatColor.AQUA + "Teleporting...");
+					p.teleport(candidateN);
+					foundBiome = true;
+					return true;
+				}
+				candidateN = candidate.add(0,0,-tries);
+				if(getBiome(candidateN.getBlockX(), candidateN.getBlockZ(), p.getWorld().getSeed()).equalsIgnoreCase(args[1]) && Math.sqrt(Math.pow(candidateN.getBlockX(), 2) + Math.pow(candidateN.getBlockZ(), 2)) > 1000) {
+					p.sendMessage(ChatColor.DARK_AQUA + "[BetterEnd] " + ChatColor.AQUA + "Teleporting...");
+					p.teleport(candidateN);
+					foundBiome = true;
+					return true;
+				}
+				tries++;
+			}
+			p.sendMessage("[BetterEnd] Unable to locate biome.");
+			return true;
+		} else return false;
 	}
 }

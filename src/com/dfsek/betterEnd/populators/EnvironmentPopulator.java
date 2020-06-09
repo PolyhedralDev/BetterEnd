@@ -11,6 +11,8 @@ import org.bukkit.block.Biome;
 import org.bukkit.entity.EnderCrystal;
 import org.bukkit.entity.EntityType;
 import org.bukkit.generator.BlockPopulator;
+import org.bukkit.util.BlockVector;
+import org.bukkit.util.Vector;
 import org.bukkit.util.noise.SimplexOctaveGenerator;
 
 import com.dfsek.betterEnd.Main;
@@ -183,6 +185,88 @@ public class EnvironmentPopulator extends BlockPopulator {
 				}
 			}
 		}
+		if(chunk.getX() == 0 && chunk.getZ() == 0) {
+			doTreeAt(new Location(world, 100,72,0), 3, random, 30, 2);
+			
+		}
+	}
+	void doTreeAt(Location start, double startR, Random random, int length, double change) {
+		Vector initV = new Vector(0,1,0);
+		int branchFreq = random.nextInt(5)+1;
+		
+		for(int i = 0; i < length; i++) {
+			start.add(initV);
+			for (int x = (int) -startR; x <= startR; x++) {
+	            for (int y = (int) -startR; y <= startR; y++) {
+	                for (int z = (int) -startR; z <= startR; z++) {
+	                    Vector position = start.toVector().clone().add(new Vector(x, y, z));
+
+	                    if (start.toVector().distance(position) <= startR + 0.5) {
+	                        position.toLocation(start.getWorld()).getBlock().setType(random.nextBoolean() ? Material.OBSIDIAN : Material.BLACK_CONCRETE);
+	                    }
+	                }
+	            }
+	        }
+			initV.setX(initV.getX() + (random.nextFloat()-0.5)/change);
+			if(initV.getX() > 0.5) initV.setX(0.5);
+			if(initV.getX() < -0.5) initV.setX(-0.5);
+			initV.setY(initV.getY() + (random.nextFloat()-0.5)/(change*3));
+			if(initV.getY() > 1) initV.setY(1);
+			if(initV.getY() < 0) initV.setY(0);
+			initV.setZ(initV.getY() + (random.nextFloat()-0.5)/change);
+			if(initV.getZ() > 0.5) initV.setZ(0.5);
+			if(initV.getZ() < -0.5) initV.setZ(-0.5);
+			startR = startR - 0.075;
+			int branches = random.nextInt(2)+1;
+			if(i % 4 == 0 && i > length/4) for(int j = 0; j < branches; j++) doBranchAt(start.clone(), startR, random, random.nextInt(20)+10, 4, initV.clone());
+		}
+	}
+	void doBranchAt(Location start, double startR, Random random, int length, double change, Vector startV) {
+		int ogStart = (int) startR;
+		Vector initV = getPerpendicular(startV.clone()).rotateAroundAxis(startV, random.nextInt(360)).setY(0).multiply(2);
+		for(int i = 0; i < length; i++) {
+			doSphereAtLoc(start.add(initV), (int) startR, random);
+			initV.setX(initV.getX() + (random.nextFloat()-0.5)/change);
+			if(initV.getX() > 1) initV.setX(1);
+			if(initV.getX() < -1) initV.setX(-1);
+			initV.setY(initV.getY() + (random.nextFloat()-0.5)/change);
+			if(initV.getY() > 1) initV.setY(1);
+			if(initV.getY() < -1) initV.setY(-1);
+			initV.setZ(initV.getY() + (random.nextFloat()-0.5)/change);
+			if(initV.getZ() > 1) initV.setZ(1);
+			if(initV.getZ() < -1) initV.setZ(-1);
+			startR = startR - 0.1;
+		}
+		int radius = random.nextInt(ogStart+1)+1;
+		for (int x = -radius; x <= radius; x++) {
+            for (int y = -radius; y <= radius; y++) {
+                for (int z = -radius; z <= radius; z++) {
+                    Vector position = start.toVector().clone().add(new Vector(x, y, z));
+                    if (start.toVector().distance(position) <= radius + 0.5) {
+                        if(position.toLocation(start.getWorld()).getBlock().isEmpty()) position.toLocation(start.getWorld()).getBlock().setType(random.nextBoolean() ? Material.MAGENTA_STAINED_GLASS : Material.PURPLE_STAINED_GLASS);
+                    }
+                }
+            }
+        }
+	}
+	void doSphereAtLoc(Location l, int radius, Random random) {
+		for (int x = -radius; x <= radius; x++) {
+            for (int y = -radius; y <= radius; y++) {
+                for (int z = -radius; z <= radius; z++) {
+                    Vector position = l.toVector().clone().add(new Vector(x, y, z));
+
+                    if (l.toVector().distance(position) <= radius + 0.5) {
+                    	if(position.toLocation(l.getWorld()).getBlock().isEmpty()) position.toLocation(l.getWorld()).getBlock().setType(random.nextBoolean() ? Material.OBSIDIAN : Material.BLACK_CONCRETE);
+                    }
+                }
+            }
+        }
+	}
+	Vector getPerpendicular(Vector v) {
+	    if(v.getY() == 0 && v.getZ() == 0)
+	        if(v.getX() == 0) throw new IllegalArgumentException("Zero Vector");
+	        else return v.crossProduct(new Vector(0,1,0));
+	    return v.crossProduct(new Vector(1,0,0));
 	}
 
 } 

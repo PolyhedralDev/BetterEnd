@@ -28,11 +28,11 @@ import com.dfsek.betterEnd.structures.NMSStructure;
 public class StructurePopulator extends BlockPopulator {
 	static Main main = Main.getInstance();
 	FileConfiguration config = main.getConfig();
-	int shulkerSpawns = config.getInt("outer-islands.structures.shulker-nest.shulker-spawn-attempts");
+	int shulkerSpawns = config.getInt("outer-islands.structures.shulker-nest.shulker-spawn-attempts", 8);
 	boolean allAether = config.getBoolean("all-aether", false);
-	int structureChance = config.getInt("outer-islands.structures.chance-per-chunk");
-	int ruinChance = config.getInt("outer-islands.ruins.chance-per-chunk");
-	int cloudHeight = config.getInt("aether.clouds.cloud-height");
+	int structureChance = config.getInt("outer-islands.structures.chance-per-chunk", 6);
+	int ruinChance = config.getInt("outer-islands.ruins.chance-per-chunk", 30);
+	int cloudHeight = config.getInt("aether.clouds.cloud-height", 128);
 
 	private void generateFortress(Location origin) {
 		new NMSStructure(origin, "end_fortress/end_fortress_b_cross_0").paste();
@@ -60,10 +60,11 @@ public class StructurePopulator extends BlockPopulator {
 		int permutation = 0;
 		boolean ground = false;
 		boolean overrideSpawnCheck = false;
+		int offset = 0;
 		String biome = Main.getBiome(chunk.getX()*16+X, chunk.getZ()*16+Z, world.getSeed());
 		if(biome.equals("AETHER") || biome.equals("AETHER_HIGHLANDS")) {
 			if(random.nextInt(100) < structureChance) {
-				int[] weights = {config.getInt("structure-weight.aether.gold_dungeon"), config.getInt("structure-weight.aether.cobble_house"), config.getInt("structure-weight.aether.wood_house")};
+				int[] weights = {config.getInt("structure-weight.aether.gold_dungeon", 2), config.getInt("structure-weight.aether.cobble_house", 49), config.getInt("structure-weight.aether.wood_house", 49)};
 				String structureName = chooseOnWeight(new String[] {"gold_dungeon", "cobble_house", "wood_house"}, weights);
 
 				switch(structureName) {
@@ -71,7 +72,7 @@ public class StructurePopulator extends BlockPopulator {
 					permutation = random.nextInt(5);
 					break;
 				case "wood_house":
-					Y--;
+					offset = -1;
 					permutation = random.nextInt(4);
 					break;
 				case "gold_dungeon":
@@ -86,13 +87,13 @@ public class StructurePopulator extends BlockPopulator {
 			} else return;
 		} else if(!biome.equals("SHATTERED_END")) {
 			if(random.nextInt(100) < structureChance) {
-				int[] weights = {config.getInt("structure-weight.end.end_house"), config.getInt("structure-weight.end.shulker_nest"), config.getInt("structure-weight.end.stronghold")};
-				String structureName = chooseOnWeight(new String[] {"end_house", "shulker_nest", "stronghold"}, weights);
+				int[] weights = {config.getInt("structure-weight.end.end_house", 32), config.getInt("structure-weight.end.shulker_nest", 32), config.getInt("structure-weight.end.stronghold", 30), config.getInt("structure-weight.end.end_ship", 6)};
+				String structureName = chooseOnWeight(new String[] {"end_house", "shulker_nest", "stronghold", "end_ship"}, weights);
 
 				switch(structureName) {
 				case "end_house":
 					permutation = random.nextInt(3);
-					Y = Y - 4;
+					offset = -4;
 					break;
 				case "shulker_nest":
 					permutation = random.nextInt(2);
@@ -100,8 +101,13 @@ public class StructurePopulator extends BlockPopulator {
 				case "stronghold":
 					ground = true;
 					Y = Y - (random.nextInt(16)+8);
+					break;
+				case "end_ship":
+					overrideSpawnCheck = true;
+					permutation = random.nextInt(2);
+					Y = cloudHeight + (random.nextInt(32)-16);
 				}
-				structure = new NMSStructure(new Location(world, chunk.getX()*16+X, Y, chunk.getZ()*16+Z), structureName, permutation);
+				structure = new NMSStructure(new Location(world, chunk.getX()*16+X, Y-offset, chunk.getZ()*16+Z), structureName, permutation);
 			} else return;
 		} else {
 			if(random.nextInt(100) < structureChance) {
@@ -111,7 +117,7 @@ public class StructurePopulator extends BlockPopulator {
 		structure.setRotation(random.nextInt(4)*90);
 		int[] dimension = structure.getDimensions();
 		Location[] b = structure.getBoundingLocations();
-		if(overrideSpawnCheck || (structure.getName().equals("aether_ruin") ? isValidSpawn(b[0], b[1], false, 0, true) : isValidSpawn(b[0], b[1], ground, structure.getName().equals("wood_house") ? -2 : 1, false))) {
+		if(overrideSpawnCheck || isValidSpawn(b[0], b[1], ground, false, offset)) {
 			structure.paste();
 			List<Location> locationsAll = getLocationListBetween(b[0], b[1]);
 			if(biome.equals("AETHER_HIGHLANDS")) {
@@ -131,7 +137,9 @@ public class StructurePopulator extends BlockPopulator {
 							candidate.getBlock().getType() == Material.MOSSY_STONE_BRICK_STAIRS ||
 							candidate.getBlock().getType() == Material.STONE_BRICK_SLAB ||
 							candidate.getBlock().getType() == Material.STONE_BRICK_STAIRS ||
-							candidate.getBlock().getType() == Material.GLASS_PANE) candidate.getBlock().setType(Material.COBWEB);
+							candidate.getBlock().getType() == Material.GLASS_PANE ||
+							candidate.getBlock().getType() == Material.OAK_SLAB ||
+							candidate.getBlock().getType() == Material.OAK_STAIRS) candidate.getBlock().setType(Material.COBWEB);
 				}
 			}
 			if(structure.getName().contentEquals("shulker_nest")) {
@@ -250,11 +258,11 @@ public class StructurePopulator extends BlockPopulator {
 		}
 		return true;
 	}
-	private boolean isValidSpawn(Location l1, Location l2, boolean underground, int sub, boolean strict) {
+	private boolean isValidSpawn(Location l1, Location l2, boolean underground, boolean strict, int offset) {
 		SimplexOctaveGenerator generator = new SimplexOctaveGenerator(l1.getWorld().getSeed(), 4);
 		int outNoise = main.getConfig().getInt("outer-islands.noise");
 		int lowX = Math.min(l1.getBlockX(), l2.getBlockX());
-		int lowY = Math.min(l1.getBlockY(), l2.getBlockY());
+		int lowY = Math.min(l1.getBlockY(), l2.getBlockY()) - offset;
 		int lowZ = Math.min(l1.getBlockZ(), l2.getBlockZ());
 		List<Location> locs = new ArrayList<>();
 		for(int x = 0; x<= Math.abs(l1.getBlockX() - l2.getBlockX()); x++){
@@ -268,20 +276,20 @@ public class StructurePopulator extends BlockPopulator {
 			}
 		}
 		if(underground) {
-			if (l1.getBlock().isEmpty()) {
+			if (l1.subtract(0, offset, 0).getBlock().isEmpty()) {
 				return false;
 			}
-			if (l2.getBlock().isEmpty()) {
+			if (l2.subtract(0, offset, 0).getBlock().isEmpty()) {
 				return false;
 			}
 			//       l1 = new Location(l1.getWorld(), l1.getBlockX(), l1.getBlockY(), l1.getBlockZ());
-			Location l3 = new Location(l1.getWorld(), l2.getBlockX(), l1.getBlockY(), l1.getBlockZ());
-			Location l4 = new Location(l2.getWorld(), l1.getBlockX(), l2.getBlockY(), l1.getBlockZ());
+			Location l3 = new Location(l1.getWorld(), l2.getBlockX(), l1.getBlockY() - offset, l1.getBlockZ());
+			Location l4 = new Location(l2.getWorld(), l1.getBlockX(), l2.getBlockY() - offset, l1.getBlockZ());
 			//	     l2 = new Location(l2.getWorld(), l2.getBlockX(), l2.getBlockY(), l2.getBlockZ());
-			Location l5 = new Location(l1.getWorld(), l1.getBlockX(), l1.getBlockY(), l2.getBlockZ());
-			Location l6 = new Location(l2.getWorld(), l2.getBlockX(), l1.getBlockY(), l2.getBlockZ());
-			Location l7 = new Location(l1.getWorld(), l1.getBlockX(), l2.getBlockY(), l1.getBlockZ());
-			Location l8 = new Location(l2.getWorld(), l2.getBlockX(), l2.getBlockY(), l1.getBlockZ());
+			Location l5 = new Location(l1.getWorld(), l1.getBlockX(), l1.getBlockY() - offset, l2.getBlockZ());
+			Location l6 = new Location(l2.getWorld(), l2.getBlockX(), l1.getBlockY() - offset, l2.getBlockZ());
+			Location l7 = new Location(l1.getWorld(), l1.getBlockX(), l2.getBlockY() - offset, l1.getBlockZ());
+			Location l8 = new Location(l2.getWorld(), l2.getBlockX(), l2.getBlockY() - offset, l1.getBlockZ());
 			if (l3.getBlock().isEmpty()) {
 				return false;
 			}
@@ -304,7 +312,7 @@ public class StructurePopulator extends BlockPopulator {
 			if(strict) {
 				for(int x = 0; x<= Math.abs(l1.getBlockX() - l2.getBlockX()); x++){
 					for(int z = 0; z<= Math.abs(l1.getBlockZ() - l2.getBlockZ()); z++){
-						Location loc = new Location(l1.getWorld(), Math.min(l1.getBlockX(), l2.getBlockX()) + x, Math.min(l1.getBlockY(), l2.getBlockY()), Math.min(l1.getBlockZ(), l2.getBlockZ()) + z);
+						Location loc = new Location(l1.getWorld(), Math.min(l1.getBlockX(), l2.getBlockX()) + x, Math.min(l1.getBlockY(), l2.getBlockY()) - offset, Math.min(l1.getBlockZ(), l2.getBlockZ()) + z);
 						if(loc.getBlock().getType() != Material.GRASS_BLOCK && 
 								loc.getBlock().getType() != Material.END_STONE && 
 								loc.getBlock().getType() != Material.DIRT && 
@@ -315,10 +323,10 @@ public class StructurePopulator extends BlockPopulator {
 					}
 				}
 			} else {
-				Location l3 = new Location(l1.getWorld(), l1.getX(), Math.min(l1.getBlockY(), l2.getBlockY()), l1.getZ());
-				Location l4 = new Location(l1.getWorld(), l1.getX(), Math.min(l1.getBlockY(), l2.getBlockY()), l2.getZ());
-				Location l5 = new Location(l1.getWorld(), l2.getX(), Math.min(l1.getBlockY(), l2.getBlockY()), l1.getZ());
-				Location l6 = new Location(l1.getWorld(), l2.getX(), Math.min(l1.getBlockY(), l2.getBlockY()), l2.getZ());
+				Location l3 = new Location(l1.getWorld(), l1.getX(), Math.min(l1.getBlockY(), l2.getBlockY()) - offset, l1.getZ());
+				Location l4 = new Location(l1.getWorld(), l1.getX(), Math.min(l1.getBlockY(), l2.getBlockY()) - offset, l2.getZ());
+				Location l5 = new Location(l1.getWorld(), l2.getX(), Math.min(l1.getBlockY(), l2.getBlockY()) - offset, l1.getZ());
+				Location l6 = new Location(l1.getWorld(), l2.getX(), Math.min(l1.getBlockY(), l2.getBlockY()) - offset, l2.getZ());
 
 				
 				if (l3.getBlock().isEmpty()) {
