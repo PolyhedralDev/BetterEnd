@@ -36,7 +36,7 @@ public class StructurePopulator extends BlockPopulator {
 	int structureChance = config.getInt("outer-islands.structures.chance-per-chunk", 6);
 	int ruinChance = config.getInt("outer-islands.ruins.chance-per-chunk", 30);
 	int cloudHeight = config.getInt("aether.clouds.cloud-height", 128);
-	int biomeSize = main.getConfig().getInt("outer-islands.biome-size");
+	int biomeSize = main.getConfig().getInt("outer-islands.biome-size"); 
 	
 	@SuppressWarnings("unused")
 	private void generateFortress(Location origin) {
@@ -61,11 +61,12 @@ public class StructurePopulator extends BlockPopulator {
 				chunk.getBlock(X, Y, Z).getType() != Material.DIRT &&
 				chunk.getBlock(X, Y, Z).getType() != Material.STONE &&
 				chunk.getBlock(X, Y, Z).getType() != Material.COARSE_DIRT) && Y>0; Y--);
-		if(Y < 1) return;
+		String biome = Main.getBiome(chunk.getX()*16+X, chunk.getZ()*16+Z, world.getSeed());
+		if(Y < 1 && !biome.contentEquals("STARFIELD")) return;
 		int permutation = 0;
 		boolean ground = false;
 		boolean overrideSpawnCheck = false;
-		String biome = Main.getBiome(chunk.getX()*16+X, chunk.getZ()*16+Z, world.getSeed());
+		
 		SimplexOctaveGenerator biomeGenerator = new SimplexOctaveGenerator(world.getSeed(), 4);
 		double biomeNoiseLvl = biomeGenerator.noise((double) (chunk.getX()*16+X)/biomeSize, (double) (chunk.getZ()*16+Z)/biomeSize, 0.5D, 0.5D);
 		
@@ -92,7 +93,29 @@ public class StructurePopulator extends BlockPopulator {
 			} else if(random.nextInt(100) < ruinChance) {
 				structure = new NMSStructure(new Location(world, chunk.getX()*16+X, Y, chunk.getZ()*16+Z), "aether_ruin", random.nextInt(18));
 			} else return;
-		} else if(!biome.equals("SHATTERED_END")) {
+		} else if(biome.equals("STARFIELD")) {
+			Y = random.nextInt(world.getMaxHeight()-20)+10;
+			NMSStructure s1 = new NMSStructure(new Location(world, chunk.getX()*16+random.nextInt(16), Y, chunk.getZ()*16+random.nextInt(16)), "void_star", random.nextInt(4));
+			Y = random.nextInt(world.getMaxHeight()-20)+10;
+			if(random.nextInt(100) < 25) {
+				NMSStructure s2 = new NMSStructure(new Location(world, chunk.getX()*16+random.nextInt(16), Y, chunk.getZ()*16+random.nextInt(16)), "void_star", random.nextInt(4));
+				boolean p2 = true;
+				for(Location l : getLocationListBetween(s2.getBoundingLocations()[0], s2.getBoundingLocations()[1])) {
+					if(!l.getBlock().isEmpty()) {
+						p2 = false;
+					}
+				}
+				if(p2) s2.paste();
+			}
+			boolean p1 = true;
+			for(Location l : getLocationListBetween(s1.getBoundingLocations()[0], s1.getBoundingLocations()[1])) {
+				if(!l.getBlock().isEmpty()) {
+					p1 = false;
+				}
+			}
+			if(p1) s1.paste();
+			return;
+		} else if(!(biome.equals("SHATTERED_END") || biome.equals("SHATTERED_FOREST"))) {
 			if(random.nextInt(100) < structureChance) {
 				int[] weights = {config.getInt("structure-weight.end.end_house", 32), config.getInt("structure-weight.end.shulker_nest", 32), config.getInt("structure-weight.end.stronghold", 30), config.getInt("structure-weight.end.end_ship", 6)};
 				String structureName = chooseOnWeight(new String[] {"end_house", "shulker_nest", "stronghold", "end_ship"}, weights);

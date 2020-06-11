@@ -81,8 +81,8 @@ public class Tree {
 						}
 					}
 				}
-				int r = (int) (((3-(i % 3))+1)*(startR/ogStart));
-				if(i > length/5) {
+				int r = (int) (((3-(i % 3))+2)*(startR/ogStart));
+				if(i > (length/6)-1) {
 					for (int x = -r; x <= r; x++) {
 						for (int z = -r; z <= r; z++) {
 							Vector position = start.toVector().clone().add(new Vector(x, 0, z));
@@ -94,6 +94,8 @@ public class Tree {
 				}
 				startR = startR - 0.05;
 			}
+			start.add(initV);
+			start.getBlock().setType(Material.SPRUCE_LEAVES);
 			start.add(initV);
 			start.getBlock().setType(Material.SPRUCE_LEAVES);
 			break;

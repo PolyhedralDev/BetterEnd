@@ -83,7 +83,14 @@ public class Main extends JavaPlugin implements Listener {
 		logger.info("|---------------------------------------------------------------------------------|");
 		logger.info(" ");
 		logger.info(" ");
-
+		
+		if(!isPremium()) getServer().getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
+			@Override
+			public void run() {
+				logger.info(ChatColor.AQUA + "You're running the free version of BetterEnd. Please consider purchasing the premium version to support the plugin and gain additional features! Follow the instructions here: " + ChatColor.UNDERLINE + "https://github.com/dfsek/BetterEnd-Public/wiki/Premium");
+			}
+		}, 120);
+		
 		int sec = config.getInt("update-checker.frequency", 3600);
 		if(config.getBoolean("update-checker.enable", true)) {
 			getServer().getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
@@ -197,9 +204,9 @@ public class Main extends JavaPlugin implements Listener {
 	@Override
 	public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
 		List<String> COMMANDS = Arrays.asList("biome", "tpbiome", "version");
-		List<String> BIOMES = Arrays.asList("AETHER", "END", "SHATTERED_END", "AETHER_HIGHLANDS", "SHATTERED_FOREST");
+		List<String> BIOMES = Arrays.asList("AETHER", "END", "SHATTERED_END", "AETHER_HIGHLANDS", "SHATTERED_FOREST", "VOID", "STARFIELD");
 		if(isPremium()) {
-			BIOMES = Arrays.asList("AETHER", "END", "SHATTERED_END", "AETHER_HIGHLANDS", "SHATTERED_FOREST", "AETHER_FOREST", "AETHER_HIGHLANDS_FOREST");
+			BIOMES = Arrays.asList("AETHER", "END", "SHATTERED_END", "AETHER_HIGHLANDS", "SHATTERED_FOREST", "AETHER_FOREST", "AETHER_HIGHLANDS_FOREST", "VOID", "STARFIELD");
 		}
 		List<String> argList = new ArrayList<>();
 		if (args.length == 1) {
@@ -224,12 +231,14 @@ public class Main extends JavaPlugin implements Listener {
 		int heatNoise = main.getConfig().getInt("outer-islands.heat-noise");
 		int climateNoise = main.getConfig().getInt("outer-islands.climate-noise");
 		if(allAether) return "AETHER";
-		double c = biomeGenerator.noise((double) (X)/climateNoise, (double) (Z)/climateNoise, 0.5D, 0.5D);
+		double c = biomeGenerator.noise((double) (X+1000)/climateNoise, (double) (Z+1000)/climateNoise, 0.5D, 0.5D);
 		double h = biomeGenerator.noise((double) (X)/heatNoise, (double) (Z)/heatNoise, 0.5D, 0.5D);
 		double d = biomeGenerator.noise((double) (X)/main.getConfig().getInt("outer-islands.biome-size"), (double) (Z)/main.getConfig().getInt("outer-islands.biome-size"), 0.5D, 0.5D);
 		if (d < -0.5 && h > 0) return "SHATTERED_END";//green
 		else if(d < -0.5 && h < 0) return "SHATTERED_FOREST";
 		else if (d < 0) return "END";//red
+		
+		else if (d < 0.5 && d > 0.15 && h < -0.5) return "STARFIELD";//blue
 		else if (d < 0.5) return "VOID";//blue
 		else if(h < -0.5 && c > -0.5) return "AETHER_HIGHLANDS";
 		else if(h < -0.5 && isPremium()) return "AETHER_HIGHLANDS_FOREST";
@@ -260,16 +269,6 @@ public class Main extends JavaPlugin implements Listener {
 	}
 	public static boolean isPremium() {
 		return true;
-	}
-	@EventHandler
-	public void onPlayerJoin(PlayerJoinEvent e){
-		if(!isPremium()) getServer().getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
-			@Override
-			public void run() {
-				if(e.getPlayer().isOp()) e.getPlayer().sendMessage(new String[] {ChatColor.AQUA + "You're running the free version of BetterEnd. To get the premium version and change/remove this message, follow the instructions here:" + ChatColor.UNDERLINE + "https://github.com/dfsek/BetterEnd-Public/wiki/Premium", ChatColor.GRAY + "The above message is only sent to Operators. The message below is sent to all players:"});
-				e.getPlayer().sendMessage(new String[] {ChatColor.AQUA + "This server runs " + ChatColor.DARK_AQUA + "BetterEnd!", ChatColor.AQUA + "For more information, type /be, or visit the Wiki: " + ChatColor.UNDERLINE + "https://github.com/dfsek/BetterEnd-Public/wiki"});
-			}
-		}, 80);
 	}
 
 	@EventHandler (ignoreCancelled=true)
@@ -319,7 +318,7 @@ public class Main extends JavaPlugin implements Listener {
 		}
 	}
 	public boolean tpBiome(Player p, String[] args) {
-		if(args[1].equalsIgnoreCase("END") || args[1].equalsIgnoreCase("SHATTERED_END") || args[1].equalsIgnoreCase("SHATTERED_FOREST") || args[1].equalsIgnoreCase("VOID") || args[1].equalsIgnoreCase("AETHER") || args[1].equalsIgnoreCase("AETHER_HIGHLANDS") || (isPremium() && args[1].equalsIgnoreCase("AETHER_HIGHLANDS_FOREST")) || (isPremium() && args[1].equalsIgnoreCase("AETHER_FOREST"))) {
+		if(args[1].equalsIgnoreCase("END") || args[1].equalsIgnoreCase("SHATTERED_END") || args[1].equalsIgnoreCase("VOID") || args[1].equalsIgnoreCase("STARFIELD") || args[1].equalsIgnoreCase("SHATTERED_FOREST") || args[1].equalsIgnoreCase("VOID") || args[1].equalsIgnoreCase("AETHER") || args[1].equalsIgnoreCase("AETHER_HIGHLANDS") || (isPremium() && args[1].equalsIgnoreCase("AETHER_HIGHLANDS_FOREST")) || (isPremium() && args[1].equalsIgnoreCase("AETHER_FOREST"))) {
 			p.sendMessage(ChatColor.DARK_AQUA + "[BetterEnd]" + ChatColor.AQUA + " Locating biome \"" + ChatColor.DARK_AQUA + args[1] + ChatColor.AQUA +  "\"");
 			boolean foundBiome = false;
 			int tries = 0;
