@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<yguard version="1.5">
+<!--
+  yGuard Bytecode Obfuscator, v2.7.1, a Product of yWorks GmbH - http://www.yworks.com
+
+  Logfile created on Wed Jun 10 02:47:02 MST 2020
+
+  Jar file to be obfuscated:           yguard_temp_8646738400841560519.jar
+  Target Jar file for obfuscated code: BetterEnd.jar
+
+-->
+<!-- WARNING - identifier from script file not found in JAR: ${mainclass}/main -->
+<!--
+  Memory in use after class data structure built: 12472072 bytes
+  Total memory available                        : 255328256 bytes
+-->
+
+<!-- An exception has occured.
+com.yworks.yguard.obf.NoSuchMappingException: No mapping found for: Class org.json.simple.JSONArray
+com.yworks.yguard.obf.NoSuchMappingException: No mapping found for: Class org.json.simple.JSONArray
+	at com.yworks.yguard.obf.ClassTree.mapClass(Unknown Source)
+	at com.yworks.yguard.obf.ClassTree.mapDescriptor(Unknown Source)
+	at com.yworks.yguard.obf.classfile.ClassFile.remap(Unknown Source)
+	at com.yworks.yguard.obf.GuardDB.remapTo(Unknown Source)
+	at com.yworks.yguard.ObfuscatorTask.execute(Unknown Source)
+	at com.yworks.yguard.YGuardTask.execute(Unknown Source)
+	at org.apache.tools.ant.UnknownElement.execute(UnknownElement.java:292)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.apache.tools.ant.dispatch.DispatchUtils.execute(DispatchUtils.java:99)
+	at org.apache.tools.ant.Task.perform(Task.java:350)
+	at org.apache.tools.ant.Target.execute(Target.java:449)
+	at org.apache.tools.ant.Target.performTasks(Target.java:470)
+	at org.apache.tools.ant.Project.executeSortedTargets(Project.java:1391)
+	at org.apache.tools.ant.Project.executeTarget(Project.java:1364)
+	at org.apache.tools.ant.helper.DefaultExecutor.executeTargets(DefaultExecutor.java:41)
+	at org.eclipse.ant.internal.launching.remote.EclipseDefaultExecutor.executeTargets(EclipseDefaultExecutor.java:39)
+	at org.apache.tools.ant.Project.executeTargets(Project.java:1254)
+	at org.eclipse.ant.internal.launching.remote.InternalAntRunner.run(InternalAntRunner.java:461)
+	at org.eclipse.ant.internal.launching.remote.InternalAntRunner.main(InternalAntRunner.java:143)
+-->
+</yguard>

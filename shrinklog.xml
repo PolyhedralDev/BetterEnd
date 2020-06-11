@@ -1,0 +1,747 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<yshrink version="0.1">
+<!-- parsing C:\Users\dfsek.DFSEK\eclipse-workspace\betterEnd\target\BetterEnd_raw.jar -->
+<entrypoints>
+	<class name="com.dfsek.betterEnd.populators.EnvironmentPopulator" />
+	<method signature="void &lt;init&gt;()" class="com.dfsek.betterEnd.populators.EnvironmentPopulator" />
+	<method signature="void populate(org.bukkit.World,java.util.Random,org.bukkit.Chunk)" class="com.dfsek.betterEnd.populators.EnvironmentPopulator" />
+	<class name="com.dfsek.betterEnd.advancement.shared.EffectObject" />
+	<method signature="com.google.gson.JsonObject toJson()" class="com.dfsek.betterEnd.advancement.shared.EffectObject" />
+	<method signature="void &lt;init&gt;()" class="com.dfsek.betterEnd.advancement.shared.EffectObject" />
+	<method signature="java.lang.Boolean getAmbient()" class="com.dfsek.betterEnd.advancement.shared.EffectObject" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.EffectObject setDuration(com.dfsek.betterEnd.advancement.shared.RangeObject)" class="com.dfsek.betterEnd.advancement.shared.EffectObject" />
+	<method signature="java.lang.Boolean getVisible()" class="com.dfsek.betterEnd.advancement.shared.EffectObject" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.RangeObject getDuration()" class="com.dfsek.betterEnd.advancement.shared.EffectObject" />
+	<method signature="com.google.gson.JsonElement toJson()" class="com.dfsek.betterEnd.advancement.shared.EffectObject" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.EffectObject setAmplifier(com.dfsek.betterEnd.advancement.shared.RangeObject)" class="com.dfsek.betterEnd.advancement.shared.EffectObject" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.EffectObject setAmbient(java.lang.Boolean)" class="com.dfsek.betterEnd.advancement.shared.EffectObject" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.EffectObject setVisible(java.lang.Boolean)" class="com.dfsek.betterEnd.advancement.shared.EffectObject" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.RangeObject getAmplifier()" class="com.dfsek.betterEnd.advancement.shared.EffectObject" />
+	<class name="com.dfsek.betterEnd.advancement.shared.LocationObject" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.LocationObject setBiome(org.bukkit.block.Biome)" class="com.dfsek.betterEnd.advancement.shared.LocationObject" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.LocationObject setDimension(com.dfsek.betterEnd.advancement.shared.Dimension)" class="com.dfsek.betterEnd.advancement.shared.LocationObject" />
+	<method signature="org.bukkit.block.Biome getBiome()" class="com.dfsek.betterEnd.advancement.shared.LocationObject" />
+	<method signature="org.bukkit.StructureType getFeature()" class="com.dfsek.betterEnd.advancement.shared.LocationObject" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.LocationObject setFeature(org.bukkit.StructureType)" class="com.dfsek.betterEnd.advancement.shared.LocationObject" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.Dimension getDimension()" class="com.dfsek.betterEnd.advancement.shared.LocationObject" />
+	<method signature="com.google.gson.JsonObject toJson()" class="com.dfsek.betterEnd.advancement.shared.LocationObject" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.LocationObject setX(com.dfsek.betterEnd.advancement.shared.RangeObject)" class="com.dfsek.betterEnd.advancement.shared.LocationObject" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.LocationObject setY(com.dfsek.betterEnd.advancement.shared.RangeObject)" class="com.dfsek.betterEnd.advancement.shared.LocationObject" />
+	<method signature="void &lt;init&gt;()" class="com.dfsek.betterEnd.advancement.shared.LocationObject" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.RangeObject getZ()" class="com.dfsek.betterEnd.advancement.shared.LocationObject" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.LocationObject setZ(com.dfsek.betterEnd.advancement.shared.RangeObject)" class="com.dfsek.betterEnd.advancement.shared.LocationObject" />
+	<method signature="com.google.gson.JsonElement toJson()" class="com.dfsek.betterEnd.advancement.shared.LocationObject" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.RangeObject getX()" class="com.dfsek.betterEnd.advancement.shared.LocationObject" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.RangeObject getY()" class="com.dfsek.betterEnd.advancement.shared.LocationObject" />
+	<class name="com.dfsek.betterEnd.advancement.trigger.UsedTotemTrigger" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.ItemObject getItem()" class="com.dfsek.betterEnd.advancement.trigger.UsedTotemTrigger" />
+	<method signature="void &lt;init&gt;()" class="com.dfsek.betterEnd.advancement.trigger.UsedTotemTrigger" />
+	<method signature="com.google.gson.JsonObject getConditions()" class="com.dfsek.betterEnd.advancement.trigger.UsedTotemTrigger" />
+	<method signature="com.dfsek.betterEnd.advancement.trigger.UsedTotemTrigger setItem(com.dfsek.betterEnd.advancement.shared.ItemObject)" class="com.dfsek.betterEnd.advancement.trigger.UsedTotemTrigger" />
+	<class name="com.dfsek.betterEnd.populators.StructurePopulator" />
+	<method signature="java.util.List getChestsIn(org.bukkit.Location,org.bukkit.Location)" class="com.dfsek.betterEnd.populators.StructurePopulator" />
+	<method signature="java.lang.String chooseOnWeight(java.lang.String[],int[])" class="com.dfsek.betterEnd.populators.StructurePopulator" />
+	<method signature="void &lt;init&gt;()" class="com.dfsek.betterEnd.populators.StructurePopulator" />
+	<method signature="void populate(org.bukkit.World,java.util.Random,org.bukkit.Chunk)" class="com.dfsek.betterEnd.populators.StructurePopulator" />
+	<class name="com.dfsek.betterEnd.advancement.trigger.ShotCrossbowTrigger" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.ItemObject getItem()" class="com.dfsek.betterEnd.advancement.trigger.ShotCrossbowTrigger" />
+	<method signature="void &lt;init&gt;()" class="com.dfsek.betterEnd.advancement.trigger.ShotCrossbowTrigger" />
+	<method signature="com.dfsek.betterEnd.advancement.trigger.ShotCrossbowTrigger setItem(com.dfsek.betterEnd.advancement.shared.ItemObject)" class="com.dfsek.betterEnd.advancement.trigger.ShotCrossbowTrigger" />
+	<method signature="com.google.gson.JsonObject getConditions()" class="com.dfsek.betterEnd.advancement.trigger.ShotCrossbowTrigger" />
+	<class name="com.dfsek.betterEnd.advancement.shared.DamageObject" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.DamageObject setTaken(com.dfsek.betterEnd.advancement.shared.RangeObject)" class="com.dfsek.betterEnd.advancement.shared.DamageObject" />
+	<method signature="java.lang.Boolean isBlocked()" class="com.dfsek.betterEnd.advancement.shared.DamageObject" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.DamageObject setDealt(com.dfsek.betterEnd.advancement.shared.RangeObject)" class="com.dfsek.betterEnd.advancement.shared.DamageObject" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.DamageObject setBlocked(java.lang.Boolean)" class="com.dfsek.betterEnd.advancement.shared.DamageObject" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.RangeObject getTaken()" class="com.dfsek.betterEnd.advancement.shared.DamageObject" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.RangeObject getDealt()" class="com.dfsek.betterEnd.advancement.shared.DamageObject" />
+	<method signature="void &lt;init&gt;()" class="com.dfsek.betterEnd.advancement.shared.DamageObject" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.DamageFlagsObject getType()" class="com.dfsek.betterEnd.advancement.shared.DamageObject" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.DamageObject setSourceEntity(com.dfsek.betterEnd.advancement.shared.EntityObject)" class="com.dfsek.betterEnd.advancement.shared.DamageObject" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.DamageObject setType(com.dfsek.betterEnd.advancement.shared.DamageFlagsObject)" class="com.dfsek.betterEnd.advancement.shared.DamageObject" />
+	<method signature="com.google.gson.JsonElement toJson()" class="com.dfsek.betterEnd.advancement.shared.DamageObject" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.EntityObject getSourceEntity()" class="com.dfsek.betterEnd.advancement.shared.DamageObject" />
+	<class name="com.dfsek.betterEnd.advancement.trigger.FishingRodHookedTrigger" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.ItemObject getRod()" class="com.dfsek.betterEnd.advancement.trigger.FishingRodHookedTrigger" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.ItemObject getItem()" class="com.dfsek.betterEnd.advancement.trigger.FishingRodHookedTrigger" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.EntityObject getEntity()" class="com.dfsek.betterEnd.advancement.trigger.FishingRodHookedTrigger" />
+	<method signature="void &lt;init&gt;()" class="com.dfsek.betterEnd.advancement.trigger.FishingRodHookedTrigger" />
+	<method signature="com.dfsek.betterEnd.advancement.trigger.FishingRodHookedTrigger setRod(com.dfsek.betterEnd.advancement.shared.ItemObject)" class="com.dfsek.betterEnd.advancement.trigger.FishingRodHookedTrigger" />
+	<method signature="com.google.gson.JsonObject getConditions()" class="com.dfsek.betterEnd.advancement.trigger.FishingRodHookedTrigger" />
+	<method signature="com.dfsek.betterEnd.advancement.trigger.FishingRodHookedTrigger setItem(com.dfsek.betterEnd.advancement.shared.ItemObject)" class="com.dfsek.betterEnd.advancement.trigger.FishingRodHookedTrigger" />
+	<method signature="com.dfsek.betterEnd.advancement.trigger.FishingRodHookedTrigger setEntity(com.dfsek.betterEnd.advancement.shared.EntityObject)" class="com.dfsek.betterEnd.advancement.trigger.FishingRodHookedTrigger" />
+	<class name="com.dfsek.betterEnd.structures.LootTable" />
+	<method signature="void populateChest(org.bukkit.Location,java.util.Random)" class="com.dfsek.betterEnd.structures.LootTable" />
+	<method signature="org.bukkit.inventory.ItemStack randomEnchantment(org.bukkit.inventory.ItemStack,double,java.util.Random)" class="com.dfsek.betterEnd.structures.LootTable" />
+	<method signature="void &lt;init&gt;(java.lang.String)" class="com.dfsek.betterEnd.structures.LootTable" />
+	<class name="com.dfsek.betterEnd.advancement.shared.DistanceObject" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.DistanceObject setAbsolute(com.dfsek.betterEnd.advancement.shared.RangeObject)" class="com.dfsek.betterEnd.advancement.shared.DistanceObject" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.RangeObject getHorizontal()" class="com.dfsek.betterEnd.advancement.shared.DistanceObject" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.DistanceObject setZ(com.dfsek.betterEnd.advancement.shared.RangeObject)" class="com.dfsek.betterEnd.advancement.shared.DistanceObject" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.DistanceObject setX(com.dfsek.betterEnd.advancement.shared.RangeObject)" class="com.dfsek.betterEnd.advancement.shared.DistanceObject" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.DistanceObject setY(com.dfsek.betterEnd.advancement.shared.RangeObject)" class="com.dfsek.betterEnd.advancement.shared.DistanceObject" />
+	<method signature="com.google.gson.JsonObject toJson()" class="com.dfsek.betterEnd.advancement.shared.DistanceObject" />
+	<method signature="void &lt;init&gt;()" class="com.dfsek.betterEnd.advancement.shared.DistanceObject" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.DistanceObject setHorizontal(com.dfsek.betterEnd.advancement.shared.RangeObject)" class="com.dfsek.betterEnd.advancement.shared.DistanceObject" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.RangeObject getAbsolute()" class="com.dfsek.betterEnd.advancement.shared.DistanceObject" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.RangeObject getZ()" class="com.dfsek.betterEnd.advancement.shared.DistanceObject" />
+	<method signature="com.google.gson.JsonElement toJson()" class="com.dfsek.betterEnd.advancement.shared.DistanceObject" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.RangeObject getX()" class="com.dfsek.betterEnd.advancement.shared.DistanceObject" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.RangeObject getY()" class="com.dfsek.betterEnd.advancement.shared.DistanceObject" />
+	<class name="com.dfsek.betterEnd.advancement.trigger.EntityKilledPlayerTrigger" />
+	<method signature="com.dfsek.betterEnd.advancement.trigger.EntityKilledPlayerTrigger setDeath(com.dfsek.betterEnd.advancement.shared.DeathObject)" class="com.dfsek.betterEnd.advancement.trigger.EntityKilledPlayerTrigger" />
+	<method signature="void &lt;init&gt;()" class="com.dfsek.betterEnd.advancement.trigger.EntityKilledPlayerTrigger" />
+	<method signature="com.google.gson.JsonObject getConditions()" class="com.dfsek.betterEnd.advancement.trigger.EntityKilledPlayerTrigger" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.DeathObject getDeath()" class="com.dfsek.betterEnd.advancement.trigger.EntityKilledPlayerTrigger" />
+	<class name="com.dfsek.betterEnd.advancement.trigger.LocationTrigger" />
+	<method signature="void &lt;init&gt;()" class="com.dfsek.betterEnd.advancement.trigger.LocationTrigger" />
+	<method signature="com.google.gson.JsonObject getConditions()" class="com.dfsek.betterEnd.advancement.trigger.LocationTrigger" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.LocationObject getLocation()" class="com.dfsek.betterEnd.advancement.trigger.LocationTrigger" />
+	<method signature="com.dfsek.betterEnd.advancement.trigger.LocationTrigger setLocation(com.dfsek.betterEnd.advancement.shared.LocationObject)" class="com.dfsek.betterEnd.advancement.trigger.LocationTrigger" />
+	<class name="com.dfsek.betterEnd.advancement.shared.EnchantObject" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.EnchantObject setEnchant(org.bukkit.enchantments.Enchantment)" class="com.dfsek.betterEnd.advancement.shared.EnchantObject" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.RangeObject getLevels()" class="com.dfsek.betterEnd.advancement.shared.EnchantObject" />
+	<method signature="org.bukkit.enchantments.Enchantment getEnchant()" class="com.dfsek.betterEnd.advancement.shared.EnchantObject" />
+	<method signature="void &lt;init&gt;()" class="com.dfsek.betterEnd.advancement.shared.EnchantObject" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.EnchantObject setLevels(com.dfsek.betterEnd.advancement.shared.RangeObject)" class="com.dfsek.betterEnd.advancement.shared.EnchantObject" />
+	<method signature="com.google.gson.JsonElement toJson()" class="com.dfsek.betterEnd.advancement.shared.EnchantObject" />
+	<class name="com.dfsek.betterEnd.advancement.trigger.PlayerHurtEntityTrigger" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.DamageObject getDamage()" class="com.dfsek.betterEnd.advancement.trigger.PlayerHurtEntityTrigger" />
+	<method signature="com.dfsek.betterEnd.advancement.trigger.PlayerHurtEntityTrigger setDamage(com.dfsek.betterEnd.advancement.shared.DamageObject)" class="com.dfsek.betterEnd.advancement.trigger.PlayerHurtEntityTrigger" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.EntityObject getEntity()" class="com.dfsek.betterEnd.advancement.trigger.PlayerHurtEntityTrigger" />
+	<method signature="com.dfsek.betterEnd.advancement.trigger.PlayerHurtEntityTrigger setEntity(com.dfsek.betterEnd.advancement.shared.EntityObject)" class="com.dfsek.betterEnd.advancement.trigger.PlayerHurtEntityTrigger" />
+	<method signature="void &lt;init&gt;()" class="com.dfsek.betterEnd.advancement.trigger.PlayerHurtEntityTrigger" />
+	<method signature="com.google.gson.JsonObject getConditions()" class="com.dfsek.betterEnd.advancement.trigger.PlayerHurtEntityTrigger" />
+	<class name="com.dfsek.betterEnd.advancement.trigger.HeroOfTheVillageTrigger" />
+	<method signature="com.dfsek.betterEnd.advancement.trigger.HeroOfTheVillageTrigger setLocation(com.dfsek.betterEnd.advancement.shared.LocationObject)" class="com.dfsek.betterEnd.advancement.trigger.HeroOfTheVillageTrigger" />
+	<method signature="void &lt;init&gt;()" class="com.dfsek.betterEnd.advancement.trigger.HeroOfTheVillageTrigger" />
+	<method signature="com.google.gson.JsonObject getConditions()" class="com.dfsek.betterEnd.advancement.trigger.HeroOfTheVillageTrigger" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.LocationObject getLocation()" class="com.dfsek.betterEnd.advancement.trigger.HeroOfTheVillageTrigger" />
+	<class name="com.dfsek.betterEnd.advancement.trigger.ConsumeItemTrigger" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.ItemObject getItem()" class="com.dfsek.betterEnd.advancement.trigger.ConsumeItemTrigger" />
+	<method signature="void &lt;init&gt;()" class="com.dfsek.betterEnd.advancement.trigger.ConsumeItemTrigger" />
+	<method signature="com.google.gson.JsonObject getConditions()" class="com.dfsek.betterEnd.advancement.trigger.ConsumeItemTrigger" />
+	<method signature="com.dfsek.betterEnd.advancement.trigger.ConsumeItemTrigger setItem(com.dfsek.betterEnd.advancement.shared.ItemObject)" class="com.dfsek.betterEnd.advancement.trigger.ConsumeItemTrigger" />
+	<class name="com.dfsek.betterEnd.advancement.trigger.NetherTravelTrigger" />
+	<method signature="com.dfsek.betterEnd.advancement.trigger.NetherTravelTrigger setDistance(com.dfsek.betterEnd.advancement.shared.DistanceObject)" class="com.dfsek.betterEnd.advancement.trigger.NetherTravelTrigger" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.LocationObject getExited()" class="com.dfsek.betterEnd.advancement.trigger.NetherTravelTrigger" />
+	<method signature="com.dfsek.betterEnd.advancement.trigger.NetherTravelTrigger setExited(com.dfsek.betterEnd.advancement.shared.LocationObject)" class="com.dfsek.betterEnd.advancement.trigger.NetherTravelTrigger" />
+	<method signature="com.dfsek.betterEnd.advancement.trigger.NetherTravelTrigger setEntered(com.dfsek.betterEnd.advancement.shared.LocationObject)" class="com.dfsek.betterEnd.advancement.trigger.NetherTravelTrigger" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.DistanceObject getDistance()" class="com.dfsek.betterEnd.advancement.trigger.NetherTravelTrigger" />
+	<method signature="void &lt;init&gt;()" class="com.dfsek.betterEnd.advancement.trigger.NetherTravelTrigger" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.LocationObject getEntered()" class="com.dfsek.betterEnd.advancement.trigger.NetherTravelTrigger" />
+	<method signature="com.google.gson.JsonObject getConditions()" class="com.dfsek.betterEnd.advancement.trigger.NetherTravelTrigger" />
+	<class name="com.dfsek.betterEnd.advancement.shared.DamageFlagsObject" />
+	<method signature="java.lang.Boolean isExplosion()" class="com.dfsek.betterEnd.advancement.shared.DamageFlagsObject" />
+	<method signature="java.lang.Boolean getBypassesInvulnerability()" class="com.dfsek.betterEnd.advancement.shared.DamageFlagsObject" />
+	<method signature="java.lang.Boolean isProjectile()" class="com.dfsek.betterEnd.advancement.shared.DamageFlagsObject" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.DamageFlagsObject setLightning(java.lang.Boolean)" class="com.dfsek.betterEnd.advancement.shared.DamageFlagsObject" />
+	<method signature="java.lang.Boolean getBypassesMagic()" class="com.dfsek.betterEnd.advancement.shared.DamageFlagsObject" />
+	<method signature="java.lang.Boolean isFire()" class="com.dfsek.betterEnd.advancement.shared.DamageFlagsObject" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.DamageFlagsObject setBypassesInvulnerability(java.lang.Boolean)" class="com.dfsek.betterEnd.advancement.shared.DamageFlagsObject" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.DamageFlagsObject setBypassesMagic(java.lang.Boolean)" class="com.dfsek.betterEnd.advancement.shared.DamageFlagsObject" />
+	<method signature="java.lang.Boolean isLightning()" class="com.dfsek.betterEnd.advancement.shared.DamageFlagsObject" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.EntityObject getDirectEntity()" class="com.dfsek.betterEnd.advancement.shared.DamageFlagsObject" />
+	<method signature="com.google.gson.JsonObject toJson()" class="com.dfsek.betterEnd.advancement.shared.DamageFlagsObject" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.DamageFlagsObject setExplosion(java.lang.Boolean)" class="com.dfsek.betterEnd.advancement.shared.DamageFlagsObject" />
+	<method signature="void &lt;init&gt;()" class="com.dfsek.betterEnd.advancement.shared.DamageFlagsObject" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.DamageFlagsObject setDirectEntity(com.dfsek.betterEnd.advancement.shared.EntityObject)" class="com.dfsek.betterEnd.advancement.shared.DamageFlagsObject" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.DamageFlagsObject setFire(java.lang.Boolean)" class="com.dfsek.betterEnd.advancement.shared.DamageFlagsObject" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.DamageFlagsObject setMagic(java.lang.Boolean)" class="com.dfsek.betterEnd.advancement.shared.DamageFlagsObject" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.DamageFlagsObject setProjectile(java.lang.Boolean)" class="com.dfsek.betterEnd.advancement.shared.DamageFlagsObject" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.DamageFlagsObject setSourceEntity(com.dfsek.betterEnd.advancement.shared.EntityObject)" class="com.dfsek.betterEnd.advancement.shared.DamageFlagsObject" />
+	<method signature="com.google.gson.JsonElement toJson()" class="com.dfsek.betterEnd.advancement.shared.DamageFlagsObject" />
+	<method signature="java.lang.Boolean getBypassesArmor()" class="com.dfsek.betterEnd.advancement.shared.DamageFlagsObject" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.EntityObject getSourceEntity()" class="com.dfsek.betterEnd.advancement.shared.DamageFlagsObject" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.DamageFlagsObject setBypassesArmor(java.lang.Boolean)" class="com.dfsek.betterEnd.advancement.shared.DamageFlagsObject" />
+	<method signature="java.lang.Boolean isMagic()" class="com.dfsek.betterEnd.advancement.shared.DamageFlagsObject" />
+	<class name="com.dfsek.betterEnd.advancement.trigger.TameAnimalTrigger" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.EntityObject getEntity()" class="com.dfsek.betterEnd.advancement.trigger.TameAnimalTrigger" />
+	<method signature="void &lt;init&gt;()" class="com.dfsek.betterEnd.advancement.trigger.TameAnimalTrigger" />
+	<method signature="com.google.gson.JsonObject getConditions()" class="com.dfsek.betterEnd.advancement.trigger.TameAnimalTrigger" />
+	<method signature="com.dfsek.betterEnd.advancement.trigger.TameAnimalTrigger setEntity(com.dfsek.betterEnd.advancement.shared.EntityObject)" class="com.dfsek.betterEnd.advancement.trigger.TameAnimalTrigger" />
+	<class name="com.dfsek.betterEnd.advancement.trigger.VoluntaryExileTrigger" />
+	<method signature="void &lt;init&gt;()" class="com.dfsek.betterEnd.advancement.trigger.VoluntaryExileTrigger" />
+	<method signature="com.dfsek.betterEnd.advancement.trigger.VoluntaryExileTrigger setLocation(com.dfsek.betterEnd.advancement.shared.LocationObject)" class="com.dfsek.betterEnd.advancement.trigger.VoluntaryExileTrigger" />
+	<method signature="com.google.gson.JsonObject getConditions()" class="com.dfsek.betterEnd.advancement.trigger.VoluntaryExileTrigger" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.LocationObject getLocation()" class="com.dfsek.betterEnd.advancement.trigger.VoluntaryExileTrigger" />
+	<class name="com.dfsek.betterEnd.advancement.trigger.VillagerTradeTrigger" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.ItemObject getItem()" class="com.dfsek.betterEnd.advancement.trigger.VillagerTradeTrigger" />
+	<method signature="void &lt;init&gt;()" class="com.dfsek.betterEnd.advancement.trigger.VillagerTradeTrigger" />
+	<method signature="com.dfsek.betterEnd.advancement.trigger.VillagerTradeTrigger setVillager(com.dfsek.betterEnd.advancement.shared.EntityObject)" class="com.dfsek.betterEnd.advancement.trigger.VillagerTradeTrigger" />
+	<method signature="com.google.gson.JsonObject getConditions()" class="com.dfsek.betterEnd.advancement.trigger.VillagerTradeTrigger" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.EntityObject getVillager()" class="com.dfsek.betterEnd.advancement.trigger.VillagerTradeTrigger" />
+	<method signature="com.dfsek.betterEnd.advancement.trigger.VillagerTradeTrigger setItem(com.dfsek.betterEnd.advancement.shared.ItemObject)" class="com.dfsek.betterEnd.advancement.trigger.VillagerTradeTrigger" />
+	<class name="com.dfsek.betterEnd.advancement.shared.BlockObject" />
+	<method signature="void &lt;init&gt;(org.bukkit.Material)" class="com.dfsek.betterEnd.advancement.shared.BlockObject" />
+	<method signature="com.google.gson.JsonObject toJson()" class="com.dfsek.betterEnd.advancement.shared.BlockObject" />
+	<method signature="org.bukkit.Material getBlock()" class="com.dfsek.betterEnd.advancement.shared.BlockObject" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.BlockObject setState(java.lang.String,java.lang.String)" class="com.dfsek.betterEnd.advancement.shared.BlockObject" />
+	<method signature="com.google.gson.JsonElement toJson()" class="com.dfsek.betterEnd.advancement.shared.BlockObject" />
+	<method signature="java.util.Map getStates()" class="com.dfsek.betterEnd.advancement.shared.BlockObject" />
+	<class name="com.dfsek.betterEnd.advancement.trigger.EffectsChangedTrigger" />
+	<method signature="com.dfsek.betterEnd.advancement.trigger.EffectsChangedTrigger setEffects(com.dfsek.betterEnd.advancement.shared.StatusEffectsObject)" class="com.dfsek.betterEnd.advancement.trigger.EffectsChangedTrigger" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.StatusEffectsObject getEffects()" class="com.dfsek.betterEnd.advancement.trigger.EffectsChangedTrigger" />
+	<method signature="void &lt;init&gt;()" class="com.dfsek.betterEnd.advancement.trigger.EffectsChangedTrigger" />
+	<method signature="com.google.gson.JsonObject getConditions()" class="com.dfsek.betterEnd.advancement.trigger.EffectsChangedTrigger" />
+	<class name="com.dfsek.betterEnd.advancement.trigger.RecipeUnlockedTrigger" />
+	<method signature="void &lt;init&gt;(org.bukkit.NamespacedKey)" class="com.dfsek.betterEnd.advancement.trigger.RecipeUnlockedTrigger" />
+	<method signature="com.google.gson.JsonObject getConditions()" class="com.dfsek.betterEnd.advancement.trigger.RecipeUnlockedTrigger" />
+	<method signature="org.bukkit.NamespacedKey getRecipe()" class="com.dfsek.betterEnd.advancement.trigger.RecipeUnlockedTrigger" />
+	<class name="com.dfsek.betterEnd.advancement.trigger.CuredZombieVillagerTrigger" />
+	<method signature="com.dfsek.betterEnd.advancement.trigger.CuredZombieVillagerTrigger setVillager(com.dfsek.betterEnd.advancement.shared.EntityObject)" class="com.dfsek.betterEnd.advancement.trigger.CuredZombieVillagerTrigger" />
+	<method signature="void &lt;init&gt;()" class="com.dfsek.betterEnd.advancement.trigger.CuredZombieVillagerTrigger" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.EntityObject getZombie()" class="com.dfsek.betterEnd.advancement.trigger.CuredZombieVillagerTrigger" />
+	<method signature="com.google.gson.JsonObject getConditions()" class="com.dfsek.betterEnd.advancement.trigger.CuredZombieVillagerTrigger" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.EntityObject getVillager()" class="com.dfsek.betterEnd.advancement.trigger.CuredZombieVillagerTrigger" />
+	<method signature="com.dfsek.betterEnd.advancement.trigger.CuredZombieVillagerTrigger setZombie(com.dfsek.betterEnd.advancement.shared.EntityObject)" class="com.dfsek.betterEnd.advancement.trigger.CuredZombieVillagerTrigger" />
+	<class name="com.dfsek.betterEnd.advancement.shared.SharedEnum" />
+	<method signature="java.lang.String getValue()" class="com.dfsek.betterEnd.advancement.shared.SharedEnum" />
+	<class name="com.dfsek.betterEnd.advancement.AdvancementFactory" />
+	<method signature="com.dfsek.betterEnd.advancement.Advancement getPlaceAnyItem(java.lang.String,com.dfsek.betterEnd.advancement.Advancement,java.lang.String,java.lang.String,org.bukkit.Material[])" class="com.dfsek.betterEnd.advancement.AdvancementFactory" />
+	<method signature="com.dfsek.betterEnd.advancement.Advancement getAnyKill(java.lang.String,com.dfsek.betterEnd.advancement.Advancement,java.lang.String,java.lang.String,org.bukkit.Material,org.bukkit.entity.EntityType[])" class="com.dfsek.betterEnd.advancement.AdvancementFactory" />
+	<method signature="com.dfsek.betterEnd.advancement.Advancement getAllItems(java.lang.String,com.dfsek.betterEnd.advancement.Advancement,java.lang.String,java.lang.String,com.dfsek.betterEnd.advancement.shared.ItemObject[])" class="com.dfsek.betterEnd.advancement.AdvancementFactory" />
+	<method signature="com.dfsek.betterEnd.advancement.Advancement getPlaceItem(java.lang.String,com.dfsek.betterEnd.advancement.Advancement,java.lang.String,java.lang.String,org.bukkit.Material)" class="com.dfsek.betterEnd.advancement.AdvancementFactory" />
+	<method signature="com.dfsek.betterEnd.advancement.Advancement getAll(java.lang.String,com.dfsek.betterEnd.advancement.Advancement,java.lang.String,java.lang.String,org.bukkit.Material,java.lang.Object[],java.util.function.Function)" class="com.dfsek.betterEnd.advancement.AdvancementFactory" />
+	<method signature="com.dfsek.betterEnd.advancement.Advancement getPlaceAnyBlock(java.lang.String,com.dfsek.betterEnd.advancement.Advancement,java.lang.String,java.lang.String,org.bukkit.Material,org.bukkit.Material[])" class="com.dfsek.betterEnd.advancement.AdvancementFactory" />
+	<method signature="com.dfsek.betterEnd.advancement.Advancement getEmpty(java.lang.String,com.dfsek.betterEnd.advancement.Advancement,java.lang.String,java.lang.String,org.bukkit.Material)" class="com.dfsek.betterEnd.advancement.AdvancementFactory" />
+	<method signature="com.dfsek.betterEnd.advancement.Advancement getAllItemsOnce(java.lang.String,com.dfsek.betterEnd.advancement.Advancement,java.lang.String,java.lang.String,org.bukkit.Material[])" class="com.dfsek.betterEnd.advancement.AdvancementFactory" />
+	<method signature="com.dfsek.betterEnd.advancement.Advancement getAnyItem(java.lang.String,com.dfsek.betterEnd.advancement.Advancement,java.lang.String,java.lang.String,org.bukkit.Material[])" class="com.dfsek.betterEnd.advancement.AdvancementFactory" />
+	<method signature="com.dfsek.betterEnd.advancement.Advancement getPlacedBlock(java.lang.String,com.dfsek.betterEnd.advancement.Advancement,java.lang.String,java.lang.String,org.bukkit.Material)" class="com.dfsek.betterEnd.advancement.AdvancementFactory" />
+	<method signature="com.dfsek.betterEnd.advancement.Advancement getPlaceAllItems(java.lang.String,com.dfsek.betterEnd.advancement.Advancement,java.lang.String,java.lang.String,com.dfsek.betterEnd.advancement.shared.ItemObject[])" class="com.dfsek.betterEnd.advancement.AdvancementFactory" />
+	<method signature="com.dfsek.betterEnd.advancement.Advancement getPlaceAnyBlock(java.lang.String,com.dfsek.betterEnd.advancement.Advancement,java.lang.String,java.lang.String,org.bukkit.Material[])" class="com.dfsek.betterEnd.advancement.AdvancementFactory" />
+	<method signature="com.dfsek.betterEnd.advancement.Advancement getAny(java.lang.String,com.dfsek.betterEnd.advancement.Advancement,java.lang.String,java.lang.String,org.bukkit.Material,java.lang.Object[],java.util.function.Function)" class="com.dfsek.betterEnd.advancement.AdvancementFactory" />
+	<method signature="com.dfsek.betterEnd.advancement.Advancement getRoot(java.lang.String,java.lang.String,java.lang.String,org.bukkit.Material,java.lang.String)" class="com.dfsek.betterEnd.advancement.AdvancementFactory" />
+	<method signature="com.dfsek.betterEnd.advancement.Advancement getItem(java.lang.String,com.dfsek.betterEnd.advancement.Advancement,java.lang.String,java.lang.String,org.bukkit.Material,java.lang.Integer)" class="com.dfsek.betterEnd.advancement.AdvancementFactory" />
+	<method signature="com.dfsek.betterEnd.advancement.Advancement getAllItemsOnce(java.lang.String,com.dfsek.betterEnd.advancement.Advancement,java.lang.String,java.lang.String,com.dfsek.betterEnd.advancement.shared.ItemObject[])" class="com.dfsek.betterEnd.advancement.AdvancementFactory" />
+	<method signature="com.dfsek.betterEnd.advancement.Advancement getAnyItem(java.lang.String,com.dfsek.betterEnd.advancement.Advancement,java.lang.String,java.lang.String,com.dfsek.betterEnd.advancement.shared.ItemObject[])" class="com.dfsek.betterEnd.advancement.AdvancementFactory" />
+	<method signature="com.dfsek.betterEnd.advancement.Advancement getPlaceAllItems(java.lang.String,com.dfsek.betterEnd.advancement.Advancement,java.lang.String,java.lang.String,org.bukkit.Material[])" class="com.dfsek.betterEnd.advancement.AdvancementFactory" />
+	<method signature="com.dfsek.betterEnd.advancement.Advancement getCountedImpossible(java.lang.String,com.dfsek.betterEnd.advancement.Advancement,java.lang.String,java.lang.String,org.bukkit.Material,int)" class="com.dfsek.betterEnd.advancement.AdvancementFactory" />
+	<method signature="com.dfsek.betterEnd.advancement.Advancement getImpossible(java.lang.String,com.dfsek.betterEnd.advancement.Advancement,java.lang.String,java.lang.String,org.bukkit.Material,java.lang.String[])" class="com.dfsek.betterEnd.advancement.AdvancementFactory" />
+	<method signature="void &lt;init&gt;(org.bukkit.plugin.Plugin,boolean,boolean)" class="com.dfsek.betterEnd.advancement.AdvancementFactory" />
+	<method signature="com.dfsek.betterEnd.advancement.Advancement getImpossible(java.lang.String,com.dfsek.betterEnd.advancement.Advancement,java.lang.String,java.lang.String,org.bukkit.Material)" class="com.dfsek.betterEnd.advancement.AdvancementFactory" />
+	<method signature="com.dfsek.betterEnd.advancement.Advancement getItem(java.lang.String,com.dfsek.betterEnd.advancement.Advancement,java.lang.String,java.lang.String,org.bukkit.Material)" class="com.dfsek.betterEnd.advancement.AdvancementFactory" />
+	<method signature="com.dfsek.betterEnd.advancement.Advancement getPlacedBlock(java.lang.String,com.dfsek.betterEnd.advancement.Advancement,java.lang.String,java.lang.String,org.bukkit.Material,org.bukkit.Material)" class="com.dfsek.betterEnd.advancement.AdvancementFactory" />
+	<method signature="com.dfsek.betterEnd.advancement.Advancement getPlaceAnyItem(java.lang.String,com.dfsek.betterEnd.advancement.Advancement,java.lang.String,java.lang.String,com.dfsek.betterEnd.advancement.shared.ItemObject[])" class="com.dfsek.betterEnd.advancement.AdvancementFactory" />
+	<method signature="com.dfsek.betterEnd.advancement.Advancement getAllItems(java.lang.String,com.dfsek.betterEnd.advancement.Advancement,java.lang.String,java.lang.String,org.bukkit.Material[])" class="com.dfsek.betterEnd.advancement.AdvancementFactory" />
+	<method signature="com.dfsek.betterEnd.advancement.Advancement getAllKills(java.lang.String,com.dfsek.betterEnd.advancement.Advancement,java.lang.String,java.lang.String,org.bukkit.Material,org.bukkit.entity.EntityType[])" class="com.dfsek.betterEnd.advancement.AdvancementFactory" />
+	<method signature="com.dfsek.betterEnd.advancement.Advancement getKill(java.lang.String,com.dfsek.betterEnd.advancement.Advancement,java.lang.String,java.lang.String,org.bukkit.Material,org.bukkit.entity.EntityType)" class="com.dfsek.betterEnd.advancement.AdvancementFactory" />
+	<method signature="com.dfsek.betterEnd.advancement.Advancement getSimple(java.lang.String,com.dfsek.betterEnd.advancement.Advancement,java.lang.String,java.lang.String,org.bukkit.Material,java.lang.String,com.dfsek.betterEnd.advancement.trigger.Trigger)" class="com.dfsek.betterEnd.advancement.AdvancementFactory" />
+	<class name="com.dfsek.betterEnd.advancement.Advancement" />
+	<method signature="com.dfsek.betterEnd.advancement.Advancement$Frame getFrame()" class="com.dfsek.betterEnd.advancement.Advancement" />
+	<method signature="com.dfsek.betterEnd.advancement.Advancement addTrigger(java.lang.String,com.dfsek.betterEnd.advancement.trigger.Trigger)" class="com.dfsek.betterEnd.advancement.Advancement" />
+	<method signature="com.dfsek.betterEnd.advancement.Advancement setHidden(boolean)" class="com.dfsek.betterEnd.advancement.Advancement" />
+	<method signature="void &lt;init&gt;(org.bukkit.NamespacedKey,com.dfsek.betterEnd.advancement.shared.ItemObject,net.md_5.bungee.api.chat.TextComponent,net.md_5.bungee.api.chat.TextComponent)" class="com.dfsek.betterEnd.advancement.Advancement" />
+	<method signature="boolean isHidden()" class="com.dfsek.betterEnd.advancement.Advancement" />
+	<method signature="com.dfsek.betterEnd.advancement.Rewards getRewards()" class="com.dfsek.betterEnd.advancement.Advancement" />
+	<method signature="boolean equals(java.lang.Object)" class="com.dfsek.betterEnd.advancement.Advancement" />
+	<method signature="java.util.Set getRequirements()" class="com.dfsek.betterEnd.advancement.Advancement" />
+	<method signature="com.dfsek.betterEnd.advancement.Advancement setFrame(com.dfsek.betterEnd.advancement.Advancement$Frame)" class="com.dfsek.betterEnd.advancement.Advancement" />
+	<method signature="org.bukkit.NamespacedKey getId()" class="com.dfsek.betterEnd.advancement.Advancement" />
+	<method signature="boolean isToast()" class="com.dfsek.betterEnd.advancement.Advancement" />
+	<method signature="int hashCode()" class="com.dfsek.betterEnd.advancement.Advancement" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.ItemObject getIcon()" class="com.dfsek.betterEnd.advancement.Advancement" />
+	<method signature="com.dfsek.betterEnd.advancement.Advancement makeRoot(java.lang.String,boolean)" class="com.dfsek.betterEnd.advancement.Advancement" />
+	<method signature="com.dfsek.betterEnd.advancement.Advancement makeChild(org.bukkit.NamespacedKey)" class="com.dfsek.betterEnd.advancement.Advancement" />
+	<method signature="com.dfsek.betterEnd.advancement.Advancement setRewards(com.dfsek.betterEnd.advancement.Rewards)" class="com.dfsek.betterEnd.advancement.Advancement" />
+	<method signature="com.dfsek.betterEnd.advancement.Advancement setAnnounce(boolean)" class="com.dfsek.betterEnd.advancement.Advancement" />
+	<method signature="net.md_5.bungee.api.chat.TextComponent getDescription()" class="com.dfsek.betterEnd.advancement.Advancement" />
+	<method signature="boolean isAnnounce()" class="com.dfsek.betterEnd.advancement.Advancement" />
+	<method signature="boolean activate(boolean)" class="com.dfsek.betterEnd.advancement.Advancement" />
+	<method signature="java.lang.String toJson()" class="com.dfsek.betterEnd.advancement.Advancement" />
+	<method signature="net.md_5.bungee.api.chat.TextComponent getTitle()" class="com.dfsek.betterEnd.advancement.Advancement" />
+	<method signature="org.bukkit.NamespacedKey getParent()" class="com.dfsek.betterEnd.advancement.Advancement" />
+	<method signature="com.dfsek.betterEnd.advancement.Advancement removeTrigger(java.lang.String)" class="com.dfsek.betterEnd.advancement.Advancement" />
+	<method signature="boolean activate(boolean,org.bukkit.NamespacedKey,java.lang.String)" class="com.dfsek.betterEnd.advancement.Advancement" />
+	<method signature="java.lang.String toString()" class="com.dfsek.betterEnd.advancement.Advancement" />
+	<method signature="com.dfsek.betterEnd.advancement.Advancement removeRequirement(java.lang.String[])" class="com.dfsek.betterEnd.advancement.Advancement" />
+	<method signature="java.util.Set getTriggers()" class="com.dfsek.betterEnd.advancement.Advancement" />
+	<method signature="com.dfsek.betterEnd.advancement.Advancement setToast(boolean)" class="com.dfsek.betterEnd.advancement.Advancement" />
+	<method signature="com.dfsek.betterEnd.advancement.Advancement addRequirement(java.lang.String[])" class="com.dfsek.betterEnd.advancement.Advancement" />
+	<method signature="java.lang.String getBackground()" class="com.dfsek.betterEnd.advancement.Advancement" />
+	<class name="com.dfsek.betterEnd.advancement.trigger.LevitationTrigger" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.DistanceObject getDistance()" class="com.dfsek.betterEnd.advancement.trigger.LevitationTrigger" />
+	<method signature="void &lt;init&gt;()" class="com.dfsek.betterEnd.advancement.trigger.LevitationTrigger" />
+	<method signature="com.dfsek.betterEnd.advancement.trigger.LevitationTrigger setDuration(com.dfsek.betterEnd.advancement.shared.RangeObject)" class="com.dfsek.betterEnd.advancement.trigger.LevitationTrigger" />
+	<method signature="com.google.gson.JsonObject getConditions()" class="com.dfsek.betterEnd.advancement.trigger.LevitationTrigger" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.RangeObject getDuration()" class="com.dfsek.betterEnd.advancement.trigger.LevitationTrigger" />
+	<method signature="com.dfsek.betterEnd.advancement.trigger.LevitationTrigger setDistance(com.dfsek.betterEnd.advancement.shared.DistanceObject)" class="com.dfsek.betterEnd.advancement.trigger.LevitationTrigger" />
+	<class name="com.dfsek.betterEnd.structures.NMSStructure" />
+	<method signature="int getZ()" class="com.dfsek.betterEnd.structures.NMSStructure" />
+	<method signature="java.lang.String getName()" class="com.dfsek.betterEnd.structures.NMSStructure" />
+	<method signature="org.bukkit.Location[] getBoundingLocations()" class="com.dfsek.betterEnd.structures.NMSStructure" />
+	<method signature="int getX()" class="com.dfsek.betterEnd.structures.NMSStructure" />
+	<method signature="int getY()" class="com.dfsek.betterEnd.structures.NMSStructure" />
+	<method signature="void paste()" class="com.dfsek.betterEnd.structures.NMSStructure" />
+	<method signature="org.bukkit.Location getOrigin()" class="com.dfsek.betterEnd.structures.NMSStructure" />
+	<method signature="int getRotation()" class="com.dfsek.betterEnd.structures.NMSStructure" />
+	<method signature="int getPermutation()" class="com.dfsek.betterEnd.structures.NMSStructure" />
+	<method signature="void setRotation(int)" class="com.dfsek.betterEnd.structures.NMSStructure" />
+	<method signature="void &lt;init&gt;(org.bukkit.Location,java.lang.String,int)" class="com.dfsek.betterEnd.structures.NMSStructure" />
+	<method signature="void &lt;init&gt;(org.bukkit.Location,java.lang.String)" class="com.dfsek.betterEnd.structures.NMSStructure" />
+	<method signature="int[] getDimensions()" class="com.dfsek.betterEnd.structures.NMSStructure" />
+	<field name="structure" class="com.dfsek.betterEnd.structures.NMSStructure" />
+	<class name="com.dfsek.betterEnd.advancement.shared.StatusEffectsObject" />
+	<method signature="com.google.gson.JsonObject toJson()" class="com.dfsek.betterEnd.advancement.shared.StatusEffectsObject" />
+	<method signature="java.util.Map getEffects()" class="com.dfsek.betterEnd.advancement.shared.StatusEffectsObject" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.StatusEffectsObject setEffect(com.dfsek.betterEnd.advancement.shared.Effect,com.dfsek.betterEnd.advancement.shared.EffectObject)" class="com.dfsek.betterEnd.advancement.shared.StatusEffectsObject" />
+	<method signature="void &lt;init&gt;()" class="com.dfsek.betterEnd.advancement.shared.StatusEffectsObject" />
+	<method signature="com.google.gson.JsonElement toJson()" class="com.dfsek.betterEnd.advancement.shared.StatusEffectsObject" />
+	<class name="com.dfsek.betterEnd.advancement.trigger.TickTrigger" />
+	<method signature="void &lt;init&gt;()" class="com.dfsek.betterEnd.advancement.trigger.TickTrigger" />
+	<method signature="com.google.gson.JsonObject getConditions()" class="com.dfsek.betterEnd.advancement.trigger.TickTrigger" />
+	<class name="com.dfsek.betterEnd.advancement.trigger.ChangedDimensionTrigger" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.Dimension getTo()" class="com.dfsek.betterEnd.advancement.trigger.ChangedDimensionTrigger" />
+	<method signature="com.dfsek.betterEnd.advancement.trigger.ChangedDimensionTrigger setTo(com.dfsek.betterEnd.advancement.shared.Dimension)" class="com.dfsek.betterEnd.advancement.trigger.ChangedDimensionTrigger" />
+	<method signature="void &lt;init&gt;()" class="com.dfsek.betterEnd.advancement.trigger.ChangedDimensionTrigger" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.Dimension getFrom()" class="com.dfsek.betterEnd.advancement.trigger.ChangedDimensionTrigger" />
+	<method signature="com.google.gson.JsonObject getConditions()" class="com.dfsek.betterEnd.advancement.trigger.ChangedDimensionTrigger" />
+	<method signature="com.dfsek.betterEnd.advancement.trigger.ChangedDimensionTrigger setFrom(com.dfsek.betterEnd.advancement.shared.Dimension)" class="com.dfsek.betterEnd.advancement.trigger.ChangedDimensionTrigger" />
+	<class name="com.dfsek.betterEnd.advancement.trigger.UsedEnderEyeTrigger" />
+	<method signature="void &lt;init&gt;()" class="com.dfsek.betterEnd.advancement.trigger.UsedEnderEyeTrigger" />
+	<method signature="com.dfsek.betterEnd.advancement.trigger.UsedEnderEyeTrigger setDistance(com.dfsek.betterEnd.advancement.shared.RangeObject)" class="com.dfsek.betterEnd.advancement.trigger.UsedEnderEyeTrigger" />
+	<method signature="com.google.gson.JsonObject getConditions()" class="com.dfsek.betterEnd.advancement.trigger.UsedEnderEyeTrigger" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.RangeObject getDistance()" class="com.dfsek.betterEnd.advancement.trigger.UsedEnderEyeTrigger" />
+	<class name="com.dfsek.betterEnd.advancement.shared.DeathObject" />
+	<method signature="com.google.gson.JsonObject toJson()" class="com.dfsek.betterEnd.advancement.shared.DeathObject" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.EntityObject getEntity()" class="com.dfsek.betterEnd.advancement.shared.DeathObject" />
+	<method signature="void &lt;init&gt;()" class="com.dfsek.betterEnd.advancement.shared.DeathObject" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.DeathObject setEntity(com.dfsek.betterEnd.advancement.shared.EntityObject)" class="com.dfsek.betterEnd.advancement.shared.DeathObject" />
+	<method signature="com.google.gson.JsonElement toJson()" class="com.dfsek.betterEnd.advancement.shared.DeathObject" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.DamageFlagsObject getKillingBlow()" class="com.dfsek.betterEnd.advancement.shared.DeathObject" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.DeathObject setKillingBlow(com.dfsek.betterEnd.advancement.shared.DamageFlagsObject)" class="com.dfsek.betterEnd.advancement.shared.DeathObject" />
+	<class name="com.dfsek.betterEnd.advancement.trigger.ItemDurabilityChangedTrigger" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.ItemObject getItem()" class="com.dfsek.betterEnd.advancement.trigger.ItemDurabilityChangedTrigger" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.RangeObject getDelta()" class="com.dfsek.betterEnd.advancement.trigger.ItemDurabilityChangedTrigger" />
+	<method signature="com.dfsek.betterEnd.advancement.trigger.ItemDurabilityChangedTrigger setItem(com.dfsek.betterEnd.advancement.shared.ItemObject)" class="com.dfsek.betterEnd.advancement.trigger.ItemDurabilityChangedTrigger" />
+	<method signature="void &lt;init&gt;()" class="com.dfsek.betterEnd.advancement.trigger.ItemDurabilityChangedTrigger" />
+	<method signature="com.dfsek.betterEnd.advancement.trigger.ItemDurabilityChangedTrigger setDelta(com.dfsek.betterEnd.advancement.shared.RangeObject)" class="com.dfsek.betterEnd.advancement.trigger.ItemDurabilityChangedTrigger" />
+	<method signature="com.google.gson.JsonObject getConditions()" class="com.dfsek.betterEnd.advancement.trigger.ItemDurabilityChangedTrigger" />
+	<method signature="com.dfsek.betterEnd.advancement.trigger.ItemDurabilityChangedTrigger setDurability(com.dfsek.betterEnd.advancement.shared.RangeObject)" class="com.dfsek.betterEnd.advancement.trigger.ItemDurabilityChangedTrigger" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.RangeObject getDurability()" class="com.dfsek.betterEnd.advancement.trigger.ItemDurabilityChangedTrigger" />
+	<class name="com.dfsek.betterEnd.advancement.shared.ItemObject" />
+	<method signature="java.lang.String getNbt()" class="com.dfsek.betterEnd.advancement.shared.ItemObject" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.ItemObject setCount(com.dfsek.betterEnd.advancement.shared.RangeObject)" class="com.dfsek.betterEnd.advancement.shared.ItemObject" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.ItemObject setNbt(java.lang.String)" class="com.dfsek.betterEnd.advancement.shared.ItemObject" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.ItemObject setDurability(com.dfsek.betterEnd.advancement.shared.RangeObject)" class="com.dfsek.betterEnd.advancement.shared.ItemObject" />
+	<method signature="org.bukkit.Material getItem()" class="com.dfsek.betterEnd.advancement.shared.ItemObject" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.ItemObject removeEnchant(com.dfsek.betterEnd.advancement.shared.EnchantObject)" class="com.dfsek.betterEnd.advancement.shared.ItemObject" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.ItemObject setPotion(com.dfsek.betterEnd.advancement.shared.Potion)" class="com.dfsek.betterEnd.advancement.shared.ItemObject" />
+	<method signature="com.google.gson.JsonObject toJson()" class="com.dfsek.betterEnd.advancement.shared.ItemObject" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.RangeObject getCount()" class="com.dfsek.betterEnd.advancement.shared.ItemObject" />
+	<method signature="void &lt;init&gt;()" class="com.dfsek.betterEnd.advancement.shared.ItemObject" />
+	<method signature="com.google.gson.JsonElement toJson()" class="com.dfsek.betterEnd.advancement.shared.ItemObject" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.Potion getPotion()" class="com.dfsek.betterEnd.advancement.shared.ItemObject" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.ItemObject setItem(org.bukkit.Material)" class="com.dfsek.betterEnd.advancement.shared.ItemObject" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.RangeObject getDurability()" class="com.dfsek.betterEnd.advancement.shared.ItemObject" />
+	<method signature="java.util.Set getEnchants()" class="com.dfsek.betterEnd.advancement.shared.ItemObject" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.ItemObject addEnchant(com.dfsek.betterEnd.advancement.shared.EnchantObject)" class="com.dfsek.betterEnd.advancement.shared.ItemObject" />
+	<class name="com.dfsek.betterEnd.advancement.shared.SharedObject" />
+	<method signature="int hashCode()" class="com.dfsek.betterEnd.advancement.shared.SharedObject" />
+	<method signature="boolean equals(java.lang.Object)" class="com.dfsek.betterEnd.advancement.shared.SharedObject" />
+	<method signature="void &lt;init&gt;()" class="com.dfsek.betterEnd.advancement.shared.SharedObject" />
+	<method signature="com.google.gson.JsonElement toJson()" class="com.dfsek.betterEnd.advancement.shared.SharedObject" />
+	<class name="com.dfsek.betterEnd.advancement.trigger.EnchantedItemTrigger" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.ItemObject getItem()" class="com.dfsek.betterEnd.advancement.trigger.EnchantedItemTrigger" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.RangeObject getLevels()" class="com.dfsek.betterEnd.advancement.trigger.EnchantedItemTrigger" />
+	<method signature="com.dfsek.betterEnd.advancement.trigger.EnchantedItemTrigger setItem(com.dfsek.betterEnd.advancement.shared.ItemObject)" class="com.dfsek.betterEnd.advancement.trigger.EnchantedItemTrigger" />
+	<method signature="void &lt;init&gt;()" class="com.dfsek.betterEnd.advancement.trigger.EnchantedItemTrigger" />
+	<method signature="com.google.gson.JsonObject getConditions()" class="com.dfsek.betterEnd.advancement.trigger.EnchantedItemTrigger" />
+	<method signature="com.dfsek.betterEnd.advancement.trigger.EnchantedItemTrigger setLevels(com.dfsek.betterEnd.advancement.shared.RangeObject)" class="com.dfsek.betterEnd.advancement.trigger.EnchantedItemTrigger" />
+	<class name="com.dfsek.betterEnd.advancement.trigger.PlayerKilledEntityTrigger" />
+	<method signature="void &lt;init&gt;()" class="com.dfsek.betterEnd.advancement.trigger.PlayerKilledEntityTrigger" />
+	<method signature="com.google.gson.JsonObject getConditions()" class="com.dfsek.betterEnd.advancement.trigger.PlayerKilledEntityTrigger" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.DeathObject getDeath()" class="com.dfsek.betterEnd.advancement.trigger.PlayerKilledEntityTrigger" />
+	<method signature="com.dfsek.betterEnd.advancement.trigger.PlayerKilledEntityTrigger setDeath(com.dfsek.betterEnd.advancement.shared.DeathObject)" class="com.dfsek.betterEnd.advancement.trigger.PlayerKilledEntityTrigger" />
+	<class name="com.dfsek.betterEnd.advancement.Rewards" />
+	<method signature="int hashCode()" class="com.dfsek.betterEnd.advancement.Rewards" />
+	<method signature="java.util.Set getRecipes()" class="com.dfsek.betterEnd.advancement.Rewards" />
+	<method signature="com.dfsek.betterEnd.advancement.Rewards removeRecipe(org.bukkit.NamespacedKey)" class="com.dfsek.betterEnd.advancement.Rewards" />
+	<method signature="com.dfsek.betterEnd.advancement.Rewards addLoot(org.bukkit.NamespacedKey)" class="com.dfsek.betterEnd.advancement.Rewards" />
+	<method signature="java.util.Set getLoots()" class="com.dfsek.betterEnd.advancement.Rewards" />
+	<method signature="com.dfsek.betterEnd.advancement.Rewards setExperience(int)" class="com.dfsek.betterEnd.advancement.Rewards" />
+	<method signature="org.bukkit.NamespacedKey getFunction()" class="com.dfsek.betterEnd.advancement.Rewards" />
+	<method signature="com.google.gson.JsonObject toJson()" class="com.dfsek.betterEnd.advancement.Rewards" />
+	<method signature="int getExperience()" class="com.dfsek.betterEnd.advancement.Rewards" />
+	<method signature="boolean equals(java.lang.Object)" class="com.dfsek.betterEnd.advancement.Rewards" />
+	<method signature="void &lt;init&gt;()" class="com.dfsek.betterEnd.advancement.Rewards" />
+	<method signature="com.dfsek.betterEnd.advancement.Rewards addRecipe(org.bukkit.NamespacedKey)" class="com.dfsek.betterEnd.advancement.Rewards" />
+	<method signature="com.dfsek.betterEnd.advancement.Rewards setFunction(org.bukkit.NamespacedKey)" class="com.dfsek.betterEnd.advancement.Rewards" />
+	<method signature="com.dfsek.betterEnd.advancement.Rewards removeLoot(org.bukkit.NamespacedKey)" class="com.dfsek.betterEnd.advancement.Rewards" />
+	<class name="com.dfsek.betterEnd.advancement.trigger.KilledByCrossbowTrigger" />
+	<method signature="void &lt;init&gt;()" class="com.dfsek.betterEnd.advancement.trigger.KilledByCrossbowTrigger" />
+	<method signature="com.dfsek.betterEnd.advancement.trigger.KilledByCrossbowTrigger setUniqueEntityTypes(java.lang.Integer)" class="com.dfsek.betterEnd.advancement.trigger.KilledByCrossbowTrigger" />
+	<method signature="com.dfsek.betterEnd.advancement.trigger.KilledByCrossbowTrigger addVictim(com.dfsek.betterEnd.advancement.shared.EntityObject)" class="com.dfsek.betterEnd.advancement.trigger.KilledByCrossbowTrigger" />
+	<method signature="com.google.gson.JsonObject getConditions()" class="com.dfsek.betterEnd.advancement.trigger.KilledByCrossbowTrigger" />
+	<method signature="com.dfsek.betterEnd.advancement.trigger.KilledByCrossbowTrigger removeVictim(com.dfsek.betterEnd.advancement.shared.EntityObject)" class="com.dfsek.betterEnd.advancement.trigger.KilledByCrossbowTrigger" />
+	<method signature="java.util.List getVictims()" class="com.dfsek.betterEnd.advancement.trigger.KilledByCrossbowTrigger" />
+	<method signature="java.lang.Integer getUniqueEntityTypes()" class="com.dfsek.betterEnd.advancement.trigger.KilledByCrossbowTrigger" />
+	<class name="com.dfsek.betterEnd.advancement.trigger.ImpossibleTrigger" />
+	<method signature="void &lt;init&gt;()" class="com.dfsek.betterEnd.advancement.trigger.ImpossibleTrigger" />
+	<method signature="com.google.gson.JsonObject getConditions()" class="com.dfsek.betterEnd.advancement.trigger.ImpossibleTrigger" />
+	<class name="com.dfsek.betterEnd.advancement.trigger.EntityHurtPlayerTrigger" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.DamageObject getDamage()" class="com.dfsek.betterEnd.advancement.trigger.EntityHurtPlayerTrigger" />
+	<method signature="void &lt;init&gt;()" class="com.dfsek.betterEnd.advancement.trigger.EntityHurtPlayerTrigger" />
+	<method signature="com.google.gson.JsonObject getConditions()" class="com.dfsek.betterEnd.advancement.trigger.EntityHurtPlayerTrigger" />
+	<method signature="com.dfsek.betterEnd.advancement.trigger.EntityHurtPlayerTrigger setDamage(com.dfsek.betterEnd.advancement.shared.DamageObject)" class="com.dfsek.betterEnd.advancement.trigger.EntityHurtPlayerTrigger" />
+	<class name="com.dfsek.betterEnd.advancement.shared.Potion$Type" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.Potion$Type valueOf(java.lang.String)" class="com.dfsek.betterEnd.advancement.shared.Potion$Type" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.Potion$Type[] values()" class="com.dfsek.betterEnd.advancement.shared.Potion$Type" />
+	<method signature="org.bukkit.Material getItem()" class="com.dfsek.betterEnd.advancement.shared.Potion$Type" />
+	<field name="LINGERING" class="com.dfsek.betterEnd.advancement.shared.Potion$Type" />
+	<field name="SPLASH" class="com.dfsek.betterEnd.advancement.shared.Potion$Type" />
+	<field name="NORMAL" class="com.dfsek.betterEnd.advancement.shared.Potion$Type" />
+	<class name="com.dfsek.betterEnd.advancement.trigger.PlacedBlockTrigger" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.BlockObject getBlock()" class="com.dfsek.betterEnd.advancement.trigger.PlacedBlockTrigger" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.ItemObject getItem()" class="com.dfsek.betterEnd.advancement.trigger.PlacedBlockTrigger" />
+	<method signature="com.dfsek.betterEnd.advancement.trigger.PlacedBlockTrigger setBlock(com.dfsek.betterEnd.advancement.shared.BlockObject)" class="com.dfsek.betterEnd.advancement.trigger.PlacedBlockTrigger" />
+	<method signature="void &lt;init&gt;()" class="com.dfsek.betterEnd.advancement.trigger.PlacedBlockTrigger" />
+	<method signature="com.google.gson.JsonObject getConditions()" class="com.dfsek.betterEnd.advancement.trigger.PlacedBlockTrigger" />
+	<method signature="com.dfsek.betterEnd.advancement.trigger.PlacedBlockTrigger setLocation(com.dfsek.betterEnd.advancement.shared.LocationObject)" class="com.dfsek.betterEnd.advancement.trigger.PlacedBlockTrigger" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.LocationObject getLocation()" class="com.dfsek.betterEnd.advancement.trigger.PlacedBlockTrigger" />
+	<method signature="com.dfsek.betterEnd.advancement.trigger.PlacedBlockTrigger setItem(com.dfsek.betterEnd.advancement.shared.ItemObject)" class="com.dfsek.betterEnd.advancement.trigger.PlacedBlockTrigger" />
+	<class name="com.dfsek.betterEnd.advancement.trigger.EnterBlockTrigger" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.BlockObject getBlock()" class="com.dfsek.betterEnd.advancement.trigger.EnterBlockTrigger" />
+	<method signature="void &lt;init&gt;()" class="com.dfsek.betterEnd.advancement.trigger.EnterBlockTrigger" />
+	<method signature="com.dfsek.betterEnd.advancement.trigger.EnterBlockTrigger setBlock(com.dfsek.betterEnd.advancement.shared.BlockObject)" class="com.dfsek.betterEnd.advancement.trigger.EnterBlockTrigger" />
+	<method signature="com.google.gson.JsonObject getConditions()" class="com.dfsek.betterEnd.advancement.trigger.EnterBlockTrigger" />
+	<class name="com.dfsek.betterEnd.advancement.shared.Effect" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.Effect valueOf(java.lang.String)" class="com.dfsek.betterEnd.advancement.shared.Effect" />
+	<method signature="java.lang.String getValue()" class="com.dfsek.betterEnd.advancement.shared.Effect" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.Effect[] values()" class="com.dfsek.betterEnd.advancement.shared.Effect" />
+	<field name="SLOWNESS" class="com.dfsek.betterEnd.advancement.shared.Effect" />
+	<field name="INVISIBILITY" class="com.dfsek.betterEnd.advancement.shared.Effect" />
+	<field name="SLOW_FALLING" class="com.dfsek.betterEnd.advancement.shared.Effect" />
+	<field name="BAD_OMEN" class="com.dfsek.betterEnd.advancement.shared.Effect" />
+	<field name="WEAKNESS" class="com.dfsek.betterEnd.advancement.shared.Effect" />
+	<field name="DOLPHINS_GRACE" class="com.dfsek.betterEnd.advancement.shared.Effect" />
+	<field name="INSTANT_DAMAGE" class="com.dfsek.betterEnd.advancement.shared.Effect" />
+	<field name="MINING_FATIGUE" class="com.dfsek.betterEnd.advancement.shared.Effect" />
+	<field name="SPEED" class="com.dfsek.betterEnd.advancement.shared.Effect" />
+	<field name="WITHER" class="com.dfsek.betterEnd.advancement.shared.Effect" />
+	<field name="LUCK" class="com.dfsek.betterEnd.advancement.shared.Effect" />
+	<field name="FIRE_RESISTANCE" class="com.dfsek.betterEnd.advancement.shared.Effect" />
+	<field name="WATER_BREATHING" class="com.dfsek.betterEnd.advancement.shared.Effect" />
+	<field name="GLOWING" class="com.dfsek.betterEnd.advancement.shared.Effect" />
+	<field name="ABSORPTION" class="com.dfsek.betterEnd.advancement.shared.Effect" />
+	<field name="HUNGER" class="com.dfsek.betterEnd.advancement.shared.Effect" />
+	<field name="HERO_OF_THE_VILLAGE" class="com.dfsek.betterEnd.advancement.shared.Effect" />
+	<field name="REGENERATION" class="com.dfsek.betterEnd.advancement.shared.Effect" />
+	<field name="STRENGTH" class="com.dfsek.betterEnd.advancement.shared.Effect" />
+	<field name="BLINDNESS" class="com.dfsek.betterEnd.advancement.shared.Effect" />
+	<field name="LEVITATION" class="com.dfsek.betterEnd.advancement.shared.Effect" />
+	<field name="UNLUCK" class="com.dfsek.betterEnd.advancement.shared.Effect" />
+	<field name="CONDUIT_POWER" class="com.dfsek.betterEnd.advancement.shared.Effect" />
+	<field name="JUMP_BOOST" class="com.dfsek.betterEnd.advancement.shared.Effect" />
+	<field name="POISON" class="com.dfsek.betterEnd.advancement.shared.Effect" />
+	<field name="NAUSEA" class="com.dfsek.betterEnd.advancement.shared.Effect" />
+	<field name="RESISTANCE" class="com.dfsek.betterEnd.advancement.shared.Effect" />
+	<field name="HEALTH_BOOST" class="com.dfsek.betterEnd.advancement.shared.Effect" />
+	<field name="NIGHT_VISION" class="com.dfsek.betterEnd.advancement.shared.Effect" />
+	<field name="INSTANT_HEALTH" class="com.dfsek.betterEnd.advancement.shared.Effect" />
+	<field name="HASTE" class="com.dfsek.betterEnd.advancement.shared.Effect" />
+	<field name="SATURATION" class="com.dfsek.betterEnd.advancement.shared.Effect" />
+	<class name="com.dfsek.betterEnd.advancement.util.Validator" />
+	<method signature="void texture(java.lang.String)" class="com.dfsek.betterEnd.advancement.util.Validator" />
+	<method signature="void minusToDisable(int)" class="com.dfsek.betterEnd.advancement.util.Validator" />
+	<method signature="void &lt;init&gt;()" class="com.dfsek.betterEnd.advancement.util.Validator" />
+	<method signature="void nbt(java.lang.String)" class="com.dfsek.betterEnd.advancement.util.Validator" />
+	<method signature="void noNamespace(java.lang.String)" class="com.dfsek.betterEnd.advancement.util.Validator" />
+	<method signature="void zeroToDisable(int)" class="com.dfsek.betterEnd.advancement.util.Validator" />
+	<class name="com.dfsek.betterEnd.advancement.trigger.BredAnimalsTrigger" />
+	<method signature="com.dfsek.betterEnd.advancement.trigger.BredAnimalsTrigger setChild(com.dfsek.betterEnd.advancement.shared.EntityObject)" class="com.dfsek.betterEnd.advancement.trigger.BredAnimalsTrigger" />
+	<method signature="void &lt;init&gt;()" class="com.dfsek.betterEnd.advancement.trigger.BredAnimalsTrigger" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.EntityObject getPartner()" class="com.dfsek.betterEnd.advancement.trigger.BredAnimalsTrigger" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.EntityObject getChild()" class="com.dfsek.betterEnd.advancement.trigger.BredAnimalsTrigger" />
+	<method signature="com.google.gson.JsonObject getConditions()" class="com.dfsek.betterEnd.advancement.trigger.BredAnimalsTrigger" />
+	<method signature="com.dfsek.betterEnd.advancement.trigger.BredAnimalsTrigger setParent(com.dfsek.betterEnd.advancement.shared.EntityObject)" class="com.dfsek.betterEnd.advancement.trigger.BredAnimalsTrigger" />
+	<method signature="com.dfsek.betterEnd.advancement.trigger.BredAnimalsTrigger setPartner(com.dfsek.betterEnd.advancement.shared.EntityObject)" class="com.dfsek.betterEnd.advancement.trigger.BredAnimalsTrigger" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.EntityObject getParent()" class="com.dfsek.betterEnd.advancement.trigger.BredAnimalsTrigger" />
+	<class name="com.dfsek.betterEnd.advancement.trigger.InventoryChangedTrigger" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.RangeObject getOccupied()" class="com.dfsek.betterEnd.advancement.trigger.InventoryChangedTrigger" />
+	<method signature="com.dfsek.betterEnd.advancement.trigger.InventoryChangedTrigger setEmpty(com.dfsek.betterEnd.advancement.shared.RangeObject)" class="com.dfsek.betterEnd.advancement.trigger.InventoryChangedTrigger" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.RangeObject getFull()" class="com.dfsek.betterEnd.advancement.trigger.InventoryChangedTrigger" />
+	<method signature="void &lt;init&gt;()" class="com.dfsek.betterEnd.advancement.trigger.InventoryChangedTrigger" />
+	<method signature="com.dfsek.betterEnd.advancement.trigger.InventoryChangedTrigger setOccupied(com.dfsek.betterEnd.advancement.shared.RangeObject)" class="com.dfsek.betterEnd.advancement.trigger.InventoryChangedTrigger" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.RangeObject getEmpty()" class="com.dfsek.betterEnd.advancement.trigger.InventoryChangedTrigger" />
+	<method signature="com.dfsek.betterEnd.advancement.trigger.InventoryChangedTrigger addItem(com.dfsek.betterEnd.advancement.shared.ItemObject)" class="com.dfsek.betterEnd.advancement.trigger.InventoryChangedTrigger" />
+	<method signature="com.dfsek.betterEnd.advancement.trigger.InventoryChangedTrigger removeItem(com.dfsek.betterEnd.advancement.shared.ItemObject)" class="com.dfsek.betterEnd.advancement.trigger.InventoryChangedTrigger" />
+	<method signature="com.google.gson.JsonObject getConditions()" class="com.dfsek.betterEnd.advancement.trigger.InventoryChangedTrigger" />
+	<method signature="java.util.Set getItems()" class="com.dfsek.betterEnd.advancement.trigger.InventoryChangedTrigger" />
+	<method signature="com.dfsek.betterEnd.advancement.trigger.InventoryChangedTrigger setFull(com.dfsek.betterEnd.advancement.shared.RangeObject)" class="com.dfsek.betterEnd.advancement.trigger.InventoryChangedTrigger" />
+	<class name="com.dfsek.betterEnd.advancement.trigger.Trigger$Type" />
+	<method signature="com.dfsek.betterEnd.advancement.trigger.Trigger$Type valueOf(java.lang.String)" class="com.dfsek.betterEnd.advancement.trigger.Trigger$Type" />
+	<method signature="java.lang.String getValue()" class="com.dfsek.betterEnd.advancement.trigger.Trigger$Type" />
+	<method signature="com.dfsek.betterEnd.advancement.trigger.Trigger$Type[] values()" class="com.dfsek.betterEnd.advancement.trigger.Trigger$Type" />
+	<field name="ENCHANTED_ITEM" class="com.dfsek.betterEnd.advancement.trigger.Trigger$Type" />
+	<field name="LOCATION" class="com.dfsek.betterEnd.advancement.trigger.Trigger$Type" />
+	<field name="PLAYER_KILLED_ENTITY" class="com.dfsek.betterEnd.advancement.trigger.Trigger$Type" />
+	<field name="KILLED_BY_CROSSBOW" class="com.dfsek.betterEnd.advancement.trigger.Trigger$Type" />
+	<field name="BRED_ANIMALS" class="com.dfsek.betterEnd.advancement.trigger.Trigger$Type" />
+	<field name="RECIPE_UNLOCKED" class="com.dfsek.betterEnd.advancement.trigger.Trigger$Type" />
+	<field name="TAME_ANIMAL" class="com.dfsek.betterEnd.advancement.trigger.Trigger$Type" />
+	<field name="CHANGED_DIMENSION" class="com.dfsek.betterEnd.advancement.trigger.Trigger$Type" />
+	<field name="ITEM_DURABILITY_CHANGED" class="com.dfsek.betterEnd.advancement.trigger.Trigger$Type" />
+	<field name="ENTITY_KILLED_PLAYER" class="com.dfsek.betterEnd.advancement.trigger.Trigger$Type" />
+	<field name="INVENTORY_CHANGED" class="com.dfsek.betterEnd.advancement.trigger.Trigger$Type" />
+	<field name="BREWED_POTION" class="com.dfsek.betterEnd.advancement.trigger.Trigger$Type" />
+	<field name="PLAYER_HURT_ENTITY" class="com.dfsek.betterEnd.advancement.trigger.Trigger$Type" />
+	<field name="SLEPT_IN_BED" class="com.dfsek.betterEnd.advancement.trigger.Trigger$Type" />
+	<field name="IMPOSSIBLE" class="com.dfsek.betterEnd.advancement.trigger.Trigger$Type" />
+	<field name="USED_TOTEM" class="com.dfsek.betterEnd.advancement.trigger.Trigger$Type" />
+	<field name="CONSUME_ITEM" class="com.dfsek.betterEnd.advancement.trigger.Trigger$Type" />
+	<field name="SHOT_CROSSBOW" class="com.dfsek.betterEnd.advancement.trigger.Trigger$Type" />
+	<field name="PLACED_BLOCK" class="com.dfsek.betterEnd.advancement.trigger.Trigger$Type" />
+	<field name="CURED_ZOMBIE_VILLAGER" class="com.dfsek.betterEnd.advancement.trigger.Trigger$Type" />
+	<field name="NETHER_TRAVEL" class="com.dfsek.betterEnd.advancement.trigger.Trigger$Type" />
+	<field name="USED_ENDER_EYE" class="com.dfsek.betterEnd.advancement.trigger.Trigger$Type" />
+	<field name="VOLUNTARY_EXILE" class="com.dfsek.betterEnd.advancement.trigger.Trigger$Type" />
+	<field name="HERO_OF_THE_VILLAGE" class="com.dfsek.betterEnd.advancement.trigger.Trigger$Type" />
+	<field name="CONSTRUCT_BEACON" class="com.dfsek.betterEnd.advancement.trigger.Trigger$Type" />
+	<field name="FILLED_BUCKET" class="com.dfsek.betterEnd.advancement.trigger.Trigger$Type" />
+	<field name="ENTER_BLOCK" class="com.dfsek.betterEnd.advancement.trigger.Trigger$Type" />
+	<field name="FISHING_ROD_HOOKED" class="com.dfsek.betterEnd.advancement.trigger.Trigger$Type" />
+	<field name="LEVITATION" class="com.dfsek.betterEnd.advancement.trigger.Trigger$Type" />
+	<field name="CHANNELED_LIGHTNING" class="com.dfsek.betterEnd.advancement.trigger.Trigger$Type" />
+	<field name="ENTITY_HURT_PLAYER" class="com.dfsek.betterEnd.advancement.trigger.Trigger$Type" />
+	<field name="SUMMONED_ENTITY" class="com.dfsek.betterEnd.advancement.trigger.Trigger$Type" />
+	<field name="VILLAGER_TRADE" class="com.dfsek.betterEnd.advancement.trigger.Trigger$Type" />
+	<field name="TICK" class="com.dfsek.betterEnd.advancement.trigger.Trigger$Type" />
+	<field name="EFFECTS_CHANGED" class="com.dfsek.betterEnd.advancement.trigger.Trigger$Type" />
+	<class name="com.dfsek.betterEnd.advancement.shared.RangeObject" />
+	<method signature="java.lang.Number getMin()" class="com.dfsek.betterEnd.advancement.shared.RangeObject" />
+	<method signature="java.lang.Number getMax()" class="com.dfsek.betterEnd.advancement.shared.RangeObject" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.RangeObject setMax(java.lang.Number)" class="com.dfsek.betterEnd.advancement.shared.RangeObject" />
+	<method signature="void &lt;init&gt;()" class="com.dfsek.betterEnd.advancement.shared.RangeObject" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.RangeObject setMin(java.lang.Number)" class="com.dfsek.betterEnd.advancement.shared.RangeObject" />
+	<method signature="com.google.gson.JsonElement toJson()" class="com.dfsek.betterEnd.advancement.shared.RangeObject" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.RangeObject setExact(java.lang.Number)" class="com.dfsek.betterEnd.advancement.shared.RangeObject" />
+	<class name="com.dfsek.betterEnd.advancement.Advancement$Frame" />
+	<method signature="java.lang.String getValue()" class="com.dfsek.betterEnd.advancement.Advancement$Frame" />
+	<method signature="com.dfsek.betterEnd.advancement.Advancement$Frame valueOf(java.lang.String)" class="com.dfsek.betterEnd.advancement.Advancement$Frame" />
+	<method signature="com.dfsek.betterEnd.advancement.Advancement$Frame[] values()" class="com.dfsek.betterEnd.advancement.Advancement$Frame" />
+	<field name="CHALLENGE" class="com.dfsek.betterEnd.advancement.Advancement$Frame" />
+	<field name="TASK" class="com.dfsek.betterEnd.advancement.Advancement$Frame" />
+	<field name="GOAL" class="com.dfsek.betterEnd.advancement.Advancement$Frame" />
+	<class name="com.dfsek.betterEnd.advancement.util.JsonBuilder" />
+	<method signature="com.dfsek.betterEnd.advancement.util.JsonBuilder addPositive(java.lang.String,int)" class="com.dfsek.betterEnd.advancement.util.JsonBuilder" />
+	<method signature="void &lt;init&gt;(com.google.gson.JsonObject)" class="com.dfsek.betterEnd.advancement.util.JsonBuilder" />
+	<method signature="com.dfsek.betterEnd.advancement.util.JsonBuilder addTrue(java.lang.String,boolean)" class="com.dfsek.betterEnd.advancement.util.JsonBuilder" />
+	<method signature="com.dfsek.betterEnd.advancement.util.JsonBuilder add(java.lang.String,org.bukkit.Keyed)" class="com.dfsek.betterEnd.advancement.util.JsonBuilder" />
+	<method signature="com.dfsek.betterEnd.advancement.util.JsonBuilder addFalse(java.lang.String,boolean)" class="com.dfsek.betterEnd.advancement.util.JsonBuilder" />
+	<method signature="com.dfsek.betterEnd.advancement.util.JsonBuilder add(java.lang.String,java.lang.Number)" class="com.dfsek.betterEnd.advancement.util.JsonBuilder" />
+	<method signature="com.dfsek.betterEnd.advancement.util.JsonBuilder add(java.lang.String,java.util.Collection,java.util.function.Function)" class="com.dfsek.betterEnd.advancement.util.JsonBuilder" />
+	<method signature="com.dfsek.betterEnd.advancement.util.JsonBuilder add(java.lang.String,com.dfsek.betterEnd.advancement.shared.SharedEnum)" class="com.dfsek.betterEnd.advancement.util.JsonBuilder" />
+	<method signature="com.dfsek.betterEnd.advancement.util.JsonBuilder add(java.lang.String,org.bukkit.NamespacedKey)" class="com.dfsek.betterEnd.advancement.util.JsonBuilder" />
+	<method signature="void &lt;init&gt;()" class="com.dfsek.betterEnd.advancement.util.JsonBuilder" />
+	<method signature="com.google.gson.JsonObject build()" class="com.dfsek.betterEnd.advancement.util.JsonBuilder" />
+	<method signature="com.dfsek.betterEnd.advancement.util.JsonBuilder addNonNegative(java.lang.String,int)" class="com.dfsek.betterEnd.advancement.util.JsonBuilder" />
+	<method signature="com.dfsek.betterEnd.advancement.util.JsonBuilder add(java.lang.String,com.dfsek.betterEnd.advancement.shared.SharedObject)" class="com.dfsek.betterEnd.advancement.util.JsonBuilder" />
+	<method signature="com.dfsek.betterEnd.advancement.util.JsonBuilder add(java.lang.String,net.md_5.bungee.api.chat.TextComponent)" class="com.dfsek.betterEnd.advancement.util.JsonBuilder" />
+	<method signature="com.dfsek.betterEnd.advancement.util.JsonBuilder add(java.lang.String,java.lang.String)" class="com.dfsek.betterEnd.advancement.util.JsonBuilder" />
+	<method signature="com.dfsek.betterEnd.advancement.util.JsonBuilder add(java.lang.String,java.lang.Boolean)" class="com.dfsek.betterEnd.advancement.util.JsonBuilder" />
+	<method signature="com.dfsek.betterEnd.advancement.util.JsonBuilder add(java.lang.String,com.google.gson.JsonElement)" class="com.dfsek.betterEnd.advancement.util.JsonBuilder" />
+	<field name="GSON" class="com.dfsek.betterEnd.advancement.util.JsonBuilder" />
+	<class name="com.dfsek.betterEnd.advancement.trigger.ConstructBeaconTrigger" />
+	<method signature="com.dfsek.betterEnd.advancement.trigger.ConstructBeaconTrigger setLevel(com.dfsek.betterEnd.advancement.shared.RangeObject)" class="com.dfsek.betterEnd.advancement.trigger.ConstructBeaconTrigger" />
+	<method signature="void &lt;init&gt;()" class="com.dfsek.betterEnd.advancement.trigger.ConstructBeaconTrigger" />
+	<method signature="com.google.gson.JsonObject getConditions()" class="com.dfsek.betterEnd.advancement.trigger.ConstructBeaconTrigger" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.RangeObject getLevel()" class="com.dfsek.betterEnd.advancement.trigger.ConstructBeaconTrigger" />
+	<class name="com.dfsek.betterEnd.advancement.shared.Potion" />
+	<method signature="java.lang.String getValue()" class="com.dfsek.betterEnd.advancement.shared.Potion" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.Potion valueOf(java.lang.String)" class="com.dfsek.betterEnd.advancement.shared.Potion" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.Potion[] values()" class="com.dfsek.betterEnd.advancement.shared.Potion" />
+	<field name="SLOWNESS" class="com.dfsek.betterEnd.advancement.shared.Potion" />
+	<field name="INVISIBILITY" class="com.dfsek.betterEnd.advancement.shared.Potion" />
+	<field name="STRONG_REGENERATION" class="com.dfsek.betterEnd.advancement.shared.Potion" />
+	<field name="SLOW_FALLING" class="com.dfsek.betterEnd.advancement.shared.Potion" />
+	<field name="STRONG_SWIFTNESS" class="com.dfsek.betterEnd.advancement.shared.Potion" />
+	<field name="LONG_WATER_BREATHING" class="com.dfsek.betterEnd.advancement.shared.Potion" />
+	<field name="LEAPING" class="com.dfsek.betterEnd.advancement.shared.Potion" />
+	<field name="WEAKNESS" class="com.dfsek.betterEnd.advancement.shared.Potion" />
+	<field name="LONG_NIGHT_VISION" class="com.dfsek.betterEnd.advancement.shared.Potion" />
+	<field name="LUCK" class="com.dfsek.betterEnd.advancement.shared.Potion" />
+	<field name="FIRE_RESISTANCE" class="com.dfsek.betterEnd.advancement.shared.Potion" />
+	<field name="LONG_SLOW_FALLING" class="com.dfsek.betterEnd.advancement.shared.Potion" />
+	<field name="LONG_FIRE_RESISTANCE" class="com.dfsek.betterEnd.advancement.shared.Potion" />
+	<field name="WATER_BREATHING" class="com.dfsek.betterEnd.advancement.shared.Potion" />
+	<field name="LONG_LEAPING" class="com.dfsek.betterEnd.advancement.shared.Potion" />
+	<field name="STRONG_TURTLE_MASTER" class="com.dfsek.betterEnd.advancement.shared.Potion" />
+	<field name="LONG_WEAKNESS" class="com.dfsek.betterEnd.advancement.shared.Potion" />
+	<field name="EMPTY" class="com.dfsek.betterEnd.advancement.shared.Potion" />
+	<field name="HARMING" class="com.dfsek.betterEnd.advancement.shared.Potion" />
+	<field name="STRONG_POISON" class="com.dfsek.betterEnd.advancement.shared.Potion" />
+	<field name="SWIFTNESS" class="com.dfsek.betterEnd.advancement.shared.Potion" />
+	<field name="WATER" class="com.dfsek.betterEnd.advancement.shared.Potion" />
+	<field name="LONG_POISON" class="com.dfsek.betterEnd.advancement.shared.Potion" />
+	<field name="TURTLE_MASTER" class="com.dfsek.betterEnd.advancement.shared.Potion" />
+	<field name="AWKWARD" class="com.dfsek.betterEnd.advancement.shared.Potion" />
+	<field name="REGENERATION" class="com.dfsek.betterEnd.advancement.shared.Potion" />
+	<field name="STRENGTH" class="com.dfsek.betterEnd.advancement.shared.Potion" />
+	<field name="MUNDANE" class="com.dfsek.betterEnd.advancement.shared.Potion" />
+	<field name="HEALING" class="com.dfsek.betterEnd.advancement.shared.Potion" />
+	<field name="LONG_SWIFTNESS" class="com.dfsek.betterEnd.advancement.shared.Potion" />
+	<field name="STRONG_LEAPING" class="com.dfsek.betterEnd.advancement.shared.Potion" />
+	<field name="STRONG_HEALING" class="com.dfsek.betterEnd.advancement.shared.Potion" />
+	<field name="LONG_STRENGTH" class="com.dfsek.betterEnd.advancement.shared.Potion" />
+	<field name="LONG_REGENERATION" class="com.dfsek.betterEnd.advancement.shared.Potion" />
+	<field name="POISON" class="com.dfsek.betterEnd.advancement.shared.Potion" />
+	<field name="STRONG_HARMING" class="com.dfsek.betterEnd.advancement.shared.Potion" />
+	<field name="STRONG_STRENGTH" class="com.dfsek.betterEnd.advancement.shared.Potion" />
+	<field name="LONG_SLOWNESS" class="com.dfsek.betterEnd.advancement.shared.Potion" />
+	<field name="LONG_TURTLE_MASTER" class="com.dfsek.betterEnd.advancement.shared.Potion" />
+	<field name="THICK" class="com.dfsek.betterEnd.advancement.shared.Potion" />
+	<field name="NIGHT_VISION" class="com.dfsek.betterEnd.advancement.shared.Potion" />
+	<field name="STRONG_SLOWNESS" class="com.dfsek.betterEnd.advancement.shared.Potion" />
+	<field name="LONG_INVISIBILITY" class="com.dfsek.betterEnd.advancement.shared.Potion" />
+	<class name="com.dfsek.betterEnd.populators.OrePopulator" />
+	<method signature="void &lt;init&gt;()" class="com.dfsek.betterEnd.populators.OrePopulator" />
+	<method signature="void populate(org.bukkit.World,java.util.Random,org.bukkit.Chunk)" class="com.dfsek.betterEnd.populators.OrePopulator" />
+	<class name="com.dfsek.betterEnd.advancement.trigger.BrewedPotionTrigger" />
+	<method signature="void &lt;init&gt;()" class="com.dfsek.betterEnd.advancement.trigger.BrewedPotionTrigger" />
+	<method signature="com.dfsek.betterEnd.advancement.trigger.BrewedPotionTrigger setPotion(com.dfsek.betterEnd.advancement.shared.Potion)" class="com.dfsek.betterEnd.advancement.trigger.BrewedPotionTrigger" />
+	<method signature="com.google.gson.JsonObject getConditions()" class="com.dfsek.betterEnd.advancement.trigger.BrewedPotionTrigger" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.Potion getPotion()" class="com.dfsek.betterEnd.advancement.trigger.BrewedPotionTrigger" />
+	<class name="com.dfsek.betterEnd.advancement.trigger.Trigger" />
+	<method signature="com.google.gson.JsonObject toJson()" class="com.dfsek.betterEnd.advancement.trigger.Trigger" />
+	<method signature="int hashCode()" class="com.dfsek.betterEnd.advancement.trigger.Trigger" />
+	<method signature="boolean equals(java.lang.Object)" class="com.dfsek.betterEnd.advancement.trigger.Trigger" />
+	<method signature="com.dfsek.betterEnd.advancement.trigger.Trigger$Type getType()" class="com.dfsek.betterEnd.advancement.trigger.Trigger" />
+	<method signature="void &lt;init&gt;(com.dfsek.betterEnd.advancement.trigger.Trigger$Type)" class="com.dfsek.betterEnd.advancement.trigger.Trigger" />
+	<method signature="com.google.gson.JsonObject getConditions()" class="com.dfsek.betterEnd.advancement.trigger.Trigger" />
+	<class name="com.dfsek.betterEnd.advancement.shared.Dimension" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.Dimension[] values()" class="com.dfsek.betterEnd.advancement.shared.Dimension" />
+	<method signature="java.lang.String getValue()" class="com.dfsek.betterEnd.advancement.shared.Dimension" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.Dimension valueOf(java.lang.String)" class="com.dfsek.betterEnd.advancement.shared.Dimension" />
+	<field name="THE_NETHER" class="com.dfsek.betterEnd.advancement.shared.Dimension" />
+	<field name="OVERWORLD" class="com.dfsek.betterEnd.advancement.shared.Dimension" />
+	<field name="THE_END" class="com.dfsek.betterEnd.advancement.shared.Dimension" />
+	<class name="com.dfsek.betterEnd.advancement.trigger.SummonedEntityTrigger" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.EntityObject getEntity()" class="com.dfsek.betterEnd.advancement.trigger.SummonedEntityTrigger" />
+	<method signature="com.dfsek.betterEnd.advancement.trigger.SummonedEntityTrigger setEntity(com.dfsek.betterEnd.advancement.shared.EntityObject)" class="com.dfsek.betterEnd.advancement.trigger.SummonedEntityTrigger" />
+	<method signature="void &lt;init&gt;()" class="com.dfsek.betterEnd.advancement.trigger.SummonedEntityTrigger" />
+	<method signature="com.google.gson.JsonObject getConditions()" class="com.dfsek.betterEnd.advancement.trigger.SummonedEntityTrigger" />
+	<class name="com.dfsek.betterEnd.advancement.trigger.FilledBucketTrigger" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.ItemObject getItem()" class="com.dfsek.betterEnd.advancement.trigger.FilledBucketTrigger" />
+	<method signature="void &lt;init&gt;()" class="com.dfsek.betterEnd.advancement.trigger.FilledBucketTrigger" />
+	<method signature="com.google.gson.JsonObject getConditions()" class="com.dfsek.betterEnd.advancement.trigger.FilledBucketTrigger" />
+	<method signature="com.dfsek.betterEnd.advancement.trigger.FilledBucketTrigger setItem(com.dfsek.betterEnd.advancement.shared.ItemObject)" class="com.dfsek.betterEnd.advancement.trigger.FilledBucketTrigger" />
+	<class name="com.dfsek.betterEnd.advancement.trigger.SleptInBedTrigger" />
+	<method signature="void &lt;init&gt;()" class="com.dfsek.betterEnd.advancement.trigger.SleptInBedTrigger" />
+	<method signature="com.dfsek.betterEnd.advancement.trigger.SleptInBedTrigger setLocation(com.dfsek.betterEnd.advancement.shared.LocationObject)" class="com.dfsek.betterEnd.advancement.trigger.SleptInBedTrigger" />
+	<method signature="com.google.gson.JsonObject getConditions()" class="com.dfsek.betterEnd.advancement.trigger.SleptInBedTrigger" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.LocationObject getLocation()" class="com.dfsek.betterEnd.advancement.trigger.SleptInBedTrigger" />
+	<class name="com.dfsek.betterEnd.advancement.shared.EntityObject" />
+	<method signature="java.lang.String getNbt()" class="com.dfsek.betterEnd.advancement.shared.EntityObject" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.EntityObject setBaby(java.lang.Boolean)" class="com.dfsek.betterEnd.advancement.shared.EntityObject" />
+	<method signature="java.lang.Boolean isSprinting()" class="com.dfsek.betterEnd.advancement.shared.EntityObject" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.EntityObject setOnFire(java.lang.Boolean)" class="com.dfsek.betterEnd.advancement.shared.EntityObject" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.ItemObject getChest()" class="com.dfsek.betterEnd.advancement.shared.EntityObject" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.EntityObject setType(org.bukkit.entity.EntityType)" class="com.dfsek.betterEnd.advancement.shared.EntityObject" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.EntityObject setChest(com.dfsek.betterEnd.advancement.shared.ItemObject)" class="com.dfsek.betterEnd.advancement.shared.EntityObject" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.EntityObject setSneaking(java.lang.Boolean)" class="com.dfsek.betterEnd.advancement.shared.EntityObject" />
+	<method signature="java.lang.Boolean isBaby()" class="com.dfsek.betterEnd.advancement.shared.EntityObject" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.EntityObject setFeet(com.dfsek.betterEnd.advancement.shared.ItemObject)" class="com.dfsek.betterEnd.advancement.shared.EntityObject" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.EntityObject setDistance(com.dfsek.betterEnd.advancement.shared.DistanceObject)" class="com.dfsek.betterEnd.advancement.shared.EntityObject" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.ItemObject getLegs()" class="com.dfsek.betterEnd.advancement.shared.EntityObject" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.EntityObject setNbt(java.lang.String)" class="com.dfsek.betterEnd.advancement.shared.EntityObject" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.EntityObject setSwimming(java.lang.Boolean)" class="com.dfsek.betterEnd.advancement.shared.EntityObject" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.EntityObject setEffects(com.dfsek.betterEnd.advancement.shared.StatusEffectsObject)" class="com.dfsek.betterEnd.advancement.shared.EntityObject" />
+	<method signature="com.google.gson.JsonObject toJson()" class="com.dfsek.betterEnd.advancement.shared.EntityObject" />
+	<method signature="org.bukkit.entity.EntityType getType()" class="com.dfsek.betterEnd.advancement.shared.EntityObject" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.ItemObject getFeet()" class="com.dfsek.betterEnd.advancement.shared.EntityObject" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.StatusEffectsObject getEffects()" class="com.dfsek.betterEnd.advancement.shared.EntityObject" />
+	<method signature="void &lt;init&gt;()" class="com.dfsek.betterEnd.advancement.shared.EntityObject" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.EntityObject setLegs(com.dfsek.betterEnd.advancement.shared.ItemObject)" class="com.dfsek.betterEnd.advancement.shared.EntityObject" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.LocationObject getLocation()" class="com.dfsek.betterEnd.advancement.shared.EntityObject" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.ItemObject getHead()" class="com.dfsek.betterEnd.advancement.shared.EntityObject" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.EntityObject setHead(com.dfsek.betterEnd.advancement.shared.ItemObject)" class="com.dfsek.betterEnd.advancement.shared.EntityObject" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.ItemObject getMainHand()" class="com.dfsek.betterEnd.advancement.shared.EntityObject" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.EntityObject setLocation(com.dfsek.betterEnd.advancement.shared.LocationObject)" class="com.dfsek.betterEnd.advancement.shared.EntityObject" />
+	<method signature="java.lang.Boolean isSwimming()" class="com.dfsek.betterEnd.advancement.shared.EntityObject" />
+	<method signature="org.bukkit.entity.Cat$Type getCatType()" class="com.dfsek.betterEnd.advancement.shared.EntityObject" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.EntityObject setOffHand(com.dfsek.betterEnd.advancement.shared.ItemObject)" class="com.dfsek.betterEnd.advancement.shared.EntityObject" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.EntityObject setSprinting(java.lang.Boolean)" class="com.dfsek.betterEnd.advancement.shared.EntityObject" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.EntityObject setCatType(org.bukkit.entity.Cat$Type)" class="com.dfsek.betterEnd.advancement.shared.EntityObject" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.ItemObject getOffHand()" class="com.dfsek.betterEnd.advancement.shared.EntityObject" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.EntityObject setMainHand(com.dfsek.betterEnd.advancement.shared.ItemObject)" class="com.dfsek.betterEnd.advancement.shared.EntityObject" />
+	<method signature="com.dfsek.betterEnd.advancement.shared.DistanceObject getDistance()" class="com.dfsek.betterEnd.advancement.shared.EntityObject" />
+	<method signature="java.lang.Boolean isOnFire()" class="com.dfsek.betterEnd.advancement.shared.EntityObject" />
+	<method signature="com.google.gson.JsonElement toJson()" class="com.dfsek.betterEnd.advancement.shared.EntityObject" />
+	<method signature="java.lang.Boolean isSneaking()" class="com.dfsek.betterEnd.advancement.shared.EntityObject" />
+	<class name="com.dfsek.betterEnd.advancement.trigger.ChanneledLightningTrigger" />
+	<method signature="com.dfsek.betterEnd.advancement.trigger.ChanneledLightningTrigger addVictim(com.dfsek.betterEnd.advancement.shared.EntityObject)" class="com.dfsek.betterEnd.advancement.trigger.ChanneledLightningTrigger" />
+	<method signature="com.dfsek.betterEnd.advancement.trigger.ChanneledLightningTrigger removeVictim(com.dfsek.betterEnd.advancement.shared.EntityObject)" class="com.dfsek.betterEnd.advancement.trigger.ChanneledLightningTrigger" />
+	<method signature="void &lt;init&gt;()" class="com.dfsek.betterEnd.advancement.trigger.ChanneledLightningTrigger" />
+	<method signature="com.google.gson.JsonObject getConditions()" class="com.dfsek.betterEnd.advancement.trigger.ChanneledLightningTrigger" />
+	<method signature="java.util.List getVictims()" class="com.dfsek.betterEnd.advancement.trigger.ChanneledLightningTrigger" />
+</entrypoints>
+
+<!-- writing shrinked C:\Users\dfsek.DFSEK\eclipse-workspace\betterEnd\target\BetterEnd_raw.jar to C:\Users\dfsek.DFSEK\eclipse-workspace\betterEnd\target\yguard_temp_8646738400841560519.jar. -->
+<inOutPair in="C:\Users\dfsek.DFSEK\eclipse-workspace\betterEnd\target\BetterEnd_raw.jar" out="C:\Users\dfsek.DFSEK\eclipse-workspace\betterEnd\target\yguard_temp_8646738400841560519.jar">
+	<removed-code>
+		<class name="com.dfsek.betterEnd.EndChunkGenerator" />
+		<class name="com.dfsek.betterEnd.Main$1" />
+		<class name="com.dfsek.betterEnd.Main$2" />
+		<class name="com.dfsek.betterEnd.Main$3" />
+		<method signature="void &lt;init&gt;()" class="com.dfsek.betterEnd.Main" />
+		<method signature="void onEnable()" class="com.dfsek.betterEnd.Main" />
+		<method signature="void checkUpdates()" class="com.dfsek.betterEnd.Main" />
+		<method signature="void onDisable()" class="com.dfsek.betterEnd.Main" />
+		<method signature="void dumpConfig(boolean)" class="com.dfsek.betterEnd.Main" />
+		<method signature="boolean onCommand(org.bukkit.command.CommandSender,org.bukkit.command.Command,java.lang.String,java.lang.String[])" class="com.dfsek.betterEnd.Main" />
+		<method signature="java.util.List onTabComplete(org.bukkit.command.CommandSender,org.bukkit.command.Command,java.lang.String,java.lang.String[])" class="com.dfsek.betterEnd.Main" />
+		<method signature="double getBiomeNoise(int,int,long)" class="com.dfsek.betterEnd.Main" />
+		<method signature="com.dfsek.betterEnd.EndChunkGenerator getDefaultWorldGenerator(java.lang.String,java.lang.String)" class="com.dfsek.betterEnd.Main" />
+		<method signature="void onEntityPickup(org.bukkit.event.entity.EntityChangeBlockEvent)" class="com.dfsek.betterEnd.Main" />
+		<method signature="void onPlayerJoin(org.bukkit.event.player.PlayerJoinEvent)" class="com.dfsek.betterEnd.Main" />
+		<method signature="void onInventoryOpenEvent(org.bukkit.event.inventory.InventoryOpenEvent)" class="com.dfsek.betterEnd.Main" />
+		<method signature="boolean tpBiome(org.bukkit.entity.Player,java.lang.String[])" class="com.dfsek.betterEnd.Main" />
+		<method signature="void backupConfig()" class="com.dfsek.betterEnd.Main" />
+		<method signature="org.bukkit.generator.ChunkGenerator getDefaultWorldGenerator(java.lang.String,java.lang.String)" class="com.dfsek.betterEnd.Main" />
+		<method signature="java.lang.String lambda$0()" class="com.dfsek.betterEnd.Main" />
+		<method signature="void lambda$1(com.dfsek.betterEnd.UpdateChecker$UpdateResult,java.lang.Throwable)" class="com.dfsek.betterEnd.Main" />
+		<method signature="boolean lambda$2(java.lang.String[],java.lang.String)" class="com.dfsek.betterEnd.Main" />
+		<method signature="boolean lambda$3(java.lang.String[],java.lang.String)" class="com.dfsek.betterEnd.Main" />
+		<class name="com.dfsek.betterEnd.Metrics$1" />
+		<class name="com.dfsek.betterEnd.Metrics$AdvancedBarChart" />
+		<class name="com.dfsek.betterEnd.Metrics$AdvancedPie" />
+		<class name="com.dfsek.betterEnd.Metrics$CustomChart" />
+		<class name="com.dfsek.betterEnd.Metrics$DrilldownPie" />
+		<class name="com.dfsek.betterEnd.Metrics$MultiLineChart" />
+		<class name="com.dfsek.betterEnd.Metrics$SimpleBarChart" />
+		<class name="com.dfsek.betterEnd.Metrics$SimplePie" />
+		<class name="com.dfsek.betterEnd.Metrics$SingleLineChart" />
+		<class name="com.dfsek.betterEnd.Metrics" />
+		<class name="com.dfsek.betterEnd.UpdateChecker$UpdateReason" />
+		<class name="com.dfsek.betterEnd.UpdateChecker$UpdateResult" />
+		<class name="com.dfsek.betterEnd.UpdateChecker$VersionScheme" />
+		<class name="com.dfsek.betterEnd.UpdateChecker" />
+		<method signature="com.dfsek.betterEnd.advancement.trigger.Trigger lambda$0(com.dfsek.betterEnd.advancement.shared.ItemObject)" class="com.dfsek.betterEnd.advancement.AdvancementFactory" />
+		<method signature="com.dfsek.betterEnd.advancement.trigger.Trigger lambda$1(com.dfsek.betterEnd.advancement.shared.ItemObject)" class="com.dfsek.betterEnd.advancement.AdvancementFactory" />
+		<method signature="com.dfsek.betterEnd.advancement.trigger.Trigger lambda$2(org.bukkit.Material)" class="com.dfsek.betterEnd.advancement.AdvancementFactory" />
+		<method signature="com.dfsek.betterEnd.advancement.trigger.Trigger lambda$3(com.dfsek.betterEnd.advancement.shared.ItemObject)" class="com.dfsek.betterEnd.advancement.AdvancementFactory" />
+		<method signature="com.dfsek.betterEnd.advancement.trigger.Trigger lambda$4(com.dfsek.betterEnd.advancement.shared.ItemObject)" class="com.dfsek.betterEnd.advancement.AdvancementFactory" />
+		<method signature="com.dfsek.betterEnd.advancement.trigger.Trigger lambda$5(org.bukkit.entity.EntityType)" class="com.dfsek.betterEnd.advancement.AdvancementFactory" />
+		<method signature="com.dfsek.betterEnd.advancement.trigger.Trigger lambda$6(org.bukkit.entity.EntityType)" class="com.dfsek.betterEnd.advancement.AdvancementFactory" />
+		<method signature="com.dfsek.betterEnd.advancement.shared.ItemObject lambda$7(org.bukkit.Material)" class="com.dfsek.betterEnd.advancement.AdvancementFactory" />
+		<method signature="com.dfsek.betterEnd.advancement.shared.ItemObject[] lambda$8(int)" class="com.dfsek.betterEnd.advancement.AdvancementFactory" />
+		<method signature="com.google.gson.JsonElement lambda$0(org.bukkit.NamespacedKey)" class="com.dfsek.betterEnd.advancement.Rewards" />
+		<method signature="com.google.gson.JsonElement lambda$1(org.bukkit.NamespacedKey)" class="com.dfsek.betterEnd.advancement.Rewards" />
+		<method signature="void lambda$0(com.google.gson.JsonObject,com.dfsek.betterEnd.advancement.shared.Effect,com.dfsek.betterEnd.advancement.shared.EffectObject)" class="com.dfsek.betterEnd.advancement.shared.StatusEffectsObject" />
+		<method signature="boolean isValidTreeSpawn(org.bukkit.Location)" class="com.dfsek.betterEnd.populators.EnvironmentPopulator" />
+		<method signature="void lambda$0(org.bukkit.entity.EnderCrystal)" class="com.dfsek.betterEnd.populators.EnvironmentPopulator" />
+		<method signature="void lambda$1(org.bukkit.entity.EnderCrystal)" class="com.dfsek.betterEnd.populators.EnvironmentPopulator" />
+		<method signature="void lambda$2(org.bukkit.entity.EnderCrystal)" class="com.dfsek.betterEnd.populators.EnvironmentPopulator" />
+		<method signature="void lambda$3(org.bukkit.entity.EnderCrystal)" class="com.dfsek.betterEnd.populators.EnvironmentPopulator" />
+		<method signature="void generateFortress(org.bukkit.Location)" class="com.dfsek.betterEnd.populators.StructurePopulator" />
+	</removed-code>
+	<removed-resources>
+	</removed-resources>
+<!-- 	shrinked C:\Users\dfsek.DFSEK\eclipse-workspace\betterEnd\target\BetterEnd_raw.jar BY 12.82%. -->
+<!-- 	size before: 460 KB, size after: 401 KB. -->
+<!-- 	removed 18 classes, 37 methods, 0 fields, 0 resources. -->
+<!-- 	67 classes remaining of 85 total. -->
+</inOutPair>
+</yshrink>
+

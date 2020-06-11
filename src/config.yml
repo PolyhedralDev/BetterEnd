@@ -1,7 +1,7 @@
 #BetterEnd Generator Configuration
 
 #Do not change this value. It tells the plugin whether or not to update the config.
-config-version: 0
+config-version: 2.1.0
 
 #Update Checker settings
 update-checker:
@@ -64,6 +64,8 @@ outer-islands:
   cave-decoration: true
   #The average size of the biomes; bigger values correspond to larger biome sizes.
   biome-size: 1024
+  #The distribution of different climates
+  climate-noise: 384
   #The amount of spread of the heat noise (used to calculate Aether/Aether Highlands difference), larger values correspond to
   #larger, but much farther apart, Aether Highlands biomes.
   heat-noise: 512

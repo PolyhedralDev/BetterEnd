@@ -11,11 +11,11 @@ import org.bukkit.block.Biome;
 import org.bukkit.entity.EnderCrystal;
 import org.bukkit.entity.EntityType;
 import org.bukkit.generator.BlockPopulator;
-import org.bukkit.util.BlockVector;
 import org.bukkit.util.Vector;
 import org.bukkit.util.noise.SimplexOctaveGenerator;
 
 import com.dfsek.betterEnd.Main;
+import com.dfsek.betterEnd.structures.Tree;
 
 public class EnvironmentPopulator extends BlockPopulator {
 	Main main = Main.getInstance();
@@ -30,6 +30,8 @@ public class EnvironmentPopulator extends BlockPopulator {
 	int biomeSize = main.getConfig().getInt("outer-islands.biome-size");
 	boolean allAether = main.getConfig().getBoolean("all-aether", false);
 	int h = main.getConfig().getInt("outer-islands.island-height");
+	int outNoise = main.getConfig().getInt("outer-islands.noise", 56);
+	double landPercent = 1-((double) ((main.getConfig().getInt("outer-islands.island-threshold", 30))/50D));
 
 	@SuppressWarnings("deprecation")
 	public void populate(World world, Random random, Chunk chunk) {
@@ -66,13 +68,17 @@ public class EnvironmentPopulator extends BlockPopulator {
 					case "AETHER":
 						for (Y = world.getMaxHeight()-1; (chunk.getBlock(X, Y, Z).getType() != Material.GRASS_BLOCK) && Y>0; Y--);
 						if(Y > 1) {
-
 							if(random.nextInt(100) < 85) {
 								world.generateTree(blockLocation, TreeType.TREE);
 							} else {
 								world.generateTree(blockLocation, TreeType.BIG_TREE);
 							}
-
+						}
+						break;
+					case "AETHER_FOREST":
+						if(random.nextInt(20) < 14 && blockLocation.getBlock().getType() == Material.GRASS_BLOCK) {
+							//world.generateTree(blockLocation, TreeType.BIG_TREE);
+							new Tree(blockLocation, 1.5, random, random.nextInt(4)+10, 3, "OAK");
 						}
 						break;
 					case "AETHER_HIGHLANDS":
@@ -117,18 +123,34 @@ public class EnvironmentPopulator extends BlockPopulator {
 									lowBound[j] = lowBound[j-1] + random.nextInt(7)-3;
 								}
 								for(int j = -lowBound[0]; j < upBound[0]; j++) {
-									world.getBlockAt((chunk.getX()*16)+X, Y+j, (chunk.getZ()*16)+Z).setType(Material.OBSIDIAN);
+									if(world.getBlockAt((chunk.getX()*16)+X, Y+j, (chunk.getZ()*16)+Z).getType() == Material.END_STONE ||
+											world.getBlockAt((chunk.getX()*16)+X, Y+j, (chunk.getZ()*16)+Z).getType() == Material.END_ROD ||
+											world.getBlockAt((chunk.getX()*16)+X, Y+j, (chunk.getZ()*16)+Z).getType() == Material.END_STONE_BRICK_SLAB ||
+											world.getBlockAt((chunk.getX()*16)+X, Y+j, (chunk.getZ()*16)+Z).getType() == Material.END_STONE_BRICK_WALL ||
+											world.getBlockAt((chunk.getX()*16)+X, Y+j, (chunk.getZ()*16)+Z).getType().isEmpty()) world.getBlockAt((chunk.getX()*16)+X, Y+j, (chunk.getZ()*16)+Z).setType(Material.OBSIDIAN);
 								}
 								for(int j = -lowBound[1]; j < upBound[1]; j++) {
-									world.getBlockAt((chunk.getX()*16)+X+1, Y+j, (chunk.getZ()*16)+Z).setType(Material.OBSIDIAN);
+									if(world.getBlockAt((chunk.getX()*16)+X, Y+j, (chunk.getZ()*16)+Z).getType() == Material.END_STONE ||
+											world.getBlockAt((chunk.getX()*16)+X+1, Y+j, (chunk.getZ()*16)+Z).getType() == Material.END_ROD ||
+											world.getBlockAt((chunk.getX()*16)+X+1, Y+j, (chunk.getZ()*16)+Z).getType() == Material.END_STONE_BRICK_SLAB ||
+											world.getBlockAt((chunk.getX()*16)+X+1, Y+j, (chunk.getZ()*16)+Z).getType() == Material.END_STONE_BRICK_WALL ||
+											world.getBlockAt((chunk.getX()*16)+X+1, Y+j, (chunk.getZ()*16)+Z).getType().isEmpty()) world.getBlockAt((chunk.getX()*16)+X+1, Y+j, (chunk.getZ()*16)+Z).setType(Material.OBSIDIAN);
 								}
 								for(int j = -lowBound[2]; j < upBound[2]; j++) {
-									world.getBlockAt((chunk.getX()*16)+X, Y+j, (chunk.getZ()*16)+Z+1).setType(Material.OBSIDIAN);
+									if(world.getBlockAt((chunk.getX()*16)+X, Y+j, (chunk.getZ()*16)+Z).getType() == Material.END_STONE ||
+											world.getBlockAt((chunk.getX()*16)+X, Y+j, (chunk.getZ()*16)+Z+1).getType() == Material.END_ROD ||
+											world.getBlockAt((chunk.getX()*16)+X, Y+j, (chunk.getZ()*16)+Z+1).getType() == Material.END_STONE_BRICK_SLAB ||
+											world.getBlockAt((chunk.getX()*16)+X, Y+j, (chunk.getZ()*16)+Z+1).getType() == Material.END_STONE_BRICK_WALL ||
+											world.getBlockAt((chunk.getX()*16)+X, Y+j, (chunk.getZ()*16)+Z+1).getType().isEmpty()) world.getBlockAt((chunk.getX()*16)+X, Y+j, (chunk.getZ()*16)+Z+1).setType(Material.OBSIDIAN);
 								}
 								for(int j = -lowBound[3]; j < upBound[3]; j++) {
-									world.getBlockAt((chunk.getX()*16)+X+1, Y+j, (chunk.getZ()*16)+Z+1).setType(Material.OBSIDIAN);
+									if(world.getBlockAt((chunk.getX()*16)+X, Y+j, (chunk.getZ()*16)+Z).getType() == Material.END_STONE ||
+											world.getBlockAt((chunk.getX()*16)+X+1, Y+j, (chunk.getZ()*16)+Z+1).getType() == Material.END_ROD ||
+											world.getBlockAt((chunk.getX()*16)+X+1, Y+j, (chunk.getZ()*16)+Z+1).getType() == Material.END_STONE_BRICK_SLAB ||
+											world.getBlockAt((chunk.getX()*16)+X+1, Y+j, (chunk.getZ()*16)+Z+1).getType() == Material.END_STONE_BRICK_WALL ||
+											world.getBlockAt((chunk.getX()*16)+X+1, Y+j, (chunk.getZ()*16)+Z+1).getType().isEmpty()) world.getBlockAt((chunk.getX()*16)+X+1, Y+j, (chunk.getZ()*16)+Z+1).setType(Material.OBSIDIAN);
 								}
-								if(random.nextInt(100) < 15) {
+								if(random.nextInt(100) < 25) {
 									switch(maxH) {
 									case 0:
 										world.spawn(new Location(world, (chunk.getX()*16)+X+0.5, upBound[0]+Y, (chunk.getZ()*16)+Z+0.5), EnderCrystal.class, (enderCrystal) -> enderCrystal.setShowingBottom(false));
@@ -153,6 +175,13 @@ public class EnvironmentPopulator extends BlockPopulator {
 							}
 						}
 						break;
+					case "SHATTERED_FOREST":
+						if(blockLocation.getBlock().getType() == Material.END_STONE && random.nextInt(20) < 6 && i == 0) {
+							new Tree(blockLocation, 2, random, random.nextInt(10)+20, 3, "SHATTERED");
+						} else if(blockLocation.getBlock().getType() == Material.END_STONE && random.nextInt(20) < 10) {
+							new Tree(blockLocation, 1, random, random.nextInt(5)+5, 3, "SHATTERED");
+						}
+						break;
 					default:
 						if(blockLocation.getBlock().getType() == Material.END_STONE && random.nextInt(10) < 8) {
 							world.generateTree(blockLocation.add(0,1,0), TreeType.CHORUS_PLANT);
@@ -160,6 +189,9 @@ public class EnvironmentPopulator extends BlockPopulator {
 					}
 				}
 			}
+		if(chunk.getX() % 3 == 0 && chunk.getZ() % 3 == 0) {
+			new Tree(new Location(chunk.getWorld(), chunk.getX()*16, 72, chunk.getZ()*16), 1.5, random, 3*(andom.nextInt(3)+5), 3, "SPRUCE");
+		}
 		//animals
 		if(random.nextInt(100) < herdChance) {
 			int size = random.nextInt(herdMax-herdMin)+herdMin;
@@ -185,88 +217,7 @@ public class EnvironmentPopulator extends BlockPopulator {
 				}
 			}
 		}
-		if(chunk.getX() == 0 && chunk.getZ() == 0) {
-			doTreeAt(new Location(world, 100,72,0), 3, random, 30, 2);
-			
-		}
 	}
-	void doTreeAt(Location start, double startR, Random random, int length, double change) {
-		Vector initV = new Vector(0,1,0);
-		int branchFreq = random.nextInt(5)+1;
-		
-		for(int i = 0; i < length; i++) {
-			start.add(initV);
-			for (int x = (int) -startR; x <= startR; x++) {
-	            for (int y = (int) -startR; y <= startR; y++) {
-	                for (int z = (int) -startR; z <= startR; z++) {
-	                    Vector position = start.toVector().clone().add(new Vector(x, y, z));
 
-	                    if (start.toVector().distance(position) <= startR + 0.5) {
-	                        position.toLocation(start.getWorld()).getBlock().setType(random.nextBoolean() ? Material.OBSIDIAN : Material.BLACK_CONCRETE);
-	                    }
-	                }
-	            }
-	        }
-			initV.setX(initV.getX() + (random.nextFloat()-0.5)/change);
-			if(initV.getX() > 0.5) initV.setX(0.5);
-			if(initV.getX() < -0.5) initV.setX(-0.5);
-			initV.setY(initV.getY() + (random.nextFloat()-0.5)/(change*3));
-			if(initV.getY() > 1) initV.setY(1);
-			if(initV.getY() < 0) initV.setY(0);
-			initV.setZ(initV.getY() + (random.nextFloat()-0.5)/change);
-			if(initV.getZ() > 0.5) initV.setZ(0.5);
-			if(initV.getZ() < -0.5) initV.setZ(-0.5);
-			startR = startR - 0.075;
-			int branches = random.nextInt(2)+1;
-			if(i % 4 == 0 && i > length/4) for(int j = 0; j < branches; j++) doBranchAt(start.clone(), startR, random, random.nextInt(20)+10, 4, initV.clone());
-		}
-	}
-	void doBranchAt(Location start, double startR, Random random, int length, double change, Vector startV) {
-		int ogStart = (int) startR;
-		Vector initV = getPerpendicular(startV.clone()).rotateAroundAxis(startV, random.nextInt(360)).setY(0).multiply(2);
-		for(int i = 0; i < length; i++) {
-			doSphereAtLoc(start.add(initV), (int) startR, random);
-			initV.setX(initV.getX() + (random.nextFloat()-0.5)/change);
-			if(initV.getX() > 1) initV.setX(1);
-			if(initV.getX() < -1) initV.setX(-1);
-			initV.setY(initV.getY() + (random.nextFloat()-0.5)/change);
-			if(initV.getY() > 1) initV.setY(1);
-			if(initV.getY() < -1) initV.setY(-1);
-			initV.setZ(initV.getY() + (random.nextFloat()-0.5)/change);
-			if(initV.getZ() > 1) initV.setZ(1);
-			if(initV.getZ() < -1) initV.setZ(-1);
-			startR = startR - 0.1;
-		}
-		int radius = random.nextInt(ogStart+1)+1;
-		for (int x = -radius; x <= radius; x++) {
-            for (int y = -radius; y <= radius; y++) {
-                for (int z = -radius; z <= radius; z++) {
-                    Vector position = start.toVector().clone().add(new Vector(x, y, z));
-                    if (start.toVector().distance(position) <= radius + 0.5) {
-                        if(position.toLocation(start.getWorld()).getBlock().isEmpty()) position.toLocation(start.getWorld()).getBlock().setType(random.nextBoolean() ? Material.MAGENTA_STAINED_GLASS : Material.PURPLE_STAINED_GLASS);
-                    }
-                }
-            }
-        }
-	}
-	void doSphereAtLoc(Location l, int radius, Random random) {
-		for (int x = -radius; x <= radius; x++) {
-            for (int y = -radius; y <= radius; y++) {
-                for (int z = -radius; z <= radius; z++) {
-                    Vector position = l.toVector().clone().add(new Vector(x, y, z));
-
-                    if (l.toVector().distance(position) <= radius + 0.5) {
-                    	if(position.toLocation(l.getWorld()).getBlock().isEmpty()) position.toLocation(l.getWorld()).getBlock().setType(random.nextBoolean() ? Material.OBSIDIAN : Material.BLACK_CONCRETE);
-                    }
-                }
-            }
-        }
-	}
-	Vector getPerpendicular(Vector v) {
-	    if(v.getY() == 0 && v.getZ() == 0)
-	        if(v.getX() == 0) throw new IllegalArgumentException("Zero Vector");
-	        else return v.crossProduct(new Vector(0,1,0));
-	    return v.crossProduct(new Vector(1,0,0));
-	}
 
 } 

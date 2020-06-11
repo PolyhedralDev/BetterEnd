@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<yshrink version="0.1">
+<!-- parsing C:\Users\dfsek.DFSEK\eclipse-workspace\betterEnd\DemoProject.jar -->
+<entrypoints>
+</entrypoints>
+
+<!-- writing shrinked C:\Users\dfsek.DFSEK\eclipse-workspace\betterEnd\DemoProject.jar to C:\Users\dfsek.DFSEK\eclipse-workspace\betterEnd\yguard_temp_5584219550606177248.jar. -->
+<inOutPair in="C:\Users\dfsek.DFSEK\eclipse-workspace\betterEnd\DemoProject.jar" out="C:\Users\dfsek.DFSEK\eclipse-workspace\betterEnd\yguard_temp_5584219550606177248.jar">
+	<removed-code>
+	</removed-code>
+	<removed-resources>
+	</removed-resources>
+<!-- 	shrinked C:\Users\dfsek.DFSEK\eclipse-workspace\betterEnd\DemoProject.jar BY -12.01%. -->
+<!-- 	size before: 0 KB, size after: 0 KB. -->
+<!-- 	removed 0 classes, 0 methods, 0 fields, 0 resources. -->
+<!-- 	0 classes remaining of 0 total. -->
+</inOutPair>
+</yshrink>
+

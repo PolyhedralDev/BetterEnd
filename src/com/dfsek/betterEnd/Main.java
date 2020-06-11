@@ -6,7 +6,9 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.block.Chest;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Enderman;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -26,6 +28,7 @@ import io.lumine.xikage.mythicmobs.MythicMobs;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -41,28 +44,35 @@ public class Main extends JavaPlugin implements Listener {
 	public void onEnable() {	
 		instance = this;
 		Logger logger = this.getLogger();
-		
+
 		Metrics metrics = new Metrics(this, 7709);
-        metrics.addCustomChart(new Metrics.SimplePie("premium", () -> isPremium() ? "Yes" : "No"));
-        
+		metrics.addCustomChart(new Metrics.SimplePie("premium", () -> isPremium() ? "Yes" : "No"));
+
 		this.getServer().getPluginManager().registerEvents(this, this);
 
-		try {
-			File configFile = new File(getDataFolder() + File.separator + "config.yml");
-			if(!configFile.exists()) {
-				configFile.getParentFile().mkdirs();
-				FileOutputStream writer = new FileOutputStream(configFile);
-				InputStream out = this.getResource("config.yml");
-				byte[] linebuffer = new byte[4096];
-				int lineLength = 0;
-				while((lineLength = out.read(linebuffer)) > 0)
-				{
-					writer.write(linebuffer, 0, lineLength);
-				}
-				writer.close();
+		dumpConfig(false);
+
+		if(getConfig().getString("config-version", "null") != this.getDescription().getVersion()) {
+			logger.info("Updating config...");
+			backupConfig();
+			File configBackupFile = new File(getDataFolder() + File.separator + "config.v" + this.getDescription().getVersion() + ".yml");
+			YamlConfiguration configBackup= new YamlConfiguration();
+			try {
+				configBackup.load(configBackupFile);
+			} catch (IOException | InvalidConfigurationException e) {
+				e.printStackTrace();
 			}
-		} catch (IOException e) {
-			e.printStackTrace();
+			dumpConfig(true);
+			for(String key : configBackup.getKeys(true)) {
+				config.set(key, configBackup.get(key));
+			}
+			config.set("config-version", this.getDescription().getVersion());
+			try {
+				config.save(getDataFolder() + File.separator + "config.yml");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
 		}
 		logger.info(" ");
 		logger.info(" ");
@@ -82,7 +92,7 @@ public class Main extends JavaPlugin implements Listener {
 					checkUpdates();
 				}
 			}, 20L * sec, 20L * sec);
-			
+
 		}
 		getServer().getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
 			@Override
@@ -115,6 +125,26 @@ public class Main extends JavaPlugin implements Listener {
 	public static Main getInstance() {
 		return instance;
 	}
+	public void dumpConfig(boolean overwrite) {
+		try {
+			File configFile = new File(getDataFolder() + File.separator + "config.yml");
+			if(overwrite) configFile.delete();
+			if(!configFile.exists()) {
+				configFile.getParentFile().mkdirs();
+				FileOutputStream writer = new FileOutputStream(configFile);
+				InputStream out = this.getResource("config.yml");
+				byte[] linebuffer = new byte[4096];
+				int lineLength = 0;
+				while((lineLength = out.read(linebuffer)) > 0)
+				{
+					writer.write(linebuffer, 0, lineLength);
+				}
+				writer.close();
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		if (args.length == 1 && args[0].equalsIgnoreCase("biome")) {
@@ -125,8 +155,8 @@ public class Main extends JavaPlugin implements Listener {
 			Player p = (Player) sender;
 			if (sender.hasPermission("betterend.checkbiome")) {
 				try {
-				if(p.getWorld().getGenerator().getClass().equals(new EndChunkGenerator().getClass())) sender.sendMessage(ChatColor.DARK_AQUA + "[BetterEnd] " + ChatColor.AQUA + "You are standing in \"" + ChatColor.DARK_AQUA + getBiome(p.getLocation().getBlockX(), p.getLocation().getBlockZ(), p.getLocation().getWorld().getSeed()) + "\"");
-				else sender.sendMessage(ChatColor.DARK_AQUA +  "[BetterEnd] " + ChatColor.RED + "This world is not a BetterEnd world!");
+					if(p.getWorld().getGenerator().getClass().equals(new EndChunkGenerator().getClass())) sender.sendMessage(ChatColor.DARK_AQUA + "[BetterEnd] " + ChatColor.AQUA + "You are standing in \"" + ChatColor.DARK_AQUA + getBiome(p.getLocation().getBlockX(), p.getLocation().getBlockZ(), p.getLocation().getWorld().getSeed()) + "\"");
+					else sender.sendMessage(ChatColor.DARK_AQUA +  "[BetterEnd] " + ChatColor.RED + "This world is not a BetterEnd world!");
 				} catch (NullPointerException e) {
 					sender.sendMessage(ChatColor.DARK_AQUA +  "[BetterEnd] " + ChatColor.RED + "This world is not a BetterEnd world!");
 				}
@@ -162,10 +192,15 @@ public class Main extends JavaPlugin implements Listener {
 		return false;
 	} 
 
-	private static final List<String> COMMANDS = Arrays.asList("biome", "tpbiome", "version");
-	private static final List<String> BIOMES = Arrays.asList("AETHER", "END", "SHATTERED_END", "OBSIDIAN_FOREST", "AETHER_HIGHLANDS");
+	
+	
 	@Override
 	public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
+		List<String> COMMANDS = Arrays.asList("biome", "tpbiome", "version");
+		List<String> BIOMES = Arrays.asList("AETHER", "END", "SHATTERED_END", "AETHER_HIGHLANDS", "SHATTERED_FOREST");
+		if(isPremium()) {
+			BIOMES = Arrays.asList("AETHER", "END", "SHATTERED_END", "AETHER_HIGHLANDS", "SHATTERED_FOREST", "AETHER_FOREST", "AETHER_HIGHLANDS_FOREST");
+		}
 		List<String> argList = new ArrayList<>();
 		if (args.length == 1) {
 			argList.addAll(COMMANDS);
@@ -187,14 +222,19 @@ public class Main extends JavaPlugin implements Listener {
 		Main main = Main.getInstance();
 		boolean allAether = main.getConfig().getBoolean("all-aether", false);
 		int heatNoise = main.getConfig().getInt("outer-islands.heat-noise");
+		int climateNoise = main.getConfig().getInt("outer-islands.climate-noise");
 		if(allAether) return "AETHER";
+		double c = biomeGenerator.noise((double) (X)/climateNoise, (double) (Z)/climateNoise, 0.5D, 0.5D);
 		double h = biomeGenerator.noise((double) (X)/heatNoise, (double) (Z)/heatNoise, 0.5D, 0.5D);
 		double d = biomeGenerator.noise((double) (X)/main.getConfig().getInt("outer-islands.biome-size"), (double) (Z)/main.getConfig().getInt("outer-islands.biome-size"), 0.5D, 0.5D);
-		if (d < -0.5) return "SHATTERED_END";//green
+		if (d < -0.5 && h > 0) return "SHATTERED_END";//green
+		else if(d < -0.5 && h < 0) return "SHATTERED_FOREST";
 		else if (d < 0) return "END";//red
 		else if (d < 0.5) return "VOID";//blue
-		else if(h < -0.5) return "AETHER_HIGHLANDS";
-		else return "AETHER";//orange
+		else if(h < -0.5 && c > -0.5) return "AETHER_HIGHLANDS";
+		else if(h < -0.5 && isPremium()) return "AETHER_HIGHLANDS_FOREST";
+		else if(c > -0.5 || !isPremium()) return "AETHER";//orange
+		else return "AETHER_FOREST";
 	}
 	public static double getBiomeNoise(int X, int Z, long l) {
 		Main main = Main.getInstance();
@@ -207,14 +247,19 @@ public class Main extends JavaPlugin implements Listener {
 	}
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void onEntityPickup(EntityChangeBlockEvent event) {
-		if(event.getEntity() instanceof Enderman && config.getBoolean("prevent-enderman-block-pickup", true)) {
-			if(event.getEntity().getWorld().getGenerator().getClass().equals(new EndChunkGenerator().getClass()) && getBiomeNoise(event.getEntity().getLocation().getBlockX(), event.getEntity().getLocation().getBlockZ(), event.getEntity().getWorld().getSeed()) > 0.5) {
-				event.setCancelled(true);
+		try {
+			if(event.getEntity() instanceof Enderman && config.getBoolean("prevent-enderman-block-pickup", true)) {
+				if(event.getEntity().getWorld().getGenerator().getClass().equals(new EndChunkGenerator().getClass()) && getBiomeNoise(event.getEntity().getLocation().getBlockX(), event.getEntity().getLocation().getBlockZ(), event.getEntity().getWorld().getSeed()) > 0.5) {
+					event.setCancelled(true);
+				}
 			}
+		} catch (NullPointerException e) {
+
 		}
+
 	}
 	public static boolean isPremium() {
-		return false;
+		return true;
 	}
 	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent e){
@@ -274,7 +319,7 @@ public class Main extends JavaPlugin implements Listener {
 		}
 	}
 	public boolean tpBiome(Player p, String[] args) {
-		if(args[1].equalsIgnoreCase("END") || args[1].equalsIgnoreCase("SHATTERED_END") || args[1].equalsIgnoreCase("VOID") || args[1].equalsIgnoreCase("AETHER") || args[1].equalsIgnoreCase("AETHER_HIGHLANDS")) {
+		if(args[1].equalsIgnoreCase("END") || args[1].equalsIgnoreCase("SHATTERED_END") || args[1].equalsIgnoreCase("SHATTERED_FOREST") || args[1].equalsIgnoreCase("VOID") || args[1].equalsIgnoreCase("AETHER") || args[1].equalsIgnoreCase("AETHER_HIGHLANDS") || (isPremium() && args[1].equalsIgnoreCase("AETHER_HIGHLANDS_FOREST")) || (isPremium() && args[1].equalsIgnoreCase("AETHER_FOREST"))) {
 			p.sendMessage(ChatColor.DARK_AQUA + "[BetterEnd]" + ChatColor.AQUA + " Locating biome \"" + ChatColor.DARK_AQUA + args[1] + ChatColor.AQUA +  "\"");
 			boolean foundBiome = false;
 			int tries = 0;
@@ -313,5 +358,36 @@ public class Main extends JavaPlugin implements Listener {
 			p.sendMessage("[BetterEnd] Unable to locate biome.");
 			return true;
 		} else return false;
+	}
+	public void backupConfig() {
+		FileInputStream inStream = null;
+		FileOutputStream outStream = null;
+
+		try{
+			File inFile = new File(getDataFolder() + File.separator + "config.yml");
+			File outFile = new File(getDataFolder() + File.separator + "config.v" + this.getDescription().getVersion() + ".yml");
+			outFile.createNewFile();
+			inStream = new FileInputStream(inFile);
+			outStream = new FileOutputStream(outFile);
+
+			byte[] buffer = new byte[1024];
+
+			int length;
+			/*copying the contents from input stream to
+			 * output stream using read and write methods
+			 */
+			while ((length = inStream.read(buffer)) > 0){
+				outStream.write(buffer, 0, length);
+			}
+
+			//Closing the input/output file streams
+			inStream.close();
+			outStream.close();
+
+			this.getLogger().info("Config backed up successfully.");
+
+		} catch(IOException e){
+			e.printStackTrace();
+		}
 	}
 }

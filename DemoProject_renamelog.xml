@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<yguard version="1.5">
+<!--
+  yGuard Bytecode Obfuscator, v2.7.1, a Product of yWorks GmbH - http://www.yworks.com
+
+  Logfile created on Wed Jun 10 02:34:46 MST 2020
+
+  Jar file to be obfuscated:           yguard_temp_5584219550606177248.jar
+  Target Jar file for obfuscated code: DemoProject_obf.jar
+
+-->
+<!-- WARNING - identifier from script file not found in JAR: com/mycompany/myapp/Main/main -->
+<!--
+  Memory in use after class data structure built: 6893600 bytes
+  Total memory available                        : 255328256 bytes
+-->
+<expose>
+</expose>
+<map>
+</map>
+</yguard>
