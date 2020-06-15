@@ -55,7 +55,7 @@ public class Main extends JavaPlugin implements Listener {
 			}, 60);
 		} catch(NoClassDefFoundError e) {
 		}
-		
+
 
 		Metrics metrics = new Metrics(this, 7709);
 		metrics.addCustomChart(new Metrics.SimplePie("premium", () -> isPremium() ? "Yes" : "No"));
@@ -146,6 +146,7 @@ public class Main extends JavaPlugin implements Listener {
 	}
 	@Override
 	public void onDisable() {
+		this.getLogger().info("Thank you for using BetterEnd!");
 	}
 	public static Main getInstance() {
 		return instance;
@@ -246,10 +247,8 @@ public class Main extends JavaPlugin implements Listener {
 	}
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void onEntityPickup(EntityChangeBlockEvent event) {
-		if(event.getEntity() instanceof Enderman && config.getBoolean("prevent-enderman-block-pickup", true)) {
-			if(event.getEntity().getWorld().getGenerator() instanceof EndChunkGenerator && getBiomeNoise(event.getEntity().getLocation().getBlockX(), event.getEntity().getLocation().getBlockZ(), event.getEntity().getWorld().getSeed()) > 0.5) {
-				event.setCancelled(true);
-			}
+		if(event.getEntity() instanceof Enderman && config.getBoolean("prevent-enderman-block-pickup", true) && (event.getEntity().getWorld().getGenerator() instanceof EndChunkGenerator && getBiomeNoise(event.getEntity().getLocation().getBlockX(), event.getEntity().getLocation().getBlockZ(), event.getEntity().getWorld().getSeed()) > 0.5)) {
+			event.setCancelled(true);
 		}
 
 	}

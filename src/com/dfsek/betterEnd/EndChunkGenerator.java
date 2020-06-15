@@ -18,7 +18,7 @@ public class EndChunkGenerator extends ChunkGenerator {
 	private Main main = Main.getInstance();
 	private Material[] plants = {Material.GRASS, Material.TALL_GRASS, Material.LILY_OF_THE_VALLEY, Material.FERN, Material.AZURE_BLUET, Material.BLUE_ORCHID, Material.WITHER_ROSE};
 	private int[] weight = {700, 100, 30, 40, 30, 30, 5};
-	
+
 	private int outNoise = main.getConfig().getInt("outer-islands.noise", 56);
 	private boolean clouds = main.getConfig().getBoolean("aether.clouds.enable-clouds", true);
 	private boolean aetherCaveDec = main.getConfig().getBoolean("aether.cave-decoration", true);
@@ -46,7 +46,7 @@ public class EndChunkGenerator extends ChunkGenerator {
 		}
 		return null;
 	}
-	
+
 	@SuppressWarnings("deprecation")
 	@Override
 	public ChunkData generateChunkData(World world, Random random, int chunkX, int chunkZ, BiomeGrid biome) {
@@ -220,6 +220,7 @@ public class EndChunkGenerator extends ChunkGenerator {
 								case 2:
 									chunk.setBlock(X, Y, Z, main.getServer().createBlockData("minecraft:end_stone_brick_slab[type=top]"));
 									break;
+								default:
 								}
 							}
 						}
@@ -241,6 +242,7 @@ public class EndChunkGenerator extends ChunkGenerator {
 								case 3:
 									chunk.setBlock(X, Y, Z, main.getServer().createBlockData("minecraft:stone_slab[type=top]"));
 									break;
+								default:
 								}
 							}
 						}

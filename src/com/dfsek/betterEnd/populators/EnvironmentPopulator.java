@@ -11,7 +11,6 @@ import org.bukkit.block.Biome;
 import org.bukkit.entity.EnderCrystal;
 import org.bukkit.entity.EntityType;
 import org.bukkit.generator.BlockPopulator;
-import org.bukkit.util.Vector;
 import org.bukkit.util.noise.SimplexOctaveGenerator;
 
 import com.dfsek.betterend.Main;
@@ -30,9 +29,6 @@ public class EnvironmentPopulator extends BlockPopulator {
 	private int heatNoise = main.getConfig().getInt("outer-islands.heat-noise");
 	private int biomeSize = main.getConfig().getInt("outer-islands.biome-size");
 	private boolean allAether = main.getConfig().getBoolean("all-aether", false);
-	private int h = main.getConfig().getInt("outer-islands.island-height");
-	private int outNoise = main.getConfig().getInt("outer-islands.noise", 56);
-	private double landPercent = 1-((double) ((main.getConfig().getInt("outer-islands.island-threshold", 30))/50D));
 	private int baseH = main.getConfig().getInt("outer-islands.island-height", 64);
 	
 	@SuppressWarnings("deprecation")

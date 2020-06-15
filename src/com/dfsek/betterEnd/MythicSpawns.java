@@ -80,6 +80,8 @@ public class MythicSpawns {
 										case "AIR":
 											Y = p.getWorld().getMaxHeight()-96-random.nextInt(64);
 											break;
+										default:
+											main.getLogger().warning((String) mob.get("spawn") + " is an invalid spawn location. Must be either GROUND or AIR.");
 										}
 										if(Y < 1) continue;
 										attemptLoc.setY(Y);

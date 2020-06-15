@@ -118,40 +118,6 @@ public class Tree {
 			}
 		}
 	}
-	private void doRootAt(Location start, double startR, Random random, int length, double change, Vector startV, int angle) {
-		if(length < 4) return;
-		if(startR < 0) return;
-		Vector initV = getPerpendicular(startV.clone()).rotateAroundAxis(startV, angle).setY(-0.2);
-		for(int i = 0; i < length; i++) {
-			start.add(initV);
-			boolean empty = start.getBlock().isEmpty();
-			int radius = (int) startR;
-			for (int x = -radius; x <= radius; x++) {
-				for (int y = -radius; y <= radius; y++) {
-					for (int z = -radius; z <= radius; z++) {
-						Vector position = start.toVector().clone().add(new Vector(x, y, z));
-
-						if (start.toVector().distance(position) <= radius + 0.5) {
-							if(position.toLocation(start.getWorld()).getBlock().getType() == Material.END_STONE || position.toLocation(start.getWorld()).getBlock().isEmpty()) position.toLocation(start.getWorld()).getBlock().setType(random.nextBoolean() ? Material.OBSIDIAN : Material.BLACK_CONCRETE);
-						}
-					}
-				}
-			}
-			startR = startR - 0.175;
-			if(empty) {
-				startR = startR - 0.1;
-				initV = new Vector(initV.getX()/4, -1, initV.getZ()/4);
-			} else {
-				initV.add(new Vector(random.nextBoolean() ? 0 : (random.nextBoolean() ? -0.25 : 0.25), random.nextBoolean() ? 0 : (random.nextBoolean() ? -0.25 : 0.25), random.nextBoolean() ? 0 : (random.nextBoolean() ? -0.25 : 0.25)));
-			}
-			if(initV.getX() > 1) initV.setX(1);
-			if(initV.getX() < -1) initV.setX(-1);
-			if(initV.getY() > 0.1) initV.setY(0.1);
-			if(initV.getY() < -1) initV.setY(-1);
-			if(initV.getZ() > 1) initV.setZ(1);
-			if(initV.getZ() < -1) initV.setZ(-1);
-		}
-	}
 	private void doWoodRootAt(Location start, double startR, Random random, int length, double change, Vector startV, int angle, Material m) {
 		if(length < 4) return;
 		if(startR < 0) return;
