@@ -1,6 +1,6 @@
 package com.dfsek.betterend;
 
-public class Premium {
+public class PremiumUtil {
 	public static boolean isPremium() {
 		return true;
 	}

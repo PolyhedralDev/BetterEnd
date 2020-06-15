@@ -20,8 +20,8 @@ public class Tree {
 						for (int z = (int) -startR; z <= startR; z++) {
 							Vector position = start.toVector().clone().add(new Vector(x, y, z));
 
-							if (start.toVector().distance(position) <= startR + 0.5) {
-								if(position.toLocation(start.getWorld()).getBlock().isPassable()) position.toLocation(start.getWorld()).getBlock().setType(Material.OAK_WOOD);
+							if (start.toVector().distance(position) <= startR + 0.5 && position.toLocation(start.getWorld()).getBlock().isPassable()) {
+								position.toLocation(start.getWorld()).getBlock().setType(Material.OAK_WOOD);
 							}
 						}
 					}

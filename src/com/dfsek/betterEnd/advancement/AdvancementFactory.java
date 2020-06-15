@@ -1,7 +1,17 @@
 package com.dfsek.betterend.advancement;
 
-import com.dfsek.betterend.advancement.shared.*;
-import com.dfsek.betterend.advancement.trigger.*;
+
+import com.dfsek.betterend.advancement.shared.BlockObject;
+import com.dfsek.betterend.advancement.shared.DeathObject;
+import com.dfsek.betterend.advancement.shared.EntityObject;
+import com.dfsek.betterend.advancement.shared.ItemObject;
+import com.dfsek.betterend.advancement.shared.RangeObject;
+import com.dfsek.betterend.advancement.trigger.ImpossibleTrigger;
+import com.dfsek.betterend.advancement.trigger.InventoryChangedTrigger;
+import com.dfsek.betterend.advancement.trigger.LocationTrigger;
+import com.dfsek.betterend.advancement.trigger.PlacedBlockTrigger;
+import com.dfsek.betterend.advancement.trigger.PlayerKilledEntityTrigger;
+import com.dfsek.betterend.advancement.trigger.Trigger;
 import com.dfsek.betterend.advancement.util.Validator;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.apache.commons.lang.Validate;

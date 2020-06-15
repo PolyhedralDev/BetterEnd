@@ -16,7 +16,7 @@ import org.bukkit.util.Vector;
 
 import io.lumine.xikage.mythicmobs.MythicMobs;
 
-public class MythicSpawns {
+public class MythicSpawnsUtil {
 	private static Main main = Main.getInstance();
 	private static File configFile = new File(main.getDataFolder() + File.separator + "mythicSpawns.yml");
 	private static YamlConfiguration config = new YamlConfiguration();

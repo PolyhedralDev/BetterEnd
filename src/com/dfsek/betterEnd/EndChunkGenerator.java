@@ -175,7 +175,7 @@ public class EndChunkGenerator extends ChunkGenerator {
 												if(random.nextInt(100) < 50) chunk.setBlock(X, Y+1, Z, main.getServer().createBlockData("minecraft:stone_button[face=floor,facing=east]"));
 												break;
 											}
-											break;
+										default:
 										}
 
 									}
@@ -198,6 +198,7 @@ public class EndChunkGenerator extends ChunkGenerator {
 											chunk.setBlock(X, Y+2, Z, Material.END_ROD);
 										}
 										break;
+									default:
 									}
 
 								}

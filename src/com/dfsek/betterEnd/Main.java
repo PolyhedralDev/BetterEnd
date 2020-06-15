@@ -45,7 +45,7 @@ public class Main extends JavaPlugin implements Listener {
 		instance = this;
 		Logger logger = this.getLogger();
 		try {
-			MythicSpawns.startSpawnRoutine();
+			MythicSpawnsUtil.startSpawnRoutine();
 			if(isPremium()) getServer().getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
 				@Override
 				public void run() {
@@ -64,8 +64,57 @@ public class Main extends JavaPlugin implements Listener {
 
 		this.saveDefaultConfig();
 
+		checkConfig();
+		
+		logger.info(" ");
+		logger.info(" ");
+		logger.info("|---------------------------------------------------------------------------------|");
+		logger.info("BetterEnd would not have been possible without the support of the following people:");
+		logger.info("Developers: dfsek and Baer");
+		logger.info("Builders: GucciPoochie, sgtmushroom39, Daverono, and Merazmus");
+		logger.info("|---------------------------------------------------------------------------------|");
+		logger.info(" ");
+		logger.info(" ");
+
+		if(!isPremium()) getServer().getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
+			@Override
+			public void run() {
+				logger.info(ChatColor.AQUA + "You're running the free version of BetterEnd. Please consider purchasing the premium version to support the plugin and gain additional features! Follow the instructions here: " + ChatColor.UNDERLINE + "https://github.com/dfsek/BetterEnd-Public/wiki/Premium");
+			}
+		}, 120);
+
+		int sec = config.getInt("update-checker.frequency", 3600);
+		if(config.getBoolean("update-checker.enable", true)) {
+			getServer().getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
+				@Override
+				public void run() {
+					checkUpdates();
+				}
+			}, 100, 20L * sec);
+
+		}
+
+	}
+	private void checkUpdates() {
+		UpdateChecker.init(instance, 79389).requestUpdateCheck().whenComplete((result, exception) -> {
+			if (result.requiresUpdate()) {
+				instance.getLogger().info(String.format("A new version of BetterEnd is available: %s ", result.getNewestVersion()));
+				return;
+			}
+
+			UpdateReason reason = result.getReason();
+			if (reason == UpdateReason.UP_TO_DATE) {
+				instance.getLogger().info(String.format("Your version of BetterEnd (%s) is up to date!", result.getNewestVersion()));
+			} else if (reason == UpdateReason.UNRELEASED_VERSION) {
+				instance.getLogger().info(String.format("Your version of BetterEnd (%s) is more recent than the one publicly available.", result.getNewestVersion()));
+			} else {
+				instance.getLogger().warning("An error occurred while checking for an update. Reason: " + reason);//Occurred
+			}
+		});
+	}
+	private void checkConfig() {
 		if(!config.getString("config-version", "null").equals(this.getDescription().getVersion())) {
-			logger.info("Updating config...");
+			this.getLogger().info("Updating config...");
 			backupConfig();
 			File configBackupFile = new File(getDataFolder() + File.separator + "config.v" + this.getDescription().getVersion() + ".yml");
 			YamlConfiguration configBackup= new YamlConfiguration();
@@ -73,7 +122,7 @@ public class Main extends JavaPlugin implements Listener {
 			try {
 				configBackup.load(configBackupFile);
 				File configFile = new File(getDataFolder() + File.separator + "config.yml");
-				if(configFile.delete()) logger.info("Old config was succesfully deleted.");
+				if(configFile.delete()) this.getLogger().info("Old config was succesfully deleted.");
 				this.saveDefaultConfig();
 				FileOutputStream writer = new FileOutputStream(new File(getDataFolder() + File.separator + "default.yml"));
 				InputStream out = this.getResource("config.yml");
@@ -101,48 +150,6 @@ public class Main extends JavaPlugin implements Listener {
 				e.printStackTrace();
 			}
 		}
-		logger.info(" ");
-		logger.info(" ");
-		logger.info("|---------------------------------------------------------------------------------|");
-		logger.info("BetterEnd would not have been possible without the support of the following people:");
-		logger.info("Developers: dfsek and Baer");
-		logger.info("Builders: GucciPoochie, sgtmushroom39, Daverono, and Merazmus");
-		logger.info("|---------------------------------------------------------------------------------|");
-		logger.info(" ");
-		logger.info(" ");
-
-		if(!isPremium()) getServer().getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
-			@Override
-			public void run() {
-				logger.info(ChatColor.AQUA + "You're running the free version of BetterEnd. Please consider purchasing the premium version to support the plugin and gain additional features! Follow the instructions here: " + ChatColor.UNDERLINE + "https://github.com/dfsek/BetterEnd-Public/wiki/Premium");
-			}
-		}, 120);
-
-		int sec = config.getInt("update-checker.frequency", 3600);
-		if(config.getBoolean("update-checker.enable", true)) {
-			getServer().getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
-				@Override
-				public void run() {
-					UpdateChecker.init(instance, 79389).requestUpdateCheck().whenComplete((result, exception) -> {
-						if (result.requiresUpdate()) {
-							instance.getLogger().info(String.format("A new version of BetterEnd is available: %s ", result.getNewestVersion()));
-							return;
-						}
-
-						UpdateReason reason = result.getReason();
-						if (reason == UpdateReason.UP_TO_DATE) {
-							instance.getLogger().info(String.format("Your version of BetterEnd (%s) is up to date!", result.getNewestVersion()));
-						} else if (reason == UpdateReason.UNRELEASED_VERSION) {
-							instance.getLogger().info(String.format("Your version of BetterEnd (%s) is more recent than the one publicly available.", result.getNewestVersion()));
-						} else {
-							instance.getLogger().warning("An error occurred while checking for an update. Reason: " + reason);//Occurred
-						}
-					});
-				}
-			}, 100, 20L * sec);
-
-		}
-
 	}
 	@Override
 	public void onDisable() {
@@ -254,7 +261,7 @@ public class Main extends JavaPlugin implements Listener {
 	}
 	public static boolean isPremium() {
 		try {
-			return Premium.isPremium();
+			return PremiumUtil.isPremium();
 		} catch(NoClassDefFoundError e) {
 			return false;
 		}

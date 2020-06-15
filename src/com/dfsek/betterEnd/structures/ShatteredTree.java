@@ -33,10 +33,10 @@ public class ShatteredTree {
 			if(initV.getZ() < -1) initV.setZ(-1);
 			startR = startR - 0.05;
 			int branches = random.nextInt(2)+1;
-			if(i % 3 == 0 && i > length/3) for(int j = 0; j < branches; j++) doBranchAt(start.clone(), startR, random, (int) (random.nextInt(7)+7*startR), 8, initV.clone());
+			if(i % 3 == 0 && i > length/3) for(int j = 0; j < branches; j++) doBranchAt(start.clone(), startR, random, (int) (random.nextInt(7)+7*startR), initV.clone());
 		}
 	}
-	private void doBranchAt(Location start, double startR, Random random, int length, double change, Vector startV) {
+	private void doBranchAt(Location start, double startR, Random random, int length, Vector startV) {
 		if(length < 4) return;
 		int ogStart = (int) startR;
 		if(startR < 0) return;
@@ -53,7 +53,7 @@ public class ShatteredTree {
 			if(initV.getZ() > 1) initV.setZ(1);
 			if(initV.getZ() < -1) initV.setZ(-1);
 			int branches = random.nextInt(2)+1;
-			if(i % 4 == 0 && i > length/4) for(int j = 0; j < branches; j++) doBranchAt(start.clone(), startR, random, random.nextInt(((int) (length/3))+1)+length/3, 8, initV.clone());
+			if(i % 4 == 0 && i > length/4) for(int j = 0; j < branches; j++) doBranchAt(start.clone(), startR, random, random.nextInt(((int) (length/3))+1)+length/3, initV.clone());
 		}
 		int radius = random.nextInt(ogStart+1)+1;
 		for (int x = -radius; x <= radius; x++) {
