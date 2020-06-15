@@ -201,21 +201,21 @@ public class EnvironmentPopulator extends BlockPopulator {
 					world.getBlockAt((chunk.getX()*16)+X, Y+j, (chunk.getZ()*16)+Z).isPassable()) world.getBlockAt((chunk.getX()*16)+X, Y+j, (chunk.getZ()*16)+Z).setType(Material.OBSIDIAN);
 		}
 		for(int j = -lowBound[1]; j < upBound[1]; j++) {
-			if(world.getBlockAt((chunk.getX()*16)+X, Y+j, (chunk.getZ()*16)+Z).getType() == Material.END_STONE ||
+			if(world.getBlockAt((chunk.getX()*16)+X+1, Y+j, (chunk.getZ()*16)+Z).getType() == Material.END_STONE ||
 					world.getBlockAt((chunk.getX()*16)+X+1, Y+j, (chunk.getZ()*16)+Z).getType() == Material.END_ROD ||
 					world.getBlockAt((chunk.getX()*16)+X+1, Y+j, (chunk.getZ()*16)+Z).getType() == Material.END_STONE_BRICK_SLAB ||
 					world.getBlockAt((chunk.getX()*16)+X+1, Y+j, (chunk.getZ()*16)+Z).getType() == Material.END_STONE_BRICK_WALL ||
 					world.getBlockAt((chunk.getX()*16)+X+1, Y+j, (chunk.getZ()*16)+Z).isPassable()) world.getBlockAt((chunk.getX()*16)+X+1, Y+j, (chunk.getZ()*16)+Z).setType(Material.OBSIDIAN);
 		}
 		for(int j = -lowBound[2]; j < upBound[2]; j++) {
-			if(world.getBlockAt((chunk.getX()*16)+X, Y+j, (chunk.getZ()*16)+Z).getType() == Material.END_STONE ||
+			if(world.getBlockAt((chunk.getX()*16)+X, Y+j, (chunk.getZ()*16)+Z+1).getType() == Material.END_STONE ||
 					world.getBlockAt((chunk.getX()*16)+X, Y+j, (chunk.getZ()*16)+Z+1).getType() == Material.END_ROD ||
 					world.getBlockAt((chunk.getX()*16)+X, Y+j, (chunk.getZ()*16)+Z+1).getType() == Material.END_STONE_BRICK_SLAB ||
 					world.getBlockAt((chunk.getX()*16)+X, Y+j, (chunk.getZ()*16)+Z+1).getType() == Material.END_STONE_BRICK_WALL ||
 					world.getBlockAt((chunk.getX()*16)+X, Y+j, (chunk.getZ()*16)+Z+1).isPassable()) world.getBlockAt((chunk.getX()*16)+X, Y+j, (chunk.getZ()*16)+Z+1).setType(Material.OBSIDIAN);
 		}
 		for(int j = -lowBound[3]; j < upBound[3]; j++) {
-			if(world.getBlockAt((chunk.getX()*16)+X, Y+j, (chunk.getZ()*16)+Z).getType() == Material.END_STONE ||
+			if(world.getBlockAt((chunk.getX()*16)+X+1, Y+j, (chunk.getZ()*16)+Z+1).getType() == Material.END_STONE ||
 					world.getBlockAt((chunk.getX()*16)+X+1, Y+j, (chunk.getZ()*16)+Z+1).getType() == Material.END_ROD ||
 					world.getBlockAt((chunk.getX()*16)+X+1, Y+j, (chunk.getZ()*16)+Z+1).getType() == Material.END_STONE_BRICK_SLAB ||
 					world.getBlockAt((chunk.getX()*16)+X+1, Y+j, (chunk.getZ()*16)+Z+1).getType() == Material.END_STONE_BRICK_WALL ||

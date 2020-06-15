@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
+import org.bukkit.advancement.Advancement;
 import org.bukkit.block.Chest;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -52,7 +53,7 @@ public class Main extends JavaPlugin implements Listener {
 					EndAdvancements.enable(instance);
 					logger.info("Enabling advancements...");
 				}
-			}, 60);
+			}, 40);
 		} catch(NoClassDefFoundError e) {
 		}
 
@@ -65,7 +66,7 @@ public class Main extends JavaPlugin implements Listener {
 		this.saveDefaultConfig();
 
 		checkConfig();
-		
+
 		logger.info(" ");
 		logger.info(" ");
 		logger.info("|---------------------------------------------------------------------------------|");
@@ -158,6 +159,9 @@ public class Main extends JavaPlugin implements Listener {
 	public static Main getInstance() {
 		return instance;
 	}
+
+
+
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		if (args.length == 1 && args[0].equalsIgnoreCase("biome")) {
@@ -259,6 +263,7 @@ public class Main extends JavaPlugin implements Listener {
 		}
 
 	}
+
 	public static boolean isPremium() {
 		try {
 			return PremiumUtil.isPremium();
@@ -270,6 +275,10 @@ public class Main extends JavaPlugin implements Listener {
 	@EventHandler (ignoreCancelled=true)
 	public void onInventoryOpenEvent(InventoryOpenEvent event) {
 		if(config.getBoolean("aether.mythic-boss.enable", false)) {
+			try {
+				EndAdvancements.grantAdvancement("gold_dungeon", (Player) event.getPlayer());
+			} catch(NoClassDefFoundError e) {
+			}
 			//get the destination inventory
 			InventoryHolder holder = event.getInventory().getHolder();
 			Inventory inventory = event.getInventory();
