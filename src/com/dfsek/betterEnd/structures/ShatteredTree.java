@@ -10,7 +10,7 @@ public class ShatteredTree {
 	public ShatteredTree(Location start, double startR, Random random, int length, double change) {
 		Vector initV = new Vector(0,1,0);		
 		int roots = random.nextInt(3)+3;
-		for(int j = 0; j < roots; j++) doRootAt(start.clone(), startR, random, random.nextInt(10)+10, 8, initV.clone(), j*(360/roots));
+		for(int j = 0; j < roots; j++) doRootAt(start.clone(), startR, random, random.nextInt(10)+10, initV.clone(), j*(360/roots));
 		for(int i = 0; i < length; i++) {
 			start.add(initV);
 			for (int x = (int) -startR; x <= startR; x++) {
@@ -18,8 +18,8 @@ public class ShatteredTree {
 					for (int z = (int) -startR; z <= startR; z++) {
 						Vector position = start.toVector().clone().add(new Vector(x, y, z));
 
-						if (start.toVector().distance(position) <= startR + 0.5) {
-							if(position.toLocation(start.getWorld()).getBlock().isPassable()) position.toLocation(start.getWorld()).getBlock().setType(random.nextBoolean() ? Material.OBSIDIAN : Material.BLACK_CONCRETE);
+						if (start.toVector().distance(position) <= startR + 0.5 && position.toLocation(start.getWorld()).getBlock().isPassable()) {
+							position.toLocation(start.getWorld()).getBlock().setType(random.nextBoolean() ? Material.OBSIDIAN : Material.BLACK_CONCRETE);
 						}
 					}
 				}
@@ -60,14 +60,14 @@ public class ShatteredTree {
 			for (int y = -radius; y <= radius; y++) {
 				for (int z = -radius; z <= radius; z++) {
 					Vector position = start.toVector().clone().add(new Vector(x, y, z));
-					if (start.toVector().distance(position) <= radius + 0.5) {
-						if(position.toLocation(start.getWorld()).getBlock().isPassable()) position.toLocation(start.getWorld()).getBlock().setType(random.nextBoolean() ? Material.MAGENTA_STAINED_GLASS : Material.PURPLE_STAINED_GLASS);
+					if (start.toVector().distance(position) <= radius + 0.5 && position.toLocation(start.getWorld()).getBlock().isPassable()) {
+						position.toLocation(start.getWorld()).getBlock().setType(random.nextBoolean() ? Material.MAGENTA_STAINED_GLASS : Material.PURPLE_STAINED_GLASS);
 					}
 				}
 			}
 		}
 	}
-	private void doRootAt(Location start, double startR, Random random, int length, double change, Vector startV, int angle) {
+	private void doRootAt(Location start, double startR, Random random, int length, Vector startV, int angle) {
 		if(length < 4) return;
 		if(startR < 0) return;
 		Vector initV = getPerpendicular(startV.clone()).rotateAroundAxis(startV, angle).setY(-0.2);

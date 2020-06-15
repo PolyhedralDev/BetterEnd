@@ -82,6 +82,7 @@ public class MythicSpawns {
 											break;
 										default:
 											main.getLogger().warning((String) mob.get("spawn") + " is an invalid spawn location. Must be either GROUND or AIR.");
+											break;
 										}
 										if(Y < 1) continue;
 										attemptLoc.setY(Y);

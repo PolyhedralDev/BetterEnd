@@ -16,15 +16,15 @@ public class EndAdvancements {
 
 		Advancement aetherVisit = factory.getItem("outer_end/visit_aether", root, "A Hostile Paradise", "Enter the Aether", Material.OAK_LOG);
 		Advancement aetherHighlandsVisit = factory.getItem("outer_end/visit_aether_highlands", aetherVisit, "Game Design", "Enter the Aether Highlands", Material.OAK_LOG);
-		Advancement aetherForestVisit = factory.getItem("outer_end/visit_aether_forest", aetherVisit, "Trees.", "Enter the Aether Forest", Material.OAK_LOG);
-		Advancement aetherHighlandsForestVisit = factory.getItem("outer_end/visit_aether_highlands_forest", aetherHighlandsVisit, "S p r o c e", "Enter the Aether Highlands Forest", Material.OAK_LOG);
-		Advancement goldDungeon = factory.getItem("outer_end/gold_dungeon", aetherVisit, "I've Got a Bad Feeling About This...", "Open a Gold Dungeon Chest.", Material.OAK_LOG);
+		factory.getItem("outer_end/visit_aether_forest", aetherVisit, "Trees.", "Enter the Aether Forest", Material.OAK_LOG);
+		factory.getItem("outer_end/visit_aether_highlands_forest", aetherHighlandsVisit, "S p r o c e", "Enter the Aether Highlands Forest", Material.OAK_LOG);
+		factory.getItem("outer_end/gold_dungeon", aetherVisit, "I've Got a Bad Feeling About This...", "Open a Gold Dungeon Chest.", Material.OAK_LOG);
 		
 		
-		Advancement endVisit = factory.getItem("outer_end/visit_end", root, "Finally, Sonething Familiar", "Enter the End", Material.END_STONE);
+		factory.getItem("outer_end/visit_end", root, "Finally, Sonething Familiar", "Enter the End", Material.END_STONE);
 		
 		Advancement shatteredVisit = factory.getItem("outer_end/visit_shattered_end", root, "What Happened Here?", "Enter the Shattered End", Material.OAK_LOG);
-		Advancement shatteredForestVisit = factory.getItem("outer_end/visit_shattered_end", shatteredVisit, "Funky Trees", "Enter the Shattered Forest", Material.OAK_LOG);
+		factory.getItem("outer_end/visit_shattered_end", shatteredVisit, "Funky Trees", "Enter the Shattered Forest", Material.OAK_LOG);
 		
 		//One of the most common advancements, the requirement is that you obtain an item:
 		//Advancement wood = factory.getItem("outer_end/wood", root, "Chopper", "Chop down a tree", Material.OAK_LOG);
