@@ -38,7 +38,7 @@ public class StructurePopulator extends BlockPopulator {
 	private int cloudHeight = config.getInt("aether.clouds.cloud-height", 128);
 	private int biomeSize = main.getConfig().getInt("outer-islands.biome-size"); 
 	private int baseH = main.getConfig().getInt("outer-islands.island-height", 64);
-	
+
 	@SuppressWarnings("unused")
 	private void generateFortress(Location origin) {
 		new NMSStructure(origin, "end_fortress/end_fortress_b_cross_0").paste();
@@ -67,10 +67,10 @@ public class StructurePopulator extends BlockPopulator {
 		int permutation = 0;
 		boolean ground = false;
 		boolean overrideSpawnCheck = false;
-		
+
 		SimplexOctaveGenerator biomeGenerator = new SimplexOctaveGenerator(world.getSeed(), 4);
 		double biomeNoiseLvl = biomeGenerator.noise((double) (chunk.getX()*16+X)/biomeSize, (double) (chunk.getZ()*16+Z)/biomeSize, 0.5D, 0.5D);
-		
+
 		if(biomeNoiseLvl > 0.5 || allAether) {
 			if(random.nextInt(100) < structureChance) {
 				int[] weights = {config.getInt("structure-weight.aether.gold_dungeon", 2), config.getInt("structure-weight.aether.cobble_house", 49), config.getInt("structure-weight.aether.wood_house", 49)};
@@ -87,9 +87,9 @@ public class StructurePopulator extends BlockPopulator {
 				case "gold_dungeon":
 					overrideSpawnCheck = true;
 					Y = cloudHeight;
+					break;
+				default:
 				}
-
-
 				structure = new NMSStructure(new Location(world, chunk.getX()*16+X, Y, chunk.getZ()*16+Z), structureName, permutation);
 			} else if(random.nextInt(100) < ruinChance) {
 				structure = new NMSStructure(new Location(world, chunk.getX()*16+X, Y, chunk.getZ()*16+Z), "aether_ruin", random.nextInt(18));
@@ -151,70 +151,72 @@ public class StructurePopulator extends BlockPopulator {
 		structure.setRotation(random.nextInt(4)*90);
 		int[] dimension = structure.getDimensions();
 		Location[] b = structure.getBoundingLocations();
-		if(overrideSpawnCheck || (structure.getName().equals("aether_ruin") ? isValidSpawn(b[0], b[1], false, 0, true) : isValidSpawn(b[0], b[1], ground, structure.getName().equals("wood_house") ? -2 : 1, false))) {
+		if(overrideSpawnCheck || (structure.getName().equals("aether_ruin") ? isValidSpawn(b[0], b[1], false, true) : isValidSpawn(b[0], b[1], ground, false))) {
 			structure.paste();
 			List<Location> locationsAll = getLocationListBetween(b[0], b[1]);
-			if("AETHER_HIGHLANDS".equals(biome)) {
-
-				for(int i = 0; i < (locationsAll.size()/12)+1; i++) {
-					Location candidate = locationsAll.get(random.nextInt(locationsAll.size()));
-					if(candidate.getBlock().getType() == Material.OAK_LOG ||
-							candidate.getBlock().getType() == Material.OAK_PLANKS ||
-							candidate.getBlock().getType() == Material.COBBLESTONE ||
-							candidate.getBlock().getType() == Material.COBBLESTONE_SLAB ||
-							candidate.getBlock().getType() == Material.COBBLESTONE_STAIRS ||
-							candidate.getBlock().getType() == Material.CHISELED_STONE_BRICKS ||
-							candidate.getBlock().getType() == Material.STONE_BRICKS ||
-							candidate.getBlock().getType() == Material.CRACKED_STONE_BRICKS ||
-							candidate.getBlock().getType() == Material.MOSSY_STONE_BRICKS ||
-							candidate.getBlock().getType() == Material.MOSSY_STONE_BRICK_SLAB ||
-							candidate.getBlock().getType() == Material.MOSSY_STONE_BRICK_STAIRS ||
-							candidate.getBlock().getType() == Material.STONE_BRICK_SLAB ||
-							candidate.getBlock().getType() == Material.STONE_BRICK_STAIRS ||
-							candidate.getBlock().getType() == Material.GLASS_PANE ||
-							candidate.getBlock().getType() == Material.OAK_SLAB ||
-							candidate.getBlock().getType() == Material.OAK_STAIRS) candidate.getBlock().setType(Material.COBWEB);
-				}
-			}
-			if("shulker_nest".equals(structure.getName())) {
-				for(int i = 0; i < shulkerSpawns; i++) {
-					boolean done = false;
-					int attempts = 0;
-					while(!done) {
-						Location candidate = locationsAll.get(random.nextInt(locationsAll.size()));
-						if(candidate.getBlock().isEmpty() && (
-								(!candidate.add(1,0,0).getBlock().isEmpty() && !candidate.add(1,0,0).getBlock().getType().toString().contains("slab") && !candidate.add(1,0,0).getBlock().getType().toString().contains("stair")) || 
-								(!candidate.add(0,1,0).getBlock().isEmpty() && !candidate.add(0,1,0).getBlock().getType().toString().contains("slab") && !candidate.add(0,1,0).getBlock().getType().toString().contains("stair")) || 
-								(!candidate.add(0,0,1).getBlock().isEmpty() && !candidate.add(0,0,1).getBlock().getType().toString().contains("slab") && !candidate.add(0,0,1).getBlock().getType().toString().contains("stair")) ||
-								(!candidate.subtract(1,0,0).getBlock().isEmpty() && !candidate.subtract(1,0,0).getBlock().getType().toString().contains("slab") && !candidate.subtract(1,0,0).getBlock().getType().toString().contains("stair")) ||
-								(!candidate.subtract(0,1,0).getBlock().isEmpty() && !candidate.subtract(0,1,0).getBlock().getType().toString().contains("slab") && !candidate.subtract(0,1,0).getBlock().getType().toString().contains("stair")) ||
-								(!candidate.subtract(0,0,1).getBlock().isEmpty() && !candidate.subtract(0,0,1).getBlock().getType().toString().contains("slab") && !candidate.subtract(0,0,1).getBlock().getType().toString().contains("stair")))) {
-							world.spawn(candidate, Shulker.class);
-							done = true;
-						}
-						attempts++;
-						if(attempts > 15) done = true;
-					}
-				}
-			}
+			if("AETHER_HIGHLANDS".equals(biome)) randomCobwebs(locationsAll, random);
+			if("shulker_nest".equals(structure.getName())) spawnShulkers(locationsAll, random, world);
 			if(!"aether_ruin".equals(structure.getName())) System.out.println("[BetterEnd] Generating structure \"" + structure.getName() + "\",  at " + b[0].getX() + ", " + b[0].getY() + ", " + b[0].getZ() + ". Dimensions: X: "+  dimension[0] + ", Y: " + dimension[1] + ", Z: " + dimension[2]);
-			List<Location> chests = getChestsIn(b[0], b[1]);        
-			LootTable table = ("aether_ruin".equals(structure.getName())) ? null : new LootTable(structure.getName());
-
-			for(Location location : chests) {
-				if (location.getBlock().getState() instanceof Container) {
-					if("end_ship".equals(structure.getName()) && location.getBlock().getState() instanceof Container && (location.getBlock().getType() == Material.DISPENSER)) {
-						populateTNT(random, location);
-					}
-					if("gold_dungeon".equals(structure.getName())) {
-						NamespacedKey key = new NamespacedKey(main, "valkyrie-spawner");
-						Chest chest = (Chest) location.getBlock().getState();
-						chest.getPersistentDataContainer().set(key, PersistentDataType.INTEGER, (int) (structure.getRotation()/90));
-						chest.update();
-						if(config.getBoolean("aether.mythic-boss.enable", false)) table = new LootTable("gold_dungeon_boss");
-					}
-					table.populateChest(location, random);
+			fillInventories(getChestsIn(b[0], b[1]), random, structure);        
+		}
+	}
+	private void randomCobwebs(List<Location> locationsAll, Random random) {
+		for(int i = 0; i < (locationsAll.size()/12)+1; i++) {
+			Location candidate = locationsAll.get(random.nextInt(locationsAll.size()));
+			if(candidate.getBlock().getType() == Material.OAK_LOG ||
+					candidate.getBlock().getType() == Material.OAK_PLANKS ||
+					candidate.getBlock().getType() == Material.COBBLESTONE ||
+					candidate.getBlock().getType() == Material.COBBLESTONE_SLAB ||
+					candidate.getBlock().getType() == Material.COBBLESTONE_STAIRS ||
+					candidate.getBlock().getType() == Material.CHISELED_STONE_BRICKS ||
+					candidate.getBlock().getType() == Material.STONE_BRICKS ||
+					candidate.getBlock().getType() == Material.CRACKED_STONE_BRICKS ||
+					candidate.getBlock().getType() == Material.MOSSY_STONE_BRICKS ||
+					candidate.getBlock().getType() == Material.MOSSY_STONE_BRICK_SLAB ||
+					candidate.getBlock().getType() == Material.MOSSY_STONE_BRICK_STAIRS ||
+					candidate.getBlock().getType() == Material.STONE_BRICK_SLAB ||
+					candidate.getBlock().getType() == Material.STONE_BRICK_STAIRS ||
+					candidate.getBlock().getType() == Material.GLASS_PANE ||
+					candidate.getBlock().getType() == Material.OAK_SLAB ||
+					candidate.getBlock().getType() == Material.OAK_STAIRS) candidate.getBlock().setType(Material.COBWEB);
+		}
+	}
+	private void spawnShulkers(List<Location> locationsAll, Random random, World world) {
+		for(int i = 0; i < shulkerSpawns; i++) {
+			boolean done = false;
+			int attempts = 0;
+			while(!done) {
+				Location candidate = locationsAll.get(random.nextInt(locationsAll.size()));
+				if(candidate.getBlock().isEmpty() && (
+						(!candidate.add(1,0,0).getBlock().isEmpty() && !candidate.add(1,0,0).getBlock().getType().toString().contains("slab") && !candidate.add(1,0,0).getBlock().getType().toString().contains("stair")) || 
+						(!candidate.add(0,1,0).getBlock().isEmpty() && !candidate.add(0,1,0).getBlock().getType().toString().contains("slab") && !candidate.add(0,1,0).getBlock().getType().toString().contains("stair")) || 
+						(!candidate.add(0,0,1).getBlock().isEmpty() && !candidate.add(0,0,1).getBlock().getType().toString().contains("slab") && !candidate.add(0,0,1).getBlock().getType().toString().contains("stair")) ||
+						(!candidate.subtract(1,0,0).getBlock().isEmpty() && !candidate.subtract(1,0,0).getBlock().getType().toString().contains("slab") && !candidate.subtract(1,0,0).getBlock().getType().toString().contains("stair")) ||
+						(!candidate.subtract(0,1,0).getBlock().isEmpty() && !candidate.subtract(0,1,0).getBlock().getType().toString().contains("slab") && !candidate.subtract(0,1,0).getBlock().getType().toString().contains("stair")) ||
+						(!candidate.subtract(0,0,1).getBlock().isEmpty() && !candidate.subtract(0,0,1).getBlock().getType().toString().contains("slab") && !candidate.subtract(0,0,1).getBlock().getType().toString().contains("stair")))) {
+					world.spawn(candidate, Shulker.class);
+					done = true;
 				}
+				attempts++;
+				if(attempts > 15) done = true;
+			}
+		}
+	}
+	private void fillInventories(List<Location> chests, Random random, NMSStructure structure) {
+		LootTable table = ("aether_ruin".equals(structure.getName())) ? null : new LootTable(structure.getName());
+		for(Location location : chests) {
+			if (location.getBlock().getState() instanceof Container) {
+				if("end_ship".equals(structure.getName()) && location.getBlock().getState() instanceof Container && (location.getBlock().getType() == Material.DISPENSER)) {
+					populateTNT(random, location);
+				}
+				if("gold_dungeon".equals(structure.getName())) {
+					NamespacedKey key = new NamespacedKey(main, "valkyrie-spawner");
+					Chest chest = (Chest) location.getBlock().getState();
+					chest.getPersistentDataContainer().set(key, PersistentDataType.INTEGER, (int) (structure.getRotation()/90));
+					chest.update();
+					if(config.getBoolean("aether.mythic-boss.enable", false)) table = new LootTable("gold_dungeon_boss");
+				}
+				table.populateChest(location, random);
 			}
 		}
 	}
@@ -237,17 +239,13 @@ public class StructurePopulator extends BlockPopulator {
 			while (!done) {
 				int randomPos = random.nextInt(containerContent.length);
 				ItemStack randomPosItem = containerInventory.getItem(randomPos);
-				if (randomPosItem != null) {
-					if (this.isSameItem(randomPosItem, randomItem)) {
-						if (randomPosItem.getAmount() < randomItem.getMaxStackSize()) {
-							ItemStack randomItemCopy = randomItem.clone();
-							int newAmount = randomPosItem.getAmount() + 1;
-							randomItemCopy.setAmount(newAmount);
-							containerContent[randomPos] = randomItemCopy;
-							containerInventory.setContents(containerContent);
-							done = true;
-						}
-					}
+				if (randomPosItem != null && this.isSameItem(randomPosItem, randomItem) && randomPosItem.getAmount() < randomItem.getMaxStackSize()) {
+					ItemStack randomItemCopy = randomItem.clone();
+					int newAmount = randomPosItem.getAmount() + 1;
+					randomItemCopy.setAmount(newAmount);
+					containerContent[randomPos] = randomItemCopy;
+					containerInventory.setContents(containerContent);
+					done = true;
 				} else {
 					ItemStack randomItemCopy = randomItem.clone();
 					randomItemCopy.setAmount(1);
@@ -292,15 +290,11 @@ public class StructurePopulator extends BlockPopulator {
 								Math.floor(location.getZ()));
 
 						// Check to see if this (or the other) side of the chest is already in the list
-						if (leftSideLocation.distance(roundedLocation) < 1) {
-							if (this.isNotAlreadyIn(locations, rightSideLocation)) {
-								locations.add(roundedLocation);
-							}
+						if (leftSideLocation.distance(roundedLocation) < 1 && this.isNotAlreadyIn(locations, rightSideLocation)) {
+							locations.add(roundedLocation);
 
-						} else if (rightSideLocation.distance(roundedLocation) < 1) {
-							if (this.isNotAlreadyIn(locations, leftSideLocation)) {
-								locations.add(roundedLocation);
-							}
+						} else if (rightSideLocation.distance(roundedLocation) < 1 && this.isNotAlreadyIn(locations, leftSideLocation)) {
+							locations.add(roundedLocation);
 						}
 
 					} else if (holder instanceof Chest) {
@@ -337,7 +331,7 @@ public class StructurePopulator extends BlockPopulator {
 		}
 		return true;
 	}
-	private boolean isValidSpawn(Location l1, Location l2, boolean underground, int sub, boolean strict) {
+	private boolean isValidSpawn(Location l1, Location l2, boolean underground, boolean strict) {
 		SimplexOctaveGenerator generator = new SimplexOctaveGenerator(l1.getWorld().getSeed(), 4);
 		int outNoise = main.getConfig().getInt("outer-islands.noise");
 		int lowX = Math.min(l1.getBlockX(), l2.getBlockX());
@@ -407,7 +401,7 @@ public class StructurePopulator extends BlockPopulator {
 				Location l5 = new Location(l1.getWorld(), l2.getX(), Math.min(l1.getBlockY(), l2.getBlockY()), l1.getZ());
 				Location l6 = new Location(l1.getWorld(), l2.getX(), Math.min(l1.getBlockY(), l2.getBlockY()), l2.getZ());
 
-				
+
 				if (l3.getBlock().isEmpty()) {
 					return false;
 				}

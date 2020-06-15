@@ -34,8 +34,59 @@ public class EnvironmentPopulator extends BlockPopulator {
 	@SuppressWarnings("deprecation")
 	public void populate(World world, Random random, Chunk chunk) {
 		//taiga
-		
+		populateTrees(random, chunk, world);
 		//trees
+		SimplexOctaveGenerator biomeGenerator = new SimplexOctaveGenerator(world.getSeed(), 4);
+		for(int X = 0; X < 16; X++) {
+			for(int Z = 0; Z < 16; Z++) {
+				double biomeNoiseLvl = biomeGenerator.noise((double) (chunk.getX()*16+X)/biomeSize, (double) (chunk.getZ()*16+Z)/biomeSize, 0.5D, 0.5D);
+				double heatNoiseLvl = biomeGenerator.noise((double) (chunk.getX()*16+X)/heatNoise, (double) (chunk.getZ()*16+Z)/heatNoise, 0.5D, 0.5D);
+				int Y;
+				for (Y = world.getMaxHeight()-1; (chunk.getBlock(X, Y, Z).getType() != Material.SPRUCE_LEAVES) && Y>0; Y--);
+				if(heatNoiseLvl < -0.5 && random.nextInt(100) < -50*(heatNoiseLvl+0.5) && chunk.getBlock(X, Y, Z).getType() == Material.SPRUCE_LEAVES) {
+					chunk.getBlock(X, Y+1, Z).setType(Material.SNOW);
+				}
+				if(heatNoiseLvl < -0.5 && (biomeNoiseLvl > 0.5 || allAether)) {
+					world.setBiome(chunk.getX()*16+X, chunk.getZ()*16+Z, Biome.TAIGA);
+					
+					if(random.nextInt(1000) < 2) {
+						for (Y = world.getMaxHeight()-1; (chunk.getBlock(X, Y, Z).getType() != Material.GRASS_BLOCK && 
+								chunk.getBlock(X, Y, Z).getType() != Material.GRAVEL &&
+								chunk.getBlock(X, Y, Z).getType() != Material.PODZOL &&
+								chunk.getBlock(X, Y, Z).getType() != Material.COARSE_DIRT) && Y>0; Y--);
+						if(Y > 1) world.getBlockAt(chunk.getX()*16+X, Y+1, chunk.getZ()*16+Z).setType((random.nextBoolean()) ? Material.COBBLESTONE : Material.MOSSY_COBBLESTONE);
+					}
+				}
+			}
+		}
+		
+		//animals
+		if(random.nextInt(100) < herdChance) {
+			int size = random.nextInt(herdMax-herdMin)+herdMin;
+			EntityType type;
+			switch(random.nextInt(3)) {
+			case 0:
+				type = EntityType.CHICKEN;
+				break;
+			case 1:
+				type = EntityType.COW;
+				break;
+			default:
+				type = EntityType.SHEEP;
+				break;
+			}
+			int X = random.nextInt(16);
+			int Z = random.nextInt(16);
+			if(Main.getBiome(chunk.getX()*16 + X, chunk.getZ()*16 + Z, world.getSeed()).equals("AETHER") || Main.getBiome(chunk.getX()*16 + X, chunk.getZ()*16 + Z, world.getSeed()).equals("AETHER_HIGHLANDS")) {
+				for (int i = 0; i < size; i++) {
+					int Y;
+					for (Y = world.getMaxHeight()-1; chunk.getBlock(X, Y, Z).getType() != Material.GRASS_BLOCK && Y>0; Y--);
+					if(Y > 1) world.spawnEntity(new Location(world, chunk.getX()*16 + X + random.nextInt(3), Y + 1, chunk.getZ()*16 + Z + random.nextInt(3)), type);
+				}
+			}
+		}
+	}
+	private void populateTrees(Random random, Chunk chunk, World world) {
 		int amount = random.nextInt(max-min)+min;  // Amount of trees
 		if((Math.abs(chunk.getX()) > 20 || Math.abs(chunk.getZ()) > 20) || allAether)
 			for (int i = 0; i < amount; i++) {
@@ -98,64 +149,7 @@ public class EnvironmentPopulator extends BlockPopulator {
 					case "SHATTERED_END":
 						if(blockLocation.getBlock().getType() == Material.END_STONE && random.nextInt(10) < 7) {
 							if(random.nextInt(100) < 60) {
-								int[] upBound = {random.nextInt(obMax-obMin)+obMin, 0, 0, 0};
-								int[] lowBound = {random.nextInt(obMax-obMin)+obMin, 0, 0, 0};
-								int maxH = 0;
-								int maxHVal = upBound[0];
-								for(int j = 1; j < upBound.length; j++) {
-									upBound[j] = upBound[j-1] + random.nextInt(5)-2;
-									if(upBound[j] > maxHVal) {
-										maxH = j;
-										maxHVal = upBound[j];
-									}
-								}
-								for(int j = 1; j < lowBound.length; j++) {
-									lowBound[j] = lowBound[j-1] + random.nextInt(7)-3;
-								}
-								for(int j = -lowBound[0]; j < upBound[0]; j++) {
-									if(world.getBlockAt((chunk.getX()*16)+X, Y+j, (chunk.getZ()*16)+Z).getType() == Material.END_STONE ||
-											world.getBlockAt((chunk.getX()*16)+X, Y+j, (chunk.getZ()*16)+Z).getType() == Material.END_ROD ||
-											world.getBlockAt((chunk.getX()*16)+X, Y+j, (chunk.getZ()*16)+Z).getType() == Material.END_STONE_BRICK_SLAB ||
-											world.getBlockAt((chunk.getX()*16)+X, Y+j, (chunk.getZ()*16)+Z).getType() == Material.END_STONE_BRICK_WALL ||
-											world.getBlockAt((chunk.getX()*16)+X, Y+j, (chunk.getZ()*16)+Z).isPassable()) world.getBlockAt((chunk.getX()*16)+X, Y+j, (chunk.getZ()*16)+Z).setType(Material.OBSIDIAN);
-								}
-								for(int j = -lowBound[1]; j < upBound[1]; j++) {
-									if(world.getBlockAt((chunk.getX()*16)+X, Y+j, (chunk.getZ()*16)+Z).getType() == Material.END_STONE ||
-											world.getBlockAt((chunk.getX()*16)+X+1, Y+j, (chunk.getZ()*16)+Z).getType() == Material.END_ROD ||
-											world.getBlockAt((chunk.getX()*16)+X+1, Y+j, (chunk.getZ()*16)+Z).getType() == Material.END_STONE_BRICK_SLAB ||
-											world.getBlockAt((chunk.getX()*16)+X+1, Y+j, (chunk.getZ()*16)+Z).getType() == Material.END_STONE_BRICK_WALL ||
-											world.getBlockAt((chunk.getX()*16)+X+1, Y+j, (chunk.getZ()*16)+Z).isPassable()) world.getBlockAt((chunk.getX()*16)+X+1, Y+j, (chunk.getZ()*16)+Z).setType(Material.OBSIDIAN);
-								}
-								for(int j = -lowBound[2]; j < upBound[2]; j++) {
-									if(world.getBlockAt((chunk.getX()*16)+X, Y+j, (chunk.getZ()*16)+Z).getType() == Material.END_STONE ||
-											world.getBlockAt((chunk.getX()*16)+X, Y+j, (chunk.getZ()*16)+Z+1).getType() == Material.END_ROD ||
-											world.getBlockAt((chunk.getX()*16)+X, Y+j, (chunk.getZ()*16)+Z+1).getType() == Material.END_STONE_BRICK_SLAB ||
-											world.getBlockAt((chunk.getX()*16)+X, Y+j, (chunk.getZ()*16)+Z+1).getType() == Material.END_STONE_BRICK_WALL ||
-											world.getBlockAt((chunk.getX()*16)+X, Y+j, (chunk.getZ()*16)+Z+1).isPassable()) world.getBlockAt((chunk.getX()*16)+X, Y+j, (chunk.getZ()*16)+Z+1).setType(Material.OBSIDIAN);
-								}
-								for(int j = -lowBound[3]; j < upBound[3]; j++) {
-									if(world.getBlockAt((chunk.getX()*16)+X, Y+j, (chunk.getZ()*16)+Z).getType() == Material.END_STONE ||
-											world.getBlockAt((chunk.getX()*16)+X+1, Y+j, (chunk.getZ()*16)+Z+1).getType() == Material.END_ROD ||
-											world.getBlockAt((chunk.getX()*16)+X+1, Y+j, (chunk.getZ()*16)+Z+1).getType() == Material.END_STONE_BRICK_SLAB ||
-											world.getBlockAt((chunk.getX()*16)+X+1, Y+j, (chunk.getZ()*16)+Z+1).getType() == Material.END_STONE_BRICK_WALL ||
-											world.getBlockAt((chunk.getX()*16)+X+1, Y+j, (chunk.getZ()*16)+Z+1).isPassable()) world.getBlockAt((chunk.getX()*16)+X+1, Y+j, (chunk.getZ()*16)+Z+1).setType(Material.OBSIDIAN);
-								}
-								if(random.nextInt(100) < 25) {
-									switch(maxH) {
-									case 0:
-										world.spawn(new Location(world, (chunk.getX()*16)+X+0.5, upBound[0]+Y, (chunk.getZ()*16)+Z+0.5), EnderCrystal.class, (enderCrystal) -> enderCrystal.setShowingBottom(false));
-										break;
-									case 1:
-										world.spawn(new Location(world, (chunk.getX()*16)+X+1.5, upBound[1]+Y, (chunk.getZ()*16)+Z+0.5), EnderCrystal.class, (enderCrystal) -> enderCrystal.setShowingBottom(false));
-										break;
-									case 2:
-										world.spawn(new Location(world, (chunk.getX()*16)+X+0.5, upBound[2]+Y, (chunk.getZ()*16)+Z+1.5), EnderCrystal.class, (enderCrystal) -> enderCrystal.setShowingBottom(false));
-										break;
-									case 3:
-										world.spawn(new Location(world, (chunk.getX()*16)+X+1.5, upBound[3]+Y, (chunk.getZ()*16)+Z+1.5), EnderCrystal.class, (enderCrystal) -> enderCrystal.setShowingBottom(false));
-										break;
-									}
-								}
+								plantShatteredPillar(random, chunk, world, new int[] {X, Y, Z});
 							} else {
 								int upBound = (int) (random.nextInt((int) ((obMax*0.75)-(obMin*0.75)))+(obMin*0.75));
 								int lowBound = (int) (random.nextInt((int) ((obMax*0.75)-(obMin*0.75)))+(obMin*0.75));
@@ -179,53 +173,68 @@ public class EnvironmentPopulator extends BlockPopulator {
 					}
 				}
 			}
-		SimplexOctaveGenerator biomeGenerator = new SimplexOctaveGenerator(world.getSeed(), 4);
-		for(int X = 0; X < 16; X++) {
-			for(int Z = 0; Z < 16; Z++) {
-				double biomeNoiseLvl = biomeGenerator.noise((double) (chunk.getX()*16+X)/biomeSize, (double) (chunk.getZ()*16+Z)/biomeSize, 0.5D, 0.5D);
-				double heatNoiseLvl = biomeGenerator.noise((double) (chunk.getX()*16+X)/heatNoise, (double) (chunk.getZ()*16+Z)/heatNoise, 0.5D, 0.5D);
-				int Y;
-				for (Y = world.getMaxHeight()-1; (chunk.getBlock(X, Y, Z).getType() != Material.SPRUCE_LEAVES) && Y>0; Y--);
-				if(heatNoiseLvl < -0.5 && random.nextInt(100) < -50*(heatNoiseLvl+0.5) && chunk.getBlock(X, Y, Z).getType() == Material.SPRUCE_LEAVES) {
-					chunk.getBlock(X, Y+1, Z).setType(Material.SNOW);
-				}
-				if(heatNoiseLvl < -0.5 && (biomeNoiseLvl > 0.5 || allAether)) {
-					world.setBiome(chunk.getX()*16+X, chunk.getZ()*16+Z, Biome.TAIGA);
-					
-					if(random.nextInt(1000) < 2) {
-						for (Y = world.getMaxHeight()-1; (chunk.getBlock(X, Y, Z).getType() != Material.GRASS_BLOCK && 
-								chunk.getBlock(X, Y, Z).getType() != Material.GRAVEL &&
-								chunk.getBlock(X, Y, Z).getType() != Material.PODZOL &&
-								chunk.getBlock(X, Y, Z).getType() != Material.COARSE_DIRT) && Y>0; Y--);
-						if(Y > 1) world.getBlockAt(chunk.getX()*16+X, Y+1, chunk.getZ()*16+Z).setType((random.nextBoolean()) ? Material.COBBLESTONE : Material.MOSSY_COBBLESTONE);
-					}
-				}
+		
+	}
+	private void plantShatteredPillar(Random random, Chunk chunk, World world, int[] coords) {
+		int X = coords[0];
+		int Y = coords[1];
+		int Z = coords[2];
+		int[] upBound = {random.nextInt(obMax-obMin)+obMin, 0, 0, 0};
+		int[] lowBound = {random.nextInt(obMax-obMin)+obMin, 0, 0, 0};
+		int maxH = 0;
+		int maxHVal = upBound[0];
+		for(int j = 1; j < upBound.length; j++) {
+			upBound[j] = upBound[j-1] + random.nextInt(5)-2;
+			if(upBound[j] > maxHVal) {
+				maxH = j;
+				maxHVal = upBound[j];
 			}
 		}
-		
-		//animals
-		if(random.nextInt(100) < herdChance) {
-			int size = random.nextInt(herdMax-herdMin)+herdMin;
-			EntityType type;
-			switch(random.nextInt(3)) {
+		for(int j = 1; j < lowBound.length; j++) {
+			lowBound[j] = lowBound[j-1] + random.nextInt(7)-3;
+		}
+		for(int j = -lowBound[0]; j < upBound[0]; j++) {
+			if(world.getBlockAt((chunk.getX()*16)+X, Y+j, (chunk.getZ()*16)+Z).getType() == Material.END_STONE ||
+					world.getBlockAt((chunk.getX()*16)+X, Y+j, (chunk.getZ()*16)+Z).getType() == Material.END_ROD ||
+					world.getBlockAt((chunk.getX()*16)+X, Y+j, (chunk.getZ()*16)+Z).getType() == Material.END_STONE_BRICK_SLAB ||
+					world.getBlockAt((chunk.getX()*16)+X, Y+j, (chunk.getZ()*16)+Z).getType() == Material.END_STONE_BRICK_WALL ||
+					world.getBlockAt((chunk.getX()*16)+X, Y+j, (chunk.getZ()*16)+Z).isPassable()) world.getBlockAt((chunk.getX()*16)+X, Y+j, (chunk.getZ()*16)+Z).setType(Material.OBSIDIAN);
+		}
+		for(int j = -lowBound[1]; j < upBound[1]; j++) {
+			if(world.getBlockAt((chunk.getX()*16)+X, Y+j, (chunk.getZ()*16)+Z).getType() == Material.END_STONE ||
+					world.getBlockAt((chunk.getX()*16)+X+1, Y+j, (chunk.getZ()*16)+Z).getType() == Material.END_ROD ||
+					world.getBlockAt((chunk.getX()*16)+X+1, Y+j, (chunk.getZ()*16)+Z).getType() == Material.END_STONE_BRICK_SLAB ||
+					world.getBlockAt((chunk.getX()*16)+X+1, Y+j, (chunk.getZ()*16)+Z).getType() == Material.END_STONE_BRICK_WALL ||
+					world.getBlockAt((chunk.getX()*16)+X+1, Y+j, (chunk.getZ()*16)+Z).isPassable()) world.getBlockAt((chunk.getX()*16)+X+1, Y+j, (chunk.getZ()*16)+Z).setType(Material.OBSIDIAN);
+		}
+		for(int j = -lowBound[2]; j < upBound[2]; j++) {
+			if(world.getBlockAt((chunk.getX()*16)+X, Y+j, (chunk.getZ()*16)+Z).getType() == Material.END_STONE ||
+					world.getBlockAt((chunk.getX()*16)+X, Y+j, (chunk.getZ()*16)+Z+1).getType() == Material.END_ROD ||
+					world.getBlockAt((chunk.getX()*16)+X, Y+j, (chunk.getZ()*16)+Z+1).getType() == Material.END_STONE_BRICK_SLAB ||
+					world.getBlockAt((chunk.getX()*16)+X, Y+j, (chunk.getZ()*16)+Z+1).getType() == Material.END_STONE_BRICK_WALL ||
+					world.getBlockAt((chunk.getX()*16)+X, Y+j, (chunk.getZ()*16)+Z+1).isPassable()) world.getBlockAt((chunk.getX()*16)+X, Y+j, (chunk.getZ()*16)+Z+1).setType(Material.OBSIDIAN);
+		}
+		for(int j = -lowBound[3]; j < upBound[3]; j++) {
+			if(world.getBlockAt((chunk.getX()*16)+X, Y+j, (chunk.getZ()*16)+Z).getType() == Material.END_STONE ||
+					world.getBlockAt((chunk.getX()*16)+X+1, Y+j, (chunk.getZ()*16)+Z+1).getType() == Material.END_ROD ||
+					world.getBlockAt((chunk.getX()*16)+X+1, Y+j, (chunk.getZ()*16)+Z+1).getType() == Material.END_STONE_BRICK_SLAB ||
+					world.getBlockAt((chunk.getX()*16)+X+1, Y+j, (chunk.getZ()*16)+Z+1).getType() == Material.END_STONE_BRICK_WALL ||
+					world.getBlockAt((chunk.getX()*16)+X+1, Y+j, (chunk.getZ()*16)+Z+1).isPassable()) world.getBlockAt((chunk.getX()*16)+X+1, Y+j, (chunk.getZ()*16)+Z+1).setType(Material.OBSIDIAN);
+		}
+		if(random.nextInt(100) < 25) {
+			switch(maxH) {
 			case 0:
-				type = EntityType.CHICKEN;
+				world.spawn(new Location(world, (chunk.getX()*16)+X+0.5, upBound[0]+Y, (chunk.getZ()*16)+Z+0.5), EnderCrystal.class, (enderCrystal) -> enderCrystal.setShowingBottom(false));
 				break;
 			case 1:
-				type = EntityType.COW;
+				world.spawn(new Location(world, (chunk.getX()*16)+X+1.5, upBound[1]+Y, (chunk.getZ()*16)+Z+0.5), EnderCrystal.class, (enderCrystal) -> enderCrystal.setShowingBottom(false));
 				break;
-			default:
-				type = EntityType.SHEEP;
+			case 2:
+				world.spawn(new Location(world, (chunk.getX()*16)+X+0.5, upBound[2]+Y, (chunk.getZ()*16)+Z+1.5), EnderCrystal.class, (enderCrystal) -> enderCrystal.setShowingBottom(false));
 				break;
-			}
-			int X = random.nextInt(16);
-			int Z = random.nextInt(16);
-			if(Main.getBiome(chunk.getX()*16 + X, chunk.getZ()*16 + Z, world.getSeed()).equals("AETHER") || Main.getBiome(chunk.getX()*16 + X, chunk.getZ()*16 + Z, world.getSeed()).equals("AETHER_HIGHLANDS")) {
-				for (int i = 0; i < size; i++) {
-					int Y;
-					for (Y = world.getMaxHeight()-1; chunk.getBlock(X, Y, Z).getType() != Material.GRASS_BLOCK && Y>0; Y--);
-					if(Y > 1) world.spawnEntity(new Location(world, chunk.getX()*16 + X + random.nextInt(3), Y + 1, chunk.getZ()*16 + Z + random.nextInt(3)), type);
-				}
+			case 3:
+				world.spawn(new Location(world, (chunk.getX()*16)+X+1.5, upBound[3]+Y, (chunk.getZ()*16)+Z+1.5), EnderCrystal.class, (enderCrystal) -> enderCrystal.setShowingBottom(false));
+				break;
 			}
 		}
 	}

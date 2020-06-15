@@ -136,15 +136,13 @@ public class LootTable {
 								int randomPos = random.nextInt(containerContent.length);
 								ItemStack randomPosItem = containerInventory.getItem(randomPos);
 								if (randomPosItem != null) {
-									if (this.isSameItem(randomPosItem, randomItem)) {
-										if (randomPosItem.getAmount() < randomItem.getMaxStackSize()) {
-											ItemStack randomItemCopy = randomItem.clone();
-											int newAmount = randomPosItem.getAmount() + 1;
-											randomItemCopy.setAmount(newAmount);
-											containerContent[randomPos] = randomItemCopy;
-											containerInventory.setContents(containerContent);
-											done = true;
-										}
+									if (this.isSameItem(randomPosItem, randomItem) && randomPosItem.getAmount() < randomItem.getMaxStackSize()) {
+										ItemStack randomItemCopy = randomItem.clone();
+										int newAmount = randomPosItem.getAmount() + 1;
+										randomItemCopy.setAmount(newAmount);
+										containerContent[randomPos] = randomItemCopy;
+										containerInventory.setContents(containerContent);
+										done = true;
 									}
 								} else {
 									ItemStack randomItemCopy = randomItem.clone();
