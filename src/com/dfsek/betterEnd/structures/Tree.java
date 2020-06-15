@@ -78,7 +78,6 @@ public class Tree {
 	}
 	private void doWoodBranchAt(Location start, double startR, Random random, int length, Vector startV, Material m, Material l, int lvl, boolean doYCheck) {
 		if(length < 4) return;
-		int ogStart = (int) startR;
 		if(startR < 0) return;
 		Vector initV = getPerpendicular(startV.clone()).rotateAroundAxis(startV, random.nextInt(360));
 		while(initV.getY() < 0 && doYCheck) {
