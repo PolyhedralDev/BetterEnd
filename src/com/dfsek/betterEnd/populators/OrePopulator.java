@@ -1,4 +1,4 @@
-package com.dfsek.betterEnd.populators;
+package com.dfsek.betterend.populators;
 
 import java.util.Random;
 
@@ -7,10 +7,10 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.generator.BlockPopulator;
 
-import com.dfsek.betterEnd.Main;
+import com.dfsek.betterend.Main;
 
 public class OrePopulator extends BlockPopulator {
-	Main main = Main.getInstance();
+	private Main main = Main.getInstance();
 	@Override
 	public void populate(World world, Random random, Chunk chunk) {
 

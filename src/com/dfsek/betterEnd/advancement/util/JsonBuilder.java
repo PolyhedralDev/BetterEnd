@@ -1,8 +1,8 @@
-package com.dfsek.betterEnd.advancement.util;
+package com.dfsek.betterend.advancement.util;
 
 import com.google.gson.*;
-import com.dfsek.betterEnd.advancement.shared.SharedEnum;
-import com.dfsek.betterEnd.advancement.shared.SharedObject;
+import com.dfsek.betterend.advancement.shared.SharedEnum;
+import com.dfsek.betterend.advancement.shared.SharedObject;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.chat.ComponentSerializer;
 import org.bukkit.Keyed;

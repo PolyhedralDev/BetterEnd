@@ -1,8 +1,8 @@
-package com.dfsek.betterEnd.advancement.shared;
+package com.dfsek.betterend.advancement.shared;
 
 import com.google.gson.JsonObject;
-import com.dfsek.betterEnd.advancement.util.JsonBuilder;
-import com.dfsek.betterEnd.advancement.util.Validator;
+import com.dfsek.betterend.advancement.util.JsonBuilder;
+import com.dfsek.betterend.advancement.util.Validator;
 import org.bukkit.entity.Cat;
 import org.bukkit.entity.EntityType;
 import org.jetbrains.annotations.Contract;

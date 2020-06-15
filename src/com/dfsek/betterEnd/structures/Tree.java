@@ -1,4 +1,4 @@
-package com.dfsek.betterEnd.structures;
+package com.dfsek.betterend.structures;
 
 import java.util.Random;
 
@@ -76,7 +76,7 @@ public class Tree {
 			throw new IllegalArgumentException("Invalid tree type specified: " + type);
 		}
 	}
-	void doWoodBranchAt(Location start, double startR, Random random, int length, double change, Vector startV, Material m, Material l, int lvl, boolean doYCheck) {
+	private void doWoodBranchAt(Location start, double startR, Random random, int length, double change, Vector startV, Material m, Material l, int lvl, boolean doYCheck) {
 		if(length < 4) return;
 		int ogStart = (int) startR;
 		if(startR < 0) return;
@@ -118,7 +118,7 @@ public class Tree {
 			}
 		}
 	}
-	void doRootAt(Location start, double startR, Random random, int length, double change, Vector startV, int angle) {
+	private void doRootAt(Location start, double startR, Random random, int length, double change, Vector startV, int angle) {
 		if(length < 4) return;
 		if(startR < 0) return;
 		Vector initV = getPerpendicular(startV.clone()).rotateAroundAxis(startV, angle).setY(-0.2);
@@ -152,7 +152,7 @@ public class Tree {
 			if(initV.getZ() < -1) initV.setZ(-1);
 		}
 	}
-	void doWoodRootAt(Location start, double startR, Random random, int length, double change, Vector startV, int angle, Material m) {
+	private void doWoodRootAt(Location start, double startR, Random random, int length, double change, Vector startV, int angle, Material m) {
 		if(length < 4) return;
 		if(startR < 0) return;
 		Vector initV = getPerpendicular(startV.clone()).rotateAroundAxis(startV, angle).setY(-0.2);
@@ -207,7 +207,7 @@ public class Tree {
 		}
 	}
 	
-	void doMSphereAtLoc(Location l, int radius, Material m) {
+	private void doMSphereAtLoc(Location l, int radius, Material m) {
 		for (int x = -radius; x <= radius; x++) {
 			for (int y = -radius; y <= radius; y++) {
 				for (int z = -radius; z <= radius; z++) {
@@ -221,7 +221,7 @@ public class Tree {
 			}
 		}
 	}
-	Vector getPerpendicular(Vector v) {
+	private Vector getPerpendicular(Vector v) {
 		return  v.getZ()<v.getX()  ? new Vector(v.getY(),-v.getX(),0) : new Vector(0,-v.getZ(),v.getY());
 	}
 }

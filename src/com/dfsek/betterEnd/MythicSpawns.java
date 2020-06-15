@@ -1,4 +1,4 @@
-package com.dfsek.betterEnd;
+package com.dfsek.betterend;
 
 import java.io.File;
 import java.io.IOException;
@@ -17,11 +17,11 @@ import org.bukkit.util.Vector;
 import io.lumine.xikage.mythicmobs.MythicMobs;
 
 public class MythicSpawns {
-	static Main main = Main.getInstance();
-	static File configFile = new File(main.getDataFolder() + File.separator + "mythicSpawns.yml");
-	static YamlConfiguration config = new YamlConfiguration();
-	static Random random = new Random();
-	static boolean debug = main.getConfig().getBoolean("debug");
+	private static Main main = Main.getInstance();
+	private static File configFile = new File(main.getDataFolder() + File.separator + "mythicSpawns.yml");
+	private static YamlConfiguration config = new YamlConfiguration();
+	private static Random random = new Random();
+	private static boolean debug = main.getConfig().getBoolean("debug");
 	public static void startSpawnRoutine() {
 
 		if(Main.isPremium()) {

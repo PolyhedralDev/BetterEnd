@@ -1,24 +1,18 @@
-package com.dfsek.betterEnd;
+package com.dfsek.betterend;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.plugin.Plugin;
 
-import com.dfsek.betterEnd.advancement.Advancement;
-import com.dfsek.betterEnd.advancement.AdvancementFactory;
-import com.dfsek.betterEnd.advancement.Rewards;
-import com.dfsek.betterEnd.advancement.shared.ItemObject;
-import com.dfsek.betterEnd.advancement.trigger.PlayerKilledEntityTrigger;
-
-import net.md_5.bungee.api.chat.TextComponent;
+import com.dfsek.betterend.advancement.Advancement;
+import com.dfsek.betterend.advancement.AdvancementFactory;
 
 public class EndAdvancements {
 	public static void enable(Plugin plugin) {
 		AdvancementFactory factory = new AdvancementFactory(plugin, true, false);
 
 		//Create a root advancement which is also automatically unlocked (with a player head icon)
-		Advancement root = new Advancement(new NamespacedKey(plugin, "end/root"), new ItemObject().setItem(Material.END_STONE), new TextComponent("The End"), new TextComponent("Or the beginning?"));
+		Advancement root = factory.getRoot("outer_end/root", "Outer End", "This looks... Different...", Material.PURPUR_BLOCK, "block/purpur_block");
 
 		Advancement aetherVisit = factory.getItem("outer_end/visit_aether", root, "A Hostile Paradise", "Enter the Aether", Material.OAK_LOG);
 		Advancement aetherHighlandsVisit = factory.getItem("outer_end/visit_aether_highlands", aetherVisit, "Game Design", "Enter the Aether Highlands", Material.OAK_LOG);

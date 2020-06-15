@@ -1,11 +1,11 @@
-package com.dfsek.betterEnd.advancement.trigger;
+package com.dfsek.betterend.advancement.trigger;
 
 import com.google.gson.JsonObject;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import com.dfsek.betterEnd.advancement.shared.EntityObject;
-import com.dfsek.betterEnd.advancement.util.JsonBuilder;
+import com.dfsek.betterend.advancement.shared.EntityObject;
+import com.dfsek.betterend.advancement.util.JsonBuilder;
 
 /**
  * Fires whenever two animals are bred and a child is born.

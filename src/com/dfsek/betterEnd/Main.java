@@ -1,4 +1,4 @@
-package com.dfsek.betterEnd;
+package com.dfsek.betterend;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -33,7 +33,7 @@ import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.noise.SimplexOctaveGenerator;
 
-import com.dfsek.betterEnd.UpdateChecker.UpdateReason;
+import com.dfsek.betterend.UpdateChecker.UpdateReason;
 import io.lumine.xikage.mythicmobs.MythicMobs;
 
 public class Main extends JavaPlugin implements Listener {	

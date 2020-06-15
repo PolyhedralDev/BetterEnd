@@ -1,8 +1,8 @@
-package com.dfsek.betterEnd.advancement.trigger;
+package com.dfsek.betterend.advancement.trigger;
 
 import com.google.gson.JsonObject;
-import com.dfsek.betterEnd.advancement.shared.SharedEnum;
-import com.dfsek.betterEnd.advancement.util.JsonBuilder;
+import com.dfsek.betterend.advancement.shared.SharedEnum;
+import com.dfsek.betterend.advancement.util.JsonBuilder;
 import org.apache.commons.lang.Validate;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -12,7 +12,7 @@ import java.util.Objects;
 
 /**
  * A trigger of an advancement. Each advancement must have at least one trigger.
- * All triggers must completed the requirements are explicitly specified using {@link com.dfsek.betterEnd.advancement.Advancement#addRequirement(String...)}
+ * All triggers must completed the requirements are explicitly specified using {@link com.dfsek.betterend.advancement.Advancement#addRequirement(String...)}
  */
 public abstract class Trigger {
 	private final Type type;

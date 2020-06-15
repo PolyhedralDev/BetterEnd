@@ -1,8 +1,8 @@
-package com.dfsek.betterEnd.advancement;
+package com.dfsek.betterend.advancement;
 
-import com.dfsek.betterEnd.advancement.shared.*;
-import com.dfsek.betterEnd.advancement.trigger.*;
-import com.dfsek.betterEnd.advancement.util.Validator;
+import com.dfsek.betterend.advancement.shared.*;
+import com.dfsek.betterend.advancement.trigger.*;
+import com.dfsek.betterend.advancement.util.Validator;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;

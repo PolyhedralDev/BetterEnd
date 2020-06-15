@@ -1,4 +1,4 @@
-package com.dfsek.betterEnd.structures;
+package com.dfsek.betterend.structures;
 
 import java.io.IOException;
 import java.util.Random;
@@ -6,7 +6,7 @@ import java.util.Random;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_15_R1.CraftWorld;
 
-import com.dfsek.betterEnd.Main;
+import com.dfsek.betterend.Main;
 
 import net.minecraft.server.v1_15_R1.BlockPosition;
 import net.minecraft.server.v1_15_R1.ChunkCoordIntPair;

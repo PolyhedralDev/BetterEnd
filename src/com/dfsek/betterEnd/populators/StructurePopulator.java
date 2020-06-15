@@ -1,4 +1,4 @@
-package com.dfsek.betterEnd.populators;
+package com.dfsek.betterend.populators;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,21 +23,21 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.util.noise.SimplexOctaveGenerator;
 
-import com.dfsek.betterEnd.Main;
-import com.dfsek.betterEnd.structures.LootTable;
-import com.dfsek.betterEnd.structures.NMSStructure;
+import com.dfsek.betterend.Main;
+import com.dfsek.betterend.structures.LootTable;
+import com.dfsek.betterend.structures.NMSStructure;
 
 
 public class StructurePopulator extends BlockPopulator {
-	static Main main = Main.getInstance();
-	FileConfiguration config = main.getConfig();
-	int shulkerSpawns = config.getInt("outer-islands.structures.shulker-nest.shulker-spawn-attempts", 8);
-	boolean allAether = config.getBoolean("all-aether", false);
-	int structureChance = config.getInt("outer-islands.structures.chance-per-chunk", 6);
-	int ruinChance = config.getInt("outer-islands.ruins.chance-per-chunk", 30);
-	int cloudHeight = config.getInt("aether.clouds.cloud-height", 128);
-	int biomeSize = main.getConfig().getInt("outer-islands.biome-size"); 
-	int baseH = main.getConfig().getInt("outer-islands.island-height", 64);
+	private static Main main = Main.getInstance();
+	private FileConfiguration config = main.getConfig();
+	private int shulkerSpawns = config.getInt("outer-islands.structures.shulker-nest.shulker-spawn-attempts", 8);
+	private boolean allAether = config.getBoolean("all-aether", false);
+	private int structureChance = config.getInt("outer-islands.structures.chance-per-chunk", 6);
+	private int ruinChance = config.getInt("outer-islands.ruins.chance-per-chunk", 30);
+	private int cloudHeight = config.getInt("aether.clouds.cloud-height", 128);
+	private int biomeSize = main.getConfig().getInt("outer-islands.biome-size"); 
+	private int baseH = main.getConfig().getInt("outer-islands.island-height", 64);
 	
 	@SuppressWarnings("unused")
 	private void generateFortress(Location origin) {
@@ -261,7 +261,7 @@ public class StructurePopulator extends BlockPopulator {
 
 		return randomPosItem.getType().equals(randomItem.getType()) && randomPosItemMeta.equals(randomItemMeta);
 	}
-	public String chooseOnWeight(String[] items, int[] weights) {
+	private String chooseOnWeight(String[] items, int[] weights) {
 		double completeWeight = 0.0;
 		for (int weight : weights)
 			completeWeight += weight;
@@ -274,7 +274,7 @@ public class StructurePopulator extends BlockPopulator {
 		}
 		return null;
 	}
-	public List<Location> getChestsIn(Location minLoc, Location maxLoc){
+	private List<Location> getChestsIn(Location minLoc, Location maxLoc){
 		List<Location> locations = new ArrayList<>();
 		for (Location location : getLocationListBetween(minLoc, maxLoc)) {
 			BlockState blockState = location.getBlock().getState();

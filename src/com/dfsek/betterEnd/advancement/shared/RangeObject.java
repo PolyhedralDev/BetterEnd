@@ -1,8 +1,8 @@
-package com.dfsek.betterEnd.advancement.shared;
+package com.dfsek.betterend.advancement.shared;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
-import com.dfsek.betterEnd.advancement.util.JsonBuilder;
+import com.dfsek.betterend.advancement.util.JsonBuilder;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

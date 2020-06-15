@@ -1,4 +1,4 @@
-package com.dfsek.betterEnd.advancement.util;
+package com.dfsek.betterend.advancement.util;
 
 import org.apache.commons.lang.Validate;
 import org.jetbrains.annotations.NotNull;

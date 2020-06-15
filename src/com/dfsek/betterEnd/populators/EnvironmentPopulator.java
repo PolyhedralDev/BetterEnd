@@ -1,4 +1,4 @@
-package com.dfsek.betterEnd.populators;
+package com.dfsek.betterend.populators;
 
 import java.util.Random;
 
@@ -14,26 +14,26 @@ import org.bukkit.generator.BlockPopulator;
 import org.bukkit.util.Vector;
 import org.bukkit.util.noise.SimplexOctaveGenerator;
 
-import com.dfsek.betterEnd.Main;
-import com.dfsek.betterEnd.structures.ShatteredTree;
-import com.dfsek.betterEnd.structures.Tree;
+import com.dfsek.betterend.Main;
+import com.dfsek.betterend.structures.ShatteredTree;
+import com.dfsek.betterend.structures.Tree;
 
 public class EnvironmentPopulator extends BlockPopulator {
-	Main main = Main.getInstance();
-	int min = main.getConfig().getInt("trees.min-per-chunk");
-	int max = main.getConfig().getInt("trees.max-per-chunk");
-	int herdChance = main.getConfig().getInt("aether.animals.herd-chance-per-chunk", 15);
-	int herdMin = main.getConfig().getInt("aether.animals.herd-min-size", 2);
-	int herdMax = main.getConfig().getInt("aether.animals.herd-max-size", 5);
-	int obMax = main.getConfig().getInt("trees.obsidian-pillars.max-height");
-	int obMin = main.getConfig().getInt("trees.obsidian-pillars.min-height");
-	int heatNoise = main.getConfig().getInt("outer-islands.heat-noise");
-	int biomeSize = main.getConfig().getInt("outer-islands.biome-size");
-	boolean allAether = main.getConfig().getBoolean("all-aether", false);
-	int h = main.getConfig().getInt("outer-islands.island-height");
-	int outNoise = main.getConfig().getInt("outer-islands.noise", 56);
-	double landPercent = 1-((double) ((main.getConfig().getInt("outer-islands.island-threshold", 30))/50D));
-	int baseH = main.getConfig().getInt("outer-islands.island-height", 64);
+	private Main main = Main.getInstance();
+	private int min = main.getConfig().getInt("trees.min-per-chunk");
+	private int max = main.getConfig().getInt("trees.max-per-chunk");
+	private int herdChance = main.getConfig().getInt("aether.animals.herd-chance-per-chunk", 15);
+	private int herdMin = main.getConfig().getInt("aether.animals.herd-min-size", 2);
+	private int herdMax = main.getConfig().getInt("aether.animals.herd-max-size", 5);
+	private int obMax = main.getConfig().getInt("trees.obsidian-pillars.max-height");
+	private int obMin = main.getConfig().getInt("trees.obsidian-pillars.min-height");
+	private int heatNoise = main.getConfig().getInt("outer-islands.heat-noise");
+	private int biomeSize = main.getConfig().getInt("outer-islands.biome-size");
+	private boolean allAether = main.getConfig().getBoolean("all-aether", false);
+	private int h = main.getConfig().getInt("outer-islands.island-height");
+	private int outNoise = main.getConfig().getInt("outer-islands.noise", 56);
+	private double landPercent = 1-((double) ((main.getConfig().getInt("outer-islands.island-threshold", 30))/50D));
+	private int baseH = main.getConfig().getInt("outer-islands.island-height", 64);
 	
 	@SuppressWarnings("deprecation")
 	public void populate(World world, Random random, Chunk chunk) {

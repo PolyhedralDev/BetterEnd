@@ -1,4 +1,4 @@
-package com.dfsek.betterEnd;
+package com.dfsek.betterend;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;

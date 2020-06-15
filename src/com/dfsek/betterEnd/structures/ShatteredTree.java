@@ -1,4 +1,4 @@
-package com.dfsek.betterEnd.structures;
+package com.dfsek.betterend.structures;
 
 import java.util.Random;
 
@@ -36,7 +36,7 @@ public class ShatteredTree {
 			if(i % 3 == 0 && i > length/3) for(int j = 0; j < branches; j++) doBranchAt(start.clone(), startR, random, (int) (random.nextInt(7)+7*startR), 8, initV.clone());
 		}
 	}
-	void doBranchAt(Location start, double startR, Random random, int length, double change, Vector startV) {
+	private void doBranchAt(Location start, double startR, Random random, int length, double change, Vector startV) {
 		if(length < 4) return;
 		int ogStart = (int) startR;
 		if(startR < 0) return;
@@ -67,7 +67,7 @@ public class ShatteredTree {
 			}
 		}
 	}
-	void doRootAt(Location start, double startR, Random random, int length, double change, Vector startV, int angle) {
+	private void doRootAt(Location start, double startR, Random random, int length, double change, Vector startV, int angle) {
 		if(length < 4) return;
 		if(startR < 0) return;
 		Vector initV = getPerpendicular(startV.clone()).rotateAroundAxis(startV, angle).setY(-0.2);
@@ -101,7 +101,7 @@ public class ShatteredTree {
 			if(initV.getZ() < -1) initV.setZ(-1);
 		}
 	}
-	void doSphereAtLoc(Location l, int radius, Random random) {
+	private void doSphereAtLoc(Location l, int radius, Random random) {
 		for (int x = -radius; x <= radius; x++) {
 			for (int y = -radius; y <= radius; y++) {
 				for (int z = -radius; z <= radius; z++) {
@@ -114,7 +114,7 @@ public class ShatteredTree {
 			}
 		}
 	}
-	Vector getPerpendicular(Vector v) {
+	private Vector getPerpendicular(Vector v) {
 		return  v.getZ()<v.getX()  ? new Vector(v.getY(),-v.getX(),0) : new Vector(0,-v.getZ(),v.getY());
 	}
 }

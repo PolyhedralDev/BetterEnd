@@ -1,4 +1,4 @@
-package com.dfsek.betterEnd.advancement.shared;
+package com.dfsek.betterend.advancement.shared;
 
 import com.google.gson.JsonObject;
 import org.apache.commons.lang.Validate;

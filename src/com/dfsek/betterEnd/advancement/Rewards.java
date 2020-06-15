@@ -1,9 +1,9 @@
-package com.dfsek.betterEnd.advancement;
+package com.dfsek.betterend.advancement;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
-import com.dfsek.betterEnd.advancement.util.JsonBuilder;
-import com.dfsek.betterEnd.advancement.util.Validator;
+import com.dfsek.betterend.advancement.util.JsonBuilder;
+import com.dfsek.betterend.advancement.util.Validator;
 import org.apache.commons.lang.Validate;
 import org.bukkit.NamespacedKey;
 import org.jetbrains.annotations.Contract;

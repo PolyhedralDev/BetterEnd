@@ -1,4 +1,4 @@
-package com.dfsek.betterEnd;
+package com.dfsek.betterend;
 
 import java.io.IOException;
 import java.io.InputStreamReader;

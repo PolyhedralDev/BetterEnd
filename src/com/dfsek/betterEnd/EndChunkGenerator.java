@@ -1,4 +1,4 @@
-package com.dfsek.betterEnd;
+package com.dfsek.betterend;
 
 import java.util.Arrays;
 import java.util.List;
@@ -10,16 +10,30 @@ import org.bukkit.generator.BlockPopulator;
 import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.util.noise.SimplexOctaveGenerator;
 
-import com.dfsek.betterEnd.populators.EnvironmentPopulator;
-import com.dfsek.betterEnd.populators.OrePopulator;
-import com.dfsek.betterEnd.populators.StructurePopulator;
+import com.dfsek.betterend.populators.EnvironmentPopulator;
+import com.dfsek.betterend.populators.OrePopulator;
+import com.dfsek.betterend.populators.StructurePopulator;
 
 public class EndChunkGenerator extends ChunkGenerator {
-	boolean doBiomeGlass = false;
-	Main main = Main.getInstance();
-	Material[] plants = {Material.GRASS, Material.TALL_GRASS, Material.LILY_OF_THE_VALLEY, Material.FERN, Material.AZURE_BLUET, Material.BLUE_ORCHID, Material.WITHER_ROSE};
-	int[] weight = {700, 100, 30, 40, 30, 30, 5};
-	public Material chooseOnWeight(Material[] items, int[] weights) {
+	private Main main = Main.getInstance();
+	private Material[] plants = {Material.GRASS, Material.TALL_GRASS, Material.LILY_OF_THE_VALLEY, Material.FERN, Material.AZURE_BLUET, Material.BLUE_ORCHID, Material.WITHER_ROSE};
+	private int[] weight = {700, 100, 30, 40, 30, 30, 5};
+	
+	private int outNoise = main.getConfig().getInt("outer-islands.noise", 56);
+	private boolean clouds = main.getConfig().getBoolean("aether.clouds.enable-clouds", true);
+	private boolean aetherCaveDec = main.getConfig().getBoolean("aether.cave-decoration", true);
+	private boolean endCaveDec = main.getConfig().getBoolean("outer-islands.cave-decoration", true);
+	private boolean allAether = main.getConfig().getBoolean("all-aether", false);
+	private int cloudNoise = main.getConfig().getInt("aether.clouds.cloud-noise", 36);
+	private int cloudHeight = main.getConfig().getInt("aether.clouds.cloud-height", 128);
+	private int baseH = main.getConfig().getInt("outer-islands.island-height", 64);
+	private int biomeSize = main.getConfig().getInt("outer-islands.biome-size", 1024);
+	private int heatNoise = main.getConfig().getInt("outer-islands.heat-noise", 512);
+	private int topH = main.getConfig().getInt("outer-islands.height-multiplier.top", 6);
+	private int bottomH = main.getConfig().getInt("outer-islands.height-multiplier.bottom", 52);
+	private double landPercent = 1-((double) ((main.getConfig().getInt("outer-islands.island-threshold", 30))/50D));
+
+	private Material chooseOnWeight(Material[] items, int[] weights) {
 		double completeWeight = 0.0;
 		for (int weight : weights)
 			completeWeight += weight;
@@ -32,21 +46,7 @@ public class EndChunkGenerator extends ChunkGenerator {
 		}
 		return null;
 	}
-	int outNoise = main.getConfig().getInt("outer-islands.noise", 56);
-	boolean clouds = main.getConfig().getBoolean("aether.clouds.enable-clouds", true);
-	boolean aetherCaveDec = main.getConfig().getBoolean("aether.cave-decoration", true);
-	boolean endCaveDec = main.getConfig().getBoolean("outer-islands.cave-decoration", true);
-	boolean allAether = main.getConfig().getBoolean("all-aether", false);
-	int cloudNoise = main.getConfig().getInt("aether.clouds.cloud-noise", 36);
-	int cloudHeight = main.getConfig().getInt("aether.clouds.cloud-height", 128);
-	int baseH = main.getConfig().getInt("outer-islands.island-height", 64);
-	int biomeSize = main.getConfig().getInt("outer-islands.biome-size", 1024);
-	int heatNoise = main.getConfig().getInt("outer-islands.heat-noise", 512);
-	int topH = main.getConfig().getInt("outer-islands.height-multiplier.top", 6);
-	int bottomH = main.getConfig().getInt("outer-islands.height-multiplier.bottom", 52);
-	double landPercent = 1-((double) ((main.getConfig().getInt("outer-islands.island-threshold", 30))/50D));
-
-
+	
 	@SuppressWarnings("deprecation")
 	@Override
 	public ChunkData generateChunkData(World world, Random random, int chunkX, int chunkZ, BiomeGrid biome) {
@@ -245,23 +245,6 @@ public class EndChunkGenerator extends ChunkGenerator {
 							}
 						}
 					}
-					if(doBiomeGlass && totalDistance2D > 975) {
-						switch(Main.getBiome(chunkX*16+X, chunkZ*16+Z, world.getSeed())) {
-						case "END":
-							chunk.setBlock(X, 0, Z, Material.RED_STAINED_GLASS);
-							break;
-						case "SHATTERED_END":
-							chunk.setBlock(X, 0, Z, Material.GREEN_STAINED_GLASS);
-							break;
-						case "AETHER":
-							chunk.setBlock(X, 0, Z, Material.BLUE_STAINED_GLASS);
-							break; 
-						case "VOID":
-							chunk.setBlock(X, 0, Z, Material.ORANGE_STAINED_GLASS);
-							break;
-						} 
-					}
-
 				}
 
 		} else {

@@ -1,14 +1,14 @@
-package com.dfsek.betterEnd.advancement;
+package com.dfsek.betterend.advancement;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.dfsek.betterEnd.advancement.shared.ItemObject;
-import com.dfsek.betterEnd.advancement.trigger.LocationTrigger;
-import com.dfsek.betterEnd.advancement.trigger.Trigger;
-import com.dfsek.betterEnd.advancement.util.JsonBuilder;
-import com.dfsek.betterEnd.advancement.util.Validator;
+import com.dfsek.betterend.advancement.shared.ItemObject;
+import com.dfsek.betterend.advancement.trigger.LocationTrigger;
+import com.dfsek.betterend.advancement.trigger.Trigger;
+import com.dfsek.betterend.advancement.util.JsonBuilder;
+import com.dfsek.betterend.advancement.util.Validator;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;

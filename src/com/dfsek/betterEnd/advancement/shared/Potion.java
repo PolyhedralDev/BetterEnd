@@ -1,4 +1,4 @@
-package com.dfsek.betterEnd.advancement.shared;
+package com.dfsek.betterend.advancement.shared;
 
 import org.bukkit.Material;
 import org.jetbrains.annotations.Contract;
