@@ -161,9 +161,9 @@ public class EnvironmentPopulator extends BlockPopulator {
 						break;
 					case "SHATTERED_FOREST":
 						if(blockLocation.getBlock().getType() == Material.END_STONE && random.nextInt(20) < 6 && i == 0) {
-							new ShatteredTree(blockLocation, 2, random, random.nextInt(10)+20, 3);
+							new ShatteredTree(blockLocation, 2, random, random.nextInt(10)+20);
 						} else if(blockLocation.getBlock().getType() == Material.END_STONE && random.nextInt(20) < 10) {
-							new ShatteredTree(blockLocation, 1, random, random.nextInt(5)+5, 3);
+							new ShatteredTree(blockLocation, 1, random, random.nextInt(5)+5);
 						}
 						break;
 					default:

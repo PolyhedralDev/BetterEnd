@@ -35,7 +35,7 @@ public class Tree {
 				if(initV.getZ() < -1) initV.setZ(-1);
 				startR = startR - 0.05;
 				int branches = random.nextInt(2)+2;
-				if(i % 3 == 0 && i > length/3) for(int j = 0; j < branches; j++) doWoodBranchAt(start.clone(), startR, random, (int) (random.nextInt(7)+7*startR), 8, initV.clone(), Material.OAK_WOOD, Material.OAK_LEAVES, 0, false);
+				if(i % 3 == 0 && i > length/3) for(int j = 0; j < branches; j++) doWoodBranchAt(start.clone(), startR, random, (int) (random.nextInt(7)+7*startR), initV.clone(), Material.OAK_WOOD, Material.OAK_LEAVES, 0, false);
 			}
 			break;
 		case "SPRUCE":
@@ -76,7 +76,7 @@ public class Tree {
 			throw new IllegalArgumentException("Invalid tree type specified: " + type);
 		}
 	}
-	private void doWoodBranchAt(Location start, double startR, Random random, int length, double change, Vector startV, Material m, Material l, int lvl, boolean doYCheck) {
+	private void doWoodBranchAt(Location start, double startR, Random random, int length, Vector startV, Material m, Material l, int lvl, boolean doYCheck) {
 		if(length < 4) return;
 		int ogStart = (int) startR;
 		if(startR < 0) return;
@@ -104,18 +104,7 @@ public class Tree {
 			if(initV.getZ() > 1) initV.setZ(1);
 			if(initV.getZ() < -1) initV.setZ(-1);
 			int branches = random.nextInt(3)+1;
-			if(i % 3 == 0 && i > length/4) for(int j = 0; j < branches; j++) doWoodBranchAt(start.clone(), startR, random, random.nextInt(((int) (length/2))+1)+length/3, 8, initV.clone(), m, l, lvl++, true);
-		}
-		int radius = random.nextInt(ogStart+1)+2;
-		for (int x = -radius; x <= radius; x++) {
-			for (int y = -radius; y <= radius; y++) {
-				for (int z = -radius; z <= radius; z++) {
-					Vector position = start.toVector().clone().add(new Vector(x, y, z));
-					if (start.toVector().distance(position) <= radius + 0.5) {
-						//if(position.toLocation(start.getWorld()).getBlock().isEmpty()) position.toLocation(start.getWorld()).getBlock().setType(l);
-					}
-				}
-			}
+			if(i % 3 == 0 && i > length/4) for(int j = 0; j < branches; j++) doWoodBranchAt(start.clone(), startR, random, random.nextInt(((int) (length/2))+1)+length/3, initV.clone(), m, l, lvl++, true);
 		}
 	}
 	private void doWoodRootAt(Location start, double startR, Random random, int length, double change, Vector startV, int angle, Material m) {
@@ -130,30 +119,28 @@ public class Tree {
 				for (int y = -radius; y <= radius; y++) {
 					for (int z = -radius; z <= radius; z++) {
 						Vector position = start.toVector().clone().add(new Vector(x, y, z));
-
-						if (start.toVector().distance(position) <= radius + 0.5) {
-							if(position.toLocation(start.getWorld()).getBlock().getType() == Material.END_STONE || 
-									position.toLocation(start.getWorld()).getBlock().isEmpty() ||
-									position.toLocation(start.getWorld()).getBlock().getType() == Material.GRASS ||
-									position.toLocation(start.getWorld()).getBlock().getType() == Material.TALL_GRASS ||
-									position.toLocation(start.getWorld()).getBlock().getType() == Material.GRASS_BLOCK ||
-									position.toLocation(start.getWorld()).getBlock().getType() == Material.DIRT ||
-									position.toLocation(start.getWorld()).getBlock().getType() == Material.STONE ||
-									position.toLocation(start.getWorld()).getBlock().getType() == Material.COBBLESTONE_WALL ||
-									position.toLocation(start.getWorld()).getBlock().getType() == Material.IRON_BARS ||
-									position.toLocation(start.getWorld()).getBlock().getType() == Material.STONE_BUTTON ||
-									position.toLocation(start.getWorld()).getBlock().getType() == Material.RED_MUSHROOM ||
-									position.toLocation(start.getWorld()).getBlock().getType() == Material.BROWN_MUSHROOM ||
-									position.toLocation(start.getWorld()).getBlock().getType() == Material.COAL_ORE ||
-									position.toLocation(start.getWorld()).getBlock().getType() == Material.IRON_ORE ||
-									position.toLocation(start.getWorld()).getBlock().getType() == Material.GOLD_ORE ||
-									position.toLocation(start.getWorld()).getBlock().getType() == Material.REDSTONE_ORE ||
-									position.toLocation(start.getWorld()).getBlock().getType() == Material.EMERALD_ORE ||
-									position.toLocation(start.getWorld()).getBlock().getType() == Material.LAPIS_ORE ||
-									position.toLocation(start.getWorld()).getBlock().getType() == Material.DIAMOND_ORE ||
-									position.toLocation(start.getWorld()).getBlock().getType() == Material.LANTERN ||
-									position.toLocation(start.getWorld()).getBlock().getType() == Material.STONE_SLAB) position.toLocation(start.getWorld()).getBlock().setType(m);
-						}
+						if(start.toVector().distance(position) <= radius + 0.5 &&
+								position.toLocation(start.getWorld()).getBlock().getType() == Material.END_STONE || 
+								position.toLocation(start.getWorld()).getBlock().isEmpty() ||
+								position.toLocation(start.getWorld()).getBlock().getType() == Material.GRASS ||
+								position.toLocation(start.getWorld()).getBlock().getType() == Material.TALL_GRASS ||
+								position.toLocation(start.getWorld()).getBlock().getType() == Material.GRASS_BLOCK ||
+								position.toLocation(start.getWorld()).getBlock().getType() == Material.DIRT ||
+								position.toLocation(start.getWorld()).getBlock().getType() == Material.STONE ||
+								position.toLocation(start.getWorld()).getBlock().getType() == Material.COBBLESTONE_WALL ||
+								position.toLocation(start.getWorld()).getBlock().getType() == Material.IRON_BARS ||
+								position.toLocation(start.getWorld()).getBlock().getType() == Material.STONE_BUTTON ||
+								position.toLocation(start.getWorld()).getBlock().getType() == Material.RED_MUSHROOM ||
+								position.toLocation(start.getWorld()).getBlock().getType() == Material.BROWN_MUSHROOM ||
+								position.toLocation(start.getWorld()).getBlock().getType() == Material.COAL_ORE ||
+								position.toLocation(start.getWorld()).getBlock().getType() == Material.IRON_ORE ||
+								position.toLocation(start.getWorld()).getBlock().getType() == Material.GOLD_ORE ||
+								position.toLocation(start.getWorld()).getBlock().getType() == Material.REDSTONE_ORE ||
+								position.toLocation(start.getWorld()).getBlock().getType() == Material.EMERALD_ORE ||
+								position.toLocation(start.getWorld()).getBlock().getType() == Material.LAPIS_ORE ||
+								position.toLocation(start.getWorld()).getBlock().getType() == Material.DIAMOND_ORE ||
+								position.toLocation(start.getWorld()).getBlock().getType() == Material.LANTERN ||
+								position.toLocation(start.getWorld()).getBlock().getType() == Material.STONE_SLAB) position.toLocation(start.getWorld()).getBlock().setType(m);
 					}
 				}
 			}
@@ -172,7 +159,7 @@ public class Tree {
 			if(initV.getZ() < -1) initV.setZ(-1);
 		}
 	}
-	
+
 	private void doMSphereAtLoc(Location l, int radius, Material m) {
 		for (int x = -radius; x <= radius; x++) {
 			for (int y = -radius; y <= radius; y++) {

@@ -7,7 +7,7 @@ import org.bukkit.Material;
 import org.bukkit.util.Vector;
 
 public class ShatteredTree {
-	public ShatteredTree(Location start, double startR, Random random, int length, double change) {
+	public ShatteredTree(Location start, double startR, Random random, int length) {
 		Vector initV = new Vector(0,1,0);		
 		int roots = random.nextInt(3)+3;
 		for(int j = 0; j < roots; j++) doRootAt(start.clone(), startR, random, random.nextInt(10)+10, initV.clone(), j*(360/roots));
@@ -79,10 +79,7 @@ public class ShatteredTree {
 				for (int y = -radius; y <= radius; y++) {
 					for (int z = -radius; z <= radius; z++) {
 						Vector position = start.toVector().clone().add(new Vector(x, y, z));
-
-						if (start.toVector().distance(position) <= radius + 0.5) {
-							if(position.toLocation(start.getWorld()).getBlock().getType() == Material.END_STONE || position.toLocation(start.getWorld()).getBlock().isEmpty()) position.toLocation(start.getWorld()).getBlock().setType(random.nextBoolean() ? Material.OBSIDIAN : Material.BLACK_CONCRETE);
-						}
+						if(start.toVector().distance(position) <= radius + 0.5 && position.toLocation(start.getWorld()).getBlock().getType() == Material.END_STONE || position.toLocation(start.getWorld()).getBlock().isEmpty()) position.toLocation(start.getWorld()).getBlock().setType(random.nextBoolean() ? Material.OBSIDIAN : Material.BLACK_CONCRETE);
 					}
 				}
 			}
