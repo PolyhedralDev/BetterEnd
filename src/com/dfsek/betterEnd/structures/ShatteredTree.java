@@ -103,10 +103,7 @@ public class ShatteredTree {
 			for (int y = -radius; y <= radius; y++) {
 				for (int z = -radius; z <= radius; z++) {
 					Vector position = l.toVector().clone().add(new Vector(x, y, z));
-
-					if (l.toVector().distance(position) <= radius + 0.5) {
-						if(position.toLocation(l.getWorld()).getBlock().isEmpty()) position.toLocation(l.getWorld()).getBlock().setType(random.nextBoolean() ? Material.OBSIDIAN : Material.BLACK_CONCRETE);
-					}
+					if(l.toVector().distance(position) <= radius + 0.5 && position.toLocation(l.getWorld()).getBlock().isEmpty()) position.toLocation(l.getWorld()).getBlock().setType(random.nextBoolean() ? Material.OBSIDIAN : Material.BLACK_CONCRETE);
 				}
 			}
 		}

@@ -110,7 +110,7 @@ public class EnvironmentPopulator extends BlockPopulator {
 					case "AETHER_FOREST":
 						if(random.nextInt(20) < 12 && blockLocation.getBlock().getType() == Material.GRASS_BLOCK) {
 							//world.generateTree(blockLocation, TreeType.BIG_TREE);
-							new Tree(blockLocation, 1.5, random, random.nextInt(4)+10, 3, "OAK");
+							new Tree(blockLocation, 1.5, random, random.nextInt(4)+10, "OAK");
 						}
 						break;
 					case "AETHER_HIGHLANDS":
@@ -143,7 +143,7 @@ public class EnvironmentPopulator extends BlockPopulator {
 						blockLocation.getBlock().getType() == Material.COARSE_DIRT ||
 						blockLocation.getBlock().getType() == Material.SNOW ||
 						blockLocation.getBlock().getType() == Material.GRAVEL)) {
-							new Tree(blockLocation, 1.5, random, 3*(random.nextInt(3)+5), 3, "SPRUCE");
+							new Tree(blockLocation, 1.5, random, 3*(random.nextInt(3)+5), "SPRUCE");
 						}
 						break;
 					case "SHATTERED_END":

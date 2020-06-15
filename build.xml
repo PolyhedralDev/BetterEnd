@@ -13,7 +13,7 @@
     		            	<exclude name="**/Tree*.class"/>
     		            	<exclude name="**/MythicSpawns*.class"/>
     		            	<exclude name="**/Premium*.class"/>
-    		            	<exclude name="**/EndAdvancements.clas"/>
+    		            	<exclude name="**/EndAdvancementUtil.class"/>
     		            </fileset>
     		            <fileset file="plugin.yml"></fileset>
     		        	<fileset file="config.yml"></fileset>

@@ -50,7 +50,7 @@ public class Main extends JavaPlugin implements Listener {
 			if(isPremium()) getServer().getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
 				@Override
 				public void run() {
-					EndAdvancements.enable(instance);
+					EndAdvancementUtil.enable(instance);
 					logger.info("Enabling advancements...");
 				}
 			}, 40);
@@ -277,7 +277,7 @@ public class Main extends JavaPlugin implements Listener {
 	public void onInventoryOpenEvent(InventoryOpenEvent event) {
 		if(config.getBoolean("aether.mythic-boss.enable", false)) {
 			try {
-				EndAdvancements.grantAdvancement("gold_dungeon", (Player) event.getPlayer());
+				EndAdvancementUtil.grantAdvancement("gold_dungeon", (Player) event.getPlayer());
 			} catch(NoClassDefFoundError e) {
 			}
 			//get the destination inventory
@@ -326,36 +326,31 @@ public class Main extends JavaPlugin implements Listener {
 	public boolean tpBiome(Player p, String[] args) {
 		if(args[1].equalsIgnoreCase("END") || args[1].equalsIgnoreCase("SHATTERED_END") || args[1].equalsIgnoreCase("VOID") || args[1].equalsIgnoreCase("STARFIELD") || args[1].equalsIgnoreCase("SHATTERED_FOREST") || args[1].equalsIgnoreCase("VOID") || args[1].equalsIgnoreCase("AETHER") || args[1].equalsIgnoreCase("AETHER_HIGHLANDS") || (isPremium() && args[1].equalsIgnoreCase("AETHER_HIGHLANDS_FOREST")) || (isPremium() && args[1].equalsIgnoreCase("AETHER_FOREST"))) {
 			p.sendMessage(ChatColor.DARK_AQUA + "[BetterEnd]" + ChatColor.AQUA + " Locating biome \"" + ChatColor.DARK_AQUA + args[1] + ChatColor.AQUA +  "\"");
-			boolean foundBiome = false;
 			int tries = 0;
 			Location candidate = p.getLocation();
-			while(foundBiome == false && tries < 10000) {
+			while(tries < 10000) {
 				Location candidateN = candidate.add(tries,0,0);
 				if(getBiome(candidateN.getBlockX(), candidateN.getBlockZ(), p.getWorld().getSeed()).equalsIgnoreCase(args[1]) && Math.sqrt(Math.pow(candidateN.getBlockX(), 2) + Math.pow(candidateN.getBlockZ(), 2)) > 1000) {
 					p.sendMessage(ChatColor.DARK_AQUA + "[BetterEnd] " + ChatColor.AQUA + "Teleporting...");
 					p.teleport(candidateN);
-					foundBiome = true;
 					return true;
 				}
 				candidateN = candidate.add(-tries,0,0);
 				if(getBiome(candidateN.getBlockX(), candidateN.getBlockZ(), p.getWorld().getSeed()).equalsIgnoreCase(args[1]) && Math.sqrt(Math.pow(candidateN.getBlockX(), 2) + Math.pow(candidateN.getBlockZ(), 2)) > 1000) {
 					p.sendMessage(ChatColor.DARK_AQUA + "[BetterEnd] " + ChatColor.AQUA + "Teleporting...");
 					p.teleport(candidateN);
-					foundBiome = true;
 					return true;
 				}
 				candidateN = candidate.add(0,0,tries);
 				if(getBiome(candidateN.getBlockX(), candidateN.getBlockZ(), p.getWorld().getSeed()).equalsIgnoreCase(args[1]) && Math.sqrt(Math.pow(candidateN.getBlockX(), 2) + Math.pow(candidateN.getBlockZ(), 2)) > 1000) {
 					p.sendMessage(ChatColor.DARK_AQUA + "[BetterEnd] " + ChatColor.AQUA + "Teleporting...");
 					p.teleport(candidateN);
-					foundBiome = true;
 					return true;
 				}
 				candidateN = candidate.add(0,0,-tries);
 				if(getBiome(candidateN.getBlockX(), candidateN.getBlockZ(), p.getWorld().getSeed()).equalsIgnoreCase(args[1]) && Math.sqrt(Math.pow(candidateN.getBlockX(), 2) + Math.pow(candidateN.getBlockZ(), 2)) > 1000) {
 					p.sendMessage(ChatColor.DARK_AQUA + "[BetterEnd] " + ChatColor.AQUA + "Teleporting...");
 					p.teleport(candidateN);
-					foundBiome = true;
 					return true;
 				}
 				tries++;

@@ -15,7 +15,7 @@ import com.dfsek.betterend.advancement.shared.ItemObject;
 import com.dfsek.betterend.advancement.trigger.ChangedDimensionTrigger;
 import net.md_5.bungee.api.chat.TextComponent;
 
-public class EndAdvancements {
+public class EndAdvancementUtil {
 	private static Main main = Main.getInstance();
 	public static void enable(Plugin plugin) {
 		try {

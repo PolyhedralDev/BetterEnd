@@ -7,7 +7,7 @@ import org.bukkit.Material;
 import org.bukkit.util.Vector;
 
 public class Tree {
-	public Tree(Location start, double startR, Random random, int length, double change, String type) {
+	public Tree(Location start, double startR, Random random, int length, String type) {
 		Vector initV = new Vector(0,1,0);		
 		int roots = random.nextInt(3)+3;
 		switch(type) {

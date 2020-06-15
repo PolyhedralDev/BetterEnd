@@ -140,6 +140,8 @@ public class StructurePopulator extends BlockPopulator {
 					overrideSpawnCheck = true;
 					permutation = random.nextInt(8);
 					Y = cloudHeight + (random.nextInt(32)-16);
+					break;
+				default:
 				}
 				structure = new NMSStructure(new Location(world, chunk.getX()*16+X, Y, chunk.getZ()*16+Z), structureName, permutation);
 			} else return;

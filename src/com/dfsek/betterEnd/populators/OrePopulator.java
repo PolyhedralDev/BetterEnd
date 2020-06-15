@@ -14,7 +14,9 @@ public class OrePopulator extends BlockPopulator {
 	@Override
 	public void populate(World world, Random random, Chunk chunk) {
 
-		int X, Y, Z;
+		int X;
+		int Y;
+		int Z;
 		if(!main.getConfig().getBoolean("aether.ores.enable-ores")) return;
 		for (int i = 1; i < main.getConfig().getInt("aether.ores.ore-chance", 20); i++) {  // Number of tries
 			int decisionVal = random.nextInt(100); 
