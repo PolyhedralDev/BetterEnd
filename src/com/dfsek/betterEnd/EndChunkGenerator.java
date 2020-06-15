@@ -18,7 +18,7 @@ public class EndChunkGenerator extends ChunkGenerator {
 	boolean doBiomeGlass = false;
 	Main main = Main.getInstance();
 	Material[] plants = {Material.GRASS, Material.TALL_GRASS, Material.LILY_OF_THE_VALLEY, Material.FERN, Material.AZURE_BLUET, Material.BLUE_ORCHID, Material.WITHER_ROSE};
-	int[] weight = {702, 100, 30, 40, 30, 30, 3};
+	int[] weight = {700, 100, 30, 40, 30, 30, 5};
 	public Material chooseOnWeight(Material[] items, int[] weights) {
 		double completeWeight = 0.0;
 		for (int weight : weights)
@@ -86,12 +86,8 @@ public class EndChunkGenerator extends ChunkGenerator {
 							yMinc2 = (int) (-4*aetherLvl*(c2Noise-0.125)+cloudHeight+8)+1;
 							yMaxc2 = (int) (4*aetherLvl*(c2Noise-0.125)+cloudHeight+7);
 						}
-						for (int Y = yMaxc; Y > yMinc; Y--) {
-							chunk.setBlock(X, Y, Z, Material.WHITE_STAINED_GLASS);
-						}
-						for (int Y = yMaxc2; Y > yMinc2; Y--) {
-							chunk.setBlock(X, Y, Z, Material.WHITE_STAINED_GLASS);
-						}
+						chunk.setRegion(X, yMinc, Z, X+1, yMaxc, Z+1, Material.WHITE_STAINED_GLASS);
+						chunk.setRegion(X, yMinc2, Z, X+1, yMaxc2, Z+1, Material.WHITE_STAINED_GLASS);
 					}
 
 					if(allAether) totalDistance2D = 2000;
@@ -141,7 +137,7 @@ public class EndChunkGenerator extends ChunkGenerator {
 										} else if(random.nextInt(100) < 40 && chunk.getBlockData(X, Y, Z).getMaterial() == Material.GRASS_BLOCK) {
 											Material plant = chooseOnWeight(plants, weight);
 											if(plant != Material.TALL_GRASS) {
-												chunk.setBlock(X, Y+1, Z, plant);
+												if(plant != Material.WITHER_ROSE || (heatNoiseLvl < -0.5 && (biomeNoiseLvl > 0.5 || allAether))) chunk.setBlock(X, Y+1, Z, plant);
 											} else {
 												chunk.setBlock(X, Y+1, Z, Material.TALL_GRASS);
 												chunk.setBlock(X, Y+2, Z, main.getServer().createBlockData("minecraft:tall_grass[half=upper]"));

@@ -15,6 +15,7 @@ import org.bukkit.util.Vector;
 import org.bukkit.util.noise.SimplexOctaveGenerator;
 
 import com.dfsek.betterEnd.Main;
+import com.dfsek.betterEnd.structures.ShatteredTree;
 import com.dfsek.betterEnd.structures.Tree;
 
 public class EnvironmentPopulator extends BlockPopulator {
@@ -32,28 +33,12 @@ public class EnvironmentPopulator extends BlockPopulator {
 	int h = main.getConfig().getInt("outer-islands.island-height");
 	int outNoise = main.getConfig().getInt("outer-islands.noise", 56);
 	double landPercent = 1-((double) ((main.getConfig().getInt("outer-islands.island-threshold", 30))/50D));
-
+	int baseH = main.getConfig().getInt("outer-islands.island-height", 64);
+	
 	@SuppressWarnings("deprecation")
 	public void populate(World world, Random random, Chunk chunk) {
 		//taiga
-		SimplexOctaveGenerator biomeGenerator = new SimplexOctaveGenerator(world.getSeed(), 4);
-		for(int X = 0; X < 16; X++) {
-			for(int Z = 0; Z < 16; Z++) {
-				double biomeNoiseLvl = biomeGenerator.noise((double) (chunk.getX()*16+X)/biomeSize, (double) (chunk.getZ()*16+Z)/biomeSize, 0.5D, 0.5D);
-				double heatNoiseLvl = biomeGenerator.noise((double) (chunk.getX()*16+X)/heatNoise, (double) (chunk.getZ()*16+Z)/heatNoise, 0.5D, 0.5D);
-				if(heatNoiseLvl < -0.5 && (biomeNoiseLvl > 0.5 || allAether)) {
-					world.setBiome(chunk.getX()*16+X, chunk.getZ()*16+Z, Biome.TAIGA);
-					int Y;
-					if(random.nextInt(1000) < 2) {
-						for (Y = world.getMaxHeight()-1; (chunk.getBlock(X, Y, Z).getType() != Material.GRASS_BLOCK && 
-								chunk.getBlock(X, Y, Z).getType() != Material.GRAVEL &&
-								chunk.getBlock(X, Y, Z).getType() != Material.PODZOL &&
-								chunk.getBlock(X, Y, Z).getType() != Material.COARSE_DIRT) && Y>0; Y--);
-						if(Y > 1) world.getBlockAt(chunk.getX()*16+X, Y+1, chunk.getZ()*16+Z).setType((random.nextBoolean()) ? Material.COBBLESTONE : Material.MOSSY_COBBLESTONE);
-					}
-				}
-			}
-		}
+		
 		//trees
 		int amount = random.nextInt(max-min)+min;  // Amount of trees
 		if((Math.abs(chunk.getX()) > 20 || Math.abs(chunk.getZ()) > 20) || allAether)
@@ -62,7 +47,7 @@ public class EnvironmentPopulator extends BlockPopulator {
 				int Z = random.nextInt(15);
 				int Y;
 				for (Y = world.getMaxHeight()-1; chunk.getBlock(X, Y, Z).getType() == Material.AIR && Y>0; Y--); // Find the highest block of the (X,Z) coordinate chosen.
-				if (Y > 1 && Y < 255) {
+				if (Y > baseH-1 && Y < 255) {
 					Location blockLocation = chunk.getBlock(X, Y, Z).getLocation();
 					switch(Main.getBiome(blockLocation.getBlockX(), blockLocation.getBlockZ(), world.getSeed())) {
 					case "AETHER":
@@ -136,28 +121,28 @@ public class EnvironmentPopulator extends BlockPopulator {
 											world.getBlockAt((chunk.getX()*16)+X, Y+j, (chunk.getZ()*16)+Z).getType() == Material.END_ROD ||
 											world.getBlockAt((chunk.getX()*16)+X, Y+j, (chunk.getZ()*16)+Z).getType() == Material.END_STONE_BRICK_SLAB ||
 											world.getBlockAt((chunk.getX()*16)+X, Y+j, (chunk.getZ()*16)+Z).getType() == Material.END_STONE_BRICK_WALL ||
-											world.getBlockAt((chunk.getX()*16)+X, Y+j, (chunk.getZ()*16)+Z).getType().isEmpty()) world.getBlockAt((chunk.getX()*16)+X, Y+j, (chunk.getZ()*16)+Z).setType(Material.OBSIDIAN);
+											world.getBlockAt((chunk.getX()*16)+X, Y+j, (chunk.getZ()*16)+Z).isPassable()) world.getBlockAt((chunk.getX()*16)+X, Y+j, (chunk.getZ()*16)+Z).setType(Material.OBSIDIAN);
 								}
 								for(int j = -lowBound[1]; j < upBound[1]; j++) {
 									if(world.getBlockAt((chunk.getX()*16)+X, Y+j, (chunk.getZ()*16)+Z).getType() == Material.END_STONE ||
 											world.getBlockAt((chunk.getX()*16)+X+1, Y+j, (chunk.getZ()*16)+Z).getType() == Material.END_ROD ||
 											world.getBlockAt((chunk.getX()*16)+X+1, Y+j, (chunk.getZ()*16)+Z).getType() == Material.END_STONE_BRICK_SLAB ||
 											world.getBlockAt((chunk.getX()*16)+X+1, Y+j, (chunk.getZ()*16)+Z).getType() == Material.END_STONE_BRICK_WALL ||
-											world.getBlockAt((chunk.getX()*16)+X+1, Y+j, (chunk.getZ()*16)+Z).getType().isEmpty()) world.getBlockAt((chunk.getX()*16)+X+1, Y+j, (chunk.getZ()*16)+Z).setType(Material.OBSIDIAN);
+											world.getBlockAt((chunk.getX()*16)+X+1, Y+j, (chunk.getZ()*16)+Z).isPassable()) world.getBlockAt((chunk.getX()*16)+X+1, Y+j, (chunk.getZ()*16)+Z).setType(Material.OBSIDIAN);
 								}
 								for(int j = -lowBound[2]; j < upBound[2]; j++) {
 									if(world.getBlockAt((chunk.getX()*16)+X, Y+j, (chunk.getZ()*16)+Z).getType() == Material.END_STONE ||
 											world.getBlockAt((chunk.getX()*16)+X, Y+j, (chunk.getZ()*16)+Z+1).getType() == Material.END_ROD ||
 											world.getBlockAt((chunk.getX()*16)+X, Y+j, (chunk.getZ()*16)+Z+1).getType() == Material.END_STONE_BRICK_SLAB ||
 											world.getBlockAt((chunk.getX()*16)+X, Y+j, (chunk.getZ()*16)+Z+1).getType() == Material.END_STONE_BRICK_WALL ||
-											world.getBlockAt((chunk.getX()*16)+X, Y+j, (chunk.getZ()*16)+Z+1).getType().isEmpty()) world.getBlockAt((chunk.getX()*16)+X, Y+j, (chunk.getZ()*16)+Z+1).setType(Material.OBSIDIAN);
+											world.getBlockAt((chunk.getX()*16)+X, Y+j, (chunk.getZ()*16)+Z+1).isPassable()) world.getBlockAt((chunk.getX()*16)+X, Y+j, (chunk.getZ()*16)+Z+1).setType(Material.OBSIDIAN);
 								}
 								for(int j = -lowBound[3]; j < upBound[3]; j++) {
 									if(world.getBlockAt((chunk.getX()*16)+X, Y+j, (chunk.getZ()*16)+Z).getType() == Material.END_STONE ||
 											world.getBlockAt((chunk.getX()*16)+X+1, Y+j, (chunk.getZ()*16)+Z+1).getType() == Material.END_ROD ||
 											world.getBlockAt((chunk.getX()*16)+X+1, Y+j, (chunk.getZ()*16)+Z+1).getType() == Material.END_STONE_BRICK_SLAB ||
 											world.getBlockAt((chunk.getX()*16)+X+1, Y+j, (chunk.getZ()*16)+Z+1).getType() == Material.END_STONE_BRICK_WALL ||
-											world.getBlockAt((chunk.getX()*16)+X+1, Y+j, (chunk.getZ()*16)+Z+1).getType().isEmpty()) world.getBlockAt((chunk.getX()*16)+X+1, Y+j, (chunk.getZ()*16)+Z+1).setType(Material.OBSIDIAN);
+											world.getBlockAt((chunk.getX()*16)+X+1, Y+j, (chunk.getZ()*16)+Z+1).isPassable()) world.getBlockAt((chunk.getX()*16)+X+1, Y+j, (chunk.getZ()*16)+Z+1).setType(Material.OBSIDIAN);
 								}
 								if(random.nextInt(100) < 25) {
 									switch(maxH) {
@@ -186,9 +171,9 @@ public class EnvironmentPopulator extends BlockPopulator {
 						break;
 					case "SHATTERED_FOREST":
 						if(blockLocation.getBlock().getType() == Material.END_STONE && random.nextInt(20) < 6 && i == 0) {
-							new Tree(blockLocation, 2, random, random.nextInt(10)+20, 3, "SHATTERED");
+							new ShatteredTree(blockLocation, 2, random, random.nextInt(10)+20, 3);
 						} else if(blockLocation.getBlock().getType() == Material.END_STONE && random.nextInt(20) < 10) {
-							new Tree(blockLocation, 1, random, random.nextInt(5)+5, 3, "SHATTERED");
+							new ShatteredTree(blockLocation, 1, random, random.nextInt(5)+5, 3);
 						}
 						break;
 					default:
@@ -198,6 +183,30 @@ public class EnvironmentPopulator extends BlockPopulator {
 					}
 				}
 			}
+		SimplexOctaveGenerator biomeGenerator = new SimplexOctaveGenerator(world.getSeed(), 4);
+		for(int X = 0; X < 16; X++) {
+			for(int Z = 0; Z < 16; Z++) {
+				double biomeNoiseLvl = biomeGenerator.noise((double) (chunk.getX()*16+X)/biomeSize, (double) (chunk.getZ()*16+Z)/biomeSize, 0.5D, 0.5D);
+				double heatNoiseLvl = biomeGenerator.noise((double) (chunk.getX()*16+X)/heatNoise, (double) (chunk.getZ()*16+Z)/heatNoise, 0.5D, 0.5D);
+				int Y;
+				for (Y = world.getMaxHeight()-1; (chunk.getBlock(X, Y, Z).getType() != Material.SPRUCE_LEAVES) && Y>0; Y--);
+				if(heatNoiseLvl < -0.5 && random.nextInt(100) < -50*(heatNoiseLvl+0.5) && chunk.getBlock(X, Y, Z).getType() == Material.SPRUCE_LEAVES) {
+					chunk.getBlock(X, Y+1, Z).setType(Material.SNOW);
+				}
+				if(heatNoiseLvl < -0.5 && (biomeNoiseLvl > 0.5 || allAether)) {
+					world.setBiome(chunk.getX()*16+X, chunk.getZ()*16+Z, Biome.TAIGA);
+					
+					if(random.nextInt(1000) < 2) {
+						for (Y = world.getMaxHeight()-1; (chunk.getBlock(X, Y, Z).getType() != Material.GRASS_BLOCK && 
+								chunk.getBlock(X, Y, Z).getType() != Material.GRAVEL &&
+								chunk.getBlock(X, Y, Z).getType() != Material.PODZOL &&
+								chunk.getBlock(X, Y, Z).getType() != Material.COARSE_DIRT) && Y>0; Y--);
+						if(Y > 1) world.getBlockAt(chunk.getX()*16+X, Y+1, chunk.getZ()*16+Z).setType((random.nextBoolean()) ? Material.COBBLESTONE : Material.MOSSY_COBBLESTONE);
+					}
+				}
+			}
+		}
+		
 		//animals
 		if(random.nextInt(100) < herdChance) {
 			int size = random.nextInt(herdMax-herdMin)+herdMin;

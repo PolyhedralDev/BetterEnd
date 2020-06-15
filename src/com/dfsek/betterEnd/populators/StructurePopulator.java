@@ -37,6 +37,7 @@ public class StructurePopulator extends BlockPopulator {
 	int ruinChance = config.getInt("outer-islands.ruins.chance-per-chunk", 30);
 	int cloudHeight = config.getInt("aether.clouds.cloud-height", 128);
 	int biomeSize = main.getConfig().getInt("outer-islands.biome-size"); 
+	int baseH = main.getConfig().getInt("outer-islands.island-height", 64);
 	
 	@SuppressWarnings("unused")
 	private void generateFortress(Location origin) {
@@ -62,7 +63,7 @@ public class StructurePopulator extends BlockPopulator {
 				chunk.getBlock(X, Y, Z).getType() != Material.STONE &&
 				chunk.getBlock(X, Y, Z).getType() != Material.COARSE_DIRT) && Y>0; Y--);
 		String biome = Main.getBiome(chunk.getX()*16+X, chunk.getZ()*16+Z, world.getSeed());
-		if(Y < 1 && !biome.contentEquals("STARFIELD")) return;
+		if(Y < baseH-1 && !biome.contentEquals("STARFIELD")) return;
 		int permutation = 0;
 		boolean ground = false;
 		boolean overrideSpawnCheck = false;
@@ -85,7 +86,7 @@ public class StructurePopulator extends BlockPopulator {
 					break;
 				case "gold_dungeon":
 					overrideSpawnCheck = true;
-					Y = cloudHeight + 8;
+					Y = cloudHeight;
 				}
 
 
@@ -101,7 +102,7 @@ public class StructurePopulator extends BlockPopulator {
 				NMSStructure s2 = new NMSStructure(new Location(world, chunk.getX()*16+random.nextInt(16), Y, chunk.getZ()*16+random.nextInt(16)), "void_star", random.nextInt(4));
 				boolean p2 = true;
 				for(Location l : getLocationListBetween(s2.getBoundingLocations()[0], s2.getBoundingLocations()[1])) {
-					if(!l.getBlock().isEmpty()) {
+					if(!l.getBlock().isEmpty() || !Main.getBiome(l.getBlockX(), l.getBlockZ(), l.getWorld().getSeed()).equals("STARFIELD")) {
 						p2 = false;
 					}
 				}
@@ -109,7 +110,7 @@ public class StructurePopulator extends BlockPopulator {
 			}
 			boolean p1 = true;
 			for(Location l : getLocationListBetween(s1.getBoundingLocations()[0], s1.getBoundingLocations()[1])) {
-				if(!l.getBlock().isEmpty()) {
+				if(!l.getBlock().isEmpty() || !Main.getBiome(l.getBlockX(), l.getBlockZ(), l.getWorld().getSeed()).equals("STARFIELD")) {
 					p1 = false;
 				}
 			}
@@ -117,8 +118,8 @@ public class StructurePopulator extends BlockPopulator {
 			return;
 		} else if(!(biome.equals("SHATTERED_END") || biome.equals("SHATTERED_FOREST"))) {
 			if(random.nextInt(100) < structureChance) {
-				int[] weights = {config.getInt("structure-weight.end.end_house", 32), config.getInt("structure-weight.end.shulker_nest", 32), config.getInt("structure-weight.end.stronghold", 30), config.getInt("structure-weight.end.end_ship", 6)};
-				String structureName = chooseOnWeight(new String[] {"end_house", "shulker_nest", "stronghold", "end_ship"}, weights);
+				int[] weights = {config.getInt("structure-weight.end.end_house", 32), config.getInt("structure-weight.end.shulker_nest", 32), config.getInt("structure-weight.end.stronghold", 30), config.getInt("structure-weight.end.end_ship", 6), config.getInt("structure-weight.end.end_tower", 32)};
+				String structureName = chooseOnWeight(new String[] {"end_house", "shulker_nest", "stronghold", "end_ship", "end_tower"}, weights);
 
 				switch(structureName) {
 				case "end_house":
@@ -126,6 +127,9 @@ public class StructurePopulator extends BlockPopulator {
 					Y = Y - 4;
 					break;
 				case "shulker_nest":
+					permutation = random.nextInt(2);
+					break;
+				case "end_tower":
 					permutation = random.nextInt(2);
 					break;
 				case "stronghold":

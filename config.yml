@@ -1,8 +1,5 @@
 #BetterEnd Generator Configuration
 
-#Do not change this value. It tells the plugin whether or not to update the config.
-config-version: 2.1.0
-
 #Update Checker settings
 update-checker:
   #Enable/Disable the Update Checker
@@ -23,10 +20,11 @@ all-aether: false
 structure-weight:
   #Structures that generate in the End, Shattered End, and Void biomes
   end:
-    stronghold: 30
-    end_house: 32
-    shulker_nest: 32
-    end_ship: 6
+    end_tower: 24
+    stronghold: 24
+    end_house: 24
+    shulker_nest: 24
+    end_ship: 5
   #Structures that generate in the Aether biome
   aether:
     gold_dungeon: 2

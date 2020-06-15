@@ -1,5 +1,16 @@
 package com.dfsek.betterEnd;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
+
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
@@ -16,7 +27,6 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityChangeBlockEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.persistence.PersistentDataType;
@@ -25,16 +35,6 @@ import org.bukkit.util.noise.SimplexOctaveGenerator;
 
 import com.dfsek.betterEnd.UpdateChecker.UpdateReason;
 import io.lumine.xikage.mythicmobs.MythicMobs;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 public class Main extends JavaPlugin implements Listener {	
 	public FileConfiguration config = this.getConfig();
@@ -44,35 +44,62 @@ public class Main extends JavaPlugin implements Listener {
 	public void onEnable() {	
 		instance = this;
 		Logger logger = this.getLogger();
+		try {
+			MythicSpawns.startSpawnRoutine();
+			if(isPremium()) getServer().getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
+				@Override
+				public void run() {
+					EndAdvancements.enable(instance);
+					logger.info("Enabling advancements...");
+				}
+			}, 60);
+		} catch(NoClassDefFoundError e) {
+		}
+		
 
 		Metrics metrics = new Metrics(this, 7709);
 		metrics.addCustomChart(new Metrics.SimplePie("premium", () -> isPremium() ? "Yes" : "No"));
 
 		this.getServer().getPluginManager().registerEvents(this, this);
 
-		dumpConfig(false);
+		this.saveDefaultConfig();
 
-		if(getConfig().getString("config-version", "null") != this.getDescription().getVersion()) {
+		if(!config.getString("config-version", "null").equals(this.getDescription().getVersion())) {
 			logger.info("Updating config...");
 			backupConfig();
 			File configBackupFile = new File(getDataFolder() + File.separator + "config.v" + this.getDescription().getVersion() + ".yml");
 			YamlConfiguration configBackup= new YamlConfiguration();
+			YamlConfiguration configDefault= new YamlConfiguration();
 			try {
 				configBackup.load(configBackupFile);
+				File configFile = new File(getDataFolder() + File.separator + "config.yml");
+				if(configFile.delete()) logger.info("Old config was succesfully deleted.");
+				this.saveDefaultConfig();
+				FileOutputStream writer = new FileOutputStream(new File(getDataFolder() + File.separator + "default.yml"));
+				InputStream out = this.getResource("config.yml");
+				byte[] linebuffer = new byte[4096];
+				int lineLength = 0;
+				while((lineLength = out.read(linebuffer)) > 0)
+				{
+					writer.write(linebuffer, 0, lineLength);
+				}
+				writer.close();
+				File configDefaultFile = new File(getDataFolder() + File.separator + "default.yml");
+				configBackup.load(configBackupFile);
+				configDefault.load(configDefaultFile);
+				this.saveConfig();
+				config = this.getConfig();
+				this.saveConfig();
+				for(String key : configDefault.getKeys(true)) {
+					if(configBackup.get(key) == null) config.set(key, configDefault.get(key));
+					else config.set(key, configBackup.get(key));
+				}
+				config.set("config-version", this.getDescription().getVersion());
+				this.saveConfig();
+
 			} catch (IOException | InvalidConfigurationException e) {
 				e.printStackTrace();
 			}
-			dumpConfig(true);
-			for(String key : configBackup.getKeys(true)) {
-				config.set(key, configBackup.get(key));
-			}
-			config.set("config-version", this.getDescription().getVersion());
-			try {
-				config.save(getDataFolder() + File.separator + "config.yml");
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-
 		}
 		logger.info(" ");
 		logger.info(" ");
@@ -83,74 +110,45 @@ public class Main extends JavaPlugin implements Listener {
 		logger.info("|---------------------------------------------------------------------------------|");
 		logger.info(" ");
 		logger.info(" ");
-		
+
 		if(!isPremium()) getServer().getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
 			@Override
 			public void run() {
 				logger.info(ChatColor.AQUA + "You're running the free version of BetterEnd. Please consider purchasing the premium version to support the plugin and gain additional features! Follow the instructions here: " + ChatColor.UNDERLINE + "https://github.com/dfsek/BetterEnd-Public/wiki/Premium");
 			}
 		}, 120);
-		
+
 		int sec = config.getInt("update-checker.frequency", 3600);
 		if(config.getBoolean("update-checker.enable", true)) {
 			getServer().getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
 				@Override
 				public void run() {
-					checkUpdates();
+					UpdateChecker.init(instance, 79389).requestUpdateCheck().whenComplete((result, exception) -> {
+						if (result.requiresUpdate()) {
+							instance.getLogger().info(String.format("A new version of BetterEnd is available: %s ", result.getNewestVersion()));
+							return;
+						}
+
+						UpdateReason reason = result.getReason();
+						if (reason == UpdateReason.UP_TO_DATE) {
+							instance.getLogger().info(String.format("Your version of BetterEnd (%s) is up to date!", result.getNewestVersion()));
+						} else if (reason == UpdateReason.UNRELEASED_VERSION) {
+							instance.getLogger().info(String.format("Your version of BetterEnd (%s) is more recent than the one publicly available.", result.getNewestVersion()));
+						} else {
+							instance.getLogger().warning("An error occurred while checking for an update. Reason: " + reason);//Occurred
+						}
+					});
 				}
-			}, 20L * sec, 20L * sec);
+			}, 100, 20L * sec);
 
 		}
-		getServer().getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
-			@Override
-			public void run() {
-				checkUpdates();
-			}
-		}, 100);
 
-	}
-	public void checkUpdates() {
-		UpdateChecker.init(instance, 79389).requestUpdateCheck().whenComplete((result, exception) -> {
-			if (result.requiresUpdate()) {
-				instance.getLogger().info(String.format("A new version of BetterEnd is available: %s ", result.getNewestVersion()));
-				return;
-			}
-
-			UpdateReason reason = result.getReason();
-			if (reason == UpdateReason.UP_TO_DATE) {
-				instance.getLogger().info(String.format("Your version of BetterEnd (%s) is up to date!", result.getNewestVersion()));
-			} else if (reason == UpdateReason.UNRELEASED_VERSION) {
-				instance.getLogger().info(String.format("Your version of BetterEnd (%s) is more recent than the one publicly available.", result.getNewestVersion()));
-			} else {
-				instance.getLogger().warning("An error occurred while checking for an update. Reason: " + reason);//Occurred
-			}
-		});
 	}
 	@Override
 	public void onDisable() {
 	}
 	public static Main getInstance() {
 		return instance;
-	}
-	public void dumpConfig(boolean overwrite) {
-		try {
-			File configFile = new File(getDataFolder() + File.separator + "config.yml");
-			if(overwrite) configFile.delete();
-			if(!configFile.exists()) {
-				configFile.getParentFile().mkdirs();
-				FileOutputStream writer = new FileOutputStream(configFile);
-				InputStream out = this.getResource("config.yml");
-				byte[] linebuffer = new byte[4096];
-				int lineLength = 0;
-				while((lineLength = out.read(linebuffer)) > 0)
-				{
-					writer.write(linebuffer, 0, lineLength);
-				}
-				writer.close();
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 	}
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -161,12 +159,8 @@ public class Main extends JavaPlugin implements Listener {
 			}
 			Player p = (Player) sender;
 			if (sender.hasPermission("betterend.checkbiome")) {
-				try {
-					if(p.getWorld().getGenerator().getClass().equals(new EndChunkGenerator().getClass())) sender.sendMessage(ChatColor.DARK_AQUA + "[BetterEnd] " + ChatColor.AQUA + "You are standing in \"" + ChatColor.DARK_AQUA + getBiome(p.getLocation().getBlockX(), p.getLocation().getBlockZ(), p.getLocation().getWorld().getSeed()) + "\"");
-					else sender.sendMessage(ChatColor.DARK_AQUA +  "[BetterEnd] " + ChatColor.RED + "This world is not a BetterEnd world!");
-				} catch (NullPointerException e) {
-					sender.sendMessage(ChatColor.DARK_AQUA +  "[BetterEnd] " + ChatColor.RED + "This world is not a BetterEnd world!");
-				}
+				if(p.getWorld().getGenerator() instanceof EndChunkGenerator) sender.sendMessage(ChatColor.DARK_AQUA + "[BetterEnd] " + ChatColor.AQUA + "You are standing in \"" + ChatColor.DARK_AQUA + getBiome(p.getLocation().getBlockX(), p.getLocation().getBlockZ(), p.getLocation().getWorld().getSeed()) + "\"");
+				else sender.sendMessage(ChatColor.DARK_AQUA +  "[BetterEnd] " + ChatColor.RED + "This world is not a BetterEnd world!");
 				return true;
 			} else {
 				sender.sendMessage(ChatColor.RED + "You do not have permission for this command.");
@@ -179,12 +173,8 @@ public class Main extends JavaPlugin implements Listener {
 			}
 			Player p = (Player) sender;
 			if (p.hasPermission("betterend.gotobiome")) {
-				try {
-					if(p.getWorld().getGenerator().getClass().equals(new EndChunkGenerator().getClass())) return tpBiome(p, args);
-					else sender.sendMessage(ChatColor.DARK_AQUA +  "[BetterEnd] " + ChatColor.RED + "This world is not a BetterEnd world!");
-				} catch (NullPointerException e) {
-					sender.sendMessage(ChatColor.DARK_AQUA +  "[BetterEnd] " + ChatColor.RED + "This world is not a BetterEnd world!");
-				}
+				if(p.getWorld().getGenerator() instanceof EndChunkGenerator) return tpBiome(p, args);
+				else sender.sendMessage(ChatColor.DARK_AQUA +  "[BetterEnd] " + ChatColor.RED + "This world is not a BetterEnd world!");
 				return true;
 			} else {
 				sender.sendMessage(ChatColor.DARK_AQUA +  "[BetterEnd] " + ChatColor.RED + "You do not have permission for this command.");
@@ -199,8 +189,8 @@ public class Main extends JavaPlugin implements Listener {
 		return false;
 	} 
 
-	
-	
+
+
 	@Override
 	public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
 		List<String> COMMANDS = Arrays.asList("biome", "tpbiome", "version");
@@ -231,13 +221,13 @@ public class Main extends JavaPlugin implements Listener {
 		int heatNoise = main.getConfig().getInt("outer-islands.heat-noise");
 		int climateNoise = main.getConfig().getInt("outer-islands.climate-noise");
 		if(allAether) return "AETHER";
-		double c = biomeGenerator.noise((double) (X+1000)/climateNoise, (double) (Z+1000)/climateNoise, 0.5D, 0.5D);
+		double c = biomeGenerator.noise((double) (X+1000)/climateNoise, (double) (Z+1000)/climateNoise, 0.5D, 0.5D); 
 		double h = biomeGenerator.noise((double) (X)/heatNoise, (double) (Z)/heatNoise, 0.5D, 0.5D);
 		double d = biomeGenerator.noise((double) (X)/main.getConfig().getInt("outer-islands.biome-size"), (double) (Z)/main.getConfig().getInt("outer-islands.biome-size"), 0.5D, 0.5D);
 		if (d < -0.5 && h > 0) return "SHATTERED_END";//green
 		else if(d < -0.5 && h < 0) return "SHATTERED_FOREST";
 		else if (d < 0) return "END";//red
-		
+
 		else if (d < 0.5 && d > 0.15 && h < -0.5) return "STARFIELD";//blue
 		else if (d < 0.5) return "VOID";//blue
 		else if(h < -0.5 && c > -0.5) return "AETHER_HIGHLANDS";
@@ -256,19 +246,19 @@ public class Main extends JavaPlugin implements Listener {
 	}
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void onEntityPickup(EntityChangeBlockEvent event) {
-		try {
-			if(event.getEntity() instanceof Enderman && config.getBoolean("prevent-enderman-block-pickup", true)) {
-				if(event.getEntity().getWorld().getGenerator().getClass().equals(new EndChunkGenerator().getClass()) && getBiomeNoise(event.getEntity().getLocation().getBlockX(), event.getEntity().getLocation().getBlockZ(), event.getEntity().getWorld().getSeed()) > 0.5) {
-					event.setCancelled(true);
-				}
+		if(event.getEntity() instanceof Enderman && config.getBoolean("prevent-enderman-block-pickup", true)) {
+			if(event.getEntity().getWorld().getGenerator() instanceof EndChunkGenerator && getBiomeNoise(event.getEntity().getLocation().getBlockX(), event.getEntity().getLocation().getBlockZ(), event.getEntity().getWorld().getSeed()) > 0.5) {
+				event.setCancelled(true);
 			}
-		} catch (NullPointerException e) {
-
 		}
 
 	}
 	public static boolean isPremium() {
-		return true;
+		try {
+			return Premium.isPremium();
+		} catch(NoClassDefFoundError e) {
+			return false;
+		}
 	}
 
 	@EventHandler (ignoreCancelled=true)
