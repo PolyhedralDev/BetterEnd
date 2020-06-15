@@ -94,7 +94,7 @@ public class StructurePopulator extends BlockPopulator {
 			} else if(random.nextInt(100) < ruinChance) {
 				structure = new NMSStructure(new Location(world, chunk.getX()*16+X, Y, chunk.getZ()*16+Z), "aether_ruin", random.nextInt(18));
 			} else return;
-		} else if(biome.equals("STARFIELD")) {
+		} else if("STARFIELD".equals(biome)) {
 			Y = random.nextInt(world.getMaxHeight()-20)+10;
 			NMSStructure s1 = new NMSStructure(new Location(world, chunk.getX()*16+random.nextInt(16), Y, chunk.getZ()*16+random.nextInt(16)), "void_star", random.nextInt(4));
 			Y = random.nextInt(world.getMaxHeight()-20)+10;
@@ -116,7 +116,7 @@ public class StructurePopulator extends BlockPopulator {
 			}
 			if(p1) s1.paste();
 			return;
-		} else if(!(biome.equals("SHATTERED_END") || biome.equals("SHATTERED_FOREST"))) {
+		} else if(!("SHATTERED_END".equals(biome) || "SHATTERED_FOREST".equals(biome))) {
 			if(random.nextInt(100) < structureChance) {
 				int[] weights = {config.getInt("structure-weight.end.end_house", 32), config.getInt("structure-weight.end.shulker_nest", 32), config.getInt("structure-weight.end.stronghold", 30), config.getInt("structure-weight.end.end_ship", 6), config.getInt("structure-weight.end.end_tower", 32)};
 				String structureName = chooseOnWeight(new String[] {"end_house", "shulker_nest", "stronghold", "end_ship", "end_tower"}, weights);
@@ -154,7 +154,7 @@ public class StructurePopulator extends BlockPopulator {
 		if(overrideSpawnCheck || (structure.getName().equals("aether_ruin") ? isValidSpawn(b[0], b[1], false, 0, true) : isValidSpawn(b[0], b[1], ground, structure.getName().equals("wood_house") ? -2 : 1, false))) {
 			structure.paste();
 			List<Location> locationsAll = getLocationListBetween(b[0], b[1]);
-			if(biome.equals("AETHER_HIGHLANDS")) {
+			if("AETHER_HIGHLANDS".equals(biome)) {
 
 				for(int i = 0; i < (locationsAll.size()/12)+1; i++) {
 					Location candidate = locationsAll.get(random.nextInt(locationsAll.size()));
@@ -176,7 +176,7 @@ public class StructurePopulator extends BlockPopulator {
 							candidate.getBlock().getType() == Material.OAK_STAIRS) candidate.getBlock().setType(Material.COBWEB);
 				}
 			}
-			if(structure.getName().contentEquals("shulker_nest")) {
+			if("shulker_nest".equals(structure.getName())) {
 				for(int i = 0; i < shulkerSpawns; i++) {
 					boolean done = false;
 					int attempts = 0;
@@ -197,53 +197,16 @@ public class StructurePopulator extends BlockPopulator {
 					}
 				}
 			}
-			//b[0].getBlock().setType(Material.BEDROCK);
-			//b[1].getBlock().setType(Material.BEDROCK);
-			if(!structure.getName().contentEquals("aether_ruin")) System.out.println("[BetterEnd] Generating structure \"" + structure.getName() + "\",  at " + b[0].getX() + ", " + b[0].getY() + ", " + b[0].getZ() + ". Dimensions: X: "+  dimension[0] + ", Y: " + dimension[1] + ", Z: " + dimension[2]);
+			if(!"aether_ruin".equals(structure.getName())) System.out.println("[BetterEnd] Generating structure \"" + structure.getName() + "\",  at " + b[0].getX() + ", " + b[0].getY() + ", " + b[0].getZ() + ". Dimensions: X: "+  dimension[0] + ", Y: " + dimension[1] + ", Z: " + dimension[2]);
 			List<Location> chests = getChestsIn(b[0], b[1]);        
-			LootTable table = (structure.getName().contentEquals("aether_ruin")) ? null : new LootTable(structure.getName());
+			LootTable table = ("aether_ruin".equals(structure.getName())) ? null : new LootTable(structure.getName());
 
 			for(Location location : chests) {
 				if (location.getBlock().getState() instanceof Container) {
-					if(structure.getName().equals("end_ship") && location.getBlock().getState() instanceof Container && (location.getBlock().getType() == Material.DISPENSER)) {
-						int numTNT = random.nextInt(4)+2;
-						ItemStack randomItem = new ItemStack(Material.TNT, numTNT);
-						BlockState blockState = location.getBlock().getState();
-						Container container = (Container) blockState;
-						Inventory containerInventory = container.getInventory();
-						ItemStack[] containerContent = containerInventory.getContents();
-						for (int j = 0; j < randomItem.getAmount(); j++) {
-							boolean done = false;
-							int attemps = 0;
-							while (!done) {
-								int randomPos = random.nextInt(containerContent.length);
-								ItemStack randomPosItem = containerInventory.getItem(randomPos);
-								if (randomPosItem != null) {
-									if (this.isSameItem(randomPosItem, randomItem)) {
-										if (randomPosItem.getAmount() < randomItem.getMaxStackSize()) {
-											ItemStack randomItemCopy = randomItem.clone();
-											int newAmount = randomPosItem.getAmount() + 1;
-											randomItemCopy.setAmount(newAmount);
-											containerContent[randomPos] = randomItemCopy;
-											containerInventory.setContents(containerContent);
-											done = true;
-										}
-									}
-								} else {
-									ItemStack randomItemCopy = randomItem.clone();
-									randomItemCopy.setAmount(1);
-									containerContent[randomPos] = randomItemCopy;
-									containerInventory.setContents(containerContent);
-									done = true;
-								}
-								attemps++;
-								if (attemps >= containerContent.length) {
-									done = true;
-								}
-							}
-						}
+					if("end_ship".equals(structure.getName()) && location.getBlock().getState() instanceof Container && (location.getBlock().getType() == Material.DISPENSER)) {
+						populateTNT(random, location);
 					}
-					if(structure.getName().equals("gold_dungeon")) {
+					if("gold_dungeon".equals(structure.getName())) {
 						NamespacedKey key = new NamespacedKey(main, "valkyrie-spawner");
 						Chest chest = (Chest) location.getBlock().getState();
 						chest.getPersistentDataContainer().set(key, PersistentDataType.INTEGER, (int) (structure.getRotation()/90));
@@ -260,6 +223,44 @@ public class StructurePopulator extends BlockPopulator {
 		ItemMeta randomItemMeta = randomItem.getItemMeta();
 
 		return randomPosItem.getType().equals(randomItem.getType()) && randomPosItemMeta.equals(randomItemMeta);
+	}
+	private void populateTNT(Random random, Location location) {
+		int numTNT = random.nextInt(4)+2;
+		ItemStack randomItem = new ItemStack(Material.TNT, numTNT);
+		BlockState blockState = location.getBlock().getState();
+		Container container = (Container) blockState;
+		Inventory containerInventory = container.getInventory();
+		ItemStack[] containerContent = containerInventory.getContents();
+		for (int j = 0; j < randomItem.getAmount(); j++) {
+			boolean done = false;
+			int attemps = 0;
+			while (!done) {
+				int randomPos = random.nextInt(containerContent.length);
+				ItemStack randomPosItem = containerInventory.getItem(randomPos);
+				if (randomPosItem != null) {
+					if (this.isSameItem(randomPosItem, randomItem)) {
+						if (randomPosItem.getAmount() < randomItem.getMaxStackSize()) {
+							ItemStack randomItemCopy = randomItem.clone();
+							int newAmount = randomPosItem.getAmount() + 1;
+							randomItemCopy.setAmount(newAmount);
+							containerContent[randomPos] = randomItemCopy;
+							containerInventory.setContents(containerContent);
+							done = true;
+						}
+					}
+				} else {
+					ItemStack randomItemCopy = randomItem.clone();
+					randomItemCopy.setAmount(1);
+					containerContent[randomPos] = randomItemCopy;
+					containerInventory.setContents(containerContent);
+					done = true;
+				}
+				attemps++;
+				if (attemps >= containerContent.length) {
+					done = true;
+				}
+			}
+		}
 	}
 	private String chooseOnWeight(String[] items, int[] weights) {
 		double completeWeight = 0.0;

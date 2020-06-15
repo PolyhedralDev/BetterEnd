@@ -333,6 +333,7 @@ public class Advancement {
 	 * @return whether the activation was successful
 	 * @see #activate(boolean)
 	 */
+	@SuppressWarnings("deprecation")
 	public static boolean activate(boolean reload, NamespacedKey id, String json) {
 		File file = new File(Bukkit.getWorlds().get(0).getWorldFolder(),
 				String.join(File.separator, "data", "advancements", id.getNamespace(), id.getKey()) + ".json");
