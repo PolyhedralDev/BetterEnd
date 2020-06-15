@@ -30,7 +30,7 @@ public class EnvironmentPopulator extends BlockPopulator {
 	private int biomeSize = main.getConfig().getInt("outer-islands.biome-size");
 	private boolean allAether = main.getConfig().getBoolean("all-aether", false);
 	private int baseH = main.getConfig().getInt("outer-islands.island-height", 64);
-	
+
 	@SuppressWarnings("deprecation")
 	public void populate(World world, Random random, Chunk chunk) {
 		//taiga
@@ -48,7 +48,7 @@ public class EnvironmentPopulator extends BlockPopulator {
 				}
 				if(heatNoiseLvl < -0.5 && (biomeNoiseLvl > 0.5 || allAether)) {
 					world.setBiome(chunk.getX()*16+X, chunk.getZ()*16+Z, Biome.TAIGA);
-					
+
 					if(random.nextInt(1000) < 2) {
 						for (Y = world.getMaxHeight()-1; (chunk.getBlock(X, Y, Z).getType() != Material.GRASS_BLOCK && 
 								chunk.getBlock(X, Y, Z).getType() != Material.GRAVEL &&
@@ -59,7 +59,7 @@ public class EnvironmentPopulator extends BlockPopulator {
 				}
 			}
 		}
-		
+
 		//animals
 		if(random.nextInt(100) < herdChance) {
 			int size = random.nextInt(herdMax-herdMin)+herdMin;
@@ -139,10 +139,10 @@ public class EnvironmentPopulator extends BlockPopulator {
 						break;
 					case "AETHER_HIGHLANDS_FOREST":
 						if(random.nextInt(20) < 10 && (blockLocation.getBlock().getType() == Material.GRASS_BLOCK ||
-								blockLocation.getBlock().getType() == Material.PODZOL ||
-								blockLocation.getBlock().getType() == Material.COARSE_DIRT ||
-								blockLocation.getBlock().getType() == Material.SNOW ||
-								blockLocation.getBlock().getType() == Material.GRAVEL)) {
+						blockLocation.getBlock().getType() == Material.PODZOL ||
+						blockLocation.getBlock().getType() == Material.COARSE_DIRT ||
+						blockLocation.getBlock().getType() == Material.SNOW ||
+						blockLocation.getBlock().getType() == Material.GRAVEL)) {
 							new Tree(blockLocation, 1.5, random, 3*(random.nextInt(3)+5), 3, "SPRUCE");
 						}
 						break;
@@ -170,10 +170,11 @@ public class EnvironmentPopulator extends BlockPopulator {
 						if(blockLocation.getBlock().getType() == Material.END_STONE && random.nextInt(10) < 8) {
 							world.generateTree(blockLocation.add(0,1,0), TreeType.CHORUS_PLANT);
 						}
+						break;
 					}
 				}
 			}
-		
+
 	}
 	private void plantShatteredPillar(Random random, Chunk chunk, World world, int[] coords) {
 		int X = coords[0];
@@ -235,6 +236,7 @@ public class EnvironmentPopulator extends BlockPopulator {
 			case 3:
 				world.spawn(new Location(world, (chunk.getX()*16)+X+1.5, upBound[3]+Y, (chunk.getZ()*16)+Z+1.5), EnderCrystal.class, (enderCrystal) -> enderCrystal.setShowingBottom(false));
 				break;
+			default:
 			}
 		}
 	}

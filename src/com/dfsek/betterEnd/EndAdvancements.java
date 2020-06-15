@@ -16,7 +16,7 @@ import com.dfsek.betterend.advancement.trigger.ChangedDimensionTrigger;
 import net.md_5.bungee.api.chat.TextComponent;
 
 public class EndAdvancements {
-	static Main main = Main.getInstance();
+	private static Main main = Main.getInstance();
 	public static void enable(Plugin plugin) {
 		try {
 			AdvancementFactory factory = new AdvancementFactory(plugin, true, false);
@@ -42,7 +42,7 @@ public class EndAdvancements {
 			factory.getImpossible("outer_end/dizzying_heights", voidVisit, "Dizzying Heights", "Travel above Y level 5000", Material.WHITE_CONCRETE).setHidden(true);
 
 			factory.getImpossible("outer_end/visit_end", root, "Finally, Something Familiar", "Enter the End", Material.END_STONE);
-			
+
 			factory.getImpossible("outer_end/explore", root, "Ender Explorer", "Find all 9 Outer End biomes", Material.COMPASS).setHidden(true);
 
 			Advancement shatteredVisit = factory.getImpossible("outer_end/visit_shattered_end", root, "What Happened Here?", "Enter the Shattered End", Material.OBSIDIAN);
@@ -85,6 +85,7 @@ public class EndAdvancements {
 						case "END":
 							grantAdvancement("visit_end", p);
 							break;
+						default:
 						}
 						if(p.getLocation().getY() < -64) grantAdvancement("into_void", p);
 						else if(p.getLocation().getY() > 5000) grantAdvancement("dizzying_heights", p);
@@ -121,8 +122,7 @@ public class EndAdvancements {
 		org.bukkit.advancement.Advancement a = main.getServer().getAdvancement(nsk);
 		if (a != null) {
 			AdvancementProgress avp = player.getAdvancementProgress(a);
-			if (avp.isDone()) return true;
-			else return false;
+			return avp.isDone();
 		} else {
 			throw new IllegalArgumentException("Invalid advancement name \"" + adv + "\"");
 		}

@@ -174,6 +174,7 @@ public class EndChunkGenerator extends ChunkGenerator {
 											case 1:
 												if(random.nextInt(100) < 50) chunk.setBlock(X, Y+1, Z, main.getServer().createBlockData("minecraft:stone_button[face=floor,facing=east]"));
 												break;
+											default:
 											}
 										default:
 										}
@@ -206,45 +207,41 @@ public class EndChunkGenerator extends ChunkGenerator {
 
 						}
 						Material currentBlock = chunk.getBlockData(X, Y, Z).getMaterial();
-						if(currentBlock == Material.AIR && chunk.getBlockData(X, Y+1, Z).getMaterial() == Material.END_STONE && random.nextInt(100) < 28 && endCaveDec) {
-							if(Y >= yMin) {
-								switch(random.nextInt(3)) {
-								case 0:
-									if(chunk.getBlockData(X, Y-1, Z).getMaterial() == Material.AIR && random.nextInt(100) < 20) {
-										chunk.setBlock(X, Y, Z, Material.END_STONE_BRICK_WALL);
-										chunk.setBlock(X, Y-1, Z, main.getServer().createBlockData("minecraft:end_rod[facing=down]"));
-									}
-									break;
-								case 1:
-									if(random.nextInt(100) < 25) chunk.setBlock(X, Y, Z, Material.END_STONE_BRICK_WALL);
-									break;
-								case 2:
-									chunk.setBlock(X, Y, Z, main.getServer().createBlockData("minecraft:end_stone_brick_slab[type=top]"));
-									break;
-								default:
+						if(currentBlock == Material.AIR && chunk.getBlockData(X, Y+1, Z).getMaterial() == Material.END_STONE && random.nextInt(100) < 28 && endCaveDec && Y >= yMin) {
+							switch(random.nextInt(3)) {
+							case 0:
+								if(chunk.getBlockData(X, Y-1, Z).getMaterial() == Material.AIR && random.nextInt(100) < 20) {
+									chunk.setBlock(X, Y, Z, Material.END_STONE_BRICK_WALL);
+									chunk.setBlock(X, Y-1, Z, main.getServer().createBlockData("minecraft:end_rod[facing=down]"));
 								}
+								break;
+							case 1:
+								if(random.nextInt(100) < 25) chunk.setBlock(X, Y, Z, Material.END_STONE_BRICK_WALL);
+								break;
+							case 2:
+								chunk.setBlock(X, Y, Z, main.getServer().createBlockData("minecraft:end_stone_brick_slab[type=top]"));
+								break;
+							default:
 							}
 						}
-						if(currentBlock == Material.AIR && chunk.getBlockData(X, Y+1, Z).getMaterial() == Material.STONE && random.nextInt(100) < 28 && aetherCaveDec) {
-							if(Y >= yMin) {
-								switch(random.nextInt(4)) {
-								case 0:
-									if(chunk.getBlockData(X, Y-1, Z).getMaterial() == Material.AIR && random.nextInt(100) < 20) {
-										chunk.setBlock(X, Y, Z, Material.COBBLESTONE_WALL);
-										chunk.setBlock(X, Y-1, Z, Material.IRON_BARS);
-									}
-									break;
-								case 1:
-									if(random.nextInt(100) < 10) chunk.setBlock(X, Y, Z, main.getServer().createBlockData("minecraft:lantern[hanging=true]"));
-									break;
-								case 2:
-									if(random.nextInt(100) < 25) chunk.setBlock(X, Y, Z, Material.COBBLESTONE_WALL);
-									break;
-								case 3:
-									chunk.setBlock(X, Y, Z, main.getServer().createBlockData("minecraft:stone_slab[type=top]"));
-									break;
-								default:
+						if(currentBlock == Material.AIR && chunk.getBlockData(X, Y+1, Z).getMaterial() == Material.STONE && random.nextInt(100) < 28 && aetherCaveDec && Y >= yMin) {
+							switch(random.nextInt(4)) {
+							case 0:
+								if(chunk.getBlockData(X, Y-1, Z).getMaterial() == Material.AIR && random.nextInt(100) < 20) {
+									chunk.setBlock(X, Y, Z, Material.COBBLESTONE_WALL);
+									chunk.setBlock(X, Y-1, Z, Material.IRON_BARS);
 								}
+								break;
+							case 1:
+								if(random.nextInt(100) < 10) chunk.setBlock(X, Y, Z, main.getServer().createBlockData("minecraft:lantern[hanging=true]"));
+								break;
+							case 2:
+								if(random.nextInt(100) < 25) chunk.setBlock(X, Y, Z, Material.COBBLESTONE_WALL);
+								break;
+							case 3:
+								chunk.setBlock(X, Y, Z, main.getServer().createBlockData("minecraft:stone_slab[type=top]"));
+								break;
+							default:
 							}
 						}
 					}

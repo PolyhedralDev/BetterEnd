@@ -193,7 +193,7 @@ public class LootTable {
 			for(int i = 0; i < numEnchant; i++) {
 				Enchantment chosen = possible.get(i);
 				int lvl = random.nextInt(1+(int) (((enchant/40 > 1) ? 1 : enchant/40)*((chosen.getMaxLevel()))));
-				if(!(lvl == 0)) item.addEnchantment(chosen, lvl);
+				if(lvl != 0) item.addEnchantment(chosen, lvl);
 				else item.addEnchantment(chosen, 1);
 			}     
 		}

@@ -12,7 +12,7 @@ public class Tree {
 		int roots = random.nextInt(3)+3;
 		switch(type) {
 		case "OAK":
-			for(int j = 0; j < roots; j++) doWoodRootAt(start.clone(), startR, random, random.nextInt(10)+10, 8, initV.clone(), j*(360/roots), Material.OAK_WOOD);
+			for(int j = 0; j < roots; j++) doWoodRootAt(start.clone(), startR, random, random.nextInt(10)+10, initV.clone(), j*(360/roots), Material.OAK_WOOD);
 			for(int i = 0; i < length; i++) {
 				start.add(initV);
 				for (int x = (int) -startR; x <= startR; x++) {
@@ -40,17 +40,14 @@ public class Tree {
 			break;
 		case "SPRUCE":
 			int ogStart = (int) startR;
-			for(int j = 0; j < roots; j++) doWoodRootAt(start.clone(), startR, random, random.nextInt(10)+10, 8, initV.clone(), j*(360/roots), Material.SPRUCE_WOOD);
+			for(int j = 0; j < roots; j++) doWoodRootAt(start.clone(), startR, random, random.nextInt(10)+10, initV.clone(), j*(360/roots), Material.SPRUCE_WOOD);
 			for(int i = 0; i < length; i++) {
 				start.add(initV);
 				for (int x = (int) -startR; x <= startR; x++) {
 					for (int y = (int) -startR; y <= startR; y++) {
 						for (int z = (int) -startR; z <= startR; z++) {
 							Vector position = start.toVector().clone().add(new Vector(x, y, z));
-
-							if (start.toVector().distance(position) <= startR + 0.5) {
-								if(position.toLocation(start.getWorld()).getBlock().isPassable()) position.toLocation(start.getWorld()).getBlock().setType(Material.SPRUCE_WOOD);
-							}
+							if(start.toVector().distance(position) <= startR + 0.5 && position.toLocation(start.getWorld()).getBlock().isPassable()) position.toLocation(start.getWorld()).getBlock().setType(Material.SPRUCE_WOOD);
 						}
 					}
 				}
@@ -59,9 +56,7 @@ public class Tree {
 					for (int x = -r; x <= r; x++) {
 						for (int z = -r; z <= r; z++) {
 							Vector position = start.toVector().clone().add(new Vector(x, 0, z));
-							if (start.toVector().distance(position) <= r + 0.5) {
-								if(position.toLocation(start.getWorld()).getBlock().isPassable()) position.toLocation(start.getWorld()).getBlock().setType(Material.SPRUCE_LEAVES);
-							}
+							if(start.toVector().distance(position) <= r + 0.5 && position.toLocation(start.getWorld()).getBlock().isPassable()) position.toLocation(start.getWorld()).getBlock().setType(Material.SPRUCE_LEAVES);
 						}
 					}
 				}
@@ -106,7 +101,7 @@ public class Tree {
 			if(i % 3 == 0 && i > length/4) for(int j = 0; j < branches; j++) doWoodBranchAt(start.clone(), startR, random, random.nextInt(((int) (length/2))+1)+length/3, initV.clone(), m, l, lvl++, true);
 		}
 	}
-	private void doWoodRootAt(Location start, double startR, Random random, int length, double change, Vector startV, int angle, Material m) {
+	private void doWoodRootAt(Location start, double startR, Random random, int length, Vector startV, int angle, Material m) {
 		if(length < 4) return;
 		if(startR < 0) return;
 		Vector initV = getPerpendicular(startV.clone()).rotateAroundAxis(startV, angle).setY(-0.2);
@@ -165,10 +160,8 @@ public class Tree {
 				for (int z = -radius; z <= radius; z++) {
 					Vector position = l.toVector().clone().add(new Vector(x, y, z));
 
-					if (l.toVector().distance(position) <= radius + 0.5) {
-						if(position.toLocation(l.getWorld()).getBlock().isEmpty() ||
-								position.toLocation(l.getWorld()).getBlock().getType() == Material.OAK_LEAVES) position.toLocation(l.getWorld()).getBlock().setType(m);
-					}
+					if(l.toVector().distance(position) <= radius + 0.5 && (position.toLocation(l.getWorld()).getBlock().isEmpty() ||
+							position.toLocation(l.getWorld()).getBlock().getType() == Material.OAK_LEAVES)) position.toLocation(l.getWorld()).getBlock().setType(m);
 				}
 			}
 		}

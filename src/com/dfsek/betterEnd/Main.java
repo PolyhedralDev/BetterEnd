@@ -14,7 +14,6 @@ import java.util.stream.Collectors;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
-import org.bukkit.advancement.Advancement;
 import org.bukkit.block.Chest;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -35,6 +34,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.noise.SimplexOctaveGenerator;
 
 import com.dfsek.betterend.UpdateChecker.UpdateReason;
+
 import io.lumine.xikage.mythicmobs.MythicMobs;
 
 public class Main extends JavaPlugin implements Listener {	
@@ -220,6 +220,7 @@ public class Main extends JavaPlugin implements Listener {
 			case "tpbiome":
 				argList.addAll(BIOMES);
 				return argList.stream().filter(a -> a.startsWith(args[1].toUpperCase())).collect(Collectors.toList());
+			default:
 			}
 
 		}
