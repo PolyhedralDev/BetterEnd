@@ -276,10 +276,7 @@ public class Main extends JavaPlugin implements Listener {
 	@EventHandler (ignoreCancelled=true)
 	public void onInventoryOpenEvent(InventoryOpenEvent event) {
 		if(config.getBoolean("aether.mythic-boss.enable", false)) {
-			try {
-				EndAdvancementUtil.grantAdvancement("gold_dungeon", (Player) event.getPlayer());
-			} catch(NoClassDefFoundError e) {
-			}
+			
 			//get the destination inventory
 			InventoryHolder holder = event.getInventory().getHolder();
 			Inventory inventory = event.getInventory();
@@ -289,6 +286,10 @@ public class Main extends JavaPlugin implements Listener {
 				Chest chest = (Chest) l.getBlock().getState();
 				NamespacedKey key = new NamespacedKey(this, "valkyrie-spawner");
 				if(chest.getPersistentDataContainer().has(key, PersistentDataType.INTEGER)) {
+					try {
+						EndAdvancementUtil.grantAdvancement("gold_dungeon", (Player) event.getPlayer());
+					} catch(NoClassDefFoundError e) {
+					}
 					Location spawn;
 					switch(chest.getPersistentDataContainer().get(key, PersistentDataType.INTEGER)) {
 					case 0:

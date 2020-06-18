@@ -156,7 +156,7 @@ public class StructurePopulator extends BlockPopulator {
 		if(overrideSpawnCheck || (structure.getName().equals("aether_ruin") ? isValidSpawn(b[0], b[1], false, true) : isValidSpawn(b[0], b[1], ground, false))) {
 			structure.paste();
 			List<Location> locationsAll = getLocationListBetween(b[0], b[1]);
-			if("AETHER_HIGHLANDS".equals(biome)) randomCobwebs(locationsAll, random);
+			if("AETHER_HIGHLANDS".equals(biome) || "AETHER_HIGHLANDS_FOREST".equals(biome)) randomCobwebs(locationsAll, random);
 			if("shulker_nest".equals(structure.getName())) spawnShulkers(locationsAll, random, world);
 			if(!"aether_ruin".equals(structure.getName())) System.out.println("[BetterEnd] Generating structure \"" + structure.getName() + "\",  at " + b[0].getX() + ", " + b[0].getY() + ", " + b[0].getZ() + ". Dimensions: X: "+  dimension[0] + ", Y: " + dimension[1] + ", Z: " + dimension[2]);
 			fillInventories(getChestsIn(b[0], b[1]), random, structure);        

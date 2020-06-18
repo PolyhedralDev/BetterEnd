@@ -16,8 +16,8 @@ import com.dfsek.betterend.populators.StructurePopulator;
 
 public class EndChunkGenerator extends ChunkGenerator {
 	private Main main = Main.getInstance();
-	private Material[] plants = {Material.GRASS, Material.TALL_GRASS, Material.LILY_OF_THE_VALLEY, Material.FERN, Material.AZURE_BLUET, Material.BLUE_ORCHID, Material.WITHER_ROSE};
-	private int[] weight = {700, 100, 30, 40, 30, 30, 5};
+	private Material[] plants = {Material.GRASS, Material.TALL_GRASS, Material.LILY_OF_THE_VALLEY, Material.FERN, Material.AZURE_BLUET, Material.BLUE_ORCHID, Material.WITHER_ROSE, Material.SWEET_BERRY_BUSH, Material.DANDELION, Material.POPPY};
+	private int[] weight = {670, 100, 30, 40, 30, 30, 5, 10, 10, 10};
 
 	private int outNoise = main.getConfig().getInt("outer-islands.noise", 56);
 	private boolean clouds = main.getConfig().getBoolean("aether.clouds.enable-clouds", true);
@@ -122,7 +122,7 @@ public class EndChunkGenerator extends ChunkGenerator {
 									if(upOne == Material.AIR) {
 										if(heatNoiseLvl > -0.5) {
 											chunk.setBlock(X, Y, Z, Material.GRASS_BLOCK);
-										} else {											
+										} else {
 											int type = random.nextInt(100);
 											if(type < (-2*(heatNoiseLvl+0.5)*40)) {
 												chunk.setBlock(X, Y, Z, Material.PODZOL);
@@ -136,18 +136,20 @@ public class EndChunkGenerator extends ChunkGenerator {
 											chunk.setBlock(X, Y+1, Z, Material.SNOW);
 										} else if(random.nextInt(100) < 40 && chunk.getBlockData(X, Y, Z).getMaterial() == Material.GRASS_BLOCK) {
 											Material plant = chooseOnWeight(plants, weight);
-											if(plant != Material.TALL_GRASS) {
-												if(plant != Material.WITHER_ROSE || (heatNoiseLvl < -0.5 && (biomeNoiseLvl > 0.5 || allAether))) chunk.setBlock(X, Y+1, Z, plant);
-											} else {
+											if(plant == Material.TALL_GRASS) {
 												chunk.setBlock(X, Y+1, Z, Material.TALL_GRASS);
 												chunk.setBlock(X, Y+2, Z, main.getServer().createBlockData("minecraft:tall_grass[half=upper]"));
+											} else if(plant == Material.SWEET_BERRY_BUSH) { 
+												if(heatNoiseLvl < -0.5 && (biomeNoiseLvl > 0.5 || allAether)) chunk.setBlock(X, Y+1, Z, main.getServer().createBlockData("minecraft:sweet_berry_bush[age=" + (random.nextInt(2) + 2) + "]"));
+											} else {
+												if((plant != Material.WITHER_ROSE) || (heatNoiseLvl < -0.5 && (biomeNoiseLvl > 0.5 || allAether))) chunk.setBlock(X, Y+1, Z, plant);
 											}
 										}
 									} else chunk.setBlock(X, Y, Z, Material.DIRT);
 								} else {
 									chunk.setBlock(X, Y, Z, Material.STONE);
-									if(upOne == Material.AIR && random.nextInt(100) < 48 && aetherCaveDec) {
-										switch(random.nextInt(6)) {
+									if(upOne == Material.AIR && random.nextInt(100) < 64 && aetherCaveDec) {
+										switch(random.nextInt(7)) {
 										case 0:
 											if(random.nextInt(100) < 35)chunk.setBlock(X, Y+1, Z, Material.BROWN_MUSHROOM);
 											break;
@@ -176,6 +178,11 @@ public class EndChunkGenerator extends ChunkGenerator {
 												break;
 											default:
 											}
+										case 6:
+											if(heatNoiseLvl < -0.5 && random.nextInt(100) < 25) {
+												chunk.setBlock(X, Y+1, Z, Material.COBWEB);
+											}
+											break;
 										default:
 										}
 
@@ -224,8 +231,8 @@ public class EndChunkGenerator extends ChunkGenerator {
 							default:
 							}
 						}
-						if(currentBlock == Material.AIR && chunk.getBlockData(X, Y+1, Z).getMaterial() == Material.STONE && random.nextInt(100) < 28 && aetherCaveDec && Y >= yMin) {
-							switch(random.nextInt(4)) {
+						if(currentBlock == Material.AIR && chunk.getBlockData(X, Y+1, Z).getMaterial() == Material.STONE && random.nextInt(100) < 36 && aetherCaveDec && Y >= yMin) {
+							switch(random.nextInt(5)) {
 							case 0:
 								if(chunk.getBlockData(X, Y-1, Z).getMaterial() == Material.AIR && random.nextInt(100) < 20) {
 									chunk.setBlock(X, Y, Z, Material.COBBLESTONE_WALL);
@@ -240,6 +247,11 @@ public class EndChunkGenerator extends ChunkGenerator {
 								break;
 							case 3:
 								chunk.setBlock(X, Y, Z, main.getServer().createBlockData("minecraft:stone_slab[type=top]"));
+								break;
+							case 4:
+								if(heatNoiseLvl < -0.5 && random.nextInt(100) < 25) {
+									chunk.setBlock(X, Y+1, Z, Material.COBWEB);
+								}
 								break;
 							default:
 							}

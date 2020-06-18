@@ -100,12 +100,20 @@ public class EnvironmentPopulator extends BlockPopulator {
 					case "AETHER":
 						for (Y = world.getMaxHeight()-1; (chunk.getBlock(X, Y, Z).getType() != Material.GRASS_BLOCK) && Y>0; Y--);
 						if(Y > 1) {
-							if(random.nextInt(100) < 85) {
-								world.generateTree(blockLocation, TreeType.TREE);
+							if(random.nextInt(100) < 95) {
+								if(random.nextInt(100) < 85) {
+									world.generateTree(blockLocation, TreeType.TREE);
+								} else {
+									world.generateTree(blockLocation, TreeType.BIG_TREE);
+								}
 							} else {
-								world.generateTree(blockLocation, TreeType.BIG_TREE);
+								if(random.nextInt(100) < 90) {
+									world.generateTree(blockLocation, TreeType.BIRCH);
+								} else {
+									world.generateTree(blockLocation, TreeType.TALL_BIRCH);
+								}
 							}
-						}
+						} 
 						break;
 					case "AETHER_FOREST":
 						if(random.nextInt(20) < 12 && blockLocation.getBlock().getType() == Material.GRASS_BLOCK) {

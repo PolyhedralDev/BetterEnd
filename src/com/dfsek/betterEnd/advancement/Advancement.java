@@ -40,6 +40,7 @@ public class Advancement {
 	private boolean toast = true;
 	private boolean announce = true;
 	private boolean hidden;
+	private String parentStr = null;
 	
 	/**
 	 * Creates a new configurable advancement.
@@ -321,6 +322,12 @@ public class Advancement {
 		return this;
 	}
 	
+	public Advancement makeChild(String parent) {
+		Validate.notNull(parent);
+		this.parentStr = parent;
+		background = null;
+		return this;
+	}
 	
 	
 	/**
@@ -343,7 +350,7 @@ public class Advancement {
 				//noinspection deprecation
 				return Bukkit.getUnsafe().loadAdvancement(id, json) != null;
 			} catch (Exception e) {
-				Bukkit.getLogger().log(Level.SEVERE, "Error activating advancement: " + id, e);
+				//Bukkit.getLogger().log(Level.SEVERE, "Error activating advancement: " + id, e);
 				return false;
 			}
 		}
@@ -382,6 +389,8 @@ public class Advancement {
 		JsonObject json = new JsonObject();
 		if (parent != null) {
 			json.addProperty("parent", parent.toString());
+		} else if(parentStr != null) {
+			json.addProperty("parent", parentStr);
 		}
 		
 		Validate.notNull(icon.getItem());

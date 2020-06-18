@@ -10,9 +10,9 @@ import org.bukkit.plugin.Plugin;
 import com.dfsek.betterend.advancement.Advancement;
 import com.dfsek.betterend.advancement.AdvancementFactory;
 import com.dfsek.betterend.advancement.Rewards;
-import com.dfsek.betterend.advancement.shared.Dimension;
 import com.dfsek.betterend.advancement.shared.ItemObject;
-import com.dfsek.betterend.advancement.trigger.ChangedDimensionTrigger;
+import com.dfsek.betterend.advancement.trigger.ImpossibleTrigger;
+
 import net.md_5.bungee.api.chat.TextComponent;
 
 public class EndAdvancementUtil {
@@ -22,34 +22,45 @@ public class EndAdvancementUtil {
 			AdvancementFactory factory = new AdvancementFactory(plugin, true, false);
 
 			//Create a root advancement which is also automatically unlocked (with a player head icon)
-			Advancement root = new Advancement(new NamespacedKey(plugin, "outer_end/root"), new ItemObject().setItem(Material.PURPUR_BLOCK), new TextComponent("The Outer End"), new TextComponent("This looks... Different..."));
-			root.addTrigger("end", new ChangedDimensionTrigger().setTo(Dimension.THE_END))
-			.makeRoot("block/purpur_block", false)
-			.setAnnounce(false)
-			.setRewards(new Rewards().setExperience(10))
+
+			Advancement aetherVisit = new Advancement(new NamespacedKey(plugin, "outer_end/visit_aether"), new ItemObject().setItem(Material.OAK_LOG), new TextComponent("A Hostile Paradise"), new TextComponent("Enter the Aether"));
+			aetherVisit.makeChild("minecraft:end/enter_end_gateway")
+			.addTrigger("0", new ImpossibleTrigger())
 			.activate(true);
+			
+			Advancement aetherHighlandsVisit = factory.getImpossible("outer_end/visit_aether_highlands", aetherVisit, "Game Design", "Enter the Highlands", Material.SPRUCE_LOG).setHidden(true);
+			factory.getImpossible("outer_end/visit_aether_forest", aetherVisit, "Big Trees", "Enter the Aether Forest", Material.OAK_SAPLING).setHidden(true).setAnnounce(false);
+			factory.getImpossible("outer_end/visit_aether_highlands_forest", aetherHighlandsVisit, "Another Forest?", "Enter the Highlands Forest", Material.SPRUCE_SAPLING).setHidden(true).setAnnounce(false);
+			factory.getImpossible("outer_end/gold_dungeon", aetherVisit, "I've Got a Bad Feeling About This...", "Open a Gold Dungeon Chest. What could go wrong?", Material.CHISELED_QUARTZ_BLOCK).setHidden(true);
 
-
-			Advancement aetherVisit = factory.getImpossible("outer_end/visit_aether", root, "A Hostile Paradise", "Enter the Aether", Material.OAK_LOG);
-			Advancement aetherHighlandsVisit = factory.getImpossible("outer_end/visit_aether_highlands", aetherVisit, "Game Design", "Enter the Aether Highlands", Material.SPRUCE_LOG).setHidden(true);
-			factory.getImpossible("outer_end/visit_aether_forest", aetherVisit, "Trees.", "Enter the Aether Forest", Material.OAK_SAPLING).setHidden(true);
-			factory.getImpossible("outer_end/visit_aether_highlands_forest", aetherHighlandsVisit, "S p r o c e", "Enter the Aether Highlands Forest", Material.SPRUCE_SAPLING).setHidden(true);
-			factory.getImpossible("outer_end/gold_dungeon", aetherVisit, "I've Got a Bad Feeling About This...", "Open a Gold Dungeon Chest.", Material.CHISELED_QUARTZ_BLOCK).setHidden(true);
-
-			Advancement voidVisit = factory.getImpossible("outer_end/visit_void", root, "Don't Fall", "Enter the Void", Material.BLACK_CONCRETE);
-			factory.getImpossible("outer_end/visit_starfield", voidVisit, "A Field of Stars", "Enter a Starfield", Material.GLOWSTONE).setHidden(true);
+			Advancement voidVisit = new Advancement(new NamespacedKey(plugin, "outer_end/visit_void"), new ItemObject().setItem(Material.BLACK_CONCRETE), new TextComponent("Don't Fall"), new TextComponent("Enter a Void Biome"));
+			voidVisit.makeChild("minecraft:end/enter_end_gateway")
+			.addTrigger("0", new ImpossibleTrigger())
+			.activate(true);
+			
+			
+			factory.getImpossible("outer_end/visit_starfield", voidVisit, "A Field of Stars", "Enter a Starfield Biome", Material.GLOWSTONE).setHidden(true).setAnnounce(false);
 			factory.getImpossible("outer_end/into_void", voidVisit, "Embrace the Void", "Travel below Y level -64", Material.BLACK_CONCRETE).setHidden(true);
 			factory.getImpossible("outer_end/dizzying_heights", voidVisit, "Dizzying Heights", "Travel above Y level 5000", Material.WHITE_CONCRETE).setHidden(true);
 
-			factory.getImpossible("outer_end/visit_end", root, "Finally, Something Familiar", "Enter the End", Material.END_STONE);
+			new Advancement(new NamespacedKey(plugin, "outer_end/visit_end"), new ItemObject().setItem(Material.END_STONE), new TextComponent("Finally, Something Familiar"), new TextComponent("Enter the End"))
+			.makeChild("minecraft:end/enter_end_gateway")
+			.addTrigger("0", new ImpossibleTrigger())
+			.activate(true);
+			
+			
+			new Advancement(new NamespacedKey(plugin, "outer_end/explore"), new ItemObject().setItem(Material.COMPASS), new TextComponent("Ender Explorer"), new TextComponent("Find all 9 Outer End biomes"))
+			.makeChild("minecraft:end/enter_end_gateway")
+			.addTrigger("0", new ImpossibleTrigger())
+			.setFrame(Advancement.Frame.GOAL)
+			.setRewards(new Rewards().setExperience(75)).activate(true);
 
-			factory.getImpossible("outer_end/explore", root, "Ender Explorer", "Find all 9 Outer End biomes", Material.COMPASS).setHidden(true);
+			Advancement shatteredVisit = new Advancement(new NamespacedKey(plugin, "outer_end/visit_shattered_end"), new ItemObject().setItem(Material.BLACK_CONCRETE), new TextComponent("What Happened Here?"), new TextComponent("Enter the Shattered End"));
+			shatteredVisit.makeChild("minecraft:end/enter_end_gateway").addTrigger("0", new ImpossibleTrigger()).activate(true);
 
-			Advancement shatteredVisit = factory.getImpossible("outer_end/visit_shattered_end", root, "What Happened Here?", "Enter the Shattered End", Material.OBSIDIAN);
 			factory.getImpossible("outer_end/visit_shattered_forest", shatteredVisit, "Funky Trees", "Enter the Shattered Forest", Material.PURPLE_STAINED_GLASS).setHidden(true);
 			Bukkit.reloadData();
 		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
 		}
 		plugin.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
 			@Override
@@ -117,6 +128,7 @@ public class EndAdvancementUtil {
 			throw new IllegalArgumentException("Invalid advancement name \"" + adv + "\"");
 		}
 	}
+	
 	public static boolean hasAdvancement(String adv, Player player) {
 		NamespacedKey nsk = new NamespacedKey(main, "outer_end/" + adv);
 		org.bukkit.advancement.Advancement a = main.getServer().getAdvancement(nsk);
