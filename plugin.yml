@@ -1,6 +1,6 @@
 main: com.dfsek.betterend.Main
 name: BetterEnd
-version: 3.3.1
+version: 3.4.1
 author: dfsek
 description: Overhauls the End dimension with new biomes, structures, and more!
 load: startup

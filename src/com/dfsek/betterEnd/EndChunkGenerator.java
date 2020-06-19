@@ -148,7 +148,7 @@ public class EndChunkGenerator extends ChunkGenerator {
 									} else chunk.setBlock(X, Y, Z, Material.DIRT);
 								} else {
 									chunk.setBlock(X, Y, Z, Material.STONE);
-									if(upOne == Material.AIR && random.nextInt(100) < 64 && aetherCaveDec) {
+									if(upOne == Material.AIR && random.nextInt(100) < 36 && aetherCaveDec) {
 										switch(random.nextInt(7)) {
 										case 0:
 											if(random.nextInt(100) < 35)chunk.setBlock(X, Y+1, Z, Material.BROWN_MUSHROOM);

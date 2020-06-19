@@ -39,13 +39,6 @@ public class StructurePopulator extends BlockPopulator {
 	private int biomeSize = main.getConfig().getInt("outer-islands.biome-size"); 
 	private int baseH = main.getConfig().getInt("outer-islands.island-height", 64);
 
-	@SuppressWarnings("unused")
-	private void generateFortress(Location origin) {
-		new NMSStructure(origin, "end_fortress/end_fortress_b_cross_0").paste();
-		origin.getBlock().setType(Material.BEDROCK);
-		new NMSStructure(origin.add(21,0,0), "end_fortress/end_fortress_b_cross_0").paste();
-		new NMSStructure(origin.add(0,0,21), "end_fortress/end_fortress_b_cross_0").paste();
-	}
 	@Override
 	public void populate(World world, Random random, Chunk chunk) {
 		//if(chunk.getX() == 0 && chunk.getZ() == 0) generateFortress(new Location(world, 0, 128, 0));

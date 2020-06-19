@@ -34,17 +34,18 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.noise.SimplexOctaveGenerator;
 
 import com.dfsek.betterend.UpdateChecker.UpdateReason;
+import com.dfsek.betterend.structures.NMSReflectorUtil;
 
 import io.lumine.xikage.mythicmobs.MythicMobs;
 
 public class Main extends JavaPlugin implements Listener {	
 	public FileConfiguration config = this.getConfig();
-
 	private static Main instance;
 	@Override
 	public void onEnable() {	
 		instance = this;
 		Logger logger = this.getLogger();
+		NMSReflectorUtil.init(logger);
 		try {
 			MythicSpawnsUtil.startSpawnRoutine();
 			if(isPremium()) getServer().getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
@@ -80,7 +81,8 @@ public class Main extends JavaPlugin implements Listener {
 		if(!isPremium()) getServer().getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
 			@Override
 			public void run() {
-				logger.info(ChatColor.AQUA + "You're running the free version of BetterEnd. Please consider purchasing the premium version to support the plugin and gain additional features! Follow the instructions here: " + ChatColor.UNDERLINE + "https://github.com/dfsek/BetterEnd-Public/wiki/Premium");
+				logger.info(ChatColor.AQUA + "You're running the free version of BetterEnd. Please consider purchasing the premium version to support the plugin and gain additional features!");
+				logger.info(ChatColor.AQUA +  "More information can be found here: " + ChatColor.UNDERLINE + "https://github.com/dfsek/BetterEnd-Public/wiki/Premium");
 			}
 		}, 120);
 
