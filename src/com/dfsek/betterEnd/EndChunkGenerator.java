@@ -11,6 +11,7 @@ import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.util.noise.SimplexOctaveGenerator;
 
 import com.dfsek.betterend.populators.EnvironmentPopulator;
+import com.dfsek.betterend.populators.MeteorPopulator;
 import com.dfsek.betterend.populators.OrePopulator;
 import com.dfsek.betterend.populators.StructurePopulator;
 
@@ -293,7 +294,8 @@ public class EndChunkGenerator extends ChunkGenerator {
 	}
 	@Override
 	public List<BlockPopulator> getDefaultPopulators(World world) {
-		return Arrays.asList((BlockPopulator) new StructurePopulator(), new EnvironmentPopulator(), new OrePopulator());
+		if(Main.isPremium()) return Arrays.asList((BlockPopulator) new MeteorPopulator(), new StructurePopulator(), new EnvironmentPopulator(), new OrePopulator());
+		else return Arrays.asList((BlockPopulator) new StructurePopulator(), new EnvironmentPopulator(), new OrePopulator());
 	}
 
 }

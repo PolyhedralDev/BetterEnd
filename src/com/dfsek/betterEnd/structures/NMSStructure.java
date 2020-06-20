@@ -41,6 +41,30 @@ public class NMSStructure {
 
 
 	}
+	
+	/**
+	 * Load a structure from a packaged NBT structure file sans permutation.
+	 * @param name - The structure name
+	 * @return NMSStructure - The structure object
+	 */
+	public NMSStructure(Location origin, String name) {
+		Object structure;
+		try {
+			structure = NMSReflectorUtil.definedStructureConstructor.newInstance();
+			NMSReflectorUtil.loadStructure.invoke(structure, NMSReflectorUtil.loadNBTStreamFromInputStream.invoke(NMSReflectorUtil.nbtStreamToolsClass, main.getResource("struc/" + name  + ".nbt")));
+
+			Object tag = NMSReflectorUtil.getStructureAsNBTMethod.invoke(structure, NMSReflectorUtil.compoundNBTConstructor.newInstance());
+			this.dimension = new int[] {(int) NMSReflectorUtil.getNBTListItemMethod.invoke(NMSReflectorUtil.getNBTListMethod.invoke(tag, "size", 3), 0),
+					(int) NMSReflectorUtil.getNBTListItemMethod.invoke(NMSReflectorUtil.getNBTListMethod.invoke(tag, "size", 3), 1), 
+					(int) NMSReflectorUtil.getNBTListItemMethod.invoke(NMSReflectorUtil.getNBTListMethod.invoke(tag, "size", 3), 2)};
+			this.structure = structure;
+			this.origin = origin;
+			this.name = name;
+			this.permutation = -1;
+		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+			e.printStackTrace();
+		}
+	}
 
 	/**
 	 * Gets origin of a structure.

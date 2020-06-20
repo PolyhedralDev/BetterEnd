@@ -121,10 +121,11 @@ public class LootTable {
 					if(main.config.getBoolean("debug")) System.out.println("[BetterEnd] "+ itemname + " x" + count + ", durability=" + itemDurability + ", enchant lvl=" + enchant);
 					try {
 						ItemStack randomItem = new ItemStack(Material.valueOf(itemname.toUpperCase()), count);
+						if(enchant != 0) randomItem = randomEnchantment(randomItem, enchant, random);
 						Damageable damage = (Damageable) randomItem.getItemMeta();
 						damage.setDamage((int) (Material.valueOf(itemname.toUpperCase()).getMaxDurability()-(itemDurability/100)*Material.valueOf(itemname.toUpperCase()).getMaxDurability()));
 						randomItem.setItemMeta((ItemMeta) damage);
-						if(enchant != 0) randomItem = randomEnchantment(randomItem, enchant, random);
+						
 						BlockState blockState = location.getBlock().getState();
 						Container container = (Container) blockState;
 						Inventory containerInventory = container.getInventory();

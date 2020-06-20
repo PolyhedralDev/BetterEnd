@@ -26,6 +26,7 @@ import org.bukkit.util.noise.SimplexOctaveGenerator;
 import com.dfsek.betterend.Main;
 import com.dfsek.betterend.structures.LootTable;
 import com.dfsek.betterend.structures.NMSStructure;
+import com.dfsek.betterend.structures.fortress.Fortress;
 
 
 public class StructurePopulator extends BlockPopulator {
@@ -41,7 +42,7 @@ public class StructurePopulator extends BlockPopulator {
 
 	@Override
 	public void populate(World world, Random random, Chunk chunk) {
-		//if(chunk.getX() == 0 && chunk.getZ() == 0) generateFortress(new Location(world, 0, 128, 0));
+		if(chunk.getX() == 0 && chunk.getZ() == 0) new Fortress(4, random).build(new Location(world, 0, 96, 0));
 		if(!(Math.abs(chunk.getX()) > 20 || Math.abs(chunk.getZ()) > 20 || allAether)) return;
 		int X = random.nextInt(15);
 		int Z = random.nextInt(15);
@@ -111,11 +112,15 @@ public class StructurePopulator extends BlockPopulator {
 			return;
 		} else if(!("SHATTERED_END".equals(biome) || "SHATTERED_FOREST".equals(biome))) {
 			if(random.nextInt(100) < structureChance) {
-				int[] weights = {config.getInt("structure-weight.end.end_house", 32), config.getInt("structure-weight.end.shulker_nest", 32), config.getInt("structure-weight.end.stronghold", 30), config.getInt("structure-weight.end.end_ship", 6), config.getInt("structure-weight.end.end_tower", 32)};
-				String structureName = chooseOnWeight(new String[] {"end_house", "shulker_nest", "stronghold", "end_ship", "end_tower"}, weights);
+				int[] weights = {config.getInt("structure-weight.end.end_house", 32), config.getInt("structure-weight.end.shulker_nest", 19), config.getInt("structure-weight.end.stronghold", 19), config.getInt("structure-weight.end.end_ship", 6), config.getInt("structure-weight.end.end_tower", 19), config.getInt("structure-weight.aether.wrecked_end_ship", 19)};
+				String structureName = chooseOnWeight(new String[] {"end_house", "shulker_nest", "stronghold", "end_ship", "end_tower", "wrecked_end_ship"}, weights);
 
 				switch(structureName) {
 				case "end_house":
+					permutation = random.nextInt(3);
+					Y = Y - 8;
+					break;
+				case "wrecked_end_ship":
 					permutation = random.nextInt(3);
 					Y = Y - 4;
 					break;
