@@ -8,17 +8,17 @@
         	<fileset file="config.yml"></fileset>
         </jar>
     	<jar destfile="target/${ant.project.name}-free.jar">
-    					
-    		            <fileset dir="bin">
-    		            	<exclude name="**/Tree*.class"/>
-    		            	<exclude name="**/MythicSpawns*.class"/>
-    		            	<exclude name="**/Premium*.class"/>
-    		            	<exclude name="**/EndAdvancementUtil*.class"/>
-    		            	<exclude name="**/MeteorPopulator*.class"/>
-    		            	<exclude name="**/Fortress*.class"/>
-    		            </fileset>
-    		            <fileset file="plugin.yml"></fileset>
-    		        	<fileset file="config.yml"></fileset>
-    		        </jar>
+    		<fileset dir="bin">
+    			<exclude name="**/Tree*.class"/>
+    			<exclude name="**/MythicSpawns*.class"/>
+    			<exclude name="**/Premium*.class"/>
+    			<exclude name="**/EndAdvancementUtil*.class"/>
+    			<exclude name="**/CustomStructurePopulator*.class"/>
+    			<exclude name="**/Fortress*.class"/>
+    			<exclude name="**/end_fortress*.nbt"/>
+    		</fileset>
+    		<fileset file="plugin.yml"></fileset>
+    		<fileset file="config.yml"></fileset>
+    	</jar>
     </target>
 </project> 

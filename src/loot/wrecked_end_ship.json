@@ -50,8 +50,8 @@
                         {
                             "function": "set_damage",
                             "damage": {
-                                "min": 0.33,
-                                "max": 0.9
+                                "min": 33,
+                                "max": 90
                             }
                         }
                     ]
@@ -72,8 +72,8 @@
                         {
                             "function": "set_damage",
                             "damage": {
-                                "min": 0.33,
-                                "max": 0.9
+                                "min": 33,
+                                "max": 90
                             }
                         }
                     ]
@@ -94,8 +94,8 @@
                         {
                             "function": "set_damage",
                             "damage": {
-                                "min": 0.33,
-                                "max": 0.9
+                                "min": 33,
+                                "max": 90
                             }
                         }
                     ]
@@ -116,8 +116,8 @@
                         {
                             "function": "set_damage",
                             "damage": {
-                                "min": 0.33,
-                                "max": 0.9
+                                "min": 33,
+                                "max": 90
                             }
                         }
                     ]
@@ -138,8 +138,8 @@
                         {
                             "function": "set_damage",
                             "damage": {
-                                "min": 0.33,
-                                "max": 0.9
+                                "min": 33,
+                                "max": 90
                             }
                         }
                     ]
@@ -160,8 +160,8 @@
                         {
                             "function": "set_damage",
                             "damage": {
-                                "min": 0.33,
-                                "max": 0.9
+                                "min": 33,
+                                "max": 90
                             }
                         }
                     ]
@@ -182,8 +182,8 @@
                         {
                             "function": "set_damage",
                             "damage": {
-                                "min": 0.33,
-                                "max": 0.9
+                                "min": 33,
+                                "max": 90
                             }
                         }
                     ]
@@ -204,8 +204,8 @@
                         {
                             "function": "set_damage",
                             "damage": {
-                                "min": 0.33,
-                                "max": 0.9
+                                "min": 33,
+                                "max": 90
                             }
                         }
                     ]
@@ -226,8 +226,8 @@
                         {
                             "function": "set_damage",
                             "damage": {
-                                "min": 0.33,
-                                "max": 0.9
+                                "min": 33,
+                                "max": 90
                             }
                         }
                     ]
@@ -248,8 +248,8 @@
                         {
                             "function": "set_damage",
                             "damage": {
-                                "min": 0.33,
-                                "max": 0.9
+                                "min": 33,
+                                "max": 90
                             }
                         }
                     ]
@@ -270,8 +270,8 @@
                         {
                             "function": "set_damage",
                             "damage": {
-                                "min": 0.33,
-                                "max": 0.9
+                                "min": 33,
+                                "max": 90
                             }
                         }
                     ]
@@ -292,8 +292,8 @@
                         {
                             "function": "set_damage",
                             "damage": {
-                                "min": 0.33,
-                                "max": 0.9
+                                "min": 33,
+                                "max": 90
                             }
                         }
                     ]
@@ -314,8 +314,8 @@
                         {
                             "function": "set_damage",
                             "damage": {
-                                "min": 0.33,
-                                "max": 0.9
+                                "min": 33,
+                                "max": 90
                             }
                         }
                     ]
@@ -336,8 +336,8 @@
                         {
                             "function": "set_damage",
                             "damage": {
-                                "min": 0.33,
-                                "max": 0.9
+                                "min": 33,
+                                "max": 90
                             }
                         }
                     ]
@@ -358,8 +358,8 @@
                         {
                             "function": "set_damage",
                             "damage": {
-                                "min": 0.33,
-                                "max": 0.9
+                                "min": 33,
+                                "max": 90
                             }
                         }
                     ]
@@ -380,8 +380,8 @@
                         {
                             "function": "set_damage",
                             "damage": {
-                                "min": 0.33,
-                                "max": 0.9
+                                "min": 33,
+                                "max": 90
                             }
                         }
                     ]

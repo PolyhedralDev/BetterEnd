@@ -1,5 +1,6 @@
 package com.dfsek.betterend.structures;
 
+import java.io.FileInputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Random;
 
@@ -60,6 +61,25 @@ public class NMSStructure {
 			this.structure = structure;
 			this.origin = origin;
 			this.name = name;
+			this.permutation = -1;
+		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public NMSStructure(Location origin, FileInputStream file) {
+		Object structure;
+		try {
+			structure = NMSReflectorUtil.definedStructureConstructor.newInstance();
+			NMSReflectorUtil.loadStructure.invoke(structure, NMSReflectorUtil.loadNBTStreamFromInputStream.invoke(NMSReflectorUtil.nbtStreamToolsClass, file));
+
+			Object tag = NMSReflectorUtil.getStructureAsNBTMethod.invoke(structure, NMSReflectorUtil.compoundNBTConstructor.newInstance());
+			this.dimension = new int[] {(int) NMSReflectorUtil.getNBTListItemMethod.invoke(NMSReflectorUtil.getNBTListMethod.invoke(tag, "size", 3), 0),
+					(int) NMSReflectorUtil.getNBTListItemMethod.invoke(NMSReflectorUtil.getNBTListMethod.invoke(tag, "size", 3), 1), 
+					(int) NMSReflectorUtil.getNBTListItemMethod.invoke(NMSReflectorUtil.getNBTListMethod.invoke(tag, "size", 3), 2)};
+			this.structure = structure;
+			this.origin = origin;
+			this.name = null;
 			this.permutation = -1;
 		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 			e.printStackTrace();

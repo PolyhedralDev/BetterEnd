@@ -7,18 +7,17 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.generator.BlockPopulator;
 
-import com.dfsek.betterend.Main;
+import com.dfsek.betterend.ConfigUtil;
 
 public class OrePopulator extends BlockPopulator {
-	private Main main = Main.getInstance();
 	@Override
 	public void populate(World world, Random random, Chunk chunk) {
 
 		int X;
 		int Y;
 		int Z;
-		if(!main.getConfig().getBoolean("aether.ores.enable-ores")) return;
-		for (int i = 1; i < main.getConfig().getInt("aether.ores.ore-chance", 20); i++) {  // Number of tries
+		if(!ConfigUtil.DO_AETHER_ORES) return;
+		for (int i = 1; i < ConfigUtil.AETHER_ORE_CHANCE; i++) {  // Number of tries
 			int decisionVal = random.nextInt(100); 
 			X = random.nextInt(15);
 			Z = random.nextInt(15);

@@ -13,7 +13,6 @@ import org.bukkit.block.BlockState;
 import org.bukkit.block.Chest;
 import org.bukkit.block.Container;
 import org.bukkit.block.DoubleChest;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Shulker;
 import org.bukkit.generator.BlockPopulator;
 import org.bukkit.inventory.Inventory;
@@ -23,27 +22,19 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.util.noise.SimplexOctaveGenerator;
 
+import com.dfsek.betterend.ConfigUtil;
 import com.dfsek.betterend.Main;
 import com.dfsek.betterend.structures.LootTable;
 import com.dfsek.betterend.structures.NMSStructure;
-import com.dfsek.betterend.structures.fortress.Fortress;
 
 
 public class StructurePopulator extends BlockPopulator {
 	private static Main main = Main.getInstance();
-	private FileConfiguration config = main.getConfig();
-	private int shulkerSpawns = config.getInt("outer-islands.structures.shulker-nest.shulker-spawn-attempts", 8);
-	private boolean allAether = config.getBoolean("all-aether", false);
-	private int structureChance = config.getInt("outer-islands.structures.chance-per-chunk", 6);
-	private int ruinChance = config.getInt("outer-islands.ruins.chance-per-chunk", 30);
-	private int cloudHeight = config.getInt("aether.clouds.cloud-height", 128);
-	private int biomeSize = main.getConfig().getInt("outer-islands.biome-size"); 
-	private int baseH = main.getConfig().getInt("outer-islands.island-height", 64);
 
 	@Override
 	public void populate(World world, Random random, Chunk chunk) {
-		if(chunk.getX() == 0 && chunk.getZ() == 0) new Fortress(4, random).build(new Location(world, 0, 96, 0));
-		if(!(Math.abs(chunk.getX()) > 20 || Math.abs(chunk.getZ()) > 20 || allAether)) return;
+		//if(chunk.getX() == 0 && chunk.getZ() == 0) new Fortress(4, random).build(new Location(world, 0, 96, 0));
+		if(!(Math.abs(chunk.getX()) > 20 || Math.abs(chunk.getZ()) > 20 || ConfigUtil.ALL_AETHER)) return;
 		int X = random.nextInt(15);
 		int Z = random.nextInt(15);
 		if(chunk.getX()*16+X >= 29999900 || chunk.getZ()*16+Z >= 29999900) return;
@@ -57,18 +48,17 @@ public class StructurePopulator extends BlockPopulator {
 				chunk.getBlock(X, Y, Z).getType() != Material.STONE &&
 				chunk.getBlock(X, Y, Z).getType() != Material.COARSE_DIRT) && Y>0; Y--);
 		String biome = Main.getBiome(chunk.getX()*16+X, chunk.getZ()*16+Z, world.getSeed());
-		if(Y < baseH-1 && !biome.contentEquals("STARFIELD")) return;
+		if(Y < ConfigUtil.ISLAND_HEIGHT-1 && !"STARFIELD".equals(biome)) return;
 		int permutation = 0;
 		boolean ground = false;
 		boolean overrideSpawnCheck = false;
 
 		SimplexOctaveGenerator biomeGenerator = new SimplexOctaveGenerator(world.getSeed(), 4);
-		double biomeNoiseLvl = biomeGenerator.noise((double) (chunk.getX()*16+X)/biomeSize, (double) (chunk.getZ()*16+Z)/biomeSize, 0.5D, 0.5D);
+		double biomeNoiseLvl = biomeGenerator.noise((double) (chunk.getX()*16+X)/ConfigUtil.BIOME_SIZE, (double) (chunk.getZ()*16+Z)/ConfigUtil.BIOME_SIZE, 0.5D, 0.5D);
 
-		if(biomeNoiseLvl > 0.5 || allAether) {
-			if(random.nextInt(100) < structureChance) {
-				int[] weights = {config.getInt("structure-weight.aether.gold_dungeon", 2), config.getInt("structure-weight.aether.cobble_house", 49), config.getInt("structure-weight.aether.wood_house", 49)};
-				String structureName = chooseOnWeight(new String[] {"gold_dungeon", "cobble_house", "wood_house"}, weights);
+		if(biomeNoiseLvl > 0.5 || ConfigUtil.ALL_AETHER) {
+			if(random.nextInt(100) < ConfigUtil.STRUCTURE_CHANCE) {
+				String structureName = chooseOnWeight(new String[] {"gold_dungeon", "cobble_house", "wood_house"}, ConfigUtil.AETHER_STRUCTURE_WEIGHTS);
 
 				switch(structureName) {
 				case "cobble_house":
@@ -76,44 +66,25 @@ public class StructurePopulator extends BlockPopulator {
 					break;
 				case "wood_house":
 					Y--;
-					permutation = random.nextInt(4);
+					if("AETHER_HIGHLANDS".equals(biome) || "AETHER_HIGHLANDS_FOREST".equals(biome)) structureName = "spruce_house";
+					permutation = random.nextInt(5);
 					break;
 				case "gold_dungeon":
 					overrideSpawnCheck = true;
-					Y = cloudHeight;
+					Y = ConfigUtil.CLOUD_HEIGHT;
 					break;
 				default:
 				}
 				structure = new NMSStructure(new Location(world, chunk.getX()*16+X, Y, chunk.getZ()*16+Z), structureName, permutation);
-			} else if(random.nextInt(100) < ruinChance) {
+			} else if(random.nextInt(100) < ConfigUtil.RUIN_CHANCE) {
 				structure = new NMSStructure(new Location(world, chunk.getX()*16+X, Y, chunk.getZ()*16+Z), "aether_ruin", random.nextInt(18));
 			} else return;
 		} else if("STARFIELD".equals(biome)) {
-			Y = random.nextInt(world.getMaxHeight()-20)+10;
-			NMSStructure s1 = new NMSStructure(new Location(world, chunk.getX()*16+random.nextInt(16), Y, chunk.getZ()*16+random.nextInt(16)), "void_star", random.nextInt(4));
-			Y = random.nextInt(world.getMaxHeight()-20)+10;
-			if(random.nextInt(100) < 25) {
-				NMSStructure s2 = new NMSStructure(new Location(world, chunk.getX()*16+random.nextInt(16), Y, chunk.getZ()*16+random.nextInt(16)), "void_star", random.nextInt(4));
-				boolean p2 = true;
-				for(Location l : getLocationListBetween(s2.getBoundingLocations()[0], s2.getBoundingLocations()[1])) {
-					if(!l.getBlock().isEmpty() || !Main.getBiome(l.getBlockX(), l.getBlockZ(), l.getWorld().getSeed()).equals("STARFIELD")) {
-						p2 = false;
-					}
-				}
-				if(p2) s2.paste();
-			}
-			boolean p1 = true;
-			for(Location l : getLocationListBetween(s1.getBoundingLocations()[0], s1.getBoundingLocations()[1])) {
-				if(!l.getBlock().isEmpty() || !Main.getBiome(l.getBlockX(), l.getBlockZ(), l.getWorld().getSeed()).equals("STARFIELD")) {
-					p1 = false;
-				}
-			}
-			if(p1) s1.paste();
+			genStars(random, chunk, world);
 			return;
 		} else if(!("SHATTERED_END".equals(biome) || "SHATTERED_FOREST".equals(biome))) {
-			if(random.nextInt(100) < structureChance) {
-				int[] weights = {config.getInt("structure-weight.end.end_house", 32), config.getInt("structure-weight.end.shulker_nest", 19), config.getInt("structure-weight.end.stronghold", 19), config.getInt("structure-weight.end.end_ship", 6), config.getInt("structure-weight.end.end_tower", 19), config.getInt("structure-weight.aether.wrecked_end_ship", 19)};
-				String structureName = chooseOnWeight(new String[] {"end_house", "shulker_nest", "stronghold", "end_ship", "end_tower", "wrecked_end_ship"}, weights);
+			if(random.nextInt(100) < ConfigUtil.STRUCTURE_CHANCE) {
+				String structureName = chooseOnWeight(new String[] {"end_house", "shulker_nest", "stronghold", "end_ship", "end_tower", "wrecked_end_ship"}, ConfigUtil.END_STRUCTURE_WEIGHTS);
 
 				switch(structureName) {
 				case "end_house":
@@ -137,14 +108,14 @@ public class StructurePopulator extends BlockPopulator {
 				case "end_ship":
 					overrideSpawnCheck = true;
 					permutation = random.nextInt(8);
-					Y = cloudHeight + (random.nextInt(32)-16);
+					Y = ConfigUtil.CLOUD_HEIGHT + (random.nextInt(32)-16);
 					break;
 				default:
 				}
 				structure = new NMSStructure(new Location(world, chunk.getX()*16+X, Y, chunk.getZ()*16+Z), structureName, permutation);
 			} else return;
 		} else {
-			if(random.nextInt(100) < structureChance) {
+			if(random.nextInt(100) < ConfigUtil.STRUCTURE_CHANCE) {
 				structure = new NMSStructure(new Location(world, chunk.getX()*16+X, Y - (random.nextInt(16)+8), chunk.getZ()*16+Z), "stronghold", 0);
 			} else return;
 		}
@@ -159,6 +130,28 @@ public class StructurePopulator extends BlockPopulator {
 			if(!"aether_ruin".equals(structure.getName())) System.out.println("[BetterEnd] Generating structure \"" + structure.getName() + "\",  at " + b[0].getX() + ", " + b[0].getY() + ", " + b[0].getZ() + ". Dimensions: X: "+  dimension[0] + ", Y: " + dimension[1] + ", Z: " + dimension[2]);
 			fillInventories(getChestsIn(b[0], b[1]), random, structure);        
 		}
+	}
+	private void genStars(Random random, Chunk chunk, World world) {
+		int Y = random.nextInt(world.getMaxHeight()-20)+10;
+		NMSStructure s1 = new NMSStructure(new Location(world, chunk.getX()*16+random.nextInt(16), Y, chunk.getZ()*16+random.nextInt(16)), "void_star", random.nextInt(4));
+		Y = random.nextInt(world.getMaxHeight()-20)+10;
+		if(random.nextInt(100) < 25) {
+			NMSStructure s2 = new NMSStructure(new Location(world, chunk.getX()*16+random.nextInt(16), Y, chunk.getZ()*16+random.nextInt(16)), "void_star", random.nextInt(4));
+			boolean p2 = true;
+			for(Location l : getLocationListBetween(s2.getBoundingLocations()[0], s2.getBoundingLocations()[1])) {
+				if(!l.getBlock().isEmpty() || !Main.getBiome(l.getBlockX(), l.getBlockZ(), l.getWorld().getSeed()).equals("STARFIELD")) {
+					p2 = false;
+				}
+			}
+			if(p2) s2.paste();
+		}
+		boolean p1 = true;
+		for(Location l : getLocationListBetween(s1.getBoundingLocations()[0], s1.getBoundingLocations()[1])) {
+			if(!l.getBlock().isEmpty() || !Main.getBiome(l.getBlockX(), l.getBlockZ(), l.getWorld().getSeed()).equals("STARFIELD")) {
+				p1 = false;
+			}
+		}
+		if(p1) s1.paste();
 	}
 	private void randomCobwebs(List<Location> locationsAll, Random random) {
 		for(int i = 0; i < (locationsAll.size()/12)+1; i++) {
@@ -182,7 +175,7 @@ public class StructurePopulator extends BlockPopulator {
 		}
 	}
 	private void spawnShulkers(List<Location> locationsAll, Random random, World world) {
-		for(int i = 0; i < shulkerSpawns; i++) {
+		for(int i = 0; i < ConfigUtil.SHULKER_SPAWNS; i++) {
 			boolean done = false;
 			int attempts = 0;
 			while(!done) {
@@ -214,7 +207,7 @@ public class StructurePopulator extends BlockPopulator {
 					Chest chest = (Chest) location.getBlock().getState();
 					chest.getPersistentDataContainer().set(key, PersistentDataType.INTEGER, (int) (structure.getRotation()/90));
 					chest.update();
-					if(config.getBoolean("aether.mythic-boss.enable", false)) table = new LootTable("gold_dungeon_boss");
+					if(ConfigUtil.ENABLE_MYTHIC_BOSS) table = new LootTable("gold_dungeon_boss");
 				}
 				table.populateChest(location, random);
 			}

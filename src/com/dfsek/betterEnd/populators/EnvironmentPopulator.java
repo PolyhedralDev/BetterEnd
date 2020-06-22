@@ -13,24 +13,12 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.generator.BlockPopulator;
 import org.bukkit.util.noise.SimplexOctaveGenerator;
 
+import com.dfsek.betterend.ConfigUtil;
 import com.dfsek.betterend.Main;
 import com.dfsek.betterend.structures.ShatteredTree;
 import com.dfsek.betterend.structures.Tree;
 
 public class EnvironmentPopulator extends BlockPopulator {
-	private Main main = Main.getInstance();
-	private int min = main.getConfig().getInt("trees.min-per-chunk");
-	private int max = main.getConfig().getInt("trees.max-per-chunk");
-	private int herdChance = main.getConfig().getInt("aether.animals.herd-chance-per-chunk", 15);
-	private int herdMin = main.getConfig().getInt("aether.animals.herd-min-size", 2);
-	private int herdMax = main.getConfig().getInt("aether.animals.herd-max-size", 5);
-	private int obMax = main.getConfig().getInt("trees.obsidian-pillars.max-height");
-	private int obMin = main.getConfig().getInt("trees.obsidian-pillars.min-height");
-	private int heatNoise = main.getConfig().getInt("outer-islands.heat-noise");
-	private int biomeSize = main.getConfig().getInt("outer-islands.biome-size");
-	private boolean allAether = main.getConfig().getBoolean("all-aether", false);
-	private int baseH = main.getConfig().getInt("outer-islands.island-height", 64);
-
 	@SuppressWarnings("deprecation")
 	public void populate(World world, Random random, Chunk chunk) {
 		//taiga
@@ -39,14 +27,14 @@ public class EnvironmentPopulator extends BlockPopulator {
 		SimplexOctaveGenerator biomeGenerator = new SimplexOctaveGenerator(world.getSeed(), 4);
 		for(int X = 0; X < 16; X++) {
 			for(int Z = 0; Z < 16; Z++) {
-				double biomeNoiseLvl = biomeGenerator.noise((double) (chunk.getX()*16+X)/biomeSize, (double) (chunk.getZ()*16+Z)/biomeSize, 0.5D, 0.5D);
-				double heatNoiseLvl = biomeGenerator.noise((double) (chunk.getX()*16+X)/heatNoise, (double) (chunk.getZ()*16+Z)/heatNoise, 0.5D, 0.5D);
+				double biomeNoiseLvl = biomeGenerator.noise((double) (chunk.getX()*16+X)/ConfigUtil.BIOME_SIZE, (double) (chunk.getZ()*16+Z)/ConfigUtil.BIOME_SIZE, 0.5D, 0.5D);
+				double heatNoiseLvl = biomeGenerator.noise((double) (chunk.getX()*16+X)/ConfigUtil.HEAT_NOISE, (double) (chunk.getZ()*16+Z)/ConfigUtil.HEAT_NOISE, 0.5D, 0.5D);
 				int Y;
 				for (Y = world.getMaxHeight()-1; (chunk.getBlock(X, Y, Z).getType() != Material.SPRUCE_LEAVES) && Y>0; Y--);
 				if(heatNoiseLvl < -0.5 && random.nextInt(100) < -50*(heatNoiseLvl+0.5) && chunk.getBlock(X, Y, Z).getType() == Material.SPRUCE_LEAVES) {
 					chunk.getBlock(X, Y+1, Z).setType(Material.SNOW);
 				}
-				if(heatNoiseLvl < -0.5 && (biomeNoiseLvl > 0.5 || allAether)) {
+				if(heatNoiseLvl < -0.5 && (biomeNoiseLvl > 0.5 || ConfigUtil.ALL_AETHER)) {
 					world.setBiome(chunk.getX()*16+X, chunk.getZ()*16+Z, Biome.TAIGA);
 
 					if(random.nextInt(1000) < 2) {
@@ -61,8 +49,8 @@ public class EnvironmentPopulator extends BlockPopulator {
 		}
 
 		//animals
-		if(random.nextInt(100) < herdChance) {
-			int size = random.nextInt(herdMax-herdMin)+herdMin;
+		if(random.nextInt(100) < ConfigUtil.HERD_CHANCE) {
+			int size = random.nextInt(ConfigUtil.MAX_HERD-ConfigUtil.MIN_HERD)+ConfigUtil.MIN_HERD;
 			EntityType type;
 			switch(random.nextInt(3)) {
 			case 0:
@@ -87,14 +75,15 @@ public class EnvironmentPopulator extends BlockPopulator {
 		}
 	}
 	private void populateTrees(Random random, Chunk chunk, World world) {
-		int amount = random.nextInt(max-min)+min;  // Amount of trees
-		if((Math.abs(chunk.getX()) > 20 || Math.abs(chunk.getZ()) > 20) || allAether)
+		int amount = random.nextInt(ConfigUtil.MAX_TREES-ConfigUtil.MIN_TREES)+ConfigUtil.MIN_TREES;  // Amount of trees
+		if((Math.abs(chunk.getX()) > 20 || Math.abs(chunk.getZ()) > 20) || ConfigUtil.ALL_AETHER)
 			for (int i = 0; i < amount; i++) {
 				int X = random.nextInt(15);
 				int Z = random.nextInt(15);
 				int Y;
-				for (Y = world.getMaxHeight()-1; chunk.getBlock(X, Y, Z).getType() == Material.AIR && Y>0; Y--); // Find the highest block of the (X,Z) coordinate chosen.
-				if (Y > baseH-1 && Y < 255) {
+				for (Y = world.getMaxHeight()-1; (chunk.getBlock(X, Y, Z).getType() == Material.AIR ||
+						chunk.getBlock(X, Y, Z).getType() == Material.WHITE_STAINED_GLASS) && Y>0; Y--); // Find the highest block of the (X,Z) coordinate chosen.
+				if (Y > ConfigUtil.ISLAND_HEIGHT-1 && Y < 255) {
 					Location blockLocation = chunk.getBlock(X, Y, Z).getLocation();
 					switch(Main.getBiome(blockLocation.getBlockX(), blockLocation.getBlockZ(), world.getSeed())) {
 					case "AETHER":
@@ -159,8 +148,8 @@ public class EnvironmentPopulator extends BlockPopulator {
 							if(random.nextInt(100) < 60) {
 								plantShatteredPillar(random, chunk, world, new int[] {X, Y, Z});
 							} else {
-								int upBound = (int) (random.nextInt((int) ((obMax*0.75)-(obMin*0.75)))+(obMin*0.75));
-								int lowBound = (int) (random.nextInt((int) ((obMax*0.75)-(obMin*0.75)))+(obMin*0.75));
+								int upBound = (int) (random.nextInt((int) ((ConfigUtil.OBSIDIAN_PILLAR_MAX_HEIGHT*0.75)-(ConfigUtil.OBSIDIAN_PILLAR_MIN_HEIGHT*0.75)))+(ConfigUtil.OBSIDIAN_PILLAR_MIN_HEIGHT*0.75));
+								int lowBound = (int) (random.nextInt((int) ((ConfigUtil.OBSIDIAN_PILLAR_MAX_HEIGHT*0.75)-(ConfigUtil.OBSIDIAN_PILLAR_MIN_HEIGHT*0.75)))+(ConfigUtil.OBSIDIAN_PILLAR_MIN_HEIGHT*0.75));
 								for(int j = -lowBound; j < upBound; j++) {
 									world.getBlockAt((chunk.getX()*16)+X, Y+j, (chunk.getZ()*16)+Z).setType(Material.OBSIDIAN);
 								}
@@ -188,8 +177,8 @@ public class EnvironmentPopulator extends BlockPopulator {
 		int X = coords[0];
 		int Y = coords[1];
 		int Z = coords[2];
-		int[] upBound = {random.nextInt(obMax-obMin)+obMin, 0, 0, 0};
-		int[] lowBound = {random.nextInt(obMax-obMin)+obMin, 0, 0, 0};
+		int[] upBound = {random.nextInt((int) ((ConfigUtil.OBSIDIAN_PILLAR_MAX_HEIGHT*0.75)-(ConfigUtil.OBSIDIAN_PILLAR_MIN_HEIGHT*0.75))), 0, 0, 0};
+		int[] lowBound = {random.nextInt((int) ((ConfigUtil.OBSIDIAN_PILLAR_MAX_HEIGHT*0.75)-(ConfigUtil.OBSIDIAN_PILLAR_MIN_HEIGHT*0.75))), 0, 0, 0};
 		int maxH = 0;
 		int maxHVal = upBound[0];
 		for(int j = 1; j < upBound.length; j++) {

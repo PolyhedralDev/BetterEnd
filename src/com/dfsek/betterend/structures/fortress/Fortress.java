@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Random;
 
 import org.bukkit.Location;
+import org.bukkit.Material;
 
 import com.dfsek.betterend.structures.NMSStructure;
 
@@ -16,56 +17,49 @@ public class Fortress {
 	public Fortress(int size, Random random) {
 		this.random = random;
 		this.size = size;
-		for(int i = 0; i < size; i++) {
-			this.nodes.add(new ArrayList<FortressNode>());
-			for(int j = 0; j < size; j++) {
-				this.nodes.get(i).add(new FortressNode(random.nextBoolean() ? FortressNodeType.NODE_BLANK : (random.nextBoolean() ? FortressNodeType.NODE_1WAY : FortressNodeType.NODE_2WAY), FortressPartRotation.NONE));
-			}
-		}
-	}
-	public FortressNode getNodeAt(int X, int Z) {
-		if(X > size || Z > size) throw new IllegalArgumentException("Requested node out of bounds!");
-		return nodes.get(X).get(Z);
-	}
-	public int getSize() {
-		return this.size;
 	}
 	public void build(Location origin) {
+		new NMSStructure(origin.clone(), "end_fortress/end_fortress_b_cross_" + random.nextInt(2)).paste();
 		int x = 0;
-		for(List<FortressNode> nodeList : nodes) {
-			int z = 0;
-			for(FortressNode node : nodeList) {
-				if(node.getType() != FortressNodeType.NODE_BLANK) {
-					NMSStructure part = new NMSStructure(origin.clone().add(x*42,0,z*42), "end_fortress/" + getRandomPartName(node.getType()));
-					part.setRotation(getRotationInt(node.getRotation()));
-					part.paste();
-				}
-				z++;
+		int z = 0;
+		origin.getBlock().setType(Material.DIAMOND_BLOCK);
+		origin.clone().add(0,26,0).getBlock().setType(Material.DIAMOND_BLOCK);
+		origin.clone().add(21,26,0).getBlock().setType(Material.DIAMOND_BLOCK);
+		origin.clone().add(0,26,21).getBlock().setType(Material.DIAMOND_BLOCK);
+		origin.clone().add(21,26,21).getBlock().setType(Material.DIAMOND_BLOCK);
+		int counter = 0;
+		while(!isFortressSatisfied(origin.clone()) && counter < 100000) {
+
+			for(Location l : getLocationListBetween(origin.clone().add(size, 26, size), origin.clone().subtract(size, -26, size))) {
+				
+				if(l.getBlock().getType() == Material.BEDROCK) {
+					l.getBlock().setType(Material.AIR);
+				} else l.getBlock().setType(Material.DIAMOND_BLOCK);
 			}
-			x++;
+			counter++;
 		}
-		x = -1;
-		for(List<FortressNode> nodeList : nodes) {
-			int z = -1;
-			for(FortressNode node : nodeList) {
-				node.getClass();
-				new NMSStructure(origin.clone().add(x*42+21,0,z*42+21), "end_fortress/end_fortress_b_cross_" + random.nextInt(2)).paste();
-				new NMSStructure(origin.clone().add(x*42,0,z*42+21), "end_fortress/end_fortress_b_cross_" + random.nextInt(2)).paste();
-				new NMSStructure(origin.clone().add(x*42+21,0,z*42), "end_fortress/end_fortress_b_cross_" + random.nextInt(2)).paste();
-				z++;
+
+	}
+	private boolean isFortressSatisfied(Location origin) {
+		for(Location l : getLocationListBetween(origin.clone().add(size*21, 26, size*21), origin.clone().subtract(size*21, -26, size*21))) {
+			if(l.getBlock().getType() == Material.BEDROCK) return false;
+			//if(l.getBlockY() == origin.getBlockY() + 26) l.getBlock().setType(Material.GLASS);
+			//else l.getBlock().setType(Material.BLUE_STAINED_GLASS);
+		}
+		return true;
+	}
+	private static List<Location> getLocationListBetween(Location loc1, Location loc2){
+		int lowX = Math.min(loc1.getBlockX(), loc2.getBlockX());
+		int lowY = Math.min(loc1.getBlockY(), loc2.getBlockY());
+		int lowZ = Math.min(loc1.getBlockZ(), loc2.getBlockZ());
+
+		List<Location> locs = new ArrayList<>();
+		for(int x = 0; x<= Math.abs(loc1.getBlockX() - loc2.getBlockX()); x++){
+			int y = 26;
+			for(int z = 0; z<= Math.abs(loc1.getBlockZ() - loc2.getBlockZ()); z++){
+				locs.add(new Location(loc1.getWorld(), lowX + x, lowY + y, lowZ + z));
 			}
-			x++;
 		}
-	}
-	public String getRandomPartName(FortressNodeType type) {
-		if(type == FortressNodeType.NODE_1WAY) return new String[] {"end_fortress_n_monument_" + random.nextInt(6), "end_fortress_n_parkour_" + random.nextInt(2)}[random.nextInt(2)]; 
-		else if(type == FortressNodeType.NODE_2WAY) return "end_fortress_n_office_" + random.nextInt(2); 
-		else throw new IllegalArgumentException();
-	}
-	private int getRotationInt(FortressPartRotation rot) {
-		if(rot == FortressPartRotation.NONE) return 0;
-		else if(rot == FortressPartRotation.CW_90_DEG) return 90;
-		else if(rot == FortressPartRotation.R_180_DEG) return 180;
-		return 270;
+		return locs;
 	}
 }

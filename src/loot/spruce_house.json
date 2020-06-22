@@ -9,7 +9,7 @@
                 {
                     "type": "item",
                     "weight": 8,
-                    "name": "oak_planks",
+                    "name": "spruce_planks",
                     "functions": [
                         {
                             "function": "set_count",
@@ -23,7 +23,7 @@
                 {
                     "type": "item",
                     "weight": 6,
-                    "name": "oak_log",
+                    "name": "spruce_log",
                     "functions": [
                         {
                             "function": "set_count",
@@ -636,7 +636,6 @@
                                 "min": 1,
                                 "max": 10
                             }
-                            
                         }
                     ]
                 }

@@ -1,10 +1,5 @@
 package com.dfsek.betterend;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -17,9 +12,7 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.block.Chest;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Enderman;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -66,7 +59,7 @@ public class Main extends JavaPlugin implements Listener {
 
 		this.saveDefaultConfig();
 
-		checkConfig();
+		ConfigUtil.init(logger, this);
 
 		logger.info(" ");
 		logger.info(" ");
@@ -115,45 +108,6 @@ public class Main extends JavaPlugin implements Listener {
 			}
 		});
 	}
-	private void checkConfig() {
-		if(!config.getString("config-version", "null").equals(this.getDescription().getVersion())) {
-			this.getLogger().info("Updating config...");
-			backupConfig();
-			File configBackupFile = new File(getDataFolder() + File.separator + "config.v" + this.getDescription().getVersion() + ".yml");
-			YamlConfiguration configBackup= new YamlConfiguration();
-			YamlConfiguration configDefault= new YamlConfiguration();
-			try {
-				configBackup.load(configBackupFile);
-				File configFile = new File(getDataFolder() + File.separator + "config.yml");
-				if(configFile.delete()) this.getLogger().info("Old config was succesfully deleted.");
-				this.saveDefaultConfig();
-				FileOutputStream writer = new FileOutputStream(new File(getDataFolder() + File.separator + "default.yml"));
-				InputStream out = this.getResource("config.yml");
-				byte[] linebuffer = new byte[4096];
-				int lineLength = 0;
-				while((lineLength = out.read(linebuffer)) > 0)
-				{
-					writer.write(linebuffer, 0, lineLength);
-				}
-				writer.close();
-				File configDefaultFile = new File(getDataFolder() + File.separator + "default.yml");
-				configBackup.load(configBackupFile);
-				configDefault.load(configDefaultFile);
-				this.saveConfig();
-				config = this.getConfig();
-				this.saveConfig();
-				for(String key : configDefault.getKeys(true)) {
-					if(configBackup.get(key) == null) config.set(key, configDefault.get(key));
-					else config.set(key, configBackup.get(key));
-				}
-				config.set("config-version", this.getDescription().getVersion());
-				this.saveConfig();
-
-			} catch (IOException | InvalidConfigurationException e) {
-				e.printStackTrace();
-			}
-		}
-	}
 	@Override
 	public void onDisable() {
 		this.getLogger().info("Thank you for using BetterEnd!");
@@ -199,6 +153,11 @@ public class Main extends JavaPlugin implements Listener {
 		} else if (args.length == 1 && args[0].equalsIgnoreCase("version")) {
 			sender.sendMessage(ChatColor.DARK_AQUA + "[BetterEnd]" + ChatColor.AQUA + " This server is running " + ChatColor.DARK_AQUA + "BetterEnd v" + this.getDescription().getVersion());
 			return true;
+		} else if (args.length == 1 && args[0].equalsIgnoreCase("reload")) {
+			sender.sendMessage(ChatColor.DARK_AQUA + "[BetterEnd]" + ChatColor.AQUA + " Reloading BetterEnd Config...");
+			ConfigUtil.loadConfig(this.getLogger(), this);
+			sender.sendMessage(ChatColor.DARK_AQUA + "[BetterEnd]" + ChatColor.AQUA + " Complete.");
+			return true;
 		}
 		return false;
 	} 
@@ -207,7 +166,7 @@ public class Main extends JavaPlugin implements Listener {
 
 	@Override
 	public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
-		List<String> COMMANDS = Arrays.asList("biome", "tpbiome", "version");
+		List<String> COMMANDS = Arrays.asList("biome", "tpbiome", "version", "reload");
 		List<String> BIOMES = Arrays.asList("AETHER", "END", "SHATTERED_END", "AETHER_HIGHLANDS", "SHATTERED_FOREST", "VOID", "STARFIELD");
 		if(isPremium()) {
 			BIOMES = Arrays.asList("AETHER", "END", "SHATTERED_END", "AETHER_HIGHLANDS", "SHATTERED_FOREST", "AETHER_FOREST", "AETHER_HIGHLANDS_FOREST", "VOID", "STARFIELD");
@@ -227,7 +186,7 @@ public class Main extends JavaPlugin implements Listener {
 
 		}
 
-		return null; // returns an empty list
+		return Arrays.asList(""); // returns an empty list
 	}
 	public static String getBiome(int X, int Z, long l) {
 		SimplexOctaveGenerator biomeGenerator = new SimplexOctaveGenerator(l, 4);
@@ -362,35 +321,5 @@ public class Main extends JavaPlugin implements Listener {
 			return true;
 		} else return false;
 	}
-	public void backupConfig() {
-		FileInputStream inStream = null;
-		FileOutputStream outStream = null;
-
-		try{
-			File inFile = new File(getDataFolder() + File.separator + "config.yml");
-			File outFile = new File(getDataFolder() + File.separator + "config.v" + this.getDescription().getVersion() + ".yml");
-			outFile.createNewFile();
-			inStream = new FileInputStream(inFile);
-			outStream = new FileOutputStream(outFile);
-
-			byte[] buffer = new byte[1024];
-
-			int length;
-			/*copying the contents from input stream to
-			 * output stream using read and write methods
-			 */
-			while ((length = inStream.read(buffer)) > 0){
-				outStream.write(buffer, 0, length);
-			}
-
-			//Closing the input/output file streams
-			inStream.close();
-			outStream.close();
-
-			this.getLogger().info("Config backed up successfully.");
-
-		} catch(IOException e){
-			e.printStackTrace();
-		}
-	}
+	
 }

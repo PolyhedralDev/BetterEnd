@@ -14,8 +14,8 @@
                         {
                             "function": "set_count",
                             "count": {
-                                "min": 3,
-                                "max": 20
+                                "min": 8,
+                                "max": 24
                             }
                         }
                     ]
@@ -28,22 +28,22 @@
                         {
                             "function": "set_count",
                             "count": {
-                                "min": 2,
-                                "max": 8
+                                "min": 4,
+                                "max": 12
                             }
                         }
                     ]
                 },
                 {
                     "type": "item",
-                    "weight": 3,
-                    "name": "cobblestone",
+                    "weight": 4,
+                    "name": "torch",
                     "functions": [
                         {
                             "function": "set_count",
                             "count": {
-                                "min": 2,
-                                "max": 12
+                                "min": 8,
+                                "max": 24
                             }
                         }
                     ]
@@ -56,8 +56,36 @@
                         {
                             "function": "set_count",
                             "count": {
-                                "min": 2,
-                                "max": 14
+                                "min": 8,
+                                "max": 24
+                            }
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "weight": 2,
+                    "name": "coal",
+                    "functions": [
+                        {
+                            "function": "set_count",
+                            "count": {
+                                "min": 4,
+                                "max": 12
+                            }
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "weight": 1,
+                    "name": "charcoal",
+                    "functions": [
+                        {
+                            "function": "set_count",
+                            "count": {
+                                "min": 4,
+                                "max": 12
                             }
                         }
                     ]
@@ -72,6 +100,217 @@
             "entries": [
                 {
                     "type": "item",
+                    "weight": 6,
+                    "name": "iron_helmet",
+                    "functions": [
+                        {
+                            "function": "set_damage",
+                            "damage": {
+                                "min": 33,
+                                "max": 100
+                            }
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "weight": 6,
+                    "name": "iron_chestplate",
+                    "quality": null,
+                    "functions": [
+                        {
+                            "function": "set_damage",
+                            "damage": {
+                                "min": 33,
+                                "max": 100
+                            }
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "weight": 6,
+                    "name": "iron_leggings",
+                    "functions": [
+                        {
+                            "function": "set_damage",
+                            "damage": {
+                                "min": 33,
+                                "max": 100
+                            }
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "weight": 6,
+                    "name": "iron_boots",
+                    "functions": [
+                        {
+                            "function": "set_damage",
+                            "damage": {
+                                "min": 33,
+                                "max": 100
+                            }
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "weight": 6,
+                    "name": "iron_sword",
+                    "functions": [
+                        {
+                            "function": "set_damage",
+                            "damage": {
+                                "min": 33,
+                                "max": 100
+                            }
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "weight": 6,
+                    "name": "iron_pickaxe",
+                    "functions": [
+                        {
+                            "function": "set_damage",
+                            "damage": {
+                                "min": 33,
+                                "max": 100
+                            }
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "weight": 6,
+                    "name": "iron_axe",
+                    "functions": [
+                        {
+                            "function": "set_damage",
+                            "damage": {
+                                "min": 33,
+                                "max": 100
+                            }
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "weight": 6,
+                    "name": "iron_shovel",
+                    "functions": [
+                        {
+                            "function": "set_damage",
+                            "damage": {
+                                "min": 33,
+                                "max": 100
+                            }
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "weight": 6,
+                    "name": "iron_hoe",
+                    "functions": [
+                        {
+                            "function": "set_damage",
+                            "damage": {
+                                "min": 33,
+                                "max": 100
+                            }
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "weight": 4,
+                    "name": "bow",
+                    "functions": [
+                        {
+                            "function": "set_damage",
+                            "damage": {
+                                "min": 33,
+                                "max": 100
+                            }
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "weight": 2,
+                    "name": "diamond_sword",
+                    "functions": [
+                        {
+                            "function": "set_damage",
+                            "damage": {
+                                "min": 33,
+                                "max": 100
+                            }
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "weight": 2,
+                    "name": "diamond_shovel",
+                    "functions": [
+                        {
+                            "function": "set_damage",
+                            "damage": {
+                                "min": 33,
+                                "max": 100
+                            }
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "weight": 2,
+                    "name": "diamond_pickaxe",
+                    "functions": [
+                        {
+                            "function": "set_damage",
+                            "damage": {
+                                "min": 33,
+                                "max": 100
+                            }
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "weight": 2,
+                    "name": "diamond_axe",
+                    "functions": [
+                        {
+                            "function": "set_damage",
+                            "damage": {
+                                "min": 33,
+                                "max": 100
+                            }
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "weight": 2,
+                    "name": "diamond_shovel",
+                    "functions": [
+                        {
+                            "function": "set_damage",
+                            "damage": {
+                                "min": 33,
+                                "max": 100
+                            }
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
                     "weight": 3,
                     "name": "iron_helmet",
                     "functions": [
@@ -81,6 +320,14 @@
                                 "min": 33,
                                 "max": 100
                             }
+                        },
+                        {
+                            "function": "enchant_with_levels",
+                            "levels": {
+                                "min": 1,
+                                "max": 10
+                            },
+                            "treasure": true
                         }
                     ]
                 },
@@ -96,6 +343,14 @@
                                 "min": 33,
                                 "max": 100
                             }
+                        },
+                        {
+                            "function": "enchant_with_levels",
+                            "levels": {
+                                "min": 1,
+                                "max": 10
+                            },
+                            "treasure": true
                         }
                     ]
                 },
@@ -110,6 +365,14 @@
                                 "min": 33,
                                 "max": 100
                             }
+                        },
+                        {
+                            "function": "enchant_with_levels",
+                            "levels": {
+                                "min": 1,
+                                "max": 10
+                            },
+                            "treasure": true
                         }
                     ]
                 },
@@ -124,6 +387,14 @@
                                 "min": 33,
                                 "max": 100
                             }
+                        },
+                        {
+                            "function": "enchant_with_levels",
+                            "levels": {
+                                "min": 1,
+                                "max": 10
+                            },
+                            "treasure": true
                         }
                     ]
                 },
@@ -138,6 +409,14 @@
                                 "min": 33,
                                 "max": 100
                             }
+                        },
+                        {
+                            "function": "enchant_with_levels",
+                            "levels": {
+                                "min": 1,
+                                "max": 10
+                            },
+                            "treasure": true
                         }
                     ]
                 },
@@ -152,6 +431,14 @@
                                 "min": 33,
                                 "max": 100
                             }
+                        },
+                        {
+                            "function": "enchant_with_levels",
+                            "levels": {
+                                "min": 1,
+                                "max": 10
+                            },
+                            "treasure": true
                         }
                     ]
                 },
@@ -166,6 +453,14 @@
                                 "min": 33,
                                 "max": 100
                             }
+                        },
+                        {
+                            "function": "enchant_with_levels",
+                            "levels": {
+                                "min": 1,
+                                "max": 10
+                            },
+                            "treasure": true
                         }
                     ]
                 },
@@ -180,6 +475,14 @@
                                 "min": 33,
                                 "max": 100
                             }
+                        },
+                        {
+                            "function": "enchant_with_levels",
+                            "levels": {
+                                "min": 1,
+                                "max": 10
+                            },
+                            "treasure": true
                         }
                     ]
                 },
@@ -194,6 +497,14 @@
                                 "min": 33,
                                 "max": 100
                             }
+                        },
+                        {
+                            "function": "enchant_with_levels",
+                            "levels": {
+                                "min": 1,
+                                "max": 10
+                            },
+                            "treasure": true
                         }
                     ]
                 },
@@ -208,6 +519,14 @@
                                 "min": 33,
                                 "max": 100
                             }
+                        },
+                        {
+                            "function": "enchant_with_levels",
+                            "levels": {
+                                "min": 1,
+                                "max": 10
+                            },
+                            "treasure": true
                         }
                     ]
                 },
@@ -222,6 +541,14 @@
                                 "min": 33,
                                 "max": 100
                             }
+                        },
+                        {
+                            "function": "enchant_with_levels",
+                            "levels": {
+                                "min": 1,
+                                "max": 10
+                            },
+                            "treasure": true
                         }
                     ]
                 },
@@ -236,6 +563,14 @@
                                 "min": 33,
                                 "max": 100
                             }
+                        },
+                        {
+                            "function": "enchant_with_levels",
+                            "levels": {
+                                "min": 1,
+                                "max": 10
+                            },
+                            "treasure": true
                         }
                     ]
                 },
@@ -250,6 +585,14 @@
                                 "min": 33,
                                 "max": 100
                             }
+                        },
+                        {
+                            "function": "enchant_with_levels",
+                            "levels": {
+                                "min": 1,
+                                "max": 10
+                            },
+                            "treasure": true
                         }
                     ]
                 },
@@ -264,6 +607,14 @@
                                 "min": 33,
                                 "max": 100
                             }
+                        },
+                        {
+                            "function": "enchant_with_levels",
+                            "levels": {
+                                "min": 1,
+                                "max": 10
+                            },
+                            "treasure": true
                         }
                     ]
                 },
@@ -278,6 +629,14 @@
                                 "min": 33,
                                 "max": 100
                             }
+                        },
+                        {
+                            "function": "enchant_with_levels",
+                            "levels": {
+                                "min": 1,
+                                "max": 10
+                            }
+                            
                         }
                     ]
                 }

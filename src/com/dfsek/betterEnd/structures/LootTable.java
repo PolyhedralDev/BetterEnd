@@ -25,6 +25,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import com.dfsek.betterend.ConfigUtil;
 import com.dfsek.betterend.Main;
 
 public class LootTable {
@@ -65,7 +66,7 @@ public class LootTable {
 					sb.append(str);
 				}
 			} catch (IOException e) {
-				e.printStackTrace();
+				main.getLogger().warning("Error retrieving loot table \""  + name + "\"");
 			}
 			json = sb.toString();
 		}
@@ -87,7 +88,7 @@ public class LootTable {
 
 				JSONArray itemArray = (JSONArray) pooldata.get("entries");
 				int rolls = random.nextInt(max-min+1)+min;
-				if(main.config.getBoolean("debug")) System.out.println("[BetterEnd] min: " + min + ", max: " + max + ", " + rolls + " rolls.");
+				if(ConfigUtil.DEBUG) System.out.println("[BetterEnd] min: " + min + ", max: " + max + ", " + rolls + " rolls.");
 
 				for(int i = 0; i < rolls; i++) {
 					int count = 1;
@@ -115,10 +116,10 @@ public class LootTable {
 								}
 							}
 						} catch(ClassCastException e) {
-							if(main.config.getBoolean("debug")) System.out.println("[BetterEnd] Error on item \""+ itemname + "\"");
+							if(ConfigUtil.DEBUG) System.out.println("[BetterEnd] Error on item \""+ itemname + "\"");
 						}
 					}
-					if(main.config.getBoolean("debug")) System.out.println("[BetterEnd] "+ itemname + " x" + count + ", durability=" + itemDurability + ", enchant lvl=" + enchant);
+					if(ConfigUtil.DEBUG) System.out.println("[BetterEnd] "+ itemname + " x" + count + ", durability=" + itemDurability + ", enchant lvl=" + enchant);
 					try {
 						ItemStack randomItem = new ItemStack(Material.valueOf(itemname.toUpperCase()), count);
 						if(enchant != 0) randomItem = randomEnchantment(randomItem, enchant, random);
