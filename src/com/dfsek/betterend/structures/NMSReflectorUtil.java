@@ -8,8 +8,6 @@ import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
 
-import com.dfsek.betterend.Main;
-
 @SuppressWarnings({"unchecked", "rawtypes"})
 public class NMSReflectorUtil {
 	public static String version = Bukkit.getServer().getClass().getPackage().getName().replace(".", ",").split(",")[3];

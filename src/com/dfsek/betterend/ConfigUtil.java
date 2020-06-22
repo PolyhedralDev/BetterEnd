@@ -47,7 +47,7 @@ public class ConfigUtil {
 		logger.info("Loading configuration values...");
 		main.reloadConfig();
 		FileConfiguration config = main.getConfig();
-		SHULKER_SPAWNS = config.getInt("outer-islands.structures.shulker-nest.shulker-spawn-attempts", 8);;
+		SHULKER_SPAWNS = config.getInt("outer-islands.structures.shulker-nest.shulker-spawn-attempts", 8);
 		ALL_AETHER = config.getBoolean("all-aether", false);
 		STRUCTURE_CHANCE = config.getInt("outer-islands.structures.chance-per-chunk", 6);
 		RUIN_CHANCE = config.getInt("outer-islands.ruins.chance-per-chunk", 30);

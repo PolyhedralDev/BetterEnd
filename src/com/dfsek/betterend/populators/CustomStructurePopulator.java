@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -21,27 +20,20 @@ import org.bukkit.block.Container;
 import org.bukkit.block.DoubleChest;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Player;
 import org.bukkit.generator.BlockPopulator;
 import org.bukkit.inventory.InventoryHolder;
-import org.bukkit.util.Vector;
 import org.bukkit.util.noise.SimplexOctaveGenerator;
 
 import com.dfsek.betterend.ConfigUtil;
-import com.dfsek.betterend.EndChunkGenerator;
 import com.dfsek.betterend.Main;
 import com.dfsek.betterend.structures.LootTable;
 import com.dfsek.betterend.structures.NMSStructure;
-
-import io.lumine.xikage.mythicmobs.MythicMobs;
 
 public class CustomStructurePopulator extends BlockPopulator {
 
 	private static Main main = Main.getInstance();
 	private static File configFile = new File(main.getDataFolder() + File.separator + "customStructures.yml");
 	private static YamlConfiguration config = new YamlConfiguration();
-	private static Random random = new Random();
-	private static boolean debug = main.getConfig().getBoolean("debug");
 	private static boolean doGeneration = false;
 	private static int chancePerChunk;
 
@@ -59,14 +51,14 @@ public class CustomStructurePopulator extends BlockPopulator {
 				e.printStackTrace();
 			}
 
-			int chancePerChunk = config.getInt("master-chance-per-chunk", 6);
+			chancePerChunk = config.getInt("master-chance-per-chunk", 6);
 		}
 	}
 
 	@Override
 	public void populate(World world, Random random, Chunk chunk) {
 		try {
-			if(random.nextInt(100) < chancePerChunk) return;
+			if(random.nextInt(100) < chancePerChunk || !doGeneration) return;
 			if(!(Math.abs(chunk.getX()) > 20 || Math.abs(chunk.getZ()) > 20 || ConfigUtil.ALL_AETHER)) return;
 			int X = random.nextInt(15);
 			int Z = random.nextInt(15);
