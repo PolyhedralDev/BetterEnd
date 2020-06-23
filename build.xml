@@ -16,6 +16,7 @@
     			<exclude name="**/CustomStructurePopulator*.class"/>
     			<exclude name="**/Fortress*.class"/>
     			<exclude name="**/end_fortress*.nbt"/>
+    			<exclude name="**/BossTimeoutUtil*.nbt"/>
     		</fileset>
     		<fileset file="plugin.yml"></fileset>
     		<fileset file="config.yml"></fileset>

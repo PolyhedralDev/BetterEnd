@@ -15,6 +15,7 @@ import com.dfsek.betterend.populators.CustomStructurePopulator;
 import com.dfsek.betterend.populators.EnvironmentPopulator;
 import com.dfsek.betterend.populators.OrePopulator;
 import com.dfsek.betterend.populators.StructurePopulator;
+import com.dfsek.betterend.util.Util;
 
 public class EndChunkGenerator extends ChunkGenerator {
 	private Main main = Main.getInstance();
@@ -22,19 +23,6 @@ public class EndChunkGenerator extends ChunkGenerator {
 	private int[] weight = {670, 100, 30, 40, 30, 30, 5, 10, 10, 10};
 
 	
-	private Material chooseOnWeight(Material[] items, int[] weights) {
-		double completeWeight = 0.0;
-		for (int weight : weights)
-			completeWeight += weight;
-		double r = Math.random() * completeWeight;
-		double countWeight = 0.0;
-		for (int i = 0; i < items.length; i++) { 
-			countWeight += weights[i];
-			if (countWeight >= r)
-				return items[i];
-		}
-		return null;
-	}
 
 	@SuppressWarnings("deprecation")
 	@Override
@@ -52,12 +40,14 @@ public class EndChunkGenerator extends ChunkGenerator {
 					double totalDistance2D = (chunkX*16+X > 1250 || chunkZ*16+Z > 1250)  ? totalDistance2D = 2000 : Math.sqrt(Math.pow(chunkX*16+X, 2)+Math.pow(chunkZ*16+Z, 2));
 
 					if (biomeNoiseLvl < -0.5) biome.setBiome(X, Z, Biome.END_BARRENS);
-					else if (biomeNoiseLvl < 0) biome.setBiome(X, Z, Biome.SMALL_END_ISLANDS);
-					else if (biomeNoiseLvl < 0.5) biome.setBiome(X, Z, Biome.END_MIDLANDS);
-					else biome.setBiome(X, Z, Biome.END_HIGHLANDS);
-					if(biomeNoiseLvl > 0.45 && ConfigUtil.DO_CLOUDS) {
+					else if(biomeNoiseLvl < 0) biome.setBiome(X, Z, Biome.SMALL_END_ISLANDS);
+					else if(biomeNoiseLvl < 0.5) biome.setBiome(X, Z, Biome.END_MIDLANDS);
+					else if(!ConfigUtil.OVERWORLD) biome.setBiome(X, Z, Biome.END_HIGHLANDS);
+					else biome.setBiome(X, Z, Biome.PLAINS);
+					if((biomeNoiseLvl > 0.45 || ConfigUtil.ALL_AETHER) && ConfigUtil.DO_CLOUDS) {
 						double aetherLvl = -Math.pow(256, -biomeNoiseLvl+0.45)+1;
 						if(aetherLvl < 0) aetherLvl = 0;
+						if(ConfigUtil.ALL_AETHER) aetherLvl = 1;
 						int yMinc = 255, yMaxc = 0, yMinc2 = 255, yMaxc2 = 0;
 						double c1Noise = generator.noise((double) (chunkX*16+X)/ConfigUtil.CLOUD_NOISE, (double) (chunkZ*16+Z)/ConfigUtil.CLOUD_NOISE, 0.1D, 0.55D);
 						double c2Noise = generator.noise((double) ((chunkX*16+X)-1000)/ConfigUtil.CLOUD_NOISE, (double) ((chunkZ*16+Z)-1000)/ConfigUtil.CLOUD_NOISE, 0.1D, 0.55D);
@@ -65,6 +55,7 @@ public class EndChunkGenerator extends ChunkGenerator {
 							double noiseM = (-Math.pow(1.1, -totalDistance2D+1000))+1;
 							if(noiseM > 1) noiseM = 1;
 							if(noiseM < 0) noiseM = 0;
+							if(ConfigUtil.ALL_AETHER) noiseM = 1;
 							yMinc = (int) ((-5*noiseM*aetherLvl*(c1Noise-0.2)+ConfigUtil.CLOUD_HEIGHT)+1);
 							yMaxc = (int) ((5*noiseM*aetherLvl*(c1Noise-0.2)+ConfigUtil.CLOUD_HEIGHT-1));
 							yMinc2 = (int) ((-4*noiseM*aetherLvl*(c2Noise-0.125)+ConfigUtil.CLOUD_HEIGHT+8)+1);
@@ -124,7 +115,7 @@ public class EndChunkGenerator extends ChunkGenerator {
 										if(heatNoiseLvl < -0.5 && random.nextInt(100) < -75*(heatNoiseLvl+0.5) && chunk.getBlockData(X, Y, Z).getMaterial() != Material.AIR) {
 											chunk.setBlock(X, Y+1, Z, Material.SNOW);
 										} else if(random.nextInt(100) < 40 && chunk.getBlockData(X, Y, Z).getMaterial() == Material.GRASS_BLOCK) {
-											Material plant = chooseOnWeight(plants, weight);
+											Material plant = (Material) Util.chooseOnWeight(plants, weight);
 											if(plant == Material.TALL_GRASS) {
 												chunk.setBlock(X, Y+1, Z, Material.TALL_GRASS);
 												chunk.setBlock(X, Y+2, Z, main.getServer().createBlockData("minecraft:tall_grass[half=upper]"));
@@ -272,7 +263,7 @@ public class EndChunkGenerator extends ChunkGenerator {
 	}
 	@Override
 	public boolean shouldGenerateDecorations() {
-		return true;
+		return !ConfigUtil.OVERWORLD;
 	}
 	public boolean shouldGenerateMobs() {
 		return false;

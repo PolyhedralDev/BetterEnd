@@ -7,9 +7,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
-import java.util.Collections;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -96,6 +96,7 @@ public class LootTable {
 					String itemname = (String) itemdata.get("name");
 					double itemDurability = 100;
 					double enchant = 0;
+					JSONArray disabled = new JSONArray();;
 					if(itemdata.containsKey("functions")) {
 						try {
 							for (Object function : (JSONArray) itemdata.get("functions")) {
@@ -112,7 +113,12 @@ public class LootTable {
 								if(((String) ((JSONObject) function).get("function")).equalsIgnoreCase("enchant_with_levels")) {
 									long maxd = (long) ((JSONObject)((JSONObject)function).get("levels")).get("max");
 									long mind = (long) ((JSONObject)((JSONObject)function).get("levels")).get("min");
-									enchant = (random.nextDouble()*(maxd-mind))+mind;
+
+									try {
+										disabled = (JSONArray) ((JSONObject)function).get("disabled_enchants");
+										enchant = (random.nextDouble()*(maxd-mind))+mind;
+									} catch(ClassCastException e) {
+									}
 								}
 							}
 						} catch(ClassCastException e) {
@@ -122,11 +128,11 @@ public class LootTable {
 					if(ConfigUtil.DEBUG) System.out.println("[BetterEnd] "+ itemname + " x" + count + ", durability=" + itemDurability + ", enchant lvl=" + enchant);
 					try {
 						ItemStack randomItem = new ItemStack(Material.valueOf(itemname.toUpperCase()), count);
-						if(enchant != 0) randomItem = randomEnchantment(randomItem, enchant, random);
+						if(enchant != 0) randomItem = randomEnchantment(randomItem, enchant, random, disabled);
 						Damageable damage = (Damageable) randomItem.getItemMeta();
 						damage.setDamage((int) (Material.valueOf(itemname.toUpperCase()).getMaxDurability()-(itemDurability/100)*Material.valueOf(itemname.toUpperCase()).getMaxDurability()));
 						randomItem.setItemMeta((ItemMeta) damage);
-						
+
 						BlockState blockState = location.getBlock().getState();
 						Container container = (Container) blockState;
 						Inventory containerInventory = container.getInventory();
@@ -182,7 +188,8 @@ public class LootTable {
 		}
 		return null;
 	}
-	public ItemStack randomEnchantment(ItemStack item, double enchant, Random random) {
+	@SuppressWarnings("deprecation") 
+	public ItemStack randomEnchantment(ItemStack item, double enchant, Random random, JSONArray disabled) {
 		List<Enchantment> possible = new ArrayList<Enchantment>();
 		for (Enchantment ench : Enchantment.values()) {
 			if (ench.canEnchantItem(item)) {
@@ -192,8 +199,15 @@ public class LootTable {
 		int numEnchant = (int) (random.nextInt((int) Math.abs(enchant))/10+1);
 		if (possible.size() >= numEnchant) {
 			Collections.shuffle(possible);
+
 			for(int i = 0; i < numEnchant; i++) {
 				Enchantment chosen = possible.get(i);
+				if(disabled != null && disabled.contains(chosen.getName())) continue;
+				if(ConfigUtil.DEBUG) main.getLogger().info("Enchantment name: " + chosen.getName());
+				for (Enchantment ench : item.getEnchantments().keySet()) {
+					if(chosen.conflictsWith(ench)) continue;
+				}
+
 				int lvl = random.nextInt(1+(int) (((enchant/40 > 1) ? 1 : enchant/40)*((chosen.getMaxLevel()))));
 				if(lvl != 0) item.addEnchantment(chosen, lvl);
 				else item.addEnchantment(chosen, 1);

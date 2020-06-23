@@ -194,9 +194,15 @@ public class Main extends JavaPlugin implements Listener {
 		boolean allAether = main.getConfig().getBoolean("all-aether", false);
 		int heatNoise = main.getConfig().getInt("outer-islands.heat-noise");
 		int climateNoise = main.getConfig().getInt("outer-islands.climate-noise");
-		if(allAether) return "AETHER";
 		double c = biomeGenerator.noise((double) (X+1000)/climateNoise, (double) (Z+1000)/climateNoise, 0.5D, 0.5D); 
 		double h = biomeGenerator.noise((double) (X)/heatNoise, (double) (Z)/heatNoise, 0.5D, 0.5D);
+		
+		if(allAether) {
+			if(h < -0.5 && c > -0.5) return "AETHER_HIGHLANDS";
+			else if(h < -0.5 && isPremium()) return "AETHER_HIGHLANDS_FOREST";
+			else if(c > -0.5 || !isPremium()) return "AETHER";//orange
+			else return "AETHER_FOREST";
+		}
 		double d = biomeGenerator.noise((double) (X)/main.getConfig().getInt("outer-islands.biome-size"), (double) (Z)/main.getConfig().getInt("outer-islands.biome-size"), 0.5D, 0.5D);
 		if (d < -0.5 && h > 0) return "SHATTERED_END";//green
 		else if(d < -0.5 && h < 0) return "SHATTERED_FOREST";
@@ -237,20 +243,17 @@ public class Main extends JavaPlugin implements Listener {
 	@EventHandler (ignoreCancelled=true)
 	public void onInventoryOpenEvent(InventoryOpenEvent event) {
 		if(config.getBoolean("aether.mythic-boss.enable", false)) {
-			
+
 			//get the destination inventory
 			InventoryHolder holder = event.getInventory().getHolder();
 			Inventory inventory = event.getInventory();
 			if (inventory.getHolder() instanceof Chest) {
 				Location l = ((Chest) holder).getLocation();
-				if(config.getBoolean("debug")) System.out.println("[BetterEnd] Player opened chest in " + l.getWorld() + " at " + l.getBlockX() + ", " + l.getBlockY() + ", " + l.getBlockZ());
+				if(ConfigUtil.DEBUG) System.out.println("[BetterEnd] Player opened chest in " + l.getWorld() + " at " + l.getBlockX() + ", " + l.getBlockY() + ", " + l.getBlockZ());
 				Chest chest = (Chest) l.getBlock().getState();
 				NamespacedKey key = new NamespacedKey(this, "valkyrie-spawner");
 				if(chest.getPersistentDataContainer().has(key, PersistentDataType.INTEGER)) {
-					try {
-						EndAdvancementUtil.grantAdvancement("gold_dungeon", (Player) event.getPlayer());
-					} catch(NoClassDefFoundError e) {
-					}
+					if(Main.isPremium()) EndAdvancementUtil.grantAdvancement("gold_dungeon", (Player) event.getPlayer());
 					Location spawn;
 					switch(chest.getPersistentDataContainer().get(key, PersistentDataType.INTEGER)) {
 					case 0:
@@ -270,18 +273,21 @@ public class Main extends JavaPlugin implements Listener {
 						chest.update();
 						return;
 					}
-					if(config.getBoolean("debug")) System.out.println("[BetterEnd] Chest is a Mythic Boss Spawn Chest.");
-					String boss = config.getString("aether.mythic-boss.gold-name", "SkeletonKing");
+					if(ConfigUtil.DEBUG) System.out.println("[BetterEnd] Chest is a Mythic Boss Spawn Chest.");
+					String boss = ConfigUtil.BOSS_NAME_GOLD;
 					try {
-						MythicMobs.inst().getMobManager().spawnMob(boss, spawn);
+						if(Main.isPremium() && BossTimeoutUtil.timeoutReached(chest)) MythicMobs.inst().getMobManager().spawnMob(boss, spawn);
+						else if(!Main.isPremium())MythicMobs.inst().getMobManager().spawnMob(boss, spawn);
 					} catch(NoClassDefFoundError e) {
 						this.getLogger().warning("Failed to spawn Mythic Boss. Is MythicMobs installed?");
 					}
 					//chest.getWorld().spawnEntity(spawn, EntityType.ZOMBIE);
 
 				}
-				chest.getPersistentDataContainer().remove(key);
-				chest.update();
+				if(!Main.isPremium()) {
+					chest.getPersistentDataContainer().remove(key);
+					chest.update();
+				}
 			}
 		}
 	}
@@ -321,5 +327,5 @@ public class Main extends JavaPlugin implements Listener {
 			return true;
 		} else return false;
 	}
-	
+
 }

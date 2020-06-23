@@ -8,6 +8,8 @@ import org.bukkit.World;
 import org.bukkit.generator.BlockPopulator;
 
 import com.dfsek.betterend.ConfigUtil;
+import com.dfsek.betterend.Ore;
+import com.dfsek.betterend.util.Util;
 
 public class OrePopulator extends BlockPopulator {
 	@Override
@@ -18,27 +20,19 @@ public class OrePopulator extends BlockPopulator {
 		int Z;
 		if(!ConfigUtil.DO_AETHER_ORES) return;
 		for (int i = 1; i < ConfigUtil.AETHER_ORE_CHANCE; i++) {  // Number of tries
-			int decisionVal = random.nextInt(100); 
+			Ore ore = (Ore) Util.chooseOnWeight(new Ore[] {new Ore(Material.COAL_ORE, 85), 
+					new Ore(Material.IRON_ORE, 50), 
+					new Ore(Material.GOLD_ORE, 50),
+					new Ore(Material.REDSTONE_ORE, 65),
+					new Ore(Material.LAPIS_ORE, 75),
+					new Ore(Material.DIAMOND_ORE, 50),
+					new Ore(Material.EMERALD_ORE, 40)}, ConfigUtil.ORE_CHANCES);
 			X = random.nextInt(15);
 			Z = random.nextInt(15);
 			for (Y = 63; chunk.getBlock(X, Y, Z).getType() != Material.AIR && Y>0; Y--);
 			if(Y > 1) {
 				Y = random.nextInt(64-Y) + Y;
-				if (decisionVal < 40) {  // The chance of spawning	
-					doVein(world, chunk, random, new int[] {X, Y, Z}, Material.COAL_ORE, 85);
-				} else if (decisionVal < 65) {
-					doVein(world, chunk, random, new int[] {X, Y, Z}, Material.IRON_ORE, 50);
-				} else if (decisionVal < 75) {
-					doVein(world, chunk, random, new int[] {X, Y, Z}, Material.GOLD_ORE, 50);
-				} else if (decisionVal < 85) {
-					doVein(world, chunk, random, new int[] {X, Y, Z}, Material.REDSTONE_ORE, 65);
-				} else if (decisionVal < 95) {
-					doVein(world, chunk, random, new int[] {X, Y, Z}, Material.LAPIS_ORE, 75);
-				} else if (decisionVal < 97) {
-					doVein(world, chunk, random, new int[] {X, Y, Z}, Material.DIAMOND_ORE, 50);
-				} else {
-					doVein(world, chunk, random, new int[] {X, Y, Z}, Material.EMERALD_ORE, 40);
-				}
+					doVein(world, chunk, random, new int[] {X, Y, Z}, ore.getType(), ore.getContChance());
 			}
 		}
 

@@ -41,6 +41,10 @@ public class ConfigUtil {
 	public static boolean DO_AETHER_ORES;
 	public static int AETHER_ORE_CHANCE;
 	public static boolean DEBUG;
+	public static long BOSS_RESPAWN;
+	public static String BOSS_NAME_GOLD;
+	public static boolean OVERWORLD;
+	public static int[] ORE_CHANCES;
 	
 	public static void loadConfig(Logger logger, Main main) {
 		long start = System.nanoTime();
@@ -52,30 +56,40 @@ public class ConfigUtil {
 		STRUCTURE_CHANCE = config.getInt("outer-islands.structures.chance-per-chunk", 6);
 		RUIN_CHANCE = config.getInt("outer-islands.ruins.chance-per-chunk", 30);
 		CLOUD_HEIGHT = config.getInt("aether.clouds.cloud-height", 128);
-		BIOME_SIZE = main.getConfig().getInt("outer-islands.biome-size"); 
-		ISLAND_HEIGHT = main.getConfig().getInt("outer-islands.island-height", 64);
+		BIOME_SIZE = config.getInt("outer-islands.biome-size"); 
+		ISLAND_HEIGHT = config.getInt("outer-islands.island-height", 64);
 		AETHER_STRUCTURE_WEIGHTS = new int[] {config.getInt("structure-weight.aether.gold_dungeon", 2), config.getInt("structure-weight.aether.cobble_house", 49), config.getInt("structure-weight.aether.wood_house", 49)};
 		END_STRUCTURE_WEIGHTS = new int[] {config.getInt("structure-weight.end.end_house", 32), config.getInt("structure-weight.end.shulker_nest", 19), config.getInt("structure-weight.end.stronghold", 19), config.getInt("structure-weight.end.end_ship", 6), config.getInt("structure-weight.end.end_tower", 19), config.getInt("structure-weight.aether.wrecked_end_ship", 19)};
 		ENABLE_MYTHIC_BOSS = config.getBoolean("aether.mythic-boss.enable", false);
-		OUTER_END_NOISE = main.getConfig().getInt("outer-islands.noise", 56);
-		DO_CLOUDS = main.getConfig().getBoolean("aether.clouds.enable-clouds", true);
-		DO_AETHER_CAVE_DEC = main.getConfig().getBoolean("aether.cave-decoration", true);
-		DO_END_CAVE_DEC = main.getConfig().getBoolean("outer-islands.cave-decoration", true);
-		CLOUD_NOISE = main.getConfig().getInt("aether.clouds.cloud-noise", 36);
-		HEAT_NOISE = main.getConfig().getInt("outer-islands.heat-noise", 512);
-		ISLAND_HEIGHT_MULTIPLIER_TOP = main.getConfig().getInt("outer-islands.height-multiplier.top", 6);
-		ISLAND_HEIGHT_MULTIPLIER_BOTTOM = main.getConfig().getInt("outer-islands.height-multiplier.bottom", 52);
-		LAND_PERCENT = 1-((double) ((main.getConfig().getInt("outer-islands.island-threshold", 30))/50D));
-		MIN_TREES = main.getConfig().getInt("trees.min-per-chunk");
-		MAX_TREES = main.getConfig().getInt("trees.max-per-chunk");
-		HERD_CHANCE = main.getConfig().getInt("aether.animals.herd-chance-per-chunk", 15);
-		MIN_HERD = main.getConfig().getInt("aether.animals.herd-min-size", 2);
-		MAX_HERD = main.getConfig().getInt("aether.animals.herd-max-size", 5);
-		OBSIDIAN_PILLAR_MAX_HEIGHT = main.getConfig().getInt("trees.obsidian-pillars.max-height");
-		OBSIDIAN_PILLAR_MIN_HEIGHT = main.getConfig().getInt("trees.obsidian-pillars.min-height");
-		DO_AETHER_ORES = main.getConfig().getBoolean("aether.ores.enable-ores");
-		AETHER_ORE_CHANCE = main.getConfig().getInt("aether.ores.ore-chance", 20);
+		OUTER_END_NOISE = config.getInt("outer-islands.noise", 56);
+		DO_CLOUDS = config.getBoolean("aether.clouds.enable-clouds", true);
+		DO_AETHER_CAVE_DEC = config.getBoolean("aether.cave-decoration", true);
+		DO_END_CAVE_DEC = config.getBoolean("outer-islands.cave-decoration", true);
+		CLOUD_NOISE = config.getInt("aether.clouds.cloud-noise", 36);
+		HEAT_NOISE = config.getInt("outer-islands.heat-noise", 512);
+		ISLAND_HEIGHT_MULTIPLIER_TOP = config.getInt("outer-islands.height-multiplier.top", 6);
+		ISLAND_HEIGHT_MULTIPLIER_BOTTOM = config.getInt("outer-islands.height-multiplier.bottom", 52);
+		LAND_PERCENT = 1-((double) ((config.getInt("outer-islands.island-threshold", 30))/50D));
+		MIN_TREES = config.getInt("trees.min-per-chunk", 4);
+		MAX_TREES = config.getInt("trees.max-per-chunk", 7);
+		HERD_CHANCE = config.getInt("aether.animals.herd-chance-per-chunk", 15);
+		MIN_HERD = config.getInt("aether.animals.herd-min-size", 2);
+		MAX_HERD = config.getInt("aether.animals.herd-max-size", 5);
+		OBSIDIAN_PILLAR_MAX_HEIGHT = config.getInt("trees.obsidian-pillars.max-height");
+		OBSIDIAN_PILLAR_MIN_HEIGHT = config.getInt("trees.obsidian-pillars.min-height");
+		DO_AETHER_ORES = config.getBoolean("aether.ores.enable-ores", true);
+		AETHER_ORE_CHANCE = config.getInt("aether.ores.ore-chance", 20);
+		BOSS_RESPAWN = (long) (config.getInt("aether.mythic-boss.respawn-time", 14)*24*60*60*1000);
+		BOSS_NAME_GOLD = config.getString("aether.mythic-boss.gold-name", "SkeletonKing");
+		OVERWORLD = config.getBoolean("overworld", false);
 		DEBUG = main.config.getBoolean("debug");
+		ORE_CHANCES = new int[] {config.getInt("aether.ores.weight.coal_ore", 40), 
+				config.getInt("aether.ores.weights.iron_ore", 25),
+				config.getInt("aether.ores.weights.gold_ore", 10),
+				config.getInt("aether.ores.weights.redstone_ore", 10),
+				config.getInt("aether.ores.weights.lapis_ore", 10),
+				config.getInt("aether.ores.weights.diamond_ore", 3),
+				config.getInt("aether.ores.weights.emerald_ore", 2)};
 		logger.info("Complete. Time elapsed: " + ((double) (System.nanoTime()-start))/1000000 + "ms");
 	}
 	

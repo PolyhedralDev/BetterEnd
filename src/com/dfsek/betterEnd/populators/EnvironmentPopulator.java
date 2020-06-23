@@ -81,8 +81,11 @@ public class EnvironmentPopulator extends BlockPopulator {
 				int X = random.nextInt(15);
 				int Z = random.nextInt(15);
 				int Y;
-				for (Y = world.getMaxHeight()-1; (chunk.getBlock(X, Y, Z).getType() == Material.AIR ||
-						chunk.getBlock(X, Y, Z).getType() == Material.WHITE_STAINED_GLASS) && Y>0; Y--); // Find the highest block of the (X,Z) coordinate chosen.
+				for (Y = world.getMaxHeight()-1; (chunk.getBlock(X, Y, Z).getType() != Material.GRASS_BLOCK && 
+						chunk.getBlock(X, Y, Z).getType() != Material.PODZOL &&
+						chunk.getBlock(X, Y, Z).getType() != Material.COARSE_DIRT &&
+						chunk.getBlock(X, Y, Z).getType() != Material.SNOW &&
+						chunk.getBlock(X, Y, Z).getType() != Material.END_STONE) && Y>0; Y--); // Find the highest block of the (X,Z) coordinate chosen.
 				if (Y > ConfigUtil.ISLAND_HEIGHT-1 && Y < 255) {
 					Location blockLocation = chunk.getBlock(X, Y, Z).getLocation();
 					switch(Main.getBiome(blockLocation.getBlockX(), blockLocation.getBlockZ(), world.getSeed())) {

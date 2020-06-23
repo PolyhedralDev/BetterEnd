@@ -26,6 +26,7 @@ import com.dfsek.betterend.ConfigUtil;
 import com.dfsek.betterend.Main;
 import com.dfsek.betterend.structures.LootTable;
 import com.dfsek.betterend.structures.NMSStructure;
+import com.dfsek.betterend.util.Util;
 
 
 public class StructurePopulator extends BlockPopulator {
@@ -58,7 +59,7 @@ public class StructurePopulator extends BlockPopulator {
 
 		if(biomeNoiseLvl > 0.5 || ConfigUtil.ALL_AETHER) {
 			if(random.nextInt(100) < ConfigUtil.STRUCTURE_CHANCE) {
-				String structureName = chooseOnWeight(new String[] {"gold_dungeon", "cobble_house", "wood_house"}, ConfigUtil.AETHER_STRUCTURE_WEIGHTS);
+				String structureName = (String) Util.chooseOnWeight(new String[] {"gold_dungeon", "cobble_house", "wood_house"}, ConfigUtil.AETHER_STRUCTURE_WEIGHTS);
 
 				switch(structureName) {
 				case "cobble_house":
@@ -84,7 +85,7 @@ public class StructurePopulator extends BlockPopulator {
 			return;
 		} else if(!("SHATTERED_END".equals(biome) || "SHATTERED_FOREST".equals(biome))) {
 			if(random.nextInt(100) < ConfigUtil.STRUCTURE_CHANCE) {
-				String structureName = chooseOnWeight(new String[] {"end_house", "shulker_nest", "stronghold", "end_ship", "end_tower", "wrecked_end_ship"}, ConfigUtil.END_STRUCTURE_WEIGHTS);
+				String structureName = (String) Util.chooseOnWeight(new String[] {"end_house", "shulker_nest", "stronghold", "end_ship", "end_tower", "wrecked_end_ship"}, ConfigUtil.END_STRUCTURE_WEIGHTS);
 
 				switch(structureName) {
 				case "end_house":
@@ -171,7 +172,13 @@ public class StructurePopulator extends BlockPopulator {
 					candidate.getBlock().getType() == Material.STONE_BRICK_STAIRS ||
 					candidate.getBlock().getType() == Material.GLASS_PANE ||
 					candidate.getBlock().getType() == Material.OAK_SLAB ||
-					candidate.getBlock().getType() == Material.OAK_STAIRS) candidate.getBlock().setType(Material.COBWEB);
+					candidate.getBlock().getType() == Material.OAK_STAIRS ||
+					candidate.getBlock().getType() == Material.SPRUCE_SLAB ||
+					candidate.getBlock().getType() == Material.SPRUCE_STAIRS ||
+					candidate.getBlock().getType() == Material.SPRUCE_LOG ||
+					candidate.getBlock().getType() == Material.SPRUCE_PLANKS||
+					candidate.getBlock().getType() == Material.OAK_TRAPDOOR ||
+					candidate.getBlock().getType() == Material.SPRUCE_TRAPDOOR) candidate.getBlock().setType(Material.COBWEB);
 		}
 	}
 	private void spawnShulkers(List<Location> locationsAll, Random random, World world) {
@@ -252,19 +259,6 @@ public class StructurePopulator extends BlockPopulator {
 				}
 			}
 		}
-	}
-	private String chooseOnWeight(String[] items, int[] weights) {
-		double completeWeight = 0.0;
-		for (int weight : weights)
-			completeWeight += weight;
-		double r = Math.random() * completeWeight;
-		double countWeight = 0.0;
-		for (int i = 0; i < items.length; i++) {
-			countWeight += weights[i];
-			if (countWeight >= r)
-				return items[i];
-		}
-		return null;
 	}
 	private List<Location> getChestsIn(Location minLoc, Location maxLoc){
 		List<Location> locations = new ArrayList<>();

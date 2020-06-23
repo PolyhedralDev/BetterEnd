@@ -11,6 +11,9 @@ update-checker:
 #Keep in mind that this prevents the Main Island from generating.
 all-aether: false
 
+#Whether or not to use Overworld biomes (Useful for making an Aether dimension)
+overworld: false
+
 #Weights of structures, used in random selections.
 #When a structure spawn candidate location is chosen, a structure is randomly selected from a list, 
 #based on its weight. The probability of any one structure being chosen is:
@@ -88,6 +91,15 @@ aether:
     enable-ores: true
     #The number of tries made to generate ores in a chunk. Higher values generate more ores.
     ore-chance: 20
+    #The weights of each ore generating. Higher values mean higher chances. Set values to zero to disable specific ores.
+    weights:
+      coal_ore: 40
+      iron_ore: 25
+      gold_ore: 10
+      redstone_ore: 10
+      lapis_ore: 10
+      diamond_ore: 3
+      emerald_ore: 2
   #Whether or not to enable Aether Cave decoration.
   cave-decoration: true
   #Configuration options for Aether animals.
@@ -104,6 +116,8 @@ aether:
     enable: false
     #The name of the boss spawned in the Gold Dungeon.
     gold-name: SkeletonKing
+    #The amount of time (in days) for the chest to cool down
+    respawn-time: 14
 
 #Configuration options for trees.
 trees:
