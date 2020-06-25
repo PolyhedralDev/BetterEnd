@@ -47,7 +47,7 @@ public class MythicSpawnsUtil {
 						if(maxMobs > numMobs) {
 							for(Player p : main.getServer().getOnlinePlayers()) {
 								if(p.getWorld().getGenerator() instanceof EndChunkGenerator) {
-									if(!(Math.abs(p.getChunk().getX()) > 20 || Math.abs(p.getChunk().getZ()) > 20)) continue;
+									if(!(Math.abs(p.getLocation().getChunk().getX()) > 20 || Math.abs(p.getLocation().getChunk().getZ()) > 20)) continue;
 									if(debug) main.getLogger().info("Starting MythicMobs spawns for " + p.getName());
 
 									List<Map<?, ?>> mobs = config.getMapList("mobs");

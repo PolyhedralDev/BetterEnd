@@ -6,11 +6,8 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/dfsek.DFSEK/eclipse-workspace/betterEnd/target/testSVR/cache/patched_1.15.2.jar">
-		<attributes>
-			<attribute name="javadoc_location" value="https://papermc.io/javadocs/paper/1.15/"/>
-		</attributes>
-	</classpathentry>
 	<classpathentry kind="lib" path="C:/Users/dfsek.DFSEK/eclipse-workspace/betterEnd/MythicMobs-4.9.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/dfsek.DFSEK/eclipse-workspace/betterEnd/spigot-api-1.16.1-R0.1-SNAPSHOT-shaded.jar"/>
+	<classpathentry kind="lib" path="C:/Users/dfsek.DFSEK/eclipse-workspace/betterEnd/target/testSVR/spigot-1.16.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

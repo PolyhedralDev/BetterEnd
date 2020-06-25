@@ -120,6 +120,7 @@ public class StructurePopulator extends BlockPopulator {
 				structure = new NMSStructure(new Location(world, chunk.getX()*16+X, Y - (random.nextInt(16)+8), chunk.getZ()*16+Z), "stronghold", 0);
 			} else return;
 		}
+		if(ConfigUtil.getStructureWeight(structure.getName()) <= 0) return;
 		structure.setRotation(random.nextInt(4)*90);
 		int[] dimension = structure.getDimensions();
 		Location[] b = structure.getBoundingLocations();

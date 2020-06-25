@@ -135,6 +135,10 @@ public class ConfigUtil {
 		
 	}
 	
+	public static int getStructureWeight(String structure) {
+		return Main.getInstance().getConfig().getInt("structure-weight.aether." + structure, 1);
+	}
+	
 	private static void backupConfig(Main main) {
 		FileInputStream inStream = null;
 		FileOutputStream outStream = null;

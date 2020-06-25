@@ -42,45 +42,49 @@ public class NMSReflectorUtil {
 	public static Class chunkCoordIntPairClass;
 	public static Method chunkCoordIntPairMethod;
 	public static Constructor blockPositionConstructor;
-    
-    public static void init(Logger logger) {
-        try {
-        	long start = System.nanoTime();
-        	logger.info("Beginning reflections...");
-        	craftWorldClass = Class.forName("org.bukkit.craftbukkit." + version + ".CraftWorld");
-        	compoundNBTTagClass = Class.forName("net.minecraft.server." + version + ".NBTTagCompound");
-        	generatorAccessClass = Class.forName("net.minecraft.server." + version + ".GeneratorAccess");
-        	definedStructureInfoClass = Class.forName("net.minecraft.server." + version + ".DefinedStructureInfo");
-        	worldServerClass = Class.forName("net.minecraft.server." + version + ".WorldServer");
-        	blockPositionClass = Class.forName("net.minecraft.server." + version + ".BlockPosition");
-            nbtStreamToolsClass = Class.forName("net.minecraft.server." + version + ".NBTCompressedStreamTools");
-            loadNBTStreamFromInputStream = nbtStreamToolsClass.getMethod("a", InputStream.class);
-            definedStructureClass = Class.forName("net.minecraft.server." + version + ".DefinedStructure");
-            definedStructureConstructor = definedStructureClass.getConstructor();
-            loadStructure = definedStructureClass.getMethod("b", compoundNBTTagClass);
-            enumBlockRotationClass = Class.forName("net.minecraft.server." + version + ".EnumBlockRotation");
-            enumBlockRotationValueOfMethod = enumBlockRotationClass.getMethod("valueOf", String.class);
-            enumBlockMirrorClass = Class.forName("net.minecraft.server." + version + ".EnumBlockMirror");
-            enumBlockMirrorValueOfMethod = enumBlockMirrorClass.getMethod("valueOf", String.class);
-            compoundNBTConstructor = compoundNBTTagClass.getConstructor();
-            listNBTTagClass = Class.forName("net.minecraft.server." + version + ".NBTTagList");
-            getNBTListMethod = compoundNBTTagClass.getMethod("getList", String.class, int.class);
-            getNBTListItemMethod = listNBTTagClass.getMethod("e", int.class);
-            blockPositionConstructor = blockPositionClass.getConstructor(int.class, int.class, int.class);
-            chunkCoordIntPairClass = Class.forName("net.minecraft.server." + version + ".ChunkCoordIntPair");
-            chunkCoordIntPairMethod = definedStructureInfoClass.getMethod("a", chunkCoordIntPairClass);
-            mysteryBooleanMethod = definedStructureInfoClass.getMethod("a", boolean.class);
-            mysteryBooleancMethod = definedStructureInfoClass.getMethod("c", boolean.class);
-            setRandomMethod = definedStructureInfoClass.getMethod("a", Random.class);
-            getCraftWorldHandleMethod = craftWorldClass.getMethod("getHandle");
-            getStructureAsNBTMethod = definedStructureClass.getMethod("a", compoundNBTTagClass);
-            setRotationMethod = definedStructureInfoClass.getMethod("a", enumBlockRotationClass);
-            setReflectionMethod = definedStructureInfoClass.getMethod("a", enumBlockMirrorClass);
-            definedStructureInfoConstructor = definedStructureInfoClass.getConstructor();
-            pasteMethod = definedStructureClass.getMethod("a", generatorAccessClass, blockPositionClass, definedStructureInfoClass);
-            logger.info("Finished reflections. Time elapsed: " + ((double) (System.nanoTime()-start))/1000000 + "ms");
-        } catch (ClassNotFoundException | NoSuchMethodException e) {
-            e.printStackTrace();
-        }
-    }
+
+	public static void init(Logger logger) {
+		try {
+			long start = System.nanoTime();
+			logger.info("Beginning reflections...");
+			craftWorldClass = Class.forName("org.bukkit.craftbukkit." + version + ".CraftWorld");
+			compoundNBTTagClass = Class.forName("net.minecraft.server." + version + ".NBTTagCompound");
+			generatorAccessClass = Class.forName("net.minecraft.server." + version + ".GeneratorAccess");
+			definedStructureInfoClass = Class.forName("net.minecraft.server." + version + ".DefinedStructureInfo");
+			worldServerClass = Class.forName("net.minecraft.server." + version + ".WorldServer");
+			blockPositionClass = Class.forName("net.minecraft.server." + version + ".BlockPosition");
+			nbtStreamToolsClass = Class.forName("net.minecraft.server." + version + ".NBTCompressedStreamTools");
+			loadNBTStreamFromInputStream = nbtStreamToolsClass.getMethod("a", InputStream.class);
+			definedStructureClass = Class.forName("net.minecraft.server." + version + ".DefinedStructure");
+			definedStructureConstructor = definedStructureClass.getConstructor();
+			loadStructure = definedStructureClass.getMethod("b", compoundNBTTagClass);
+			enumBlockRotationClass = Class.forName("net.minecraft.server." + version + ".EnumBlockRotation");
+			enumBlockRotationValueOfMethod = enumBlockRotationClass.getMethod("valueOf", String.class);
+			enumBlockMirrorClass = Class.forName("net.minecraft.server." + version + ".EnumBlockMirror");
+			enumBlockMirrorValueOfMethod = enumBlockMirrorClass.getMethod("valueOf", String.class);
+			compoundNBTConstructor = compoundNBTTagClass.getConstructor();
+			listNBTTagClass = Class.forName("net.minecraft.server." + version + ".NBTTagList");
+			getNBTListMethod = compoundNBTTagClass.getMethod("getList", String.class, int.class);
+			getNBTListItemMethod = listNBTTagClass.getMethod("e", int.class);
+			blockPositionConstructor = blockPositionClass.getConstructor(int.class, int.class, int.class);
+			chunkCoordIntPairClass = Class.forName("net.minecraft.server." + version + ".ChunkCoordIntPair");
+			chunkCoordIntPairMethod = definedStructureInfoClass.getMethod("a", chunkCoordIntPairClass);
+			mysteryBooleanMethod = definedStructureInfoClass.getMethod("a", boolean.class);
+			mysteryBooleancMethod = definedStructureInfoClass.getMethod("c", boolean.class);
+			setRandomMethod = definedStructureInfoClass.getMethod("a", Random.class);
+			getCraftWorldHandleMethod = craftWorldClass.getMethod("getHandle");
+			getStructureAsNBTMethod = definedStructureClass.getMethod("a", compoundNBTTagClass);
+			setRotationMethod = definedStructureInfoClass.getMethod("a", enumBlockRotationClass);
+			setReflectionMethod = definedStructureInfoClass.getMethod("a", enumBlockMirrorClass);
+			definedStructureInfoConstructor = definedStructureInfoClass.getConstructor();
+			if (version.startsWith("v1_15")) {
+				pasteMethod = definedStructureClass.getMethod("a", generatorAccessClass, blockPositionClass, definedStructureInfoClass);
+			} else {
+				pasteMethod = definedStructureClass.getMethod("a", generatorAccessClass, blockPositionClass, definedStructureInfoClass, Random.class);
+			}
+			logger.info("Finished reflections. Time elapsed: " + ((double) (System.nanoTime()-start))/1000000 + "ms");
+		} catch (ClassNotFoundException | NoSuchMethodException e) {
+			e.printStackTrace();
+		}
+	}
 }

@@ -42,7 +42,7 @@ public class NMSStructure {
 
 
 	}
-	
+
 	/**
 	 * Load a structure from a packaged NBT structure file sans permutation.
 	 * @param name - The structure name
@@ -203,12 +203,16 @@ public class NMSStructure {
 			info = NMSReflectorUtil.chunkCoordIntPairMethod.invoke(info, NMSReflectorUtil.chunkCoordIntPairClass.cast(null));
 			info = NMSReflectorUtil.mysteryBooleancMethod.invoke(info, false);
 			info = NMSReflectorUtil.setRandomMethod.invoke(info, new Random());
-			
-			
+
+
 			Object pos = NMSReflectorUtil.blockPositionConstructor.newInstance(this.origin.getBlockX(), this.origin.getBlockY(), this.origin.getBlockZ());
 			try {
-				NMSReflectorUtil.pasteMethod.invoke(this.structure, world, pos, info);
-				} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+				if (NMSReflectorUtil.version.startsWith("v1_15")) {
+					NMSReflectorUtil.pasteMethod.invoke(this.structure, world, pos, info);
+				} else {
+					NMSReflectorUtil.pasteMethod.invoke(this.structure, world, pos, info, new Random());
+				}
+			} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 				e.printStackTrace();
 			}
 		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {

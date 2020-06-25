@@ -78,7 +78,7 @@ public class EndAdvancementUtil {
 			@Override
 			public void run() {
 				for(Player p : plugin.getServer().getOnlinePlayers()) {
-					double totalChunkDistance2D = Math.sqrt(Math.pow(p.getChunk().getX(), 2)+Math.pow(p.getChunk().getZ(), 2));
+					double totalChunkDistance2D = Math.sqrt(Math.pow(p.getLocation().getChunk().getX(), 2)+Math.pow(p.getLocation().getChunk().getZ(), 2));
 					if(p.getWorld().getGenerator() instanceof EndChunkGenerator && (totalChunkDistance2D > 50)) {
 						switch(Main.getBiome(p.getLocation().getBlockX(), p.getLocation().getBlockZ(), p.getWorld().getSeed())) {
 						case "AETHER":
