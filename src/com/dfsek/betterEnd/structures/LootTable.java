@@ -1,11 +1,8 @@
 package com.dfsek.betterend.structures;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -27,48 +24,34 @@ import org.json.simple.parser.ParseException;
 
 import com.dfsek.betterend.Main;
 import com.dfsek.betterend.util.ConfigUtil;
+import com.dfsek.betterend.util.Util;
 
 public class LootTable {
 	private Object tableJSON;
 	private static Main main = Main.getInstance();
 
 	/**
-	 * Load a loot table from a name.
+	 * Loads a loot table with a name.<br>
+	 * If the premium version of the plugin is used, the loot/ folder will be checked for a matching table before an attempt is made to load the packaged version.
+	 * @author dfsek
+	 * @since 1.0.0
 	 * @param name - The loot table name.
 	 */
 	public LootTable(String name) {
 		File tableFile = new File(main.getDataFolder() + File.separator + "loot" + File.separator + name +  ".json");
 		String json = "{}";
 		if(Main.isPremium() && tableFile.exists()) {
-			String line;
 			try {
-				InputStream is = new FileInputStream(tableFile);
-				BufferedReader buf = new BufferedReader(new InputStreamReader(is));
-				line = buf.readLine();
-				StringBuilder sb = new StringBuilder();
-				while(line != null){
-					sb.append(line).append("\n");
-					line = buf.readLine();
-				}
-				buf.close();
-				json = sb.toString();
+				json = Util.getFileAsString(new FileInputStream(tableFile));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		} else {
-			InputStream  inputStream = main.getResource("loot/" + name + ".json");
-			InputStreamReader isReader = new InputStreamReader(inputStream);
-			BufferedReader reader = new BufferedReader(isReader);
-			StringBuffer sb = new StringBuffer();
-			String str;
 			try {
-				while((str = reader.readLine())!= null){
-					sb.append(str);
-				}
+				json = Util.getFileAsString(main.getResource("loot/" + name + ".json"));
 			} catch (IOException e) {
-				main.getLogger().warning("Error retrieving loot table \""  + name + "\"");
+				e.printStackTrace();
 			}
-			json = sb.toString();
 		}
 		JSONParser jsonParser = new JSONParser();
 		try {
@@ -77,7 +60,13 @@ public class LootTable {
 			e.printStackTrace();
 		}
 	}
-
+	/**
+	 * Populates a chest with a loot table.
+	 * @author dfsek
+	 * @since 1.0.0
+	 * @param location - The location of the chest.
+	 * @param random - The Random object to populate with.
+	 */
 	public void populateChest(Location location, Random random) {
 		JSONArray poolArray = (JSONArray) ((JSONObject) this.tableJSON).get("pools");
 		if (location.getBlock().getState() instanceof Container && (location.getBlock().getType() == Material.CHEST || location.getBlock().getType() == Material.TRAPPED_CHEST)) {
@@ -188,6 +177,16 @@ public class LootTable {
 		}
 		return null;
 	}
+	/**
+	 * Randomly enchants an item using Vanilla levels.
+	 * @author dfsek
+	 * @since 3.0.0
+	 * @param item - the ItemStack to be enchanted.
+	 * @param enchant - The Enchantment level.
+	 * @param random - The Random object to use for enchanting.
+	 * @param disabled - A JSONArray containing disabled enchantments.
+	 * @return The enchanted ItemStack.
+	 */
 	@SuppressWarnings("deprecation") 
 	public ItemStack randomEnchantment(ItemStack item, double enchant, Random random, JSONArray disabled) {
 		List<Enchantment> possible = new ArrayList<Enchantment>();

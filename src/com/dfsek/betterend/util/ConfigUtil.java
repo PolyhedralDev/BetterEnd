@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.logging.Logger;
 
 import org.bukkit.configuration.InvalidConfigurationException;
@@ -116,14 +115,6 @@ public class ConfigUtil {
 				File configFile = new File(main.getDataFolder() + File.separator + "config.yml");
 				if(configFile.delete()) main.getLogger().info("Old config was succesfully deleted.");
 				main.saveDefaultConfig();
-				FileOutputStream writer = new FileOutputStream(new File(main.getDataFolder() + File.separator + "default.yml"));
-				InputStream out = main.getResource("config.yml");
-				byte[] linebuffer = new byte[4096];
-				int lineLength = 0;
-				while((lineLength = out.read(linebuffer)) > 0) {
-					writer.write(linebuffer, 0, lineLength);
-				}
-				writer.close();
 				File configDefaultFile = new File(main.getDataFolder() + File.separator + "default.yml");
 				configBackup.load(configBackupFile);
 				configDefault.load(configDefaultFile);

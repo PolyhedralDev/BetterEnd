@@ -1,5 +1,10 @@
 package com.dfsek.betterend.util;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -76,5 +81,17 @@ public class Util {
 				instance.getLogger().warning("An error occurred while checking for an update. Reason: " + reason);//Occurred
 			}
 		});
+	}
+	public static String getFileAsString(InputStream stream) throws IOException {
+		String line;
+		BufferedReader buf = new BufferedReader(new InputStreamReader(stream));
+		line = buf.readLine();
+		StringBuilder sb = new StringBuilder();
+		while(line != null){
+			sb.append(line).append("\n");
+			line = buf.readLine();
+		}
+		buf.close();
+		return sb.toString();
 	}
 }

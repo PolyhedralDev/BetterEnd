@@ -6,6 +6,7 @@ import java.util.Random;
 
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.block.Biome;
 import org.bukkit.generator.BlockPopulator;
 import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.util.noise.SimplexOctaveGenerator;
@@ -16,7 +17,6 @@ import com.dfsek.betterend.populators.OrePopulator;
 import com.dfsek.betterend.populators.StructurePopulator;
 import com.dfsek.betterend.util.ConfigUtil;
 import com.dfsek.betterend.util.Util;
-import com.dfsek.betterend.world.Biome;
 
 public class EndChunkGenerator extends ChunkGenerator {
 	private Main main = Main.getInstance();
@@ -35,12 +35,15 @@ public class EndChunkGenerator extends ChunkGenerator {
 		if(totalChunkDistance2D > 50 || ConfigUtil.ALL_AETHER) {
 			for(int X = 0; X < 16; X++)
 				for(int Z = 0; Z < 16; Z++) {
-					//double biomeNoiseLvl = Main.getBiomeNoise(chunkX*16+X, chunkZ*16+Z, world.getSeed());
 					double biomeNoiseLvl = (ConfigUtil.ALL_AETHER) ? 1 : biomeGenerator.noise((double) (chunkX*16+X)/ConfigUtil.BIOME_SIZE, (double) (chunkZ*16+Z)/ConfigUtil.BIOME_SIZE, 0.5D, 0.5D);
 					double heatNoiseLvl = biomeGenerator.noise((double) (chunkX*16+X)/ConfigUtil.HEAT_NOISE, (double) (chunkZ*16+Z)/ConfigUtil.HEAT_NOISE, 0.5D, 0.5D);
 					double totalDistance2D = (chunkX*16+X > 1250 || chunkZ*16+Z > 1250)  ? totalDistance2D = 2000 : Math.sqrt(Math.pow(chunkX*16+X, 2)+Math.pow(chunkZ*16+Z, 2));
-					org.bukkit.block.Biome lbiome = Biome.fromCoordinates(chunkX*16+X, chunkZ*16+Z, world.getSeed()).getVanillaBiome();
-					if(lbiome != null) biome.setBiome(X, Z, lbiome);
+
+					if (biomeNoiseLvl < -0.5) biome.setBiome(X, Z, Biome.END_BARRENS);
+					else if(biomeNoiseLvl < 0) biome.setBiome(X, Z, Biome.SMALL_END_ISLANDS);
+					else if(biomeNoiseLvl < 0.5) biome.setBiome(X, Z, Biome.END_MIDLANDS);
+					else if(!ConfigUtil.OVERWORLD) biome.setBiome(X, Z, Biome.END_HIGHLANDS);
+					else biome.setBiome(X, Z, Biome.PLAINS);
 					if((biomeNoiseLvl > 0.45 || ConfigUtil.ALL_AETHER) && ConfigUtil.DO_CLOUDS) {
 						double aetherLvl = -Math.pow(256, -biomeNoiseLvl+0.45)+1;
 						if(aetherLvl < 0) aetherLvl = 0;

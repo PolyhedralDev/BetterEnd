@@ -21,7 +21,7 @@ import com.dfsek.betterend.world.Biome;
 import io.lumine.xikage.mythicmobs.MythicMobs;
 
 public class EventListener implements Listener {
-	Main main = Main.getInstance();
+	private Main main = Main.getInstance();
 	@EventHandler (ignoreCancelled=true)
 	public void onInventoryOpenEvent(InventoryOpenEvent event) {
 		if(ConfigUtil.ENABLE_MYTHIC_BOSS) {

@@ -19,9 +19,10 @@ public class NMSStructure {
 	private int permutation = 0;
 	/**
 	 * Load a structure from a packaged NBT structure file.
-	 * @param name - The structure name
-	 * @param permutation - the permutation of the structure to fetch
-	 * @return NMSStructure - The structure object
+	 * @author dfsek
+	 * @since 2.0.0
+	 * @param name - The structure name.
+	 * @param permutation - the permutation of the structure to fetch.
 	 */
 	public NMSStructure(Location origin, String name, int permutation) {
 		Object structure;
@@ -46,8 +47,10 @@ public class NMSStructure {
 
 	/**
 	 * Load a structure from a packaged NBT structure file sans permutation.
-	 * @param name - The structure name
-	 * @return NMSStructure - The structure object
+	 * @author dfsek
+	 * @since 3.1.0
+	 * @param origin - The origin location of the structure.
+	 * @param name - The structure name.
 	 */
 	public NMSStructure(Location origin, String name) {
 		Object structure;
@@ -67,7 +70,13 @@ public class NMSStructure {
 			e.printStackTrace();
 		}
 	}
-
+	/**
+	 * Load a structure from an InputStream.
+	 * @author dfsek
+	 * @since 3.5.0
+	 * @param origin - The origin location of the structure.
+	 * @param file - The FileInputStream from which to load the structure.
+	 */
 	public NMSStructure(Location origin, FileInputStream file) {
 		Object structure;
 		try {
@@ -88,7 +97,9 @@ public class NMSStructure {
 	}
 
 	/**
-	 * Gets origin of a structure.
+	 * Gets the origin of a structure.
+	 * @author dfsek
+	 * @since 2.0.0
 	 * @return Location - The origin of the structure
 	 */
 	public Location getOrigin() {
@@ -100,7 +111,9 @@ public class NMSStructure {
 	}
 
 	/**
-	 * Gets name of a structure.
+	 * Gets the name of a structure.
+	 * @author dfsek
+	 * @since 2.0.0
 	 * @return String - The name of the structure
 	 */
 	public String getName() {
@@ -108,7 +121,9 @@ public class NMSStructure {
 	}
 
 	/**
-	 * Sets rotation of structure.
+	 * Sets the rotation of structure.
+	 * @author dfsek
+	 * @since 2.0.0
 	 * @param rotation - The rotation (in degrees)
 	 */
 	public void setRotation(int rotation) {
@@ -117,7 +132,9 @@ public class NMSStructure {
 	}
 
 	/**
-	 * Gets dimensions of a structure.
+	 * Gets the dimensions of a structure.
+	 * @author dfsek
+	 * @since 2.0.0
 	 * @return int[] - The X, Y, and Z dimensions of the structure
 	 */
 	public int[] getDimensions() {
@@ -125,13 +142,20 @@ public class NMSStructure {
 	}
 
 	/**
-	 * Gets rotation of a structure.
+	 * Gets the rotation of a structure.
+	 * @author dfsek
+	 * @since 2.0.0
 	 * @return int - The rotation of the structure
 	 */
 	public int getRotation() {
 		return this.rotation;
 	}
-
+	/**
+	 * Gets the locations containing the structure.
+	 * @author dfsek
+	 * @since 2.0.0
+	 * @return Location[] - The top and bottom bounding locations.
+	 */
 	public Location[] getBoundingLocations() {
 		switch(this.rotation) {
 		case 0:
@@ -150,7 +174,9 @@ public class NMSStructure {
 	}
 
 	/**
-	 * Gets X dimension of a structure.
+	 * Gets the X dimension of a structure.
+	 * @author dfsek
+	 * @since 2.0.0
 	 * @return int - The X dimension of the structure
 	 */
 	public int getX() {
@@ -158,7 +184,9 @@ public class NMSStructure {
 	}
 
 	/**
-	 * Gets Y dimension of a structure.
+	 * Gets the Y dimension of a structure.
+	 * @author dfsek
+	 * @since 2.0.0
 	 * @return int - The Y dimension of the structure
 	 */
 	public int getY() {
@@ -166,7 +194,9 @@ public class NMSStructure {
 	}
 
 	/**
-	 * Gets Z dimension of a structure.
+	 * Gets the Z dimension of a structure.
+	 * @author dfsek
+	 * @since 2.0.0
 	 * @return int - The Z dimension of the structure
 	 */
 	public int getZ() {
@@ -175,6 +205,8 @@ public class NMSStructure {
 
 	/**
 	 * Pastes a structure into the world.
+	 * @author dfsek
+	 * @since 2.0.0
 	 */
 	public void paste() {
 		try {

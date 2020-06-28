@@ -20,6 +20,8 @@ public enum Biome {
 
 	/**
 	 * Gets the Biome at a location.
+	 * @author dfsek
+	 * @since 3.6.2
 	 * @param Location l - The location at which to fetch the Biome.
 	 * @return The biome at the specified location
 	 */
@@ -28,29 +30,14 @@ public enum Biome {
 		SimplexOctaveGenerator biomeGenerator = new SimplexOctaveGenerator(l.getWorld().getSeed(), 4);
 		int heatNoise = ConfigUtil.HEAT_NOISE;
 		int climateNoise = ConfigUtil.CLIMATE_NOISE;
-		double c = biomeGenerator.noise((double) (l.getBlockX()+1000)/climateNoise, (double) (l.getBlockZ()+1000)/climateNoise, 0.5D, 0.5D); 
-		double h = biomeGenerator.noise((double) (l.getBlockX())/heatNoise, (double) (l.getBlockZ())/heatNoise, 0.5D, 0.5D);
-
-		if(ConfigUtil.ALL_AETHER) {
-			if(h < -0.5 && c > -0.5) return Biome.AETHER_HIGHLANDS;
-			else if(h < -0.5 && Main.isPremium()) return Biome.AETHER_HIGHLANDS_FOREST;
-			else if(c > -0.5 || !Main.isPremium()) return Biome.AETHER;
-			else return Biome.AETHER_FOREST;
-		}
-		double d = biomeGenerator.noise((double) (l.getBlockX())/ConfigUtil.BIOME_SIZE, (double) (l.getBlockZ())/ConfigUtil.BIOME_SIZE, 0.5D, 0.5D);
-		if (d < -0.5 && h > 0) return Biome.SHATTERED_END;
-		else if(d < -0.5 && h < 0) return Biome.SHATTERED_FOREST;
-		else if (d < 0) return Biome.END;
-
-		else if (d < 0.5 && d > 0.15 && h < -0.5) return Biome.STARFIELD;
-		else if (d < 0.5) return Biome.VOID;
-		else if(h < -0.5 && c > -0.5) return Biome.AETHER_HIGHLANDS;
-		else if(h < -0.5 && Main.isPremium()) return Biome.AETHER_HIGHLANDS_FOREST;
-		else if(c > -0.5 || !Main.isPremium()) return Biome.AETHER;
-		else return Biome.AETHER_FOREST;
+		return fromNoiseVal(biomeGenerator.noise((double) (l.getBlockX()+1000)/climateNoise, (double) (l.getBlockZ()+1000)/climateNoise, 0.5D, 0.5D),
+				biomeGenerator.noise((double) (l.getBlockX())/heatNoise, (double) (l.getBlockZ())/heatNoise, 0.5D, 0.5D),
+				biomeGenerator.noise((double) (l.getBlockX())/ConfigUtil.BIOME_SIZE, (double) (l.getBlockZ())/ConfigUtil.BIOME_SIZE, 0.5D, 0.5D));
 	}
 	/**
 	 * Gets the Biome from a set of coordinates.
+	 * @author dfsek
+	 * @since 3.6.2
 	 * @param X - The X-coordinate at which to fetch the Biome.
 	 * @param Z - The Z-coordinate at which to fetch the Biome.
 	 * @param seed - The seed of the world in which to fetch the Biome.
@@ -60,16 +47,28 @@ public enum Biome {
 		SimplexOctaveGenerator biomeGenerator = new SimplexOctaveGenerator(seed, 4);
 		int heatNoise = ConfigUtil.HEAT_NOISE;
 		int climateNoise = ConfigUtil.CLIMATE_NOISE;
-		double c = biomeGenerator.noise((double) (X+1000)/climateNoise, (double) (Z+1000)/climateNoise, 0.5D, 0.5D); 
-		double h = biomeGenerator.noise((double) (X)/heatNoise, (double) (Z)/heatNoise, 0.5D, 0.5D);
+		return fromNoiseVal(biomeGenerator.noise((double) (X+1000)/climateNoise, (double) (Z+1000)/climateNoise, 0.5D, 0.5D), 
+				biomeGenerator.noise((double) (X)/heatNoise, (double) (Z)/heatNoise, 0.5D, 0.5D), 
+				biomeGenerator.noise((double) (X)/ConfigUtil.BIOME_SIZE, (double) (Z)/ConfigUtil.BIOME_SIZE, 0.5D, 0.5D));
 
+	}
+	/**
+	 * Gets the Biome from a set of noise values<br>
+	 * <b>Do not use! Uses Magic Values.</b>
+	 * @author dfsek
+	 * @since 3.6.2
+	 * @param c - Climate Noise
+	 * @param h - Heat Noise
+	 * @param d - Biome Noise
+	 * @return - The Biome corresponding to the given noise values.
+	 */
+	public static Biome fromNoiseVal(double c, double h, double d){
 		if(ConfigUtil.ALL_AETHER) {
 			if(h < -0.5 && c > -0.5) return Biome.AETHER_HIGHLANDS;
 			else if(h < -0.5 && Main.isPremium()) return Biome.AETHER_HIGHLANDS_FOREST;
 			else if(c > -0.5 || !Main.isPremium()) return Biome.AETHER;
 			else return Biome.AETHER_FOREST;
 		}
-		double d = biomeGenerator.noise((double) (X)/ConfigUtil.BIOME_SIZE, (double) (Z)/ConfigUtil.BIOME_SIZE, 0.5D, 0.5D);
 		if (d < -0.5 && h > 0) return Biome.SHATTERED_END;
 		else if(d < -0.5 && h < 0) return Biome.SHATTERED_FOREST;
 		else if (d < 0) return Biome.END;
@@ -83,44 +82,50 @@ public enum Biome {
 	}
 	/**
 	 * Checks whether or not the Biome is a variant of the Aether.
+	 * @author dfsek
+	 * @since 3.6.2
 	 * @return Whether or not the Biome is an Aether variant.
 	 */
 	public boolean isAether() {
-		if(this.equals(Biome.AETHER) || 
+		return (this.equals(Biome.AETHER) || 
 				this.equals(Biome.AETHER_FOREST) || 
 				this.equals(Biome.AETHER_HIGHLANDS) || 
-				this.equals(Biome.AETHER_HIGHLANDS_FOREST)) return true;
-		return false;
+				this.equals(Biome.AETHER_HIGHLANDS_FOREST));
 	}
 	/**
 	 * Checks whether or not the Biome is a variant of the Highlands.
+	 * @author dfsek
+	 * @since 3.6.2
 	 * @return Whether or not the Biome is a Highlands variant.
 	 */
 	public boolean isHighlands() {
-		if(this.equals(Biome.AETHER_HIGHLANDS) || 
-				this.equals(Biome.AETHER_HIGHLANDS_FOREST)) return true;
-		return false;
+		return (this.equals(Biome.AETHER_HIGHLANDS) || 
+				this.equals(Biome.AETHER_HIGHLANDS_FOREST));
 	}
 	/**
 	 * Checks whether or not the Biome is a variant of the Void.
+	 * @author dfsek
+	 * @since 3.6.2
 	 * @return Whether or not the Biome is a Void variant.
 	 */
 	public boolean isVoid() {
-		if(this.equals(Biome.VOID) ||
-				this.equals(Biome.STARFIELD)) return true;
-		return false;
+		return (this.equals(Biome.VOID) ||
+				this.equals(Biome.STARFIELD));
 	}
 	/**
 	 * Checks whether or not the Biome is a variant of the Shattered End.
+	 * @author dfsek
+	 * @since 3.6.2
 	 * @return Whether or not the Biome is a Shattered End variant.
 	 */
 	public boolean isShattered() {
-		if(this.equals(Biome.SHATTERED_END) ||
-				this.equals(Biome.SHATTERED_FOREST)) return true;
-		return false;
+		return (this.equals(Biome.SHATTERED_END) ||
+				this.equals(Biome.SHATTERED_FOREST));
 	}
 	/**
 	 * Gets a Biome from a String containing the Biome ID.
+	 * @author dfsek
+	 * @since 3.6.2
 	 * @param biome - The Biome ID
 	 * @return The Biome matching the ID.
 	 */
@@ -138,6 +143,8 @@ public enum Biome {
 	}
 	/**
 	 * Gets the String representation of the Biome's ID.
+	 * @author dfsek
+	 * @since 3.6.2
 	 * @return The Biome's ID as a String.
 	 */
 	@Override
@@ -155,6 +162,8 @@ public enum Biome {
 	}
 	/**
 	 * Gets the Vanilla Biome corresponding to BetterEnd Biome.
+	 * @author dfsek
+	 * @since 3.6.2
 	 * @return Vanilla Biome representing BetterEnd Biome.
 	 */
 	public org.bukkit.block.Biome getVanillaBiome() {
