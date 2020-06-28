@@ -1,4 +1,4 @@
-package com.dfsek.betterend;
+package com.dfsek.betterend.world.generation;
 
 import java.util.Arrays;
 import java.util.List;
@@ -11,12 +11,13 @@ import org.bukkit.generator.BlockPopulator;
 import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.util.noise.SimplexOctaveGenerator;
 
-import com.dfsek.betterend.populators.CustomStructurePopulator;
-import com.dfsek.betterend.populators.EnvironmentPopulator;
-import com.dfsek.betterend.populators.OrePopulator;
-import com.dfsek.betterend.populators.StructurePopulator;
+import com.dfsek.betterend.Main;
 import com.dfsek.betterend.util.ConfigUtil;
 import com.dfsek.betterend.util.Util;
+import com.dfsek.betterend.world.generation.populators.CustomStructurePopulator;
+import com.dfsek.betterend.world.generation.populators.EnvironmentPopulator;
+import com.dfsek.betterend.world.generation.populators.OrePopulator;
+import com.dfsek.betterend.world.generation.populators.StructurePopulator;
 
 public class EndChunkGenerator extends ChunkGenerator {
 	private Main main = Main.getInstance();

@@ -7,13 +7,13 @@ import org.bukkit.advancement.AdvancementProgress;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
-import com.dfsek.betterend.EndChunkGenerator;
 import com.dfsek.betterend.Main;
 import com.dfsek.betterend.advancement.Advancement;
 import com.dfsek.betterend.advancement.AdvancementFactory;
 import com.dfsek.betterend.advancement.shared.ItemObject;
 import com.dfsek.betterend.advancement.trigger.ImpossibleTrigger;
 import com.dfsek.betterend.world.Biome;
+import com.dfsek.betterend.world.generation.EndChunkGenerator;
 
 import net.md_5.bungee.api.chat.TextComponent;
 
@@ -21,60 +21,62 @@ public class EndAdvancementUtil {
 	private static Main main = Main.getInstance();
 	public static void enable(Plugin plugin) {
 		try {
-
 			new Advancement(new NamespacedKey(plugin, "outer_end/explore"), new ItemObject().setItem(Material.COMPASS), new TextComponent("Ender Explorer"), new TextComponent("Find all 9 Outer End biomes"))
 			.makeChild("minecraft:end/enter_end_gateway")
 			.addTrigger("0", new ImpossibleTrigger())
 			.setFrame(Advancement.Frame.GOAL)
 			.activate(true);
-		} catch (IllegalArgumentException e) {
-		}
+			if(ConfigUtil.DEBUG) main.getLogger().info("Enabled EXPLORE advancement.");
+		} catch (IllegalArgumentException e) {}
 		AdvancementFactory factory = new AdvancementFactory(plugin, true, false);
 		try {
 			Advancement aetherVisit = new Advancement(new NamespacedKey(plugin, "outer_end/visit_aether"), new ItemObject().setItem(Material.OAK_LOG), new TextComponent("A Hostile Paradise"), new TextComponent("Enter the Aether"));
 			aetherVisit.makeChild("minecraft:end/enter_end_gateway")
 			.addTrigger("0", new ImpossibleTrigger())
 			.activate(true);
-
+			if(ConfigUtil.DEBUG) main.getLogger().info("Enabled AETHER advancement.");
 			try {
 				Advancement aetherHighlandsVisit = factory.getImpossible("outer_end/visit_aether_highlands", aetherVisit, "Game Design", "Enter the Highlands", Material.SPRUCE_LOG).setHidden(true);
+				if(ConfigUtil.DEBUG) main.getLogger().info("Enabled HIGHLANDS advancement.");
 				factory.getImpossible("outer_end/visit_aether_forest", aetherVisit, "Big Trees", "Enter the Aether Forest", Material.OAK_SAPLING).setHidden(true).setAnnounce(false);
+				if(ConfigUtil.DEBUG) main.getLogger().info("Enabled FOREST advancement.");
 				factory.getImpossible("outer_end/visit_aether_highlands_forest", aetherHighlandsVisit, "Another Forest?", "Enter the Highlands Forest", Material.SPRUCE_SAPLING).setHidden(true).setAnnounce(false);
+				if(ConfigUtil.DEBUG) main.getLogger().info("Enabled HIGHLANDS FOREST advancement.");
 				factory.getImpossible("outer_end/gold_dungeon", aetherVisit, "I've Got a Bad Feeling About This...", "Open a Gold Dungeon Chest. What could go wrong?", Material.CHISELED_QUARTZ_BLOCK).setHidden(true);
-			} catch (IllegalArgumentException e) {
-			}
-		} catch (IllegalArgumentException e) {
-		}
+				if(ConfigUtil.DEBUG) main.getLogger().info("Enabled DUNGEON advancement.");
+			} catch (IllegalArgumentException e) {}
+		} catch (IllegalArgumentException e) {}
 
 		try {
 			Advancement voidVisit = new Advancement(new NamespacedKey(plugin, "outer_end/visit_void"), new ItemObject().setItem(Material.BLACK_CONCRETE), new TextComponent("Don't Fall"), new TextComponent("Enter a Void Biome"));
 			voidVisit.makeChild("minecraft:end/enter_end_gateway")
 			.addTrigger("0", new ImpossibleTrigger())
 			.activate(true);
-
+			if(ConfigUtil.DEBUG) main.getLogger().info("Enabled VOID advancement.");
 			factory.getImpossible("outer_end/visit_starfield", voidVisit, "A Field of Stars", "Enter a Starfield Biome", Material.GLOWSTONE).setHidden(true).setAnnounce(false);
+			if(ConfigUtil.DEBUG) main.getLogger().info("Enabled STARFIELD advancement.");
 			factory.getImpossible("outer_end/into_void", voidVisit, "Embrace the Void", "Travel below Y level -64", Material.BLACK_CONCRETE).setHidden(true);
+			if(ConfigUtil.DEBUG) main.getLogger().info("Enabled FALL advancement.");
 			factory.getImpossible("outer_end/dizzying_heights", voidVisit, "Dizzying Heights", "Travel above Y level 5000", Material.WHITE_CONCRETE).setHidden(true);
-
-		} catch (IllegalArgumentException e) {
-		}
+			if(ConfigUtil.DEBUG) main.getLogger().info("Enabled FLY advancement.");
+		} catch (IllegalArgumentException e) {}
 
 		try {
 			new Advancement(new NamespacedKey(plugin, "outer_end/visit_end"), new ItemObject().setItem(Material.END_STONE), new TextComponent("Finally, Something Familiar"), new TextComponent("Enter the End"))
 			.makeChild("minecraft:end/enter_end_gateway")
 			.addTrigger("0", new ImpossibleTrigger())
 			.activate(true);
-		} catch (IllegalArgumentException e) {
-		}
+			if(ConfigUtil.DEBUG) main.getLogger().info("Enabled END advancement.");
+		} catch (IllegalArgumentException e) {}
 
 
 		try {
 			Advancement shatteredVisit = new Advancement(new NamespacedKey(plugin, "outer_end/visit_shattered_end"), new ItemObject().setItem(Material.BLACK_CONCRETE), new TextComponent("What Happened Here?"), new TextComponent("Enter the Shattered End"));
 			shatteredVisit.makeChild("minecraft:end/enter_end_gateway").addTrigger("0", new ImpossibleTrigger()).activate(true);
+			if(ConfigUtil.DEBUG) main.getLogger().info("Enabled SHATTERED advancement.");
 			factory.getImpossible("outer_end/visit_shattered_forest", shatteredVisit, "Funky Trees", "Enter the Shattered Forest", Material.PURPLE_STAINED_GLASS).setHidden(true);
-
-		} catch (IllegalArgumentException e) {
-		}
+			if(ConfigUtil.DEBUG) main.getLogger().info("Enabled SHATTERED_FOREST advancement.");
+		} catch (IllegalArgumentException e) {}
 		Bukkit.reloadData();
 
 		plugin.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {

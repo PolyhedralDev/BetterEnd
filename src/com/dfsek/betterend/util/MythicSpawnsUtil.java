@@ -14,9 +14,9 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
-import com.dfsek.betterend.EndChunkGenerator;
 import com.dfsek.betterend.Main;
 import com.dfsek.betterend.world.Biome;
+import com.dfsek.betterend.world.generation.EndChunkGenerator;
 
 import io.lumine.xikage.mythicmobs.MythicMobs;
 

@@ -84,7 +84,9 @@ public class NMSReflectorUtil {
 			}
 			logger.info("Finished reflections. Time elapsed: " + ((double) (System.nanoTime()-start))/1000000 + "ms");
 		} catch (ClassNotFoundException | NoSuchMethodException e) {
-			e.printStackTrace();
+			logger.severe("An error has occured during Reflections. Please report this.");
+			logger.severe(e.getMessage());
+			logger.severe("Report the above error to BetterEnd at https://github.com/dfsek/BetterEnd-Public/issues");
 		}
 	}
 }

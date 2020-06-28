@@ -3,10 +3,14 @@ package com.dfsek.betterend.world;
 import org.bukkit.Location;
 import org.bukkit.util.noise.SimplexOctaveGenerator;
 
-import com.dfsek.betterend.EndChunkGenerator;
 import com.dfsek.betterend.Main;
 import com.dfsek.betterend.util.ConfigUtil;
-
+import com.dfsek.betterend.world.generation.EndChunkGenerator;
+/**
+ * Representation of BetterEnd custom biomes.
+ * @author dfsek
+ * @since 3.6.2
+ */
 public enum Biome {
 	END,
 	SHATTERED_END,
@@ -28,10 +32,8 @@ public enum Biome {
 	public static Biome fromLocation(Location l) {
 		if(!(l.getWorld().getGenerator() instanceof EndChunkGenerator)) throw new IllegalArgumentException("Provided location is not in a BetterEnd world.");
 		SimplexOctaveGenerator biomeGenerator = new SimplexOctaveGenerator(l.getWorld().getSeed(), 4);
-		int heatNoise = ConfigUtil.HEAT_NOISE;
-		int climateNoise = ConfigUtil.CLIMATE_NOISE;
-		return fromNoiseVal(biomeGenerator.noise((double) (l.getBlockX()+1000)/climateNoise, (double) (l.getBlockZ()+1000)/climateNoise, 0.5D, 0.5D),
-				biomeGenerator.noise((double) (l.getBlockX())/heatNoise, (double) (l.getBlockZ())/heatNoise, 0.5D, 0.5D),
+		return fromNoiseVal(biomeGenerator.noise((double) (l.getBlockX()+1000)/ConfigUtil.CLIMATE_NOISE, (double) (l.getBlockZ()+1000)/ConfigUtil.CLIMATE_NOISE, 0.5D, 0.5D),
+				biomeGenerator.noise((double) (l.getBlockX())/ConfigUtil.HEAT_NOISE, (double) (l.getBlockZ())/ConfigUtil.HEAT_NOISE, 0.5D, 0.5D),
 				biomeGenerator.noise((double) (l.getBlockX())/ConfigUtil.BIOME_SIZE, (double) (l.getBlockZ())/ConfigUtil.BIOME_SIZE, 0.5D, 0.5D));
 	}
 	/**

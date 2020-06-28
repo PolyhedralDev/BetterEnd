@@ -11,7 +11,6 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.dfsek.betterend.util.ConfigUtil;
@@ -21,12 +20,13 @@ import com.dfsek.betterend.util.NMSReflectorUtil;
 import com.dfsek.betterend.util.PremiumUtil;
 import com.dfsek.betterend.util.Util;
 import com.dfsek.betterend.world.Biome;
+import com.dfsek.betterend.world.generation.EndChunkGenerator;
 
-public class Main extends JavaPlugin implements Listener {	
+public class Main extends JavaPlugin {	
 	public FileConfiguration config = this.getConfig();
 	private static Main instance;
 	@Override
-	public void onEnable() {	
+	public void onEnable() {
 		instance = this;
 		Logger logger = this.getLogger();
 		NMSReflectorUtil.init(logger);
@@ -35,10 +35,10 @@ public class Main extends JavaPlugin implements Listener {
 			if(isPremium()) getServer().getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
 				@Override
 				public void run() {
-					EndAdvancementUtil.enable(instance);
 					logger.info("Enabling advancements...");
+					EndAdvancementUtil.enable(instance);
 				}
-			}, 40);
+			}, 60);
 		} catch(NoClassDefFoundError e) {}
 		Metrics metrics = new Metrics(this, 7709);
 		metrics.addCustomChart(new Metrics.SimplePie("premium", () -> isPremium() ? "Yes" : "No"));
@@ -110,8 +110,6 @@ public class Main extends JavaPlugin implements Listener {
 				sender.sendMessage(ChatColor.DARK_AQUA +  "[BetterEnd] " + ChatColor.RED + "You do not have permission for this command.");
 				return true;
 			}
-		} else if (args.length == 0) {
-			sender.sendMessage(ChatColor.RED + "You do not have permission for this command.");
 		} else if (args.length == 1 && args[0].equalsIgnoreCase("version")) {
 			sender.sendMessage(ChatColor.DARK_AQUA + "[BetterEnd]" + ChatColor.AQUA + " This server is running " + ChatColor.DARK_AQUA + "BetterEnd v" + this.getDescription().getVersion());
 			return true;

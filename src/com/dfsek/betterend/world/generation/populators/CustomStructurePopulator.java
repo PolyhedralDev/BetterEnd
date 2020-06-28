@@ -1,4 +1,4 @@
-package com.dfsek.betterend.populators;
+package com.dfsek.betterend.world.generation.populators;
 
 import java.io.File;
 import java.io.FileInputStream;

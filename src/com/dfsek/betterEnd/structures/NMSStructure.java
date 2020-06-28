@@ -8,7 +8,11 @@ import org.bukkit.Location;
 
 import com.dfsek.betterend.Main;
 import com.dfsek.betterend.util.NMSReflectorUtil;
-
+/**
+ * Representation of Vanilla Structure Block structure.
+ * @author dfsek
+ * @since 2.0.0
+ */
 public class NMSStructure {
 	private static Main main = Main.getInstance();
 	private int[] dimension;
@@ -236,7 +240,6 @@ public class NMSStructure {
 			info = NMSReflectorUtil.chunkCoordIntPairMethod.invoke(info, NMSReflectorUtil.chunkCoordIntPairClass.cast(null));
 			info = NMSReflectorUtil.mysteryBooleancMethod.invoke(info, false);
 			info = NMSReflectorUtil.setRandomMethod.invoke(info, new Random());
-
 
 			Object pos = NMSReflectorUtil.blockPositionConstructor.newInstance(this.origin.getBlockX(), this.origin.getBlockY(), this.origin.getBlockZ());
 			try {
