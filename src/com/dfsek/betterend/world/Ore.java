@@ -1,4 +1,4 @@
-package com.dfsek.betterend;
+package com.dfsek.betterend.world;
 
 import org.bukkit.Material;
 

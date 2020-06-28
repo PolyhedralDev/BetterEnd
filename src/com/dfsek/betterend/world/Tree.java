@@ -1,4 +1,4 @@
-package com.dfsek.betterend.structures;
+package com.dfsek.betterend.world;
 
 import java.util.Random;
 

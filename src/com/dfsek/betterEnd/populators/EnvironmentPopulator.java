@@ -7,16 +7,15 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.TreeType;
 import org.bukkit.World;
-import org.bukkit.block.Biome;
 import org.bukkit.entity.EnderCrystal;
 import org.bukkit.entity.EntityType;
 import org.bukkit.generator.BlockPopulator;
 import org.bukkit.util.noise.SimplexOctaveGenerator;
 
-import com.dfsek.betterend.ConfigUtil;
-import com.dfsek.betterend.Main;
-import com.dfsek.betterend.structures.ShatteredTree;
-import com.dfsek.betterend.structures.Tree;
+import com.dfsek.betterend.world.ShatteredTree;
+import com.dfsek.betterend.world.Tree;
+import com.dfsek.betterend.util.ConfigUtil;
+import com.dfsek.betterend.world.Biome;
 
 public class EnvironmentPopulator extends BlockPopulator {
 	@SuppressWarnings("deprecation")
@@ -35,7 +34,7 @@ public class EnvironmentPopulator extends BlockPopulator {
 					chunk.getBlock(X, Y+1, Z).setType(Material.SNOW);
 				}
 				if(heatNoiseLvl < -0.5 && (biomeNoiseLvl > 0.5 || ConfigUtil.ALL_AETHER)) {
-					world.setBiome(chunk.getX()*16+X, chunk.getZ()*16+Z, Biome.TAIGA);
+					world.setBiome(chunk.getX()*16+X, chunk.getZ()*16+Z, org.bukkit.block.Biome.TAIGA);
 
 					if(random.nextInt(1000) < 2) {
 						for (Y = world.getMaxHeight()-1; (chunk.getBlock(X, Y, Z).getType() != Material.GRASS_BLOCK && 
@@ -65,7 +64,7 @@ public class EnvironmentPopulator extends BlockPopulator {
 			}
 			int X = random.nextInt(16);
 			int Z = random.nextInt(16);
-			if(Main.getBiome(chunk.getX()*16 + X, chunk.getZ()*16 + Z, world.getSeed()).equals("AETHER") || Main.getBiome(chunk.getX()*16 + X, chunk.getZ()*16 + Z, world.getSeed()).equals("AETHER_HIGHLANDS")) {
+			if(Biome.fromCoordinates(chunk.getX()*16 + X, chunk.getZ()*16 + Z, world.getSeed()).isAether()) {
 				for (int i = 0; i < size; i++) {
 					int Y;
 					for (Y = world.getMaxHeight()-1; chunk.getBlock(X, Y, Z).getType() != Material.GRASS_BLOCK && Y>0; Y--);
@@ -88,8 +87,8 @@ public class EnvironmentPopulator extends BlockPopulator {
 						chunk.getBlock(X, Y, Z).getType() != Material.END_STONE) && Y>0; Y--); // Find the highest block of the (X,Z) coordinate chosen.
 				if (Y > ConfigUtil.ISLAND_HEIGHT-1 && Y < 255) {
 					Location blockLocation = chunk.getBlock(X, Y, Z).getLocation();
-					switch(Main.getBiome(blockLocation.getBlockX(), blockLocation.getBlockZ(), world.getSeed())) {
-					case "AETHER":
+					switch(Biome.fromLocation(blockLocation)) {
+					case AETHER:
 						for (Y = world.getMaxHeight()-1; (chunk.getBlock(X, Y, Z).getType() != Material.GRASS_BLOCK) && Y>0; Y--);
 						if(Y > 1) {
 							if(random.nextInt(100) < 95) {
@@ -107,13 +106,13 @@ public class EnvironmentPopulator extends BlockPopulator {
 							}
 						} 
 						break;
-					case "AETHER_FOREST":
+					case AETHER_FOREST:
 						if(random.nextInt(20) < 12 && blockLocation.getBlock().getType() == Material.GRASS_BLOCK) {
 							//world.generateTree(blockLocation, TreeType.BIG_TREE);
 							new Tree(blockLocation, 1.5, random, random.nextInt(4)+10, "OAK");
 						}
 						break;
-					case "AETHER_HIGHLANDS":
+					case AETHER_HIGHLANDS:
 						for (int j = 0; j < 16; j++) {
 							int X1 = random.nextInt(15);
 							int Z1 = random.nextInt(15);
@@ -137,7 +136,7 @@ public class EnvironmentPopulator extends BlockPopulator {
 							}
 						}
 						break;
-					case "AETHER_HIGHLANDS_FOREST":
+					case AETHER_HIGHLANDS_FOREST:
 						if(random.nextInt(20) < 10 && (blockLocation.getBlock().getType() == Material.GRASS_BLOCK ||
 						blockLocation.getBlock().getType() == Material.PODZOL ||
 						blockLocation.getBlock().getType() == Material.COARSE_DIRT ||
@@ -146,7 +145,7 @@ public class EnvironmentPopulator extends BlockPopulator {
 							new Tree(blockLocation, 1.5, random, 3*(random.nextInt(3)+5), "SPRUCE");
 						}
 						break;
-					case "SHATTERED_END":
+					case SHATTERED_END:
 						if(blockLocation.getBlock().getType() == Material.END_STONE && random.nextInt(10) < 7) {
 							if(random.nextInt(100) < 60) {
 								plantShatteredPillar(random, chunk, world, new int[] {X, Y, Z});
@@ -159,7 +158,7 @@ public class EnvironmentPopulator extends BlockPopulator {
 							}
 						}
 						break;
-					case "SHATTERED_FOREST":
+					case SHATTERED_FOREST:
 						if(blockLocation.getBlock().getType() == Material.END_STONE && random.nextInt(20) < 6 && i == 0) {
 							new ShatteredTree(blockLocation, 2, random, random.nextInt(10)+20);
 						} else if(blockLocation.getBlock().getType() == Material.END_STONE && random.nextInt(20) < 10) {

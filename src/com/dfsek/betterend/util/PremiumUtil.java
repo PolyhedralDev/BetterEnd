@@ -1,4 +1,4 @@
-package com.dfsek.betterend;
+package com.dfsek.betterend.util;
 
 public class PremiumUtil {
 	public static boolean isPremium() {

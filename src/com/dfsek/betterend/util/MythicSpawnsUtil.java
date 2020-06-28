@@ -1,4 +1,4 @@
-package com.dfsek.betterend;
+package com.dfsek.betterend.util;
 
 import java.io.File;
 import java.io.IOException;
@@ -13,6 +13,10 @@ import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
+
+import com.dfsek.betterend.EndChunkGenerator;
+import com.dfsek.betterend.Main;
+import com.dfsek.betterend.world.Biome;
 
 import io.lumine.xikage.mythicmobs.MythicMobs;
 
@@ -86,7 +90,7 @@ public class MythicSpawnsUtil {
 										}
 										if(Y < 1) continue;
 										attemptLoc.setY(Y);
-										if(((List<?>) mob.get("biomes")).contains(Main.getBiome(attemptLoc.getBlockX(), attemptLoc.getBlockZ(), p.getWorld().getSeed())) && attemptLoc.clone().add(0,1,0).getBlock().isPassable() && attemptLoc.clone().add(0,2,0).getBlock().isPassable() && attemptLoc.clone().add(0,1,0).getBlock().getLightLevel() < (int) mob.get("maxLight")) {
+										if(((List<?>) mob.get("biomes")).contains(Biome.fromLocation(attemptLoc).toString()) && attemptLoc.clone().add(0,1,0).getBlock().isPassable() && attemptLoc.clone().add(0,2,0).getBlock().isPassable() && attemptLoc.clone().add(0,1,0).getBlock().getLightLevel() < (int) mob.get("maxLight")) {
 											MythicMobs.inst().getMobManager().spawnMob((String) mob.get("name"), attemptLoc.add(0,1,0));
 											if(debug) main.getLogger().info("Spawning mob \"" + mob.get("name") + "\" at " + attemptLoc);
 										}

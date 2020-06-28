@@ -1,4 +1,4 @@
-package com.dfsek.betterend;
+package com.dfsek.betterend.util;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -10,6 +10,8 @@ import java.util.logging.Logger;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+
+import com.dfsek.betterend.Main;
 
 public class ConfigUtil {
 	public static int SHULKER_SPAWNS;
@@ -26,8 +28,10 @@ public class ConfigUtil {
 	public static boolean DO_CLOUDS;
 	public static boolean DO_AETHER_CAVE_DEC;
 	public static boolean DO_END_CAVE_DEC;
+	public static boolean PREVENT_ENDERMAN_PICKUP;
 	public static int CLOUD_NOISE;
 	public static int HEAT_NOISE;
+	public static int CLIMATE_NOISE;
 	public static int ISLAND_HEIGHT_MULTIPLIER_TOP;
 	public static int ISLAND_HEIGHT_MULTIPLIER_BOTTOM;
 	public static double LAND_PERCENT;
@@ -45,6 +49,8 @@ public class ConfigUtil {
 	public static String BOSS_NAME_GOLD;
 	public static boolean OVERWORLD;
 	public static int[] ORE_CHANCES;
+	public static boolean DO_UPDATE_CHECK;
+	public static int UPDATE_CHECK_FREQUENCY;
 	
 	public static void loadConfig(Logger logger, Main main) {
 		long start = System.nanoTime();
@@ -65,8 +71,10 @@ public class ConfigUtil {
 		DO_CLOUDS = config.getBoolean("aether.clouds.enable-clouds", true);
 		DO_AETHER_CAVE_DEC = config.getBoolean("aether.cave-decoration", true);
 		DO_END_CAVE_DEC = config.getBoolean("outer-islands.cave-decoration", true);
+		PREVENT_ENDERMAN_PICKUP = config.getBoolean("prevent-enderman-block-pickup", true);
 		CLOUD_NOISE = config.getInt("aether.clouds.cloud-noise", 36);
 		HEAT_NOISE = config.getInt("outer-islands.heat-noise", 512);
+		CLIMATE_NOISE = config.getInt("outer-islands.climate-noise", 384);
 		ISLAND_HEIGHT_MULTIPLIER_TOP = config.getInt("outer-islands.height-multiplier.top", 6);
 		ISLAND_HEIGHT_MULTIPLIER_BOTTOM = config.getInt("outer-islands.height-multiplier.bottom", 52);
 		LAND_PERCENT = 1-((double) ((config.getInt("outer-islands.island-threshold", 30))/50D));
@@ -90,6 +98,8 @@ public class ConfigUtil {
 				config.getInt("aether.ores.weights.lapis_ore", 10),
 				config.getInt("aether.ores.weights.diamond_ore", 3),
 				config.getInt("aether.ores.weights.emerald_ore", 2)};
+		DO_UPDATE_CHECK = config.getBoolean("update-checker.enable", true);
+		UPDATE_CHECK_FREQUENCY = config.getInt("update-checker.frequency", 3600);
 		logger.info("Complete. Time elapsed: " + ((double) (System.nanoTime()-start))/1000000 + "ms");
 	}
 	

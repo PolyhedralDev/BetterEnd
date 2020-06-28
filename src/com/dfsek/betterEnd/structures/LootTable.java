@@ -25,8 +25,8 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import com.dfsek.betterend.ConfigUtil;
 import com.dfsek.betterend.Main;
+import com.dfsek.betterend.util.ConfigUtil;
 
 public class LootTable {
 	private Object tableJSON;

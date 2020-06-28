@@ -22,11 +22,12 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.util.noise.SimplexOctaveGenerator;
 
-import com.dfsek.betterend.ConfigUtil;
 import com.dfsek.betterend.Main;
 import com.dfsek.betterend.structures.LootTable;
 import com.dfsek.betterend.structures.NMSStructure;
+import com.dfsek.betterend.util.ConfigUtil;
 import com.dfsek.betterend.util.Util;
+import com.dfsek.betterend.world.Biome;
 
 
 public class StructurePopulator extends BlockPopulator {
@@ -48,15 +49,14 @@ public class StructurePopulator extends BlockPopulator {
 				chunk.getBlock(X, Y, Z).getType() != Material.DIRT &&
 				chunk.getBlock(X, Y, Z).getType() != Material.STONE &&
 				chunk.getBlock(X, Y, Z).getType() != Material.COARSE_DIRT) && Y>0; Y--);
-		String biome = Main.getBiome(chunk.getX()*16+X, chunk.getZ()*16+Z, world.getSeed());
-		if(Y < ConfigUtil.ISLAND_HEIGHT-1 && !"STARFIELD".equals(biome)) return;
+		Biome biome = Biome.fromCoordinates(chunk.getX()*16+X, chunk.getZ()*16+Z, world.getSeed());
+		if(Y < ConfigUtil.ISLAND_HEIGHT-1 && !biome.equals(Biome.STARFIELD)) return;
 		int permutation = 0;
 		boolean ground = false;
 		boolean overrideSpawnCheck = false;
 
 		SimplexOctaveGenerator biomeGenerator = new SimplexOctaveGenerator(world.getSeed(), 4);
 		double biomeNoiseLvl = biomeGenerator.noise((double) (chunk.getX()*16+X)/ConfigUtil.BIOME_SIZE, (double) (chunk.getZ()*16+Z)/ConfigUtil.BIOME_SIZE, 0.5D, 0.5D);
-
 		if(biomeNoiseLvl > 0.5 || ConfigUtil.ALL_AETHER) {
 			if(random.nextInt(100) < ConfigUtil.STRUCTURE_CHANCE) {
 				String structureName = (String) Util.chooseOnWeight(new String[] {"gold_dungeon", "cobble_house", "wood_house"}, ConfigUtil.AETHER_STRUCTURE_WEIGHTS);
@@ -67,7 +67,7 @@ public class StructurePopulator extends BlockPopulator {
 					break;
 				case "wood_house":
 					Y--;
-					if("AETHER_HIGHLANDS".equals(biome) || "AETHER_HIGHLANDS_FOREST".equals(biome)) structureName = "spruce_house";
+					if(biome.isHighlands()) structureName = "spruce_house";
 					permutation = random.nextInt(5);
 					break;
 				case "gold_dungeon":
@@ -80,10 +80,10 @@ public class StructurePopulator extends BlockPopulator {
 			} else if(random.nextInt(100) < ConfigUtil.RUIN_CHANCE) {
 				structure = new NMSStructure(new Location(world, chunk.getX()*16+X, Y, chunk.getZ()*16+Z), "aether_ruin", random.nextInt(18));
 			} else return;
-		} else if("STARFIELD".equals(biome)) {
+		} else if(biome.equals(Biome.STARFIELD)) {
 			genStars(random, chunk, world);
 			return;
-		} else if(!("SHATTERED_END".equals(biome) || "SHATTERED_FOREST".equals(biome))) {
+		} else if(!biome.isShattered()) {
 			if(random.nextInt(100) < ConfigUtil.STRUCTURE_CHANCE) {
 				String structureName = (String) Util.chooseOnWeight(new String[] {"end_house", "shulker_nest", "stronghold", "end_ship", "end_tower", "wrecked_end_ship"}, ConfigUtil.END_STRUCTURE_WEIGHTS);
 
@@ -127,7 +127,7 @@ public class StructurePopulator extends BlockPopulator {
 		if(overrideSpawnCheck || (structure.getName().equals("aether_ruin") ? isValidSpawn(b[0], b[1], false, true) : isValidSpawn(b[0], b[1], ground, false))) {
 			structure.paste();
 			List<Location> locationsAll = getLocationListBetween(b[0], b[1]);
-			if("AETHER_HIGHLANDS".equals(biome) || "AETHER_HIGHLANDS_FOREST".equals(biome)) randomCobwebs(locationsAll, random);
+			if(biome.isHighlands()) randomCobwebs(locationsAll, random);
 			if("shulker_nest".equals(structure.getName())) spawnShulkers(locationsAll, random, world);
 			if(!"aether_ruin".equals(structure.getName())) System.out.println("[BetterEnd] Generating structure \"" + structure.getName() + "\",  at " + b[0].getX() + ", " + b[0].getY() + ", " + b[0].getZ() + ". Dimensions: X: "+  dimension[0] + ", Y: " + dimension[1] + ", Z: " + dimension[2]);
 			fillInventories(getChestsIn(b[0], b[1]), random, structure);        
@@ -141,7 +141,7 @@ public class StructurePopulator extends BlockPopulator {
 			NMSStructure s2 = new NMSStructure(new Location(world, chunk.getX()*16+random.nextInt(16), Y, chunk.getZ()*16+random.nextInt(16)), "void_star", random.nextInt(4));
 			boolean p2 = true;
 			for(Location l : getLocationListBetween(s2.getBoundingLocations()[0], s2.getBoundingLocations()[1])) {
-				if(!l.getBlock().isEmpty() || !Main.getBiome(l.getBlockX(), l.getBlockZ(), l.getWorld().getSeed()).equals("STARFIELD")) {
+				if(!l.getBlock().isEmpty() || !Biome.fromLocation(l).equals(Biome.STARFIELD)) {
 					p2 = false;
 				}
 			}
@@ -149,7 +149,7 @@ public class StructurePopulator extends BlockPopulator {
 		}
 		boolean p1 = true;
 		for(Location l : getLocationListBetween(s1.getBoundingLocations()[0], s1.getBoundingLocations()[1])) {
-			if(!l.getBlock().isEmpty() || !Main.getBiome(l.getBlockX(), l.getBlockZ(), l.getWorld().getSeed()).equals("STARFIELD")) {
+			if(!l.getBlock().isEmpty() || !Biome.fromLocation(l).equals(Biome.STARFIELD)) {
 				p1 = false;
 			}
 		}

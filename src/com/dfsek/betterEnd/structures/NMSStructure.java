@@ -7,6 +7,7 @@ import java.util.Random;
 import org.bukkit.Location;
 
 import com.dfsek.betterend.Main;
+import com.dfsek.betterend.util.NMSReflectorUtil;
 
 public class NMSStructure {
 	private static Main main = Main.getInstance();

@@ -1,4 +1,4 @@
-package com.dfsek.betterend.structures;
+package com.dfsek.betterend.util;
 
 import java.io.InputStream;
 import java.lang.reflect.Constructor;
@@ -46,7 +46,7 @@ public class NMSReflectorUtil {
 	public static void init(Logger logger) {
 		try {
 			long start = System.nanoTime();
-			logger.info("Beginning reflections...");
+			logger.info("Beginning reflections for net.minecraft.server." + version + ".");
 			craftWorldClass = Class.forName("org.bukkit.craftbukkit." + version + ".CraftWorld");
 			compoundNBTTagClass = Class.forName("net.minecraft.server." + version + ".NBTTagCompound");
 			generatorAccessClass = Class.forName("net.minecraft.server." + version + ".GeneratorAccess");

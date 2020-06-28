@@ -1,4 +1,4 @@
-package com.dfsek.betterend;
+package com.dfsek.betterend.util;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -7,10 +7,13 @@ import org.bukkit.advancement.AdvancementProgress;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
+import com.dfsek.betterend.EndChunkGenerator;
+import com.dfsek.betterend.Main;
 import com.dfsek.betterend.advancement.Advancement;
 import com.dfsek.betterend.advancement.AdvancementFactory;
 import com.dfsek.betterend.advancement.shared.ItemObject;
 import com.dfsek.betterend.advancement.trigger.ImpossibleTrigger;
+import com.dfsek.betterend.world.Biome;
 
 import net.md_5.bungee.api.chat.TextComponent;
 
@@ -80,32 +83,32 @@ public class EndAdvancementUtil {
 				for(Player p : plugin.getServer().getOnlinePlayers()) {
 					double totalChunkDistance2D = Math.sqrt(Math.pow(p.getLocation().getChunk().getX(), 2)+Math.pow(p.getLocation().getChunk().getZ(), 2));
 					if(p.getWorld().getGenerator() instanceof EndChunkGenerator && (totalChunkDistance2D > 50)) {
-						switch(Main.getBiome(p.getLocation().getBlockX(), p.getLocation().getBlockZ(), p.getWorld().getSeed())) {
-						case "AETHER":
+						switch(Biome.fromLocation(p.getLocation())) {
+						case AETHER:
 							grantAdvancement("visit_aether", p);
 							break;
-						case "AETHER_FOREST":
+						case AETHER_FOREST:
 							grantAdvancement("visit_aether_forest", p);
 							break;
-						case "AETHER_HIGHLANDS":
+						case AETHER_HIGHLANDS:
 							grantAdvancement("visit_aether_highlands", p);
 							break;
-						case "AETHER_HIGHLANDS_FOREST":
+						case AETHER_HIGHLANDS_FOREST:
 							grantAdvancement("visit_aether_highlands_forest", p);
 							break;
-						case "VOID":
+						case VOID:
 							grantAdvancement("visit_void", p);
 							break;
-						case "STARFIELD":
+						case STARFIELD:
 							grantAdvancement("visit_starfield", p);
 							break;
-						case "SHATTERED_END":
+						case SHATTERED_END:
 							grantAdvancement("visit_shattered_end", p);
 							break;
-						case "SHATTERED_FOREST":
+						case SHATTERED_FOREST:
 							grantAdvancement("visit_shattered_forest", p);
 							break;
-						case "END":
+						case END:
 							grantAdvancement("visit_end", p);
 							break;
 						default:

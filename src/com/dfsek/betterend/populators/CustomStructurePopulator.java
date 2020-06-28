@@ -24,10 +24,11 @@ import org.bukkit.generator.BlockPopulator;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.util.noise.SimplexOctaveGenerator;
 
-import com.dfsek.betterend.ConfigUtil;
 import com.dfsek.betterend.Main;
 import com.dfsek.betterend.structures.LootTable;
 import com.dfsek.betterend.structures.NMSStructure;
+import com.dfsek.betterend.util.ConfigUtil;
+import com.dfsek.betterend.world.Biome;
 
 public class CustomStructurePopulator extends BlockPopulator {
 
@@ -66,9 +67,6 @@ public class CustomStructurePopulator extends BlockPopulator {
 
 			NMSStructure structure;
 
-			String biome = Main.getBiome(chunk.getX()*16+X, chunk.getZ()*16+Z, world.getSeed());
-
-
 			List<Map<?, ?>> structures = config.getMapList("structures");
 
 			//if(debug) main.getLogger().info("Spawning max of " + maxMobs + ", " + numMobs + " already exist(s).");
@@ -80,7 +78,7 @@ public class CustomStructurePopulator extends BlockPopulator {
 			}
 			Map<?, ?> struc = structures.get(chooseOnWeight(structureIDs.build().toArray(), weights.build().toArray()));
 
-			if(!((List<?>) struc.get("biomes")).contains(biome)) return;
+			if(!((List<?>) struc.get("biomes")).contains(Biome.fromCoordinates(chunk.getX()*16+X, chunk.getZ()*16+Z, world.getSeed()))) return;
 
 			int Y = 0;
 
