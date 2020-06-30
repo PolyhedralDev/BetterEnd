@@ -80,7 +80,7 @@ public class LangUtil {
 		RELOAD_CONFIG = ChatColor.translateAlternateColorCodes((char) ('&'), config.getString("commands.reload-config"));
 		COMPLETE_MSG = ChatColor.translateAlternateColorCodes((char) ('&'), config.getString("commands.complete-msg"));
 		BIOME_COMMAND = ChatColor.translateAlternateColorCodes((char) ('&'), config.getString("commands.biome"));
-		ENABLE_STRUCTURES = ChatColor.translateAlternateColorCodes((char) ('&'), config.getString("custom-structures.enable"));;
+		ENABLE_STRUCTURES = ChatColor.translateAlternateColorCodes((char) ('&'), config.getString("custom-structures.enable"));
 		ENABLE_MM = ChatColor.translateAlternateColorCodes((char) ('&'), config.getString("mythicmobs.enable"));
 		CUSTOM_STRUCTURE_MSG = ChatColor.translateAlternateColorCodes((char) ('&'), config.getString("custom-structures.log"));
 		STRUCTURE_MSG = ChatColor.translateAlternateColorCodes((char) ('&'), config.getString("structure-log"));

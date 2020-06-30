@@ -15,7 +15,7 @@ import org.bukkit.util.noise.SimplexOctaveGenerator;
 import com.dfsek.betterend.Main;
 
 public class StructureUtil {
-	static Main main = Main.getInstance();
+	private static Main main = Main.getInstance();
 	public static boolean isValidSpawn(Location l1, Location l2, boolean underground, boolean strict) {
 		SimplexOctaveGenerator generator = new SimplexOctaveGenerator(l1.getWorld().getSeed(), 4);
 		int outNoise = main.getConfig().getInt("outer-islands.noise");
@@ -40,10 +40,8 @@ public class StructureUtil {
 			if (l2.getBlock().isEmpty()) {
 				return false;
 			}
-			//       l1 = new Location(l1.getWorld(), l1.getBlockX(), l1.getBlockY(), l1.getBlockZ());
 			Location l3 = new Location(l1.getWorld(), l2.getBlockX(), l1.getBlockY(), l1.getBlockZ());
 			Location l4 = new Location(l2.getWorld(), l1.getBlockX(), l2.getBlockY(), l1.getBlockZ());
-			//	     l2 = new Location(l2.getWorld(), l2.getBlockX(), l2.getBlockY(), l2.getBlockZ());
 			Location l5 = new Location(l1.getWorld(), l1.getBlockX(), l1.getBlockY(), l2.getBlockZ());
 			Location l6 = new Location(l2.getWorld(), l2.getBlockX(), l1.getBlockY(), l2.getBlockZ());
 			Location l7 = new Location(l1.getWorld(), l1.getBlockX(), l2.getBlockY(), l1.getBlockZ());

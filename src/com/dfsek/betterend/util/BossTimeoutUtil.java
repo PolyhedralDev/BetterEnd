@@ -9,7 +9,7 @@ import org.bukkit.persistence.PersistentDataType;
 import com.dfsek.betterend.Main;
 
 public class BossTimeoutUtil {
-	static Main main = Main.getInstance();
+	private static Main main = Main.getInstance();
 	public static boolean timeoutReached(Chest chest) {
 		NamespacedKey key = new NamespacedKey(main, "dungeon-timeout");
 		long time = System.currentTimeMillis();
