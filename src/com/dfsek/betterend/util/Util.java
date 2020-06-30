@@ -1,9 +1,16 @@
 package com.dfsek.betterend.util;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Enumeration;
+import java.util.List;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
+import java.util.logging.Logger;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -15,6 +22,8 @@ import com.dfsek.betterend.UpdateChecker.UpdateReason;
 import com.dfsek.betterend.world.Biome;
 
 public class Util {
+	private static Main main = Main.getInstance();
+	private static Logger logger = main.getLogger();
 	public static Object chooseOnWeight(Object[] items, int[] weights) {
 		double completeWeight = 0.0;
 		for (int weight : weights)
@@ -68,17 +77,17 @@ public class Util {
 		Main instance = Main.getInstance();
 		UpdateChecker.init(instance, 79389).requestUpdateCheck().whenComplete((result, exception) -> {
 			if (result.requiresUpdate()) {
-				instance.getLogger().info(String.format("A new version of BetterEnd is available: %s ", result.getNewestVersion()));
+				instance.getLogger().info(String.format(LangUtil.NEW_VERSION, result.getNewestVersion()));
 				return;
 			}
 
 			UpdateReason reason = result.getReason();
 			if (reason == UpdateReason.UP_TO_DATE) {
-				instance.getLogger().info(String.format("Your version of BetterEnd (%s) is up to date!", result.getNewestVersion()));
+				instance.getLogger().info(String.format(LangUtil.UP_TO_DATE, result.getNewestVersion()));
 			} else if (reason == UpdateReason.UNRELEASED_VERSION) {
-				instance.getLogger().info(String.format("Your version of BetterEnd (%s) is more recent than the one publicly available.", result.getNewestVersion()));
+				instance.getLogger().info(String.format(LangUtil.MORE_RECENT, result.getNewestVersion()));
 			} else {
-				instance.getLogger().warning("An error occurred while checking for an update. Reason: " + reason);//Occurred
+				instance.getLogger().warning(LangUtil.UPDATE_ERROR + reason);//Occurred
 			}
 		});
 	}
@@ -93,5 +102,46 @@ public class Util {
 		}
 		buf.close();
 		return sb.toString();
+	}
+	public static void copyResourcesToDirectory(JarFile fromJar, String jarDir, String destDir) throws IOException {
+		for(Enumeration<JarEntry> entries = fromJar.entries(); entries.hasMoreElements();) {
+			JarEntry entry = entries.nextElement();
+			if(ConfigUtil.DEBUG) Main.getInstance().getLogger().info(entry.getName());
+			if(entry.getName().startsWith(jarDir + "/") && !entry.isDirectory()) {
+				File dest = new File(destDir + File.separator + entry.getName().substring(jarDir.length() + 1));
+				if(ConfigUtil.DEBUG) Main.getInstance().getLogger().info("Output: " + dest.toString());
+				if(dest.exists()) continue;
+				File parent = dest.getParentFile();
+				if(parent != null) {
+					parent.mkdirs();
+				}
+				if(ConfigUtil.DEBUG) Main.getInstance().getLogger().info("Output does not already exist. Creating... ");
+				FileOutputStream out = new FileOutputStream(dest);
+				InputStream in = fromJar.getInputStream(entry);
+
+				try {
+					byte[] buffer = new byte[8 * 1024];
+
+					int s = 0;
+					while ((s = in.read(buffer)) > 0) {
+						out.write(buffer, 0, s);
+					}
+				} catch (IOException e) {
+					throw new IOException("Could not copy asset from jar file", e);
+				} finally {
+					try {
+						in.close();
+					} catch (IOException ignored) {}
+					try {
+						out.close();
+					} catch (IOException ignored) {}
+				}
+			}
+		}
+	}
+	public static void logForEach(List<String> msgs) {
+		for(String msg:msgs) {
+			logger.info(ChatColor.translateAlternateColorCodes((char) ('&'), msg));
+		}
 	}
 }

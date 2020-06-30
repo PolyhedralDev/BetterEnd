@@ -29,11 +29,11 @@ public class MythicSpawnsUtil {
 	public static void startSpawnRoutine() {
 
 		if(Main.isPremium()) {
-			main.getLogger().info("Starting MythicMobs integration");
+			main.getLogger().info(LangUtil.ENABLE_MM);
 			try {
 				config.load(configFile);
 			} catch (IOException e) {
-				main.getLogger().warning("Unable to locate mythicSpawns.yml. Aborting MythicMobs random spawning.");
+				main.getLogger().warning(LangUtil.MM_CONFIG_NOT_FOUND);
 				return;
 			} catch (InvalidConfigurationException e) {
 				e.printStackTrace();
@@ -85,7 +85,7 @@ public class MythicSpawnsUtil {
 											Y = p.getWorld().getMaxHeight()-96-random.nextInt(64);
 											break;
 										default:
-											main.getLogger().warning((String) mob.get("spawn") + " is an invalid spawn location. Must be either GROUND or AIR.");
+											main.getLogger().warning(String.format(LangUtil.INVALID_SPAWN, (String) mob.get("spawn")));
 											break;
 										}
 										if(Y < 1) continue;
@@ -100,11 +100,10 @@ public class MythicSpawnsUtil {
 							}
 						}
 					} catch(NoClassDefFoundError e) {
-						main.getLogger().warning("Failed to spawn Mobs. Is MythicMobs installed?");
+						main.getLogger().warning(LangUtil.MM_FAIL_TO_SPAWN);
 					}
 				}
 			}, 20L * spawnTime, 20L * spawnTime);
-
 		}
 	}
 	public static int chooseOnWeight(int[] items, int[] weights) {

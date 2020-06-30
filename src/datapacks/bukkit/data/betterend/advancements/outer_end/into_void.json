@@ -1,0 +1,21 @@
+{
+  "parent": "betterend:outer_end/visit_void",
+  "display": {
+    "icon": {
+      "item": "minecraft:black_concrete"
+    },
+    "title": {
+      "text": "Embrace the Void"
+    },
+    "description": {
+      "text": "Travel below Y level -64"
+    },
+    "frame": "task"
+  },
+  "criteria": {
+    "0": {
+      "trigger": "minecraft:impossible",
+      "conditions": {}
+    }
+  }
+}

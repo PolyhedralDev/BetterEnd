@@ -1,0 +1,21 @@
+{
+  "parent": "betterend:outer_end/visit_aether",
+  "display": {
+    "icon": {
+      "item": "minecraft:oak_sapling"
+    },
+    "title": {
+      "text": "Big Trees"
+    },
+    "description": {
+      "text": "Enter the Aether Forest"
+    },
+    "frame": "task"
+  },
+  "criteria": {
+    "0": {
+      "trigger": "minecraft:impossible",
+      "conditions": {}
+    }
+  }
+}

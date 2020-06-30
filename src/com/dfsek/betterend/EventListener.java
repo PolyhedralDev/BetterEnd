@@ -1,7 +1,11 @@
 package com.dfsek.betterend;
+import java.util.List;
+
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Chest;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Enderman;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -9,6 +13,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityChangeBlockEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
+import org.bukkit.event.server.TabCompleteEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.persistence.PersistentDataType;
@@ -17,6 +22,7 @@ import com.dfsek.betterend.util.BossTimeoutUtil;
 import com.dfsek.betterend.util.ConfigUtil;
 import com.dfsek.betterend.util.EndAdvancementUtil;
 import com.dfsek.betterend.world.Biome;
+import com.dfsek.betterend.world.generation.EndChunkGenerator;
 
 import io.lumine.xikage.mythicmobs.MythicMobs;
 
@@ -71,8 +77,12 @@ public class EventListener implements Listener {
 	}
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void onEntityPickup(EntityChangeBlockEvent event) {
-		if(event.getEntity() instanceof Enderman && ConfigUtil.PREVENT_ENDERMAN_PICKUP && Biome.fromLocation(event.getBlock().getLocation()).isAether()) {
+		if(event.getEntity() instanceof Enderman && event.getEntity().getWorld().getGenerator() instanceof EndChunkGenerator && ConfigUtil.PREVENT_ENDERMAN_PICKUP && Biome.fromLocation(event.getBlock().getLocation()).isAether()) {
 			event.setCancelled(true);
 		}
+	}
+	@EventHandler(priority = EventPriority.HIGHEST)
+	public void tabCompleteEvent(TabCompleteEvent event) {
+		if(ConfigUtil.DEBUG) Bukkit.getConsoleSender().sendMessage("Tab completion detected from " + event.getSender().getName() + ", buffer: " + event.getBuffer() + ", Cancelled: " + event.isCancelled() + ", Completion options: " + String.join("\n", event.getCompletions()));
 	}
 }

@@ -1,6 +1,5 @@
 package com.dfsek.betterend.world.generation.populators;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -12,11 +11,9 @@ import org.bukkit.World;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Chest;
 import org.bukkit.block.Container;
-import org.bukkit.block.DoubleChest;
 import org.bukkit.entity.Shulker;
 import org.bukkit.generator.BlockPopulator;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
@@ -26,6 +23,8 @@ import com.dfsek.betterend.Main;
 import com.dfsek.betterend.structures.LootTable;
 import com.dfsek.betterend.structures.NMSStructure;
 import com.dfsek.betterend.util.ConfigUtil;
+import com.dfsek.betterend.util.LangUtil;
+import com.dfsek.betterend.util.StructureUtil;
 import com.dfsek.betterend.util.Util;
 import com.dfsek.betterend.world.Biome;
 
@@ -124,13 +123,13 @@ public class StructurePopulator extends BlockPopulator {
 		structure.setRotation(random.nextInt(4)*90);
 		int[] dimension = structure.getDimensions();
 		Location[] b = structure.getBoundingLocations();
-		if(overrideSpawnCheck || (structure.getName().equals("aether_ruin") ? isValidSpawn(b[0], b[1], false, true) : isValidSpawn(b[0], b[1], ground, false))) {
+		if(overrideSpawnCheck || (structure.getName().equals("aether_ruin") ? StructureUtil.isValidSpawn(b[0], b[1], false, true) : StructureUtil.isValidSpawn(b[0], b[1], ground, false))) {
 			structure.paste();
-			List<Location> locationsAll = getLocationListBetween(b[0], b[1]);
+			List<Location> locationsAll = StructureUtil.getLocationListBetween(b[0], b[1]);
 			if(biome.isHighlands()) randomCobwebs(locationsAll, random);
 			if("shulker_nest".equals(structure.getName())) spawnShulkers(locationsAll, random, world);
-			if(!"aether_ruin".equals(structure.getName())) System.out.println("[BetterEnd] Generating structure \"" + structure.getName() + "\",  at " + b[0].getX() + ", " + b[0].getY() + ", " + b[0].getZ() + ". Dimensions: X: "+  dimension[0] + ", Y: " + dimension[1] + ", Z: " + dimension[2]);
-			fillInventories(getChestsIn(b[0], b[1]), random, structure);        
+			if(!"aether_ruin".equals(structure.getName())) main.getLogger().info(String.format(LangUtil.STRUCTURE_MSG, structure.getName(), b[0].getX(), b[0].getY(), b[0].getZ(), dimension[0], dimension[1], dimension[2]));
+			fillInventories(StructureUtil.getChestsIn(b[0], b[1]), random, structure);        
 		}
 	}
 	private void genStars(Random random, Chunk chunk, World world) {
@@ -140,7 +139,7 @@ public class StructurePopulator extends BlockPopulator {
 		if(random.nextInt(100) < 25) {
 			NMSStructure s2 = new NMSStructure(new Location(world, chunk.getX()*16+random.nextInt(16), Y, chunk.getZ()*16+random.nextInt(16)), "void_star", random.nextInt(4));
 			boolean p2 = true;
-			for(Location l : getLocationListBetween(s2.getBoundingLocations()[0], s2.getBoundingLocations()[1])) {
+			for(Location l : StructureUtil.getLocationListBetween(s2.getBoundingLocations()[0], s2.getBoundingLocations()[1])) {
 				if(!l.getBlock().isEmpty() || !Biome.fromLocation(l).equals(Biome.STARFIELD)) {
 					p2 = false;
 				}
@@ -148,7 +147,7 @@ public class StructurePopulator extends BlockPopulator {
 			if(p2) s2.paste();
 		}
 		boolean p1 = true;
-		for(Location l : getLocationListBetween(s1.getBoundingLocations()[0], s1.getBoundingLocations()[1])) {
+		for(Location l : StructureUtil.getLocationListBetween(s1.getBoundingLocations()[0], s1.getBoundingLocations()[1])) {
 			if(!l.getBlock().isEmpty() || !Biome.fromLocation(l).equals(Biome.STARFIELD)) {
 				p1 = false;
 			}
@@ -261,150 +260,4 @@ public class StructurePopulator extends BlockPopulator {
 			}
 		}
 	}
-	private List<Location> getChestsIn(Location minLoc, Location maxLoc){
-		List<Location> locations = new ArrayList<>();
-		for (Location location : getLocationListBetween(minLoc, maxLoc)) {
-			BlockState blockState = location.getBlock().getState();
-			if (blockState instanceof Container) {
-				if (blockState instanceof Chest) {
-					InventoryHolder holder = ((Chest) blockState).getInventory().getHolder();
-					if (holder instanceof DoubleChest) {
-						DoubleChest doubleChest = ((DoubleChest) holder);
-						Location leftSideLocation = ((Chest) doubleChest.getLeftSide()).getLocation();
-						Location rightSideLocation = ((Chest) doubleChest.getRightSide()).getLocation();
-
-						Location roundedLocation = new Location(location.getWorld(),
-								Math.floor(location.getX()), Math.floor(location.getY()),
-								Math.floor(location.getZ()));
-
-						// Check to see if this (or the other) side of the chest is already in the list
-						if (leftSideLocation.distance(roundedLocation) < 1 && this.isNotAlreadyIn(locations, rightSideLocation)) {
-							locations.add(roundedLocation);
-
-						} else if (rightSideLocation.distance(roundedLocation) < 1 && this.isNotAlreadyIn(locations, leftSideLocation)) {
-							locations.add(roundedLocation);
-						}
-
-					} else if (holder instanceof Chest) {
-						locations.add(location);
-					}
-				} else {
-					locations.add(location);
-				}
-			}
-		}
-		return locations;
-	}
-
-	private static List<Location> getLocationListBetween(Location loc1, Location loc2){
-		int lowX = Math.min(loc1.getBlockX(), loc2.getBlockX());
-		int lowY = Math.min(loc1.getBlockY(), loc2.getBlockY());
-		int lowZ = Math.min(loc1.getBlockZ(), loc2.getBlockZ());
-
-		List<Location> locs = new ArrayList<>();
-		for(int x = 0; x<= Math.abs(loc1.getBlockX() - loc2.getBlockX()); x++){
-			for(int y = 0; y<= Math.abs(loc1.getBlockY() - loc2.getBlockY()); y++){
-				for(int z = 0; z<= Math.abs(loc1.getBlockZ() - loc2.getBlockZ()); z++){
-					locs.add(new Location(loc1.getWorld(), lowX + x, lowY + y, lowZ + z));
-				}
-			}
-		}
-		return locs;
-	}
-	private boolean isNotAlreadyIn(List<Location> locations, Location location) {
-		for (Location auxLocation : locations) {
-			if (location.distance(auxLocation) < 1) {
-				return false;
-			}
-		}
-		return true;
-	}
-	private boolean isValidSpawn(Location l1, Location l2, boolean underground, boolean strict) {
-		SimplexOctaveGenerator generator = new SimplexOctaveGenerator(l1.getWorld().getSeed(), 4);
-		int outNoise = main.getConfig().getInt("outer-islands.noise");
-		int lowX = Math.min(l1.getBlockX(), l2.getBlockX());
-		int lowY = Math.min(l1.getBlockY(), l2.getBlockY());
-		int lowZ = Math.min(l1.getBlockZ(), l2.getBlockZ());
-		List<Location> locs = new ArrayList<>();
-		for(int x = 0; x<= Math.abs(l1.getBlockX() - l2.getBlockX()); x++){
-			for(int z = 0; z<= Math.abs(l1.getBlockZ() - l2.getBlockZ()); z++){
-				locs.add(new Location(l1.getWorld(), lowX + x, lowY, lowZ + z));
-			}
-		}
-		for (Location location : locs) {
-			if (generator.noise((double) (location.getBlockX())/outNoise, (double) (location.getBlockZ())/outNoise, 0.1D, 0.55D) < 0.45) {
-				return false;
-			}
-		}
-		if(underground) {
-			if (l1.getBlock().isEmpty()) {
-				return false;
-			}
-			if (l2.getBlock().isEmpty()) {
-				return false;
-			}
-			//       l1 = new Location(l1.getWorld(), l1.getBlockX(), l1.getBlockY(), l1.getBlockZ());
-			Location l3 = new Location(l1.getWorld(), l2.getBlockX(), l1.getBlockY(), l1.getBlockZ());
-			Location l4 = new Location(l2.getWorld(), l1.getBlockX(), l2.getBlockY(), l1.getBlockZ());
-			//	     l2 = new Location(l2.getWorld(), l2.getBlockX(), l2.getBlockY(), l2.getBlockZ());
-			Location l5 = new Location(l1.getWorld(), l1.getBlockX(), l1.getBlockY(), l2.getBlockZ());
-			Location l6 = new Location(l2.getWorld(), l2.getBlockX(), l1.getBlockY(), l2.getBlockZ());
-			Location l7 = new Location(l1.getWorld(), l1.getBlockX(), l2.getBlockY(), l1.getBlockZ());
-			Location l8 = new Location(l2.getWorld(), l2.getBlockX(), l2.getBlockY(), l1.getBlockZ());
-			if (l3.getBlock().isEmpty()) {
-				return false;
-			}
-			if (l4.getBlock().isEmpty()) {
-				return false;
-			}
-			if (l5.getBlock().isEmpty()) {
-				return false;
-			}
-			if (l6.getBlock().isEmpty()) {
-				return false;
-			}
-			if (l7.getBlock().isEmpty()) {
-				return false;
-			}
-			if (l8.getBlock().isEmpty()) {
-				return false;
-			}
-		} else {
-			if(strict) {
-				for(int x = 0; x<= Math.abs(l1.getBlockX() - l2.getBlockX()); x++){
-					for(int z = 0; z<= Math.abs(l1.getBlockZ() - l2.getBlockZ()); z++){
-						Location loc = new Location(l1.getWorld(), Math.min(l1.getBlockX(), l2.getBlockX()) + x, Math.min(l1.getBlockY(), l2.getBlockY()), Math.min(l1.getBlockZ(), l2.getBlockZ()) + z);
-						if(loc.getBlock().getType() != Material.GRASS_BLOCK && 
-								loc.getBlock().getType() != Material.END_STONE && 
-								loc.getBlock().getType() != Material.DIRT && 
-								loc.getBlock().getType() != Material.STONE &&
-								loc.getBlock().getType() != Material.PODZOL &&
-								loc.getBlock().getType() != Material.COARSE_DIRT &&
-								loc.getBlock().getType() != Material.GRAVEL) return false;
-					}
-				}
-			} else {
-				Location l3 = new Location(l1.getWorld(), l1.getX(), Math.min(l1.getBlockY(), l2.getBlockY()), l1.getZ());
-				Location l4 = new Location(l1.getWorld(), l1.getX(), Math.min(l1.getBlockY(), l2.getBlockY()), l2.getZ());
-				Location l5 = new Location(l1.getWorld(), l2.getX(), Math.min(l1.getBlockY(), l2.getBlockY()), l1.getZ());
-				Location l6 = new Location(l1.getWorld(), l2.getX(), Math.min(l1.getBlockY(), l2.getBlockY()), l2.getZ());
-
-
-				if (l3.getBlock().isEmpty()) {
-					return false;
-				}
-				if (l4.getBlock().isEmpty()) {
-					return false;
-				}
-				if (l5.getBlock().isEmpty()) {
-					return false;
-				}
-				if (l6.getBlock().isEmpty()) {
-					return false;
-				}
-			} 
-		}
-		return true;
-	}
-
 }

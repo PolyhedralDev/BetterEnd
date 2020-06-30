@@ -1,0 +1,22 @@
+enable:
+   - "&fDự án BetterEnd được thực hiện hóa nhờ vào công sức của:"
+   - "&fDevelopers: dfsek và Baer"
+   - "&fBuilders: GucciPoochie, sgtmushroom39, Daverono, and Merazmus"
+disable:
+   - "&fCảm ơn bạn đã sử dụng BetterEnd!"
+free-notification:
+   - "&bBạn đang chạy BetterEnd bản miễn phí. Bạn có thể ủng hộ BetterEnd bằng cách mua nó và sử dụng phần mở rộng dành riêng cho Premium!"
+   - "&bCác chi tiết về Premium có thể tìm thấy tại: &nhttps://github.com/dfsek/BetterEnd-Public/wiki/Premium"
+command-prefix: "&3[BetterEnd]"
+update:
+   new-version: "Phiên bản mới nhất của BetterEnd: %s "
+   up-to-date: "Phiên bản BetterEnd của bạn đang là mới nhất !: (%s)"
+   more-recent: "Phiên bản BetterEnd: (%s) đang mới hơn bản cập nhập hiện tại."
+   error: "Đã có một lỗi xảy ra khi kiểm tra cập nhập. Báo cáo: "
+commands:
+   for-players-only: " &bLệnh này chỉ có thể sử dụng bởi người chơi!"
+   not-betterend-world: " &cThế giới này không phải BetterEnd!"
+   no-permission: "&cBạn không có quyền dùng lệnh này."
+   version: " &bServer này đang sử dụng &3BetterEnd &bphiên bản&3 v%s"
+   reload-config: " &bReloading BetterEnd Config..."
+   complete-msg: " &bHoàn tất."

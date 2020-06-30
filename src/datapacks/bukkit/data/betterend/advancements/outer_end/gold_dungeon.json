@@ -1,0 +1,21 @@
+{
+  "parent": "betterend:outer_end/visit_aether",
+  "display": {
+    "icon": {
+      "item": "minecraft:chiseled_quartz_block"
+    },
+    "title": {
+      "text": "I\u0027ve Got a Bad Feeling About This..."
+    },
+    "description": {
+      "text": "Open a Gold Dungeon Chest. What could go wrong?"
+    },
+    "frame": "task"
+  },
+  "criteria": {
+    "0": {
+      "trigger": "minecraft:impossible",
+      "conditions": {}
+    }
+  }
+}

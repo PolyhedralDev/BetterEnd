@@ -77,7 +77,7 @@ public class LootTable {
 
 				JSONArray itemArray = (JSONArray) pooldata.get("entries");
 				int rolls = random.nextInt(max-min+1)+min;
-				if(ConfigUtil.DEBUG) System.out.println("[BetterEnd] min: " + min + ", max: " + max + ", " + rolls + " rolls.");
+				if(ConfigUtil.DEBUG) main.getLogger().info("[BetterEnd] min: " + min + ", max: " + max + ", " + rolls + " rolls.");
 
 				for(int i = 0; i < rolls; i++) {
 					int count = 1;
@@ -110,11 +110,14 @@ public class LootTable {
 									}
 								}
 							}
-						} catch(ClassCastException e) {
-							if(ConfigUtil.DEBUG) System.out.println("[BetterEnd] Error on item \""+ itemname + "\"");
+						} catch(ClassCastException | IllegalArgumentException e) {
+							main.getLogger().severe("[BetterEnd] An unexpected exception was thrown whilst populating item \""+ itemname + "\"");
+							main.getLogger().severe(e.getMessage());
+							main.getLogger().severe("If you are using a custom loot table, double-check it for errors. Enabling debug mode via config.yml may help determine the cause.");
+							main.getLogger().severe("If you aren't, report this error to the BetterEnd Issue Tracker.");
 						}
 					}
-					if(ConfigUtil.DEBUG) System.out.println("[BetterEnd] "+ itemname + " x" + count + ", durability=" + itemDurability + ", enchant lvl=" + enchant);
+					if(ConfigUtil.DEBUG) main.getLogger().info("[BetterEnd] "+ itemname + " x" + count + ", durability=" + itemDurability + ", enchant lvl=" + enchant);
 					try {
 						ItemStack randomItem = new ItemStack(Material.valueOf(itemname.toUpperCase()), count);
 						if(enchant != 0) randomItem = randomEnchantment(randomItem, enchant, random, disabled);
@@ -156,7 +159,7 @@ public class LootTable {
 						}
 					} catch(IllegalArgumentException e) {
 						e.printStackTrace();
-						System.out.println("[BetterEnd] Invalid item \""+ itemname + "\"");
+						main.getLogger().info("[BetterEnd] Invalid item \""+ itemname + "\"");
 					}
 
 				}

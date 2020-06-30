@@ -51,6 +51,7 @@ public class ConfigUtil {
 	public static int[] ORE_CHANCES;
 	public static boolean DO_UPDATE_CHECK;
 	public static int UPDATE_CHECK_FREQUENCY;
+	public static String LANG;
 	
 	public static void loadConfig(Logger logger, Main main) {
 		long start = System.nanoTime();
@@ -100,6 +101,7 @@ public class ConfigUtil {
 				config.getInt("aether.ores.weights.emerald_ore", 2)};
 		DO_UPDATE_CHECK = config.getBoolean("update-checker.enable", true);
 		UPDATE_CHECK_FREQUENCY = config.getInt("update-checker.frequency", 3600);
+		LANG = config.getString("lang", "en_us");
 		logger.info("Complete. Time elapsed: " + ((double) (System.nanoTime()-start))/1000000 + "ms");
 	}
 	

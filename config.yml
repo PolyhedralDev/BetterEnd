@@ -7,6 +7,9 @@ update-checker:
   #Frequency at which updates are checked for (in seconds)
   frequency: 3600
 
+#Language in which to display plugin messages. Curent available languages are en_us (English) and vn_vn (Vietnamese)
+lang: en_us
+
 #When enabled, the entire world will be an Aether biome. 
 #Keep in mind that this prevents the Main Island from generating.
 all-aether: false
