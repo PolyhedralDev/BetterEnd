@@ -21,6 +21,9 @@ commands:
    reload-config: " &bReloading BetterEnd Config..."
    complete-msg: " &bHoàn tất."
    biome: "&bYou are standing in \"&3%s&b\""
+   unable-to-locate: "&bUnable to locate biome."
+   tp: "&bTeleporting..."
+   locating-biome: "&bLocating biome \"&3%s&b\""
 structure-log: "Generating structure \"%1$s\" at %2$s %3$s %4$s. Dimensions: X:%5$s, Y:%6$s, Z:%7$s."
 custom-structures:
    enable: "Initializing Custom Structure Populator..."

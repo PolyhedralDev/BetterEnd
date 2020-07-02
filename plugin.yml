@@ -1,6 +1,6 @@
 main: com.dfsek.betterend.Main
 name: BetterEnd
-version: 3.6.2
+version: 3.6.3
 author: dfsek
 description: Overhauls the End dimension with new biomes, structures, and more!
 load: startup
@@ -9,7 +9,7 @@ api-version: 1.15
 commands:
     betterend:
        description: BetterEnd base command
-       usage: /betterend <biome|tpbiome|version>
+       usage: /betterend <biome|tpbiome|version|reload>
        aliases: [be, end]
        permission: betterend.command
        permission-message: You don't have permission.

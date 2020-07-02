@@ -14,6 +14,7 @@
     			<exclude name="**/Premium*.class"/>
     			<exclude name="**/EndAdvancementUtil*.class"/>
     			<exclude name="**/CustomStructurePopulator*.class"/>
+    			<exclude name="**/AetherFallUtil*.class"/>
     			<exclude name="**/Fortress*.class"/>
     			<exclude name="**/end_fortress*.nbt"/>
     			<exclude name="**/BossTimeoutUtil*.nbt"/>

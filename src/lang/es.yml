@@ -21,6 +21,9 @@ commands:
    reload-config: "&bRecargando la configuración de BetterEnd..."
    complete-msg: "&bRecarga exitosa."
    biome: "&bTe encuentras en \"&3%s&b\""
+   unable-to-locate: "&bUnable to locate biome."
+   tp: "&bTeleporting..."
+   locating-biome: "&bLocating biome \"&3%s&b\""
 structure-log: "Generando estructura \"%1$s\" en %2$s %3$s %4$s. Dimensiones: X:%5$s, Y:%6$s, Z:%7$s."
 custom-structures:
    enable: "Iniciando el Personalizador de Estructuras..."

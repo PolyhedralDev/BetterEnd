@@ -7,7 +7,8 @@ update-checker:
   #Frequency at which updates are checked for (in seconds)
   frequency: 3600
 
-#Language in which to display plugin messages. Available languages are en_us (English), vi (Vietnamese), es (Spanish), and afr_sa (Afrikaans)
+#Language in which to display plugin messages. 
+#Available languages are en_us (English), vi (Vietnamese), es (Spanish), afr_sa (Afrikaans), zh_cn (Simplified Chinese), and da (Danish)
 lang: en_us
 
 #When enabled, the entire world will be an Aether biome. 
@@ -20,7 +21,7 @@ overworld: false
 #Weights of structures, used in random selections.
 #When a structure spawn candidate location is chosen, a structure is randomly selected from a list, 
 #based on its weight. The probability of any one structure being chosen is:
-#(Structure Weight) / (Total Weight)
+# (Structure Weight) / (Total Weight)
 #The default weights are out of 100, but they can add up to any number. If they add to 100, the weight
 #is equal to the percent chance of that structure being chosen.
 structure-weight:
@@ -40,6 +41,8 @@ structure-weight:
 
 #Configuration options for the Outer End Islands
 outer-islands:
+  #Whether or not to teleport players who fall off islands to the Overworld (Everywhere) (Premium only)
+  fall-to-overworld: false
   #Structure options
   structures:
     #The percent chance that a structure will attempt to generate in a chunk.
@@ -80,6 +83,8 @@ outer-islands:
 
 #Configuration options for the Aether biome.
 aether:
+  #Whether or not to teleport players who fall off islands to the Overworld (Only in the Aether) (Premium only)
+  fall-to-overworld: true
   #Configuration options for Aether Clouds.
   clouds:
     #Whether or not to enable Aether Clouds.

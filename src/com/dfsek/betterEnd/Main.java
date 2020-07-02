@@ -24,6 +24,7 @@ public class Main extends JavaPlugin {
 
 	public FileConfiguration config = this.getConfig();
 	private static Main instance;
+
 	@Override
 	public void onEnable() {
 		instance = this;
@@ -38,12 +39,13 @@ public class Main extends JavaPlugin {
 		ConfigUtil.init(logger, this);
 		try {
 			MythicSpawnsUtil.startSpawnRoutine();
+			if(ConfigUtil.fallToOverworld || ConfigUtil.fallToOverworldAether) AetherFallUtil.init(this);
 			if(isPremium()) getServer().getScheduler().scheduleSyncDelayedTask(this, () -> {
 				logger.info("Enabling advancements...");
 				EndAdvancementUtil.enable(instance);
 			}, 60);
 		} catch(NoClassDefFoundError e) {
-			//not premium, nothing to do here.
+			// not premium, nothing to do here.
 		}
 		logger.info(" ");
 		logger.info(" ");
@@ -55,7 +57,8 @@ public class Main extends JavaPlugin {
 		getServer().getScheduler().scheduleSyncDelayedTask(this, () -> {
 			if(!isPremium()) Util.logForEach(LangUtil.freeVersionMessage, Level.INFO);
 			if(ConfigUtil.debug) logger.info("Server Implementation Name:  " + Bukkit.getServer().getName());
-			if("Spigot".equals(Bukkit.getServer().getName()) || "CraftBukkit".equals(Bukkit.getServer().getName())) Util.logForEach(LangUtil.usePaperMessage, Level.WARNING);
+			if("Spigot".equals(Bukkit.getServer().getName())
+					|| "CraftBukkit".equals(Bukkit.getServer().getName())) Util.logForEach(LangUtil.usePaperMessage, Level.WARNING);
 			else if(!"Paper".equals(Bukkit.getServer().getName())) Util.logForEach(LangUtil.untestedServerMessage, Level.WARNING);
 		}, 120);
 		if(ConfigUtil.doUpdateCheck) {
@@ -75,27 +78,28 @@ public class Main extends JavaPlugin {
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-		if (args.length == 1 && args[0].equalsIgnoreCase("biome")) {
-			if (!(sender instanceof Player)) {
+		if(args.length == 1 && args[0].equalsIgnoreCase("biome")) {
+			if(!(sender instanceof Player)) {
 				sender.sendMessage(LangUtil.prefix + LangUtil.playersOnly);
 				return true;
 			}
 			Player p = (Player) sender;
-			if (sender.hasPermission("betterend.checkbiome")) {
-				if(p.getWorld().getGenerator() instanceof EndChunkGenerator) sender.sendMessage(LangUtil.prefix + String.format(LangUtil.biomeCommand, Biome.fromLocation(p.getLocation())));
+			if(sender.hasPermission("betterend.checkbiome")) {
+				if(p.getWorld().getGenerator() instanceof EndChunkGenerator) sender
+						.sendMessage(LangUtil.prefix + String.format(LangUtil.biomeCommand, Biome.fromLocation(p.getLocation())));
 				else sender.sendMessage(LangUtil.prefix + LangUtil.notBetterEndWorld);
 				return true;
 			} else {
 				sender.sendMessage(LangUtil.prefix + LangUtil.noPermission);
 				return true;
 			}
-		} else if (args.length == 2 && args[0].equalsIgnoreCase("tpbiome")) {
-			if (!(sender instanceof Player)) {
+		} else if(args.length == 2 && args[0].equalsIgnoreCase("tpbiome")) {
+			if(!(sender instanceof Player)) {
 				sender.sendMessage(LangUtil.prefix + LangUtil.playersOnly);
 				return true;
 			}
 			Player p = (Player) sender;
-			if (p.hasPermission("betterend.gotobiome")) {
+			if(p.hasPermission("betterend.gotobiome")) {
 				if(p.getWorld().getGenerator() instanceof EndChunkGenerator) return Util.tpBiome(p, args);
 				else sender.sendMessage(LangUtil.prefix + LangUtil.notBetterEndWorld);
 				return true;
@@ -103,10 +107,10 @@ public class Main extends JavaPlugin {
 				sender.sendMessage(LangUtil.prefix + LangUtil.noPermission);
 				return true;
 			}
-		} else if (args.length == 1 && args[0].equalsIgnoreCase("version")) {
+		} else if(args.length == 1 && args[0].equalsIgnoreCase("version")) {
 			sender.sendMessage(LangUtil.prefix + String.format(LangUtil.versionCommand, this.getDescription().getVersion()));
 			return true;
-		} else if (args.length == 1 && args[0].equalsIgnoreCase("reload")) {
+		} else if(args.length == 1 && args[0].equalsIgnoreCase("reload")) {
 			sender.sendMessage(LangUtil.prefix + LangUtil.reloadConfig);
 			ConfigUtil.loadConfig(this.getLogger(), this);
 			sender.sendMessage(LangUtil.prefix + LangUtil.completeMessage);

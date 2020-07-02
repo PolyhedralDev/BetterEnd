@@ -43,8 +43,9 @@ public class NMSReflectorUtil {
 	public static Method chunkCoordIntPairMethod;
 	public static Constructor blockPositionConstructor;
 
-	private NMSReflectorUtil(){}
-	
+	private NMSReflectorUtil() {
+	}
+
 	public static void init(Logger logger) {
 		try {
 			long start = System.nanoTime();
@@ -79,13 +80,13 @@ public class NMSReflectorUtil {
 			setRotationMethod = definedStructureInfoClass.getMethod("a", enumBlockRotationClass);
 			setReflectionMethod = definedStructureInfoClass.getMethod("a", enumBlockMirrorClass);
 			definedStructureInfoConstructor = definedStructureInfoClass.getConstructor();
-			if (version.startsWith("v1_15")) {
+			if(version.startsWith("v1_15")) {
 				pasteMethod = definedStructureClass.getMethod("a", generatorAccessClass, blockPositionClass, definedStructureInfoClass);
 			} else {
 				pasteMethod = definedStructureClass.getMethod("a", generatorAccessClass, blockPositionClass, definedStructureInfoClass, Random.class);
 			}
-			logger.info("Finished reflections. Time elapsed: " + ((double) (System.nanoTime()-start))/1000000 + "ms");
-		} catch (ClassNotFoundException | NoSuchMethodException e) {
+			logger.info("Finished reflections. Time elapsed: " + ((double) (System.nanoTime() - start)) / 1000000 + "ms");
+		} catch(ClassNotFoundException | NoSuchMethodException e) {
 			logger.severe("An error has occured during Reflections. Please report this.");
 			logger.severe(e.getMessage());
 			logger.severe("Report the above error to BetterEnd at https://github.com/dfsek/BetterEnd-Public/issues");

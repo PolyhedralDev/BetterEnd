@@ -1,0 +1,51 @@
+enable:
+   - "&fBetterEnd的蓬勃发展离不开这些人的贡献:"
+   - "&f开发者: dfsek和Baer"
+   - "&f构建者: GucciPoochie、sgtmushroom39、Daverono和Merazmus"
+disable:
+   - "&f感谢使用BetterEnd!"
+free-notification:
+   - "&b你正使用免费版的BetterEnd。如果你想要支持这款插件和获得额外特性的话请考虑购买付费版！"
+   - "&b更多信息可查看wiki： &nhttps://github.com/dfsek/BetterEnd-Public/wiki/Premium"
+command-prefix: "&3[BetterEnd] "
+update:
+   new-version: "有新版本的BetterEnd可用：%s "
+   up-to-date: "你的BetterEnd版本是最新版！(%s) "
+   more-recent: "你的BetterEnd版本比公开版本(%s)更新。"
+   error: "检测更新时出错。原因："
+commands:
+   for-players-only: "&b这个指令只能由玩家使用！"
+   not-betterend-world: "&c这个世界不是BetterEnd的世界!"
+   no-permission: "&c你没有权限使用这个指令。"
+   version: "&b服务器正使用&3BetterEnd v%s"
+   reload-config: "&b重载BetterEnd配置中..."
+   complete-msg: "&b完成。"
+   biome: "&b你位于 \"&3%s&b\""
+   unable-to-locate: "&b无法定位生物群系所在位置。"
+   tp: "&b传送中..."
+   locating-biome: "&b定位生物群系中 \"&3%s&b\""   
+structure-log: "生成建筑结构 \"%1$s\"，位于 %2$s %3$s %4$s。 世界：X:%5$s, Y:%6$s, Z:%7$s。"
+custom-structures:
+   enable: "正在初始化自定义建筑填充器..."
+   unable-to-find: "无法找到customStructures.yml。正中止自定义建筑初始化。"
+   file-not-found: "找不到该自定义建筑文件。"
+   error: "尝试生成自定义建筑时出错"
+   log: "生成自定义建筑中 \"%1$s\"，位于 %2$s %3$s %4$s。"
+   invalid-spawn: "%s是一个无效的传送点。必须是GROUND|地面或AIR|空气。"
+mythicmobs:
+   enable: "开始关联MythicMobs"
+   fail-to-spawn: "刷怪失败。你安装了MythicMobs吗？"
+   unable-to-find: "找不到mythicSpawns.yml。正中止随机生成MythicMobs的怪物。"
+advancements:
+   enable: "启用进度中..."
+paper:
+   - "您正使用Spigot/CraftBukkit。"
+   - "为了最佳的插件体验，推荐使用Paper端！"
+   - "Paper基于Spigot有很多优化，使用Paper端可优化服务器性能。"
+   - "Paper是Spigot的一个分支，大部分在Spigot上可使用的插件也能在Paper使用。"
+   - "Paper官网：https://papermc.io/"
+untested:
+   - "您正使用Spigot或Paper之外的服务端！"
+   - "BetterEnd未在其他服务端上测试兼容性，如果你遇到了问题则我们很难解决。"
+   - "如果你遇到了问题，请先在Paper端上测试该问题是否存在再反馈！"
+   - "如果你想要插件正式支持该服务端，请在BetterEnd Discord上联系dfsek。"

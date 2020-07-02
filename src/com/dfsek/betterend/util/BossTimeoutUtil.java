@@ -10,12 +10,16 @@ import com.dfsek.betterend.Main;
 
 public class BossTimeoutUtil {
 	private static Main main = Main.getInstance();
-	private BossTimeoutUtil(){}
+
+	private BossTimeoutUtil() {
+	}
+
 	public static boolean timeoutReached(Chest chest) {
 		NamespacedKey key = new NamespacedKey(main, "dungeon-timeout");
 		long time = System.currentTimeMillis();
 		try {
-			if(ConfigUtil.debug) main.getLogger().info("current time: " + new Date(time).toString() + ", " + "needed time: " + new Date(chest.getPersistentDataContainer().get(key, PersistentDataType.LONG)).toString());
+			if(ConfigUtil.debug) main.getLogger().info("current time: " + new Date(time).toString() + ", " + "needed time: "
+					+ new Date(chest.getPersistentDataContainer().get(key, PersistentDataType.LONG)).toString());
 		} catch(NullPointerException e) {
 			if(ConfigUtil.debug) main.getLogger().info("current time: " + new Date(time).toString() + ", Time has not been set.");
 		}
