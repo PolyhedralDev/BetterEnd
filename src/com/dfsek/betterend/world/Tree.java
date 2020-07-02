@@ -6,6 +6,8 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.util.Vector;
 
+import com.dfsek.betterend.util.Util;
+
 public class Tree {
 	public Tree(Location start, double startR, Random random, int length, String type) {
 		Vector initV = new Vector(0,1,0);		
@@ -19,14 +21,13 @@ public class Tree {
 					for (int y = (int) -startR; y <= startR; y++) {
 						for (int z = (int) -startR; z <= startR; z++) {
 							Vector position = start.toVector().clone().add(new Vector(x, y, z));
-
 							if (start.toVector().distance(position) <= startR + 0.5 && position.toLocation(start.getWorld()).getBlock().isPassable()) {
 								position.toLocation(start.getWorld()).getBlock().setType(Material.OAK_WOOD);
 							}
 						}
 					}
 				}
-				initV.add(new Vector(random.nextBoolean() ? 0 : (random.nextBoolean() ? -0.1 : 0.1), random.nextBoolean() ? 0 : (random.nextBoolean() ? -0.1 : 0.1), random.nextBoolean() ? 0 : (random.nextBoolean() ? -0.1 : 0.1)));
+				initV.add(new Vector(Util.getOffset(random, 0.1), Util.getOffset(random, 0.1), Util.getOffset(random, 0.1)));
 				if(initV.getX() > 1) initV.setX(1);
 				if(initV.getX() < -1) initV.setX(-1);
 				if(initV.getY() > 1) initV.setY(1);
@@ -90,7 +91,7 @@ public class Tree {
 				}
 			}
 			startR = startR - 0.1;
-			initV.add(new Vector(random.nextBoolean() ? 0 : (random.nextBoolean() ? -0.1 : 0.1), random.nextBoolean() ? 0 : (random.nextBoolean() ? -0.1 : 0.1), random.nextBoolean() ? 0 : (random.nextBoolean() ? -0.1 : 0.1)));
+			initV.add(new Vector(Util.getOffset(random, 0.1), Util.getOffset(random, 0.1), Util.getOffset(random, 0.1)));
 			if(initV.getX() > 1) initV.setX(1);
 			if(initV.getX() < -1) initV.setX(-1);
 			if(initV.getY() > 1) initV.setY(1);
@@ -98,7 +99,7 @@ public class Tree {
 			if(initV.getZ() > 1) initV.setZ(1);
 			if(initV.getZ() < -1) initV.setZ(-1);
 			int branches = random.nextInt(3)+1;
-			if(i % 3 == 0 && i > length/4) for(int j = 0; j < branches; j++) doWoodBranchAt(start.clone(), startR, random, random.nextInt(((int) (length/2))+1)+length/3, initV.clone(), m, l, lvl++, true);
+			if(i % 3 == 0 && i > length/4) for(int j = 0; j < branches; j++) doWoodBranchAt(start.clone(), startR, random, random.nextInt((length/2)+1)+length/3, initV.clone(), m, l, lvl++, true);
 		}
 	}
 	private void doWoodRootAt(Location start, double startR, Random random, int length, Vector startV, int angle, Material m) {
@@ -143,7 +144,7 @@ public class Tree {
 				startR = startR - 0.1;
 				initV = new Vector(initV.getX()/4, -1, initV.getZ()/4);
 			} else {
-				initV.add(new Vector(random.nextBoolean() ? 0 : (random.nextBoolean() ? -0.25 : 0.25), random.nextBoolean() ? 0 : (random.nextBoolean() ? -0.25 : 0.25), random.nextBoolean() ? 0 : (random.nextBoolean() ? -0.25 : 0.25)));
+				initV.add(new Vector(Util.getOffset(random, 0.25), Util.getOffset(random, 0.25), Util.getOffset(random, 0.25)));
 			}
 			if(initV.getX() > 1) initV.setX(1);
 			if(initV.getX() < -1) initV.setX(-1);

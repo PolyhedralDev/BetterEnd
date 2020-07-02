@@ -6,6 +6,8 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.util.Vector;
 
+import com.dfsek.betterend.util.Util;
+
 public class ShatteredTree {
 	public ShatteredTree(Location start, double startR, Random random, int length) {
 		Vector initV = new Vector(0,1,0);		
@@ -24,7 +26,7 @@ public class ShatteredTree {
 					}
 				}
 			}
-			initV.add(new Vector(random.nextBoolean() ? 0 : (random.nextBoolean() ? -0.1 : 0.1), random.nextBoolean() ? 0 : (random.nextBoolean() ? -0.1 : 0.1), random.nextBoolean() ? 0 : (random.nextBoolean() ? -0.1 : 0.1)));
+			initV.add(new Vector(Util.getOffset(random, 0.1), Util.getOffset(random, 0.1), Util.getOffset(random, 0.1)));
 			if(initV.getX() > 1) initV.setX(1);
 			if(initV.getX() < -1) initV.setX(-1);
 			if(initV.getY() > 1) initV.setY(1);
@@ -45,7 +47,7 @@ public class ShatteredTree {
 		for(int i = 0; i < length; i++) {
 			doSphereAtLoc(start.add(initV), (int) startR, random);
 			startR = startR - 0.125;
-			initV.add(new Vector(random.nextBoolean() ? 0 : (random.nextBoolean() ? -0.1 : 0.1), random.nextBoolean() ? 0 : (random.nextBoolean() ? -0.1 : 0.1), random.nextBoolean() ? 0 : (random.nextBoolean() ? -0.1 : 0.1)));
+			initV.add(new Vector(Util.getOffset(random, 0.1), Util.getOffset(random, 0.1), Util.getOffset(random, 0.1)));
 			if(initV.getX() > 1) initV.setX(1);
 			if(initV.getX() < -1) initV.setX(-1);
 			if(initV.getY() > 1) initV.setY(1);
@@ -53,7 +55,7 @@ public class ShatteredTree {
 			if(initV.getZ() > 1) initV.setZ(1);
 			if(initV.getZ() < -1) initV.setZ(-1);
 			int branches = random.nextInt(2)+1;
-			if(i % 4 == 0 && i > length/4) for(int j = 0; j < branches; j++) doBranchAt(start.clone(), startR, random, random.nextInt(((int) (length/3))+1)+length/3, initV.clone());
+			if(i % 4 == 0 && i > length/4) for(int j = 0; j < branches; j++) doBranchAt(start.clone(), startR, random, random.nextInt((length/3)+1)+length/3, initV.clone());
 		}
 		int radius = random.nextInt(ogStart+1)+1;
 		for (int x = -radius; x <= radius; x++) {
@@ -88,7 +90,7 @@ public class ShatteredTree {
 				startR = startR - 0.1;
 				initV = new Vector(initV.getX()/4, -1, initV.getZ()/4);
 			} else {
-				initV.add(new Vector(random.nextBoolean() ? 0 : (random.nextBoolean() ? -0.25 : 0.25), random.nextBoolean() ? 0 : (random.nextBoolean() ? -0.25 : 0.25), random.nextBoolean() ? 0 : (random.nextBoolean() ? -0.25 : 0.25)));
+				initV.add(new Vector(Util.getOffset(random, 0.25), Util.getOffset(random, 0.25), Util.getOffset(random, 0.25)));
 			}
 			if(initV.getX() > 1) initV.setX(1);
 			if(initV.getX() < -1) initV.setX(-1);

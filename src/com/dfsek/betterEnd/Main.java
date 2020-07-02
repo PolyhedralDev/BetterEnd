@@ -1,7 +1,9 @@
 package com.dfsek.betterend;
 
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -19,58 +21,52 @@ import com.dfsek.betterend.world.Biome;
 import com.dfsek.betterend.world.generation.EndChunkGenerator;
 
 public class Main extends JavaPlugin {
-	
+
 	public FileConfiguration config = this.getConfig();
 	private static Main instance;
 	@Override
 	public void onEnable() {
 		instance = this;
-		Logger logger = this.getLogger();
-		
+		final Logger logger = this.getLogger();
+
 		NMSReflectorUtil.init(logger);
-		try {
-			MythicSpawnsUtil.startSpawnRoutine();
-			if(isPremium()) getServer().getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
-				@Override
-				public void run() {
-					logger.info("Enabling advancements...");
-					EndAdvancementUtil.enable(instance);
-				}
-			}, 60);
-		} catch(NoClassDefFoundError e) {}
+
 		Metrics metrics = new Metrics(this, 7709);
 		metrics.addCustomChart(new Metrics.SimplePie("premium", () -> isPremium() ? "Yes" : "No"));
 		this.getServer().getPluginManager().registerEvents(new EventListener(), this);
 		this.saveDefaultConfig();
 		ConfigUtil.init(logger, this);
-		LangUtil.loadLang(ConfigUtil.LANG, logger);
+		try {
+			MythicSpawnsUtil.startSpawnRoutine();
+			if(isPremium()) getServer().getScheduler().scheduleSyncDelayedTask(this, () -> {
+				logger.info("Enabling advancements...");
+				EndAdvancementUtil.enable(instance);
+			}, 60);
+		} catch(NoClassDefFoundError e) {
+			//not premium, nothing to do here.
+		}
 		logger.info(" ");
 		logger.info(" ");
 		logger.info("|---------------------------------------------------------------------------------|");
-		Util.logForEach(LangUtil.ENABLE_MESSAGE);
+		Util.logForEach(LangUtil.enableMessage, Level.INFO);
 		logger.info("|---------------------------------------------------------------------------------|");
 		logger.info(" ");
 		logger.info(" ");
-		if(!isPremium()) getServer().getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
-			@Override
-			public void run() {
-				Util.logForEach(LangUtil.FREE_NOTIFICATION);
-			}
+		getServer().getScheduler().scheduleSyncDelayedTask(this, () -> {
+			if(!isPremium()) Util.logForEach(LangUtil.freeVersionMessage, Level.INFO);
+			if(ConfigUtil.debug) logger.info("Server Implementation Name:  " + Bukkit.getServer().getName());
+			if("Spigot".equals(Bukkit.getServer().getName()) || "CraftBukkit".equals(Bukkit.getServer().getName())) Util.logForEach(LangUtil.usePaperMessage, Level.WARNING);
+			else if(!"Paper".equals(Bukkit.getServer().getName())) Util.logForEach(LangUtil.untestedServerMessage, Level.WARNING);
 		}, 120);
-		if(ConfigUtil.DO_UPDATE_CHECK) {
-			getServer().getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
-				@Override
-				public void run() {
-					Util.checkUpdates();
-				}
-			}, 100, 20L * ConfigUtil.UPDATE_CHECK_FREQUENCY);
+		if(ConfigUtil.doUpdateCheck) {
+			getServer().getScheduler().scheduleSyncRepeatingTask(this, Util::checkUpdates, 100, 20L * ConfigUtil.updateCheckFrequency);
 		}
 		this.getCommand("betterend").setTabCompleter(new TabComplete());
 	}
 
 	@Override
 	public void onDisable() {
-		Util.logForEach(LangUtil.DISABLE_MESSAGE);
+		Util.logForEach(LangUtil.disableMessage, Level.INFO);
 	}
 
 	public static Main getInstance() {
@@ -81,44 +77,44 @@ public class Main extends JavaPlugin {
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		if (args.length == 1 && args[0].equalsIgnoreCase("biome")) {
 			if (!(sender instanceof Player)) {
-				sender.sendMessage(LangUtil.PREFIX + LangUtil.PLAYERS_ONLY);
+				sender.sendMessage(LangUtil.prefix + LangUtil.playersOnly);
 				return true;
 			}
 			Player p = (Player) sender;
 			if (sender.hasPermission("betterend.checkbiome")) {
-				if(p.getWorld().getGenerator() instanceof EndChunkGenerator) sender.sendMessage(LangUtil.PREFIX + String.format(LangUtil.BIOME_COMMAND, Biome.fromLocation(p.getLocation())));
-				else sender.sendMessage(LangUtil.PREFIX + LangUtil.NOT_BETTEREND_WORLD);
+				if(p.getWorld().getGenerator() instanceof EndChunkGenerator) sender.sendMessage(LangUtil.prefix + String.format(LangUtil.biomeCommand, Biome.fromLocation(p.getLocation())));
+				else sender.sendMessage(LangUtil.prefix + LangUtil.notBetterEndWorld);
 				return true;
 			} else {
-				sender.sendMessage(LangUtil.PREFIX + LangUtil.NO_PERMISSION);
+				sender.sendMessage(LangUtil.prefix + LangUtil.noPermission);
 				return true;
 			}
 		} else if (args.length == 2 && args[0].equalsIgnoreCase("tpbiome")) {
 			if (!(sender instanceof Player)) {
-				sender.sendMessage(LangUtil.PREFIX + LangUtil.PLAYERS_ONLY);
+				sender.sendMessage(LangUtil.prefix + LangUtil.playersOnly);
 				return true;
 			}
 			Player p = (Player) sender;
 			if (p.hasPermission("betterend.gotobiome")) {
 				if(p.getWorld().getGenerator() instanceof EndChunkGenerator) return Util.tpBiome(p, args);
-				else sender.sendMessage(LangUtil.PREFIX + LangUtil.NOT_BETTEREND_WORLD);
+				else sender.sendMessage(LangUtil.prefix + LangUtil.notBetterEndWorld);
 				return true;
 			} else {
-				sender.sendMessage(LangUtil.PREFIX + LangUtil.NO_PERMISSION);
+				sender.sendMessage(LangUtil.prefix + LangUtil.noPermission);
 				return true;
 			}
 		} else if (args.length == 1 && args[0].equalsIgnoreCase("version")) {
-			sender.sendMessage(LangUtil.PREFIX + String.format(LangUtil.VERSION_COMMAND, this.getDescription().getVersion()));
+			sender.sendMessage(LangUtil.prefix + String.format(LangUtil.versionCommand, this.getDescription().getVersion()));
 			return true;
 		} else if (args.length == 1 && args[0].equalsIgnoreCase("reload")) {
-			sender.sendMessage(LangUtil.PREFIX + LangUtil.RELOAD_CONFIG);
+			sender.sendMessage(LangUtil.prefix + LangUtil.reloadConfig);
 			ConfigUtil.loadConfig(this.getLogger(), this);
-			sender.sendMessage(LangUtil.PREFIX + LangUtil.COMPLETE_MSG);
+			sender.sendMessage(LangUtil.prefix + LangUtil.completeMessage);
 			return true;
 		}
 		return false;
 	}
-	
+
 	@Override
 	public EndChunkGenerator getDefaultWorldGenerator(String worldName, String id) {
 		return new EndChunkGenerator();

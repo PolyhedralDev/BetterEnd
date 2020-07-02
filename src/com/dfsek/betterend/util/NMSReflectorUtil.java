@@ -43,6 +43,8 @@ public class NMSReflectorUtil {
 	public static Method chunkCoordIntPairMethod;
 	public static Constructor blockPositionConstructor;
 
+	private NMSReflectorUtil(){}
+	
 	public static void init(Logger logger) {
 		try {
 			long start = System.nanoTime();

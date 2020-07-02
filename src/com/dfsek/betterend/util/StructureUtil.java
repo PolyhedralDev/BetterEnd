@@ -16,6 +16,7 @@ import com.dfsek.betterend.Main;
 
 public class StructureUtil {
 	private static Main main = Main.getInstance();
+	private StructureUtil() {}
 	public static boolean isValidSpawn(Location l1, Location l2, boolean underground, boolean strict) {
 		SimplexOctaveGenerator generator = new SimplexOctaveGenerator(l1.getWorld().getSeed(), 4);
 		int outNoise = main.getConfig().getInt("outer-islands.noise");
@@ -25,7 +26,7 @@ public class StructureUtil {
 		List<Location> locs = new ArrayList<>();
 		for(int x = 0; x<= Math.abs(l1.getBlockX() - l2.getBlockX()); x++){
 			for(int z = 0; z<= Math.abs(l1.getBlockZ() - l2.getBlockZ()); z++){
-				locs.add(new Location(l1.getWorld(), lowX + x, lowY, lowZ + z));
+				locs.add(new Location(l1.getWorld(), (double) lowX + x, (double) lowY, (double) lowZ + z));
 			}
 		}
 		for (Location location : locs) {
@@ -68,7 +69,7 @@ public class StructureUtil {
 			if(strict) {
 				for(int x = 0; x<= Math.abs(l1.getBlockX() - l2.getBlockX()); x++){
 					for(int z = 0; z<= Math.abs(l1.getBlockZ() - l2.getBlockZ()); z++){
-						Location loc = new Location(l1.getWorld(), Math.min(l1.getBlockX(), l2.getBlockX()) + x, Math.min(l1.getBlockY(), l2.getBlockY()), Math.min(l1.getBlockZ(), l2.getBlockZ()) + z);
+						Location loc = new Location(l1.getWorld(), Math.min(l1.getBlockX(), (double) l2.getBlockX()) + x, Math.min(l1.getBlockY(), l2.getBlockY()), Math.min(l1.getBlockZ(), (double) l2.getBlockZ()) + z);
 						if(loc.getBlock().getType() != Material.GRASS_BLOCK && 
 								loc.getBlock().getType() != Material.END_STONE && 
 								loc.getBlock().getType() != Material.DIRT && 
@@ -118,11 +119,9 @@ public class StructureUtil {
 								Math.floor(location.getZ()));
 
 						// Check to see if this (or the other) side of the chest is already in the list
-						if (leftSideLocation.distance(roundedLocation) < 1 && isNotAlreadyIn(locations, rightSideLocation)) {
+						if ((leftSideLocation.distance(roundedLocation) < 1 && isNotAlreadyIn(locations, rightSideLocation)) || (rightSideLocation.distance(roundedLocation) < 1 && isNotAlreadyIn(locations, leftSideLocation))) {
 							locations.add(roundedLocation);
 
-						} else if (rightSideLocation.distance(roundedLocation) < 1 && isNotAlreadyIn(locations, leftSideLocation)) {
-							locations.add(roundedLocation);
 						}
 
 					} else if (holder instanceof Chest) {
@@ -144,7 +143,7 @@ public class StructureUtil {
 		for(int x = 0; x<= Math.abs(loc1.getBlockX() - loc2.getBlockX()); x++){
 			for(int y = 0; y<= Math.abs(loc1.getBlockY() - loc2.getBlockY()); y++){
 				for(int z = 0; z<= Math.abs(loc1.getBlockZ() - loc2.getBlockZ()); z++){
-					locs.add(new Location(loc1.getWorld(), lowX + x, lowY + y, lowZ + z));
+					locs.add(new Location(loc1.getWorld(), (double) lowX + x, (double) lowY + y, (double) lowZ + z));
 				}
 			}
 		}

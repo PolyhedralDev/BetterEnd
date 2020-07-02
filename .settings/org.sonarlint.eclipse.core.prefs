@@ -1,0 +1,3 @@
+autoEnabled=true
+eclipse.preferences.version=1
+fileExclusions=FILE\:src/com/dfsek/betterend/Metrics.java\r\nFILE\:src/com/dfsek/betterend/UpdateChecker.java

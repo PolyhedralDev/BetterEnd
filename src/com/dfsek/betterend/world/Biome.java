@@ -32,9 +32,9 @@ public enum Biome {
 	public static Biome fromLocation(Location l) {
 		if(!(l.getWorld().getGenerator() instanceof EndChunkGenerator)) throw new IllegalArgumentException("Provided location is not in a BetterEnd world.");
 		SimplexOctaveGenerator biomeGenerator = new SimplexOctaveGenerator(l.getWorld().getSeed(), 4);
-		return fromNoiseVal(biomeGenerator.noise((double) (l.getBlockX()+1000)/ConfigUtil.CLIMATE_NOISE, (double) (l.getBlockZ()+1000)/ConfigUtil.CLIMATE_NOISE, 0.5D, 0.5D),
-				biomeGenerator.noise((double) (l.getBlockX())/ConfigUtil.HEAT_NOISE, (double) (l.getBlockZ())/ConfigUtil.HEAT_NOISE, 0.5D, 0.5D),
-				biomeGenerator.noise((double) (l.getBlockX())/ConfigUtil.BIOME_SIZE, (double) (l.getBlockZ())/ConfigUtil.BIOME_SIZE, 0.5D, 0.5D));
+		return fromNoiseVal(biomeGenerator.noise((double) (l.getBlockX()+1000)/ConfigUtil.climateNoise, (double) (l.getBlockZ()+1000)/ConfigUtil.climateNoise, 0.5D, 0.5D),
+				biomeGenerator.noise((double) (l.getBlockX())/ConfigUtil.heatNoise, (double) (l.getBlockZ())/ConfigUtil.heatNoise, 0.5D, 0.5D),
+				biomeGenerator.noise((double) (l.getBlockX())/ConfigUtil.biomeSize, (double) (l.getBlockZ())/ConfigUtil.biomeSize, 0.5D, 0.5D));
 	}
 	/**
 	 * Gets the Biome from a set of coordinates.
@@ -45,13 +45,13 @@ public enum Biome {
 	 * @param seed - The seed of the world in which to fetch the Biome.
 	 * @return The Biome at the specified location.
 	 */
-	public static Biome fromCoordinates(int X, int Z, long seed) {
+	public static Biome fromCoordinates(int x, int z, long seed) {
 		SimplexOctaveGenerator biomeGenerator = new SimplexOctaveGenerator(seed, 4);
-		int heatNoise = ConfigUtil.HEAT_NOISE;
-		int climateNoise = ConfigUtil.CLIMATE_NOISE;
-		return fromNoiseVal(biomeGenerator.noise((double) (X+1000)/climateNoise, (double) (Z+1000)/climateNoise, 0.5D, 0.5D), 
-				biomeGenerator.noise((double) (X)/heatNoise, (double) (Z)/heatNoise, 0.5D, 0.5D), 
-				biomeGenerator.noise((double) (X)/ConfigUtil.BIOME_SIZE, (double) (Z)/ConfigUtil.BIOME_SIZE, 0.5D, 0.5D));
+		int heatNoise = ConfigUtil.heatNoise;
+		int climateNoise = ConfigUtil.climateNoise;
+		return fromNoiseVal(biomeGenerator.noise((double) (x+1000)/climateNoise, (double) (z+1000)/climateNoise, 0.5D, 0.5D), 
+				biomeGenerator.noise((double) (x)/heatNoise, (double) (z)/heatNoise, 0.5D, 0.5D), 
+				biomeGenerator.noise((double) (x)/ConfigUtil.biomeSize, (double) (z)/ConfigUtil.biomeSize, 0.5D, 0.5D));
 
 	}
 	/**
@@ -65,7 +65,7 @@ public enum Biome {
 	 * @return - The Biome corresponding to the given noise values.
 	 */
 	public static Biome fromNoiseVal(double c, double h, double d){
-		if(ConfigUtil.ALL_AETHER) {
+		if(ConfigUtil.allAether) {
 			if(h < -0.5 && c > -0.5) return Biome.AETHER_HIGHLANDS;
 			else if(h < -0.5 && Main.isPremium()) return Biome.AETHER_HIGHLANDS_FOREST;
 			else if(c > -0.5 || !Main.isPremium()) return Biome.AETHER;
@@ -140,6 +140,8 @@ public enum Biome {
 		case "AETHER_HIGHLANDS": return Biome.AETHER_HIGHLANDS;
 		case "AETHER_FOREST": return Biome.AETHER_FOREST;
 		case "AETHER_HIGHLANDS_FOREST": return Biome.AETHER_HIGHLANDS_FOREST;
+		case "VOID": return Biome.VOID;
+		case "STARFIELD": return Biome.STARFIELD;
 		default: throw new IllegalArgumentException("Invalid biome name \"" + biome + "\"");
 		}
 	}
@@ -159,19 +161,9 @@ public enum Biome {
 		case AETHER_HIGHLANDS: return "AETHER_HIGHLANDS";
 		case AETHER_FOREST: return "AETHER_FOREST";
 		case AETHER_HIGHLANDS_FOREST: return "AETHER_HIGHLANDS_FOREST";
+		case VOID: return "VOID";
+		case STARFIELD: return "STARFIELD";
 		default: throw new IllegalArgumentException();
 		}
-	}
-	/**
-	 * Gets the Vanilla Biome corresponding to BetterEnd Biome.
-	 * @author dfsek
-	 * @since 3.6.2
-	 * @return Vanilla Biome representing BetterEnd Biome.
-	 */
-	public org.bukkit.block.Biome getVanillaBiome() {
-		if(this.isAether()) return (this.isHighlands()) ? null : (ConfigUtil.OVERWORLD) ? org.bukkit.block.Biome.PLAINS : org.bukkit.block.Biome.END_HIGHLANDS;
-		else if(this.isVoid()) return org.bukkit.block.Biome.END_MIDLANDS;
-		else if(this.isShattered()) return org.bukkit.block.Biome.END_BARRENS;
-		else return null;
 	}
 }

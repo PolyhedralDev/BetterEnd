@@ -10,28 +10,29 @@ import com.dfsek.betterend.Main;
 
 public class BossTimeoutUtil {
 	private static Main main = Main.getInstance();
+	private BossTimeoutUtil(){}
 	public static boolean timeoutReached(Chest chest) {
 		NamespacedKey key = new NamespacedKey(main, "dungeon-timeout");
 		long time = System.currentTimeMillis();
 		try {
-			if(ConfigUtil.DEBUG) main.getLogger().info("current time: " + new Date(time).toString() + ", " + "needed time: " + new Date(chest.getPersistentDataContainer().get(key, PersistentDataType.LONG)).toString());
+			if(ConfigUtil.debug) main.getLogger().info("current time: " + new Date(time).toString() + ", " + "needed time: " + new Date(chest.getPersistentDataContainer().get(key, PersistentDataType.LONG)).toString());
 		} catch(NullPointerException e) {
-			if(ConfigUtil.DEBUG) main.getLogger().info("current time: " + new Date(time).toString() + ", Time has not been set.");
+			if(ConfigUtil.debug) main.getLogger().info("current time: " + new Date(time).toString() + ", Time has not been set.");
 		}
 		try {
 			if(chest.getPersistentDataContainer().get(key, PersistentDataType.LONG) < time) {
-				if(ConfigUtil.DEBUG) main.getLogger().info("Timeout reached.");
-				chest.getPersistentDataContainer().set(key, PersistentDataType.LONG, time + ConfigUtil.BOSS_RESPAWN);
+				if(ConfigUtil.debug) main.getLogger().info("Timeout reached.");
+				chest.getPersistentDataContainer().set(key, PersistentDataType.LONG, time + ConfigUtil.bossRespawnTime);
 				chest.update();
 				return true;
 			}
 		} catch(NullPointerException e) {
-			if(ConfigUtil.DEBUG) main.getLogger().info("Timeout reached.");
-			chest.getPersistentDataContainer().set(key, PersistentDataType.LONG, time + ConfigUtil.BOSS_RESPAWN);
+			if(ConfigUtil.debug) main.getLogger().info("Timeout reached.");
+			chest.getPersistentDataContainer().set(key, PersistentDataType.LONG, time + ConfigUtil.bossRespawnTime);
 			chest.update();
 			return true;
 		}
-		if(ConfigUtil.DEBUG) main.getLogger().info("Timeout not reached.");
+		if(ConfigUtil.debug) main.getLogger().info("Timeout not reached.");
 		return false;
 	}
 }

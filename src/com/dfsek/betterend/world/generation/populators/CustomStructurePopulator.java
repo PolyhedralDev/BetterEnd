@@ -38,12 +38,12 @@ public class CustomStructurePopulator extends BlockPopulator {
 	static {
 
 		if(Main.isPremium()) {
-			main.getLogger().info(LangUtil.ENABLE_STRUCTURES);
+			main.getLogger().info(LangUtil.enableStructureMessage);
 			try {
 				config.load(configFile);
 				doGeneration = true;
 			} catch (IOException e) {
-				main.getLogger().warning(LangUtil.STRUCTURE_CONFIG_NOT_FOUND);
+				main.getLogger().warning(LangUtil.structureConfigNotFoundMessage);
 			} catch (InvalidConfigurationException e) {
 				e.printStackTrace();
 			}
@@ -56,16 +56,15 @@ public class CustomStructurePopulator extends BlockPopulator {
 	public void populate(World world, Random random, Chunk chunk) {
 		try {
 			if(random.nextInt(100) > chancePerChunk || !doGeneration) return;
-			if(!(Math.abs(chunk.getX()) > 20 || Math.abs(chunk.getZ()) > 20 || ConfigUtil.ALL_AETHER)) return;
-			int X = random.nextInt(15);
-			int Z = random.nextInt(15);
-			if(chunk.getX()*16+X >= 29999900 || chunk.getZ()*16+Z >= 29999900) return;
+			if(!(Math.abs(chunk.getX()) > 20 || Math.abs(chunk.getZ()) > 20 || ConfigUtil.allAether)) return;
+			int x = random.nextInt(15);
+			int z = random.nextInt(15);
+			if(chunk.getX()*16+x >= 29999900 || chunk.getZ()*16+z >= 29999900) return;
 
 			NMSStructure structure;
 
 			List<Map<?, ?>> structures = config.getMapList("structures");
 
-			//if(debug) main.getLogger().info("Spawning max of " + maxMobs + ", " + numMobs + " already exist(s).");
 			IntStream.Builder structureIDs = IntStream.builder();
 			IntStream.Builder weights = IntStream.builder();
 			for(int i = 0; i < structures.size(); i++) {
@@ -74,37 +73,36 @@ public class CustomStructurePopulator extends BlockPopulator {
 			}
 			Map<?, ?> struc = structures.get(chooseOnWeight(structureIDs.build().toArray(), weights.build().toArray()));
 
-			if(!((List<?>) struc.get("biomes")).contains(Biome.fromCoordinates(chunk.getX()*16+X, chunk.getZ()*16+Z, world.getSeed()).toString().toUpperCase())) return;
+			if(!((List<?>) struc.get("biomes")).contains(Biome.fromCoordinates(chunk.getX()*16+x, chunk.getZ()*16+z, world.getSeed()).toString().toUpperCase())) return;
 
-			int Y = 0;
+			int y = 0;
 
 			switch((String) struc.get("generate")) {
 			case "GROUND":
-				for (Y = world.getMaxHeight()-1; new Location(world, chunk.getX()*16+X, Y, chunk.getZ()*16+Z).getBlock().getType() != Material.GRASS_BLOCK && 
-				new Location(world, chunk.getX()*16+X, Y, chunk.getZ()*16+Z).getBlock().getType() != Material.END_STONE && 
-				new Location(world, chunk.getX()*16+X, Y, chunk.getZ()*16+Z).getBlock().getType() != Material.DIRT && 
-				new Location(world, chunk.getX()*16+X, Y, chunk.getZ()*16+Z).getBlock().getType() != Material.STONE &&
-				new Location(world, chunk.getX()*16+X, Y, chunk.getZ()*16+Z).getBlock().getType() != Material.PODZOL &&
-				new Location(world, chunk.getX()*16+X, Y, chunk.getZ()*16+Z).getBlock().getType() != Material.COARSE_DIRT &&
-				new Location(world, chunk.getX()*16+X, Y, chunk.getZ()*16+Z).getBlock().getType() != Material.GRAVEL &&
-				new Location(world, chunk.getX()*16+X, Y, chunk.getZ()*16+Z).getBlock().getType() != Material.STONE &&
-				new Location(world, chunk.getX()*16+X, Y, chunk.getZ()*16+Z).getBlock().getType() != Material.STONE_SLAB && Y>0; Y--);
-				Y = Y + (int) struc.get("y-offset");
+				for (y = world.getMaxHeight()-1; new Location(world, (double) chunk.getX()*16+x, y, (double) chunk.getZ()*16+z).getBlock().getType() != Material.GRASS_BLOCK && 
+				new Location(world, (double) chunk.getX()*16+x, y, (double) chunk.getZ()*16+z).getBlock().getType() != Material.END_STONE && 
+				new Location(world, (double) chunk.getX()*16+x, y, (double) chunk.getZ()*16+z).getBlock().getType() != Material.DIRT && 
+				new Location(world, (double) chunk.getX()*16+x, y, (double) chunk.getZ()*16+z).getBlock().getType() != Material.STONE &&
+				new Location(world, (double) chunk.getX()*16+x, y, (double) chunk.getZ()*16+z).getBlock().getType() != Material.PODZOL &&
+				new Location(world, (double) chunk.getX()*16+x, y, (double) chunk.getZ()*16+z).getBlock().getType() != Material.COARSE_DIRT &&
+				new Location(world, (double) chunk.getX()*16+x, y, (double) chunk.getZ()*16+z).getBlock().getType() != Material.GRAVEL &&
+				new Location(world, (double) chunk.getX()*16+x, y, (double) chunk.getZ()*16+z).getBlock().getType() != Material.STONE_SLAB && y>0; y--);
+				y = y + (int) struc.get("y-offset");
 				break;
 			case "AIR":
-				Y = random.nextInt((int) struc.get("max-height") - (int) struc.get("min-height")) + (int) struc.get("min-height");
+				y = random.nextInt((int) struc.get("max-height") - (int) struc.get("min-height")+1) + (int) struc.get("min-height");
 				break;
 			default:
-				main.getLogger().warning(String.format(LangUtil.INVALID_SPAWN, (String) struc.get("spawn")));
+				main.getLogger().warning(String.format(LangUtil.invalidSpawn, (String) struc.get("spawn")));
 				return;
 			}
-			Location origin = new Location(world, chunk.getX()*16+X, Y, chunk.getZ()*16+Z);
+			Location origin = new Location(world, (double) chunk.getX()*16+x, y, (double) chunk.getZ()*16+z);
 			
 			boolean ground = false;
 			
 			structure = new NMSStructure(origin, new FileInputStream(main.getDataFolder() + "/structures/" + struc.get("name") + ".nbt"));
 			if((boolean) struc.get("override-checks") || StructureUtil.isValidSpawn(structure.getBoundingLocations()[0], structure.getBoundingLocations()[1], ground, (boolean) struc.get("strict-check"))) {
-				main.getLogger().info(String.format(LangUtil.CUSTOM_STRUCTURE_MSG, struc.get("name"), chunk.getX()*16+X, Y, chunk.getZ()*16+Z));
+				main.getLogger().info(String.format(LangUtil.generateCustomStructureMessage, struc.get("name"), chunk.getX()*16+x, y, chunk.getZ()*16+z));
 				structure.paste();
 				LootTable table = new LootTable((String) struc.get("name"));
 				for(Location location : StructureUtil.getChestsIn(structure.getBoundingLocations()[0], structure.getBoundingLocations()[1])) {
@@ -114,10 +112,10 @@ public class CustomStructurePopulator extends BlockPopulator {
 				}
 			}
 		} catch (NullPointerException e) {
-			main.getLogger().warning(LangUtil.STRUCTURE_ERROR);
+			main.getLogger().warning(LangUtil.structureErrorMessage);
 			e.printStackTrace();
 		} catch (FileNotFoundException e) {
-			main.getLogger().warning(LangUtil.FILE_NOT_FOUND);
+			main.getLogger().warning(LangUtil.structureFileNotFoundMessage);
 		}
 
 	}

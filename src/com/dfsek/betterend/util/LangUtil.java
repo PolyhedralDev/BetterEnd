@@ -15,35 +15,41 @@ import com.dfsek.betterend.Main;
 
 public class LangUtil {
 	private static Main main = Main.getInstance();
-	public static List<String> ENABLE_MESSAGE;
-	public static List<String> DISABLE_MESSAGE;
-	public static List<String> FREE_NOTIFICATION;
-	public static String PREFIX;
-	public static String NEW_VERSION;
-	public static String UP_TO_DATE;
-	public static String MORE_RECENT;
-	public static String UPDATE_ERROR;
-	public static String PLAYERS_ONLY;
-	public static String NOT_BETTEREND_WORLD;
-	public static String NO_PERMISSION;
-	public static String VERSION_COMMAND;
-	public static String RELOAD_CONFIG;
-	public static String COMPLETE_MSG;
-	public static String BIOME_COMMAND;
-	public static String ENABLE_STRUCTURES;
-	public static String ENABLE_MM;
-	public static String STRUCTURE_MSG;
-	public static String CUSTOM_STRUCTURE_MSG;
-	public static String INVALID_SPAWN;
-	public static String STRUCTURE_ERROR;
-	public static String FILE_NOT_FOUND;
-	public static String STRUCTURE_CONFIG_NOT_FOUND;
-	public static String MM_CONFIG_NOT_FOUND;
-	public static String MM_FAIL_TO_SPAWN;
-	public static void loadLang(String id, Logger logger) {
+	public static List<String> enableMessage;
+	public static List<String> disableMessage;
+	public static List<String> freeVersionMessage;
+	public static String prefix;
+	public static String newVersion;
+	public static String upToDate;
+	public static String moreRecent;
+	public static String updateError;
+	public static String playersOnly;
+	public static String notBetterEndWorld;
+	public static String noPermission;
+	public static String versionCommand;
+	public static String reloadConfig;
+	public static String completeMessage;
+	public static String biomeCommand;
+	public static String enableStructureMessage;
+	public static String enableMythicMobsMessage;
+	public static String generateStructureMessage;
+	public static String generateCustomStructureMessage;
+	public static String invalidSpawn;
+	public static String structureErrorMessage;
+	public static String structureFileNotFoundMessage;
+	public static String structureConfigNotFoundMessage;
+	public static String mythicMobsConfigNotFoundMessage;
+	public static String mythicMobsFailToSpawnMessage;
+	public static String advancementEnableMessage;
+	public static List<String> usePaperMessage;
+	public static List<String> untestedServerMessage;
+	
+	private LangUtil(){}
+	
+	public static void loadlang(String id, Logger logger) {
 		File file = new File(main.getDataFolder(), "lang");
-		try {
-			Util.copyResourcesToDirectory(new JarFile(new File(Main.class.getProtectionDomain().getCodeSource().getLocation().toURI())), "lang", file.toString());
+		try(JarFile jar = new JarFile(new File(Main.class.getProtectionDomain().getCodeSource().getLocation().toURI()))) {
+			Util.copyResourcesToDirectory(jar, "lang", file.toString());
 		} catch (IOException | URISyntaxException e) {
 			e.printStackTrace();
 		}
@@ -65,31 +71,33 @@ public class LangUtil {
 			return;
 		}
 		
-		ENABLE_MESSAGE = config.getStringList("enable");
-		DISABLE_MESSAGE = config.getStringList("disable");
-		FREE_NOTIFICATION = config.getStringList("free-notification");
-		PREFIX = ChatColor.translateAlternateColorCodes((char) ('&'), config.getString("command-prefix"));
-		NEW_VERSION = ChatColor.translateAlternateColorCodes((char) ('&'), config.getString("update.new-version"));
-		UP_TO_DATE = ChatColor.translateAlternateColorCodes((char) ('&'), config.getString("update.up-to-date"));
-		MORE_RECENT = ChatColor.translateAlternateColorCodes((char) ('&'), config.getString("update.more-recent"));
-		UPDATE_ERROR = ChatColor.translateAlternateColorCodes((char) ('&'), config.getString("update.error"));
-		PLAYERS_ONLY = ChatColor.translateAlternateColorCodes((char) ('&'), config.getString("commands.for-players-only"));
-		NOT_BETTEREND_WORLD = ChatColor.translateAlternateColorCodes((char) ('&'), config.getString("commands.not-betterend-world"));
-		NO_PERMISSION = ChatColor.translateAlternateColorCodes((char) ('&'), config.getString("commands.no-permission"));
-		VERSION_COMMAND = ChatColor.translateAlternateColorCodes((char) ('&'), config.getString("commands.version"));
-		RELOAD_CONFIG = ChatColor.translateAlternateColorCodes((char) ('&'), config.getString("commands.reload-config"));
-		COMPLETE_MSG = ChatColor.translateAlternateColorCodes((char) ('&'), config.getString("commands.complete-msg"));
-		BIOME_COMMAND = ChatColor.translateAlternateColorCodes((char) ('&'), config.getString("commands.biome"));
-		ENABLE_STRUCTURES = ChatColor.translateAlternateColorCodes((char) ('&'), config.getString("custom-structures.enable"));
-		ENABLE_MM = ChatColor.translateAlternateColorCodes((char) ('&'), config.getString("mythicmobs.enable"));
-		CUSTOM_STRUCTURE_MSG = ChatColor.translateAlternateColorCodes((char) ('&'), config.getString("custom-structures.log"));
-		STRUCTURE_MSG = ChatColor.translateAlternateColorCodes((char) ('&'), config.getString("structure-log"));
-		INVALID_SPAWN = ChatColor.translateAlternateColorCodes((char) ('&'), config.getString("custom-structures.invalid-spawn"));
-		STRUCTURE_ERROR = ChatColor.translateAlternateColorCodes((char) ('&'), config.getString("custom-structures.error"));
-		FILE_NOT_FOUND = ChatColor.translateAlternateColorCodes((char) ('&'), config.getString("custom-structures.file-not-found"));
-		STRUCTURE_CONFIG_NOT_FOUND = ChatColor.translateAlternateColorCodes((char) ('&'), config.getString("custom-structures.unable-to-find"));
-		MM_CONFIG_NOT_FOUND = ChatColor.translateAlternateColorCodes((char) ('&'), config.getString("mythicmobs.unable-to-find"));
-		MM_FAIL_TO_SPAWN = ChatColor.translateAlternateColorCodes((char) ('&'), config.getString("mythicmobs.fail-to-spawn"));
-		
+		enableMessage = config.getStringList("enable");
+		disableMessage = config.getStringList("disable");
+		freeVersionMessage = config.getStringList("free-notification");
+		prefix = ChatColor.translateAlternateColorCodes('&', config.getString("command-prefix", "&3[BetterEnd] "));
+		newVersion = ChatColor.translateAlternateColorCodes('&', config.getString("update.new-version", "A new version of BetterEnd is available: %s "));
+		upToDate = ChatColor.translateAlternateColorCodes('&', config.getString("update.up-to-date", "Your version of BetterEnd (%s) is up to date!"));
+		moreRecent = ChatColor.translateAlternateColorCodes('&', config.getString("update.more-recent", "Your version of BetterEnd (%s) is more recent than the one publicly available."));
+		updateError = ChatColor.translateAlternateColorCodes('&', config.getString("update.error", "An error occurred while checking for an update. Reason: "));
+		playersOnly = ChatColor.translateAlternateColorCodes('&', config.getString("commands.for-players-only", "&bThis command is for players only!"));
+		notBetterEndWorld = ChatColor.translateAlternateColorCodes('&', config.getString("commands.not-betterend-world", "&cThis world is not a BetterEnd world!"));
+		noPermission = ChatColor.translateAlternateColorCodes('&', config.getString("commands.no-permission", "&cYou do not have permission for this command."));
+		versionCommand = ChatColor.translateAlternateColorCodes('&', config.getString("commands.version", "&bThis server is running &3BetterEnd v%s"));
+		reloadConfig = ChatColor.translateAlternateColorCodes('&', config.getString("commands.reload-config", "&bReloading BetterEnd Config..."));
+		completeMessage = ChatColor.translateAlternateColorCodes('&', config.getString("commands.complete-msg", "&bComplete."));
+		biomeCommand = ChatColor.translateAlternateColorCodes('&', config.getString("commands.biome", "&bYou are standing in \"&3%s&b\""));
+		enableStructureMessage = ChatColor.translateAlternateColorCodes('&', config.getString("custom-structures.enable", "Initializing Custom Structure Populator..."));
+		enableMythicMobsMessage = ChatColor.translateAlternateColorCodes('&', config.getString("mythicmobs.enable", "Starting MythicMobs integration"));
+		generateCustomStructureMessage = ChatColor.translateAlternateColorCodes('&', config.getString("custom-structures.log", "Generating custom structure \"%1$s\" at %2$s %3$s %4$s."));
+		generateStructureMessage = ChatColor.translateAlternateColorCodes('&', config.getString("structure-log", "Generating structure \"%1$s\" at %2$s %3$s %4$s. Dimensions: X:%5$s, Y:%6$s, Z:%7$s."));
+		invalidSpawn = ChatColor.translateAlternateColorCodes('&', config.getString("custom-structures.invalid-spawn", "%s is an invalid spawn location. Must be either GROUND or AIR."));
+		structureErrorMessage = ChatColor.translateAlternateColorCodes('&', config.getString("custom-structures.error", "An error occurred whilst attempting to generate custom structure"));
+		structureFileNotFoundMessage = ChatColor.translateAlternateColorCodes('&', config.getString("custom-structures.file-not-found", "The requested custom structure file could not be found."));
+		structureConfigNotFoundMessage = ChatColor.translateAlternateColorCodes('&', config.getString("custom-structures.unable-to-find", "Unable to locate customStructures.yml. Aborting custom structure initialization."));
+		mythicMobsConfigNotFoundMessage = ChatColor.translateAlternateColorCodes('&', config.getString("mythicmobs.unable-to-find", "Unable to locate mythicSpawns.yml. Aborting MythicMobs random spawning."));
+		mythicMobsFailToSpawnMessage = ChatColor.translateAlternateColorCodes('&', config.getString("mythicmobs.fail-to-spawn", "Failed to spawn Mobs. Is MythicMobs installed?"));
+		advancementEnableMessage = ChatColor.translateAlternateColorCodes('&', config.getString("advancements.enable", "Enabling advancements..."));
+		usePaperMessage = config.getStringList("paper");
+		untestedServerMessage = config.getStringList("untested");
 	}
 }

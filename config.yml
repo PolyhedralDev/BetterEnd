@@ -7,7 +7,7 @@ update-checker:
   #Frequency at which updates are checked for (in seconds)
   frequency: 3600
 
-#Language in which to display plugin messages. Curent available languages are en_us (English) and vn_vn (Vietnamese)
+#Language in which to display plugin messages. Available languages are en_us (English), vi (Vietnamese), es (Spanish), and afr_sa (Afrikaans)
 lang: en_us
 
 #When enabled, the entire world will be an Aether biome. 
@@ -24,7 +24,7 @@ overworld: false
 #The default weights are out of 100, but they can add up to any number. If they add to 100, the weight
 #is equal to the percent chance of that structure being chosen.
 structure-weight:
-  #Structures that generate in the End, Shattered End, and Void biomes
+  #Structures that generate in the End, Shattered End, and Void biomes (And their variants)
   end:
     end_tower: 19
     stronghold: 19
@@ -32,7 +32,7 @@ structure-weight:
     shulker_nest: 19
     end_ship: 5
     wrecked_end_ship: 19
-  #Structures that generate in the Aether biome
+  #Structures that generate in the Aether biome (And its variants)
   aether:
     gold_dungeon: 2
     cobble_house: 49

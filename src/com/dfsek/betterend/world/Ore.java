@@ -4,16 +4,16 @@ import org.bukkit.Material;
 
 public class Ore {
 	private int contChance;
-	private Material ore;
+	private Material oreMaterial;
 	
-	public Ore(Material ore, int contChance) {
+	public Ore(Material oreMaterial, int contChance) {
 		this.contChance = contChance;
-		this.ore = ore;
+		this.oreMaterial = oreMaterial;
 	}
 	public int getContChance() {
 		return contChance;
 	}
 	public Material getType() {
-		return ore;
+		return oreMaterial;
 	}
 }

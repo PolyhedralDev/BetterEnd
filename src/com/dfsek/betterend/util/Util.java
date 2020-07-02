@@ -8,8 +8,10 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.Random;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.bukkit.ChatColor;
@@ -24,6 +26,7 @@ import com.dfsek.betterend.world.Biome;
 public class Util {
 	private static Main main = Main.getInstance();
 	private static Logger logger = main.getLogger();
+	private Util(){}
 	public static Object chooseOnWeight(Object[] items, int[] weights) {
 		double completeWeight = 0.0;
 		for (int weight : weights)
@@ -38,7 +41,7 @@ public class Util {
 		return null;
 	}
 	public static boolean tpBiome(Player p, String[] args) {
-		if(args[1].equalsIgnoreCase("END") || args[1].equalsIgnoreCase("SHATTERED_END") || args[1].equalsIgnoreCase("VOID") || args[1].equalsIgnoreCase("STARFIELD") || args[1].equalsIgnoreCase("SHATTERED_FOREST") || args[1].equalsIgnoreCase("VOID") || args[1].equalsIgnoreCase("AETHER") || args[1].equalsIgnoreCase("AETHER_HIGHLANDS") || (Main.isPremium() && args[1].equalsIgnoreCase("AETHER_HIGHLANDS_FOREST")) || (Main.isPremium() && args[1].equalsIgnoreCase("AETHER_FOREST"))) {
+		if(args[1].equalsIgnoreCase("END") || args[1].equalsIgnoreCase("SHATTERED_END") || args[1].equalsIgnoreCase("VOID") || args[1].equalsIgnoreCase("STARFIELD") || args[1].equalsIgnoreCase("SHATTERED_FOREST") || args[1].equalsIgnoreCase("AETHER") || args[1].equalsIgnoreCase("AETHER_HIGHLANDS") || (Main.isPremium() && args[1].equalsIgnoreCase("AETHER_HIGHLANDS_FOREST")) || (Main.isPremium() && args[1].equalsIgnoreCase("AETHER_FOREST"))) {
 			p.sendMessage(ChatColor.DARK_AQUA + "[BetterEnd]" + ChatColor.AQUA + " Locating biome \"" + ChatColor.DARK_AQUA + args[1] + ChatColor.AQUA +  "\"");
 			int tries = 0;
 			Location candidate = p.getLocation();
@@ -77,17 +80,17 @@ public class Util {
 		Main instance = Main.getInstance();
 		UpdateChecker.init(instance, 79389).requestUpdateCheck().whenComplete((result, exception) -> {
 			if (result.requiresUpdate()) {
-				instance.getLogger().info(String.format(LangUtil.NEW_VERSION, result.getNewestVersion()));
+				instance.getLogger().info(String.format(LangUtil.newVersion, result.getNewestVersion()));
 				return;
 			}
 
 			UpdateReason reason = result.getReason();
-			if (reason == UpdateReason.UP_TO_DATE) {
-				instance.getLogger().info(String.format(LangUtil.UP_TO_DATE, result.getNewestVersion()));
+			if (reason == UpdateReason.upToDate) {
+				instance.getLogger().info(String.format(LangUtil.upToDate, result.getNewestVersion()));
 			} else if (reason == UpdateReason.UNRELEASED_VERSION) {
-				instance.getLogger().info(String.format(LangUtil.MORE_RECENT, result.getNewestVersion()));
+				instance.getLogger().info(String.format(LangUtil.moreRecent, result.getNewestVersion()));
 			} else {
-				instance.getLogger().warning(LangUtil.UPDATE_ERROR + reason);//Occurred
+				instance.getLogger().warning(LangUtil.updateError + reason);//Occurred
 			}
 		});
 	}
@@ -106,20 +109,18 @@ public class Util {
 	public static void copyResourcesToDirectory(JarFile fromJar, String jarDir, String destDir) throws IOException {
 		for(Enumeration<JarEntry> entries = fromJar.entries(); entries.hasMoreElements();) {
 			JarEntry entry = entries.nextElement();
-			if(ConfigUtil.DEBUG) Main.getInstance().getLogger().info(entry.getName());
+			if(ConfigUtil.debug) Main.getInstance().getLogger().info(entry.getName());
 			if(entry.getName().startsWith(jarDir + "/") && !entry.isDirectory()) {
 				File dest = new File(destDir + File.separator + entry.getName().substring(jarDir.length() + 1));
-				if(ConfigUtil.DEBUG) Main.getInstance().getLogger().info("Output: " + dest.toString());
+				if(ConfigUtil.debug) Main.getInstance().getLogger().info("Output: " + dest.toString());
 				if(dest.exists()) continue;
 				File parent = dest.getParentFile();
 				if(parent != null) {
 					parent.mkdirs();
 				}
-				if(ConfigUtil.DEBUG) Main.getInstance().getLogger().info("Output does not already exist. Creating... ");
-				FileOutputStream out = new FileOutputStream(dest);
-				InputStream in = fromJar.getInputStream(entry);
-
-				try {
+				if(ConfigUtil.debug) Main.getInstance().getLogger().info("Output does not already exist. Creating... ");
+				try(FileOutputStream out = new FileOutputStream(dest);
+				InputStream in = fromJar.getInputStream(entry)) {
 					byte[] buffer = new byte[8 * 1024];
 
 					int s = 0;
@@ -128,20 +129,18 @@ public class Util {
 					}
 				} catch (IOException e) {
 					throw new IOException("Could not copy asset from jar file", e);
-				} finally {
-					try {
-						in.close();
-					} catch (IOException ignored) {}
-					try {
-						out.close();
-					} catch (IOException ignored) {}
 				}
 			}
 		}
 	}
-	public static void logForEach(List<String> msgs) {
+	public static void logForEach(List<String> msgs, Level lvl) {
 		for(String msg:msgs) {
-			logger.info(ChatColor.translateAlternateColorCodes((char) ('&'), msg));
+			logger.log(lvl, ChatColor.translateAlternateColorCodes('&', msg));
 		}
+	}
+	public static double getOffset(Random random, double amount) {
+		double offset = 0;
+		if(random.nextBoolean()) offset = random.nextBoolean() ? -amount : amount;
+		return offset;
 	}
 }

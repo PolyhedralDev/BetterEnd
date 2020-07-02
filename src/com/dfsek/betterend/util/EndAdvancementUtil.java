@@ -17,66 +17,63 @@ import com.dfsek.betterend.world.generation.EndChunkGenerator;
 
 public class EndAdvancementUtil {
 	private static Main main = Main.getInstance();
+	private EndAdvancementUtil(){}
 	public static void enable(Plugin plugin) {
 		File file = new File(Bukkit.getWorlds().get(0).getWorldFolder(), "datapacks" + File.separator + "bukkit");
 
-		try {
-			Util.copyResourcesToDirectory(new JarFile(new File(Main.class.getProtectionDomain().getCodeSource().getLocation().toURI())), "datapacks/bukkit", file.toString());
+		try(JarFile jar = new JarFile(new File(Main.class.getProtectionDomain().getCodeSource().getLocation().toURI()))) {
+			Util.copyResourcesToDirectory(jar, "datapacks/bukkit", file.toString());
 		} catch (IOException | URISyntaxException e) {
 			e.printStackTrace();
 		}
-		//main.getServer().dispatchCommand(main.getServer().getConsoleSender(), "minecraft:reload");
 		Bukkit.reloadData();
 
-		plugin.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
-			@Override
-			public void run() {
-				for(Player p : plugin.getServer().getOnlinePlayers()) {
-					double totalChunkDistance2D = Math.sqrt(Math.pow(p.getLocation().getChunk().getX(), 2)+Math.pow(p.getLocation().getChunk().getZ(), 2));
-					if(p.getWorld().getGenerator() instanceof EndChunkGenerator && (totalChunkDistance2D > 50)) { 
-						switch(Biome.fromLocation(p.getLocation())) {
-						case AETHER:
-							grantAdvancement("visit_aether", p);
-							break;
-						case AETHER_FOREST:
-							grantAdvancement("visit_aether_forest", p);
-							break;
-						case AETHER_HIGHLANDS:
-							grantAdvancement("visit_aether_highlands", p);
-							break;
-						case AETHER_HIGHLANDS_FOREST:
-							grantAdvancement("visit_aether_highlands_forest", p);
-							break;
-						case VOID:
-							grantAdvancement("visit_void", p);
-							break;
-						case STARFIELD:
-							grantAdvancement("visit_starfield", p);
-							break;
-						case SHATTERED_END:
-							grantAdvancement("visit_shattered_end", p);
-							break;
-						case SHATTERED_FOREST:
-							grantAdvancement("visit_shattered_forest", p);
-							break;
-						case END:
-							grantAdvancement("visit_end", p);
-							break;
-						default:
-						}
-						if(p.getLocation().getY() < -64) grantAdvancement("into_void", p);
-						else if(p.getLocation().getY() > 5000) grantAdvancement("dizzying_heights", p);
-						if(hasAdvancement("visit_end", p) &&
-								hasAdvancement("visit_shattered_forest", p) &&
-								hasAdvancement("visit_shattered_end", p) &&
-								hasAdvancement("visit_starfield", p) &&
-								hasAdvancement("visit_void", p) &&
-								hasAdvancement("visit_aether_highlands_forest", p) &&
-								hasAdvancement("visit_aether_highlands", p) &&
-								hasAdvancement("visit_aether_forest", p) &&
-								hasAdvancement("visit_aether", p)) {
-							grantAdvancement("explore", p);
-						}
+		plugin.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, () -> {
+			for(Player p : plugin.getServer().getOnlinePlayers()) {
+				double totalChunkDistance2D = Math.sqrt(Math.pow(p.getLocation().getChunk().getX(), 2)+Math.pow(p.getLocation().getChunk().getZ(), 2));
+				if(p.getWorld().getGenerator() instanceof EndChunkGenerator && (totalChunkDistance2D > 50)) { 
+					switch(Biome.fromLocation(p.getLocation())) {
+					case AETHER:
+						grantAdvancement("visit_aether", p);
+						break;
+					case AETHER_FOREST:
+						grantAdvancement("visit_aether_forest", p);
+						break;
+					case AETHER_HIGHLANDS:
+						grantAdvancement("visit_aether_highlands", p);
+						break;
+					case AETHER_HIGHLANDS_FOREST:
+						grantAdvancement("visit_aether_highlands_forest", p);
+						break;
+					case VOID:
+						grantAdvancement("visit_void", p);
+						break;
+					case STARFIELD:
+						grantAdvancement("visit_starfield", p);
+						break;
+					case SHATTERED_END:
+						grantAdvancement("visit_shattered_end", p);
+						break;
+					case SHATTERED_FOREST:
+						grantAdvancement("visit_shattered_forest", p);
+						break;
+					case END:
+						grantAdvancement("visit_end", p);
+						break;
+					default:
+					}
+					if(p.getLocation().getY() < -64) grantAdvancement("into_void", p);
+					else if(p.getLocation().getY() > 5000) grantAdvancement("dizzying_heights", p);
+					if(hasAdvancement("visit_end", p) &&
+							hasAdvancement("visit_shattered_forest", p) &&
+							hasAdvancement("visit_shattered_end", p) &&
+							hasAdvancement("visit_starfield", p) &&
+							hasAdvancement("visit_void", p) &&
+							hasAdvancement("visit_aether_highlands_forest", p) &&
+							hasAdvancement("visit_aether_highlands", p) &&
+							hasAdvancement("visit_aether_forest", p) &&
+							hasAdvancement("visit_aether", p)) {
+						grantAdvancement("explore", p);
 					}
 				}
 			}
@@ -106,5 +103,5 @@ public class EndAdvancementUtil {
 		}
 	}
 
-	
+
 }

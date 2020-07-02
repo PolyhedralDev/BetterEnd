@@ -95,7 +95,7 @@ public final class UpdateChecker {
                 if (latest == null) {
                     return new UpdateResult(UpdateReason.UNSUPPORTED_VERSION_SCHEME);
                 } else if (latest.equals(current)) {
-                    return new UpdateResult(current.equals(newest) ? UpdateReason.UP_TO_DATE : UpdateReason.UNRELEASED_VERSION);
+                    return new UpdateResult(current.equals(newest) ? UpdateReason.upToDate : UpdateReason.UNRELEASED_VERSION);
                 } else if (latest.equals(newest)) {
                     return new UpdateResult(UpdateReason.NEW_UPDATE, latest);
                 }
@@ -249,7 +249,7 @@ public final class UpdateChecker {
         /**
          * The plugin is up to date with the version released on SpigotMC's resources section.
          */
-        UP_TO_DATE;
+        upToDate;
 
     }
 

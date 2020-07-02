@@ -77,47 +77,56 @@ public class LootTable {
 
 				JSONArray itemArray = (JSONArray) pooldata.get("entries");
 				int rolls = random.nextInt(max-min+1)+min;
-				if(ConfigUtil.DEBUG) main.getLogger().info("[BetterEnd] min: " + min + ", max: " + max + ", " + rolls + " rolls.");
+				if(ConfigUtil.debug) main.getLogger().info("[BetterEnd] min: " + min + ", max: " + max + ", " + rolls + " rolls.");
 
 				for(int i = 0; i < rolls; i++) {
 					int count = 1;
 					JSONObject itemdata = (JSONObject) chooseOnWeight(itemArray);
-					String itemname = (String) itemdata.get("name");
+					String itemname;
+					if(itemdata != null) {
+						itemname = (String) itemdata.get("name");
+					} else {
+						main.getLogger().severe("An unexpected exception was thrown whilst populating item. Unable to fetch name.");
+						main.getLogger().severe("If you are using a custom loot table, double-check it for errors. Enabling debug mode via config.yml may help determine the cause.");
+						main.getLogger().severe("If you aren't, report this error to the BetterEnd Issue Tracker.");
+						continue;
+					}
 					double itemDurability = 100;
 					double enchant = 0;
-					JSONArray disabled = new JSONArray();;
+					JSONArray disabled = new JSONArray();
 					if(itemdata.containsKey("functions")) {
 						try {
 							for (Object function : (JSONArray) itemdata.get("functions")) {
-								if(((String) ((JSONObject) function).get("function")).equalsIgnoreCase("set_count")) {
+								String functionStr = ((String) ((JSONObject) function).get("function"));
+								if(functionStr.equalsIgnoreCase("set_count")) {
 									long maxc = (long) ((JSONObject)((JSONObject)function).get("count")).get("max");
 									long minc = (long) ((JSONObject)((JSONObject)function).get("count")).get("min");
 									count = random.nextInt(Math.toIntExact(maxc)-Math.toIntExact(minc)) + Math.toIntExact(minc);
 								}
-								if(((String) ((JSONObject) function).get("function")).equalsIgnoreCase("set_damage")) {
+								if(functionStr.equalsIgnoreCase("set_damage")) {
 									long maxd = (long) ((JSONObject)((JSONObject)function).get("damage")).get("max");
 									long mind = (long) ((JSONObject)((JSONObject)function).get("damage")).get("min");
 									itemDurability = (random.nextDouble()*(maxd-mind))+mind;
 								}
-								if(((String) ((JSONObject) function).get("function")).equalsIgnoreCase("enchant_with_levels")) {
+								if(functionStr.equalsIgnoreCase("enchant_with_levels")) {
 									long maxd = (long) ((JSONObject)((JSONObject)function).get("levels")).get("max");
 									long mind = (long) ((JSONObject)((JSONObject)function).get("levels")).get("min");
-
 									try {
 										disabled = (JSONArray) ((JSONObject)function).get("disabled_enchants");
 										enchant = (random.nextDouble()*(maxd-mind))+mind;
 									} catch(ClassCastException e) {
+										//what's this? :eyes:
 									}
 								}
 							}
 						} catch(ClassCastException | IllegalArgumentException e) {
-							main.getLogger().severe("[BetterEnd] An unexpected exception was thrown whilst populating item \""+ itemname + "\"");
-							main.getLogger().severe(e.getMessage());
+							main.getLogger().severe("An unexpected exception was thrown whilst populating item \""+ itemname + "\"");
+							e.printStackTrace();
 							main.getLogger().severe("If you are using a custom loot table, double-check it for errors. Enabling debug mode via config.yml may help determine the cause.");
 							main.getLogger().severe("If you aren't, report this error to the BetterEnd Issue Tracker.");
 						}
 					}
-					if(ConfigUtil.DEBUG) main.getLogger().info("[BetterEnd] "+ itemname + " x" + count + ", durability=" + itemDurability + ", enchant lvl=" + enchant);
+					if(ConfigUtil.debug) main.getLogger().info("[BetterEnd] "+ itemname + " x" + count + ", durability=" + itemDurability + ", enchant lvl=" + enchant);
 					try {
 						ItemStack randomItem = new ItemStack(Material.valueOf(itemname.toUpperCase()), count);
 						if(enchant != 0) randomItem = randomEnchantment(randomItem, enchant, random, disabled);
@@ -192,25 +201,25 @@ public class LootTable {
 	 */
 	@SuppressWarnings("deprecation") 
 	public ItemStack randomEnchantment(ItemStack item, double enchant, Random random, JSONArray disabled) {
-		List<Enchantment> possible = new ArrayList<Enchantment>();
+		List<Enchantment> possible = new ArrayList<>();
 		for (Enchantment ench : Enchantment.values()) {
 			if (ench.canEnchantItem(item)) {
 				possible.add(ench);
 			}
 		}
-		int numEnchant = (int) (random.nextInt((int) Math.abs(enchant))/10+1);
+		int numEnchant = (random.nextInt((int) Math.abs(enchant))/10+1);
 		if (possible.size() >= numEnchant) {
 			Collections.shuffle(possible);
 
-			for(int i = 0; i < numEnchant; i++) {
+			iter: for(int i = 0; i < numEnchant; i++) {
 				Enchantment chosen = possible.get(i);
 				if(disabled != null && disabled.contains(chosen.getName())) continue;
-				if(ConfigUtil.DEBUG) main.getLogger().info("Enchantment name: " + chosen.getName());
+				if(ConfigUtil.debug) main.getLogger().info("Enchantment name: " + chosen.getName());
 				for (Enchantment ench : item.getEnchantments().keySet()) {
-					if(chosen.conflictsWith(ench)) continue;
+					if(chosen.conflictsWith(ench)) continue iter;
 				}
 
-				int lvl = random.nextInt(1+(int) (((enchant/40 > 1) ? 1 : enchant/40)*((chosen.getMaxLevel()))));
+				int lvl = random.nextInt(1+(int) (((enchant/40 > 1) ? 1 : enchant/40)*(chosen.getMaxLevel())));
 				if(lvl != 0) item.addEnchantment(chosen, lvl);
 				else item.addEnchantment(chosen, 1);
 			}     

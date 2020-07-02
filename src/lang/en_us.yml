@@ -33,3 +33,16 @@ mythicmobs:
    enable: "Starting MythicMobs integration"
    fail-to-spawn: "Failed to spawn Mobs. Is MythicMobs installed?"
    unable-to-find: "Unable to locate mythicSpawns.yml. Aborting MythicMobs random spawning."
+advancements:
+   enable: "Enabling advancements..."
+paper:
+   - "You are using Spigot/CraftBukkit for your server."
+   - "For the best experience with BetterEnd, and all your plugins, please use Paper!"
+   - "Paper contains many optimizations on top of Spigot's, meaning you'll see a huge performance increase."
+   - "Paper is a fork of Spigot as well, meaning all your plugins should still work with Paper."
+   - "Find out more at their website: https://papermc.io/"
+untested:
+   - "You are using a server implementation other than Spigot or Paper!"
+   - "BetterEnd has not been tested on this implementation, and minimal support will be given should issues arise when using it."
+   - "If you experience issues, test on Paper before reporting them!"
+   - "If you would like your implementation to be officially supported, contact dfsek on the BetterEnd Discord server."
