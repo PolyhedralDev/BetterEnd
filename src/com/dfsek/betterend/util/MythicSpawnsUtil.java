@@ -21,11 +21,10 @@ import com.dfsek.betterend.world.generation.EndChunkGenerator;
 import io.lumine.xikage.mythicmobs.MythicMobs;
 
 public class MythicSpawnsUtil {
-	private static Main main = Main.getInstance();
-	private static File configFile = new File(main.getDataFolder() + File.separator + "mythicSpawns.yml");
-	private static YamlConfiguration config = new YamlConfiguration();
-	private static Random random = new Random();
-	private static boolean debug = main.getConfig().getBoolean("debug");
+	private static final Main main = Main.getInstance();
+	private static final File configFile = new File(main.getDataFolder() + File.separator + "mythicSpawns.yml");
+	private static final YamlConfiguration config = new YamlConfiguration();
+	private static final Random random = new Random();
 
 	private MythicSpawnsUtil() {
 	}
@@ -54,11 +53,11 @@ public class MythicSpawnsUtil {
 						for(Player p: main.getServer().getOnlinePlayers()) {
 							if(p.getWorld().getGenerator() instanceof EndChunkGenerator) {
 								if(!(Math.abs(p.getLocation().getChunk().getX()) > 20 || Math.abs(p.getLocation().getChunk().getZ()) > 20)) continue;
-								if(debug) main.getLogger().info("Starting MythicMobs spawns for " + p.getName());
+								if(ConfigUtil.debug) main.getLogger().info("Starting MythicMobs spawns for " + p.getName());
 
 								List<Map<?, ?>> mobs = config.getMapList("mobs");
 
-								if(debug) main.getLogger().info("Spawning max of " + maxMobs + ", " + numMobs + " already exist(s).");
+								if(ConfigUtil.debug) main.getLogger().info("Spawning max of " + maxMobs + ", " + numMobs + " already exist(s).");
 								IntStream.Builder mobIDs = IntStream.builder();
 								IntStream.Builder weights = IntStream.builder();
 								for(int i = 0; i < mobs.size(); i++) {
@@ -99,7 +98,7 @@ public class MythicSpawnsUtil {
 											&& attemptLoc.clone().add(0, 1, 0).getBlock().isPassable() && attemptLoc.clone().add(0, 2, 0).getBlock().isPassable()
 											&& attemptLoc.clone().add(0, 1, 0).getBlock().getLightLevel() < ((Map<String, Integer>) mob).get("maxLight")) {
 										MythicMobs.inst().getMobManager().spawnMob((String) mob.get("name"), attemptLoc.add(0, 1, 0));
-										if(debug) main.getLogger().info("Spawning mob \"" + mob.get("name") + "\" at " + attemptLoc);
+										if(ConfigUtil.debug) main.getLogger().info("Spawning mob \"" + mob.get("name") + "\" at " + attemptLoc);
 									}
 								}
 

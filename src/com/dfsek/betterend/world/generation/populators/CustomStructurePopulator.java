@@ -29,9 +29,9 @@ import org.jetbrains.annotations.NotNull;
 
 public class CustomStructurePopulator extends BlockPopulator {
 
-	private static Main main = Main.getInstance();
-	private static File configFile = new File(main.getDataFolder() + File.separator + "customStructures.yml");
-	private static YamlConfiguration config = new YamlConfiguration();
+	private static final Main main = Main.getInstance();
+	private static final File configFile = new File(main.getDataFolder() + File.separator + "customStructures.yml");
+	private static final YamlConfiguration config = new YamlConfiguration();
 	private static boolean doGeneration = false;
 	private static int chancePerChunk;
 
@@ -76,7 +76,7 @@ public class CustomStructurePopulator extends BlockPopulator {
 			if(!((List<?>) struc.get("biomes"))
 					.contains(Biome.fromCoordinates(chunk.getX() * 16 + x, chunk.getZ() * 16 + z, world.getSeed()).toString().toUpperCase())) return;
 
-			int y = 0;
+			int y;
 
 			switch((String) struc.get("generate")) {
 				case "GROUND":
