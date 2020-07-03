@@ -29,6 +29,7 @@ public class MythicSpawnsUtil {
 	private MythicSpawnsUtil() {
 	}
 
+	@SuppressWarnings("unchecked")
 	public static void startSpawnRoutine() {
 
 		if(Main.isPremium()) {
@@ -89,7 +90,7 @@ public class MythicSpawnsUtil {
 											y = p.getWorld().getMaxHeight() - 96 - random.nextInt(64);
 											break;
 										default:
-											main.getLogger().warning(String.format(LangUtil.invalidSpawn, (String) mob.get("spawn")));
+											main.getLogger().warning(String.format(LangUtil.invalidSpawn, mob.get("spawn")));
 											break;
 									}
 									if(y < 1) continue;

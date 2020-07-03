@@ -28,7 +28,7 @@ import com.dfsek.betterend.util.Util;
 
 public class LootTable {
 	private Object tableJSON;
-	private static Main main = Main.getInstance();
+	private static final Main main = Main.getInstance();
 
 	/**
 	 * Loads a loot table with a name.<br>

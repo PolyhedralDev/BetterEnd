@@ -16,7 +16,7 @@ import com.dfsek.betterend.util.NMSReflectorUtil;
  * @since 2.0.0
  */
 public class NMSStructure {
-	private static Main main = Main.getInstance();
+	private static final Main main = Main.getInstance();
 	private int[] dimension;
 	private Object structure;
 	private Location origin;

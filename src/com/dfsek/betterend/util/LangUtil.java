@@ -14,7 +14,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import com.dfsek.betterend.Main;
 
 public class LangUtil {
-	private static Main main = Main.getInstance();
+	private static final Main main = Main.getInstance();
 	public static List<String> enableMessage;
 	public static List<String> disableMessage;
 	public static List<String> freeVersionMessage;

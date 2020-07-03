@@ -9,7 +9,7 @@ import org.bukkit.persistence.PersistentDataType;
 import com.dfsek.betterend.Main;
 
 public class BossTimeoutUtil {
-	private static Main main = Main.getInstance();
+	private static final Main main = Main.getInstance();
 
 	private BossTimeoutUtil() {
 	}

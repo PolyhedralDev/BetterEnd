@@ -15,7 +15,7 @@ import org.bukkit.util.noise.SimplexOctaveGenerator;
 import com.dfsek.betterend.Main;
 
 public class StructureUtil {
-	private static Main main = Main.getInstance();
+	private static final Main main = Main.getInstance();
 
 	private StructureUtil() {
 	}

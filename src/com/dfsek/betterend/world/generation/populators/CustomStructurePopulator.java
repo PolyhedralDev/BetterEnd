@@ -51,7 +51,7 @@ public class CustomStructurePopulator extends BlockPopulator {
 			chancePerChunk = config.getInt("master-chance-per-chunk", 6);
 		}
 	}
-
+	@SuppressWarnings("unchecked")
 	@Override
 	public void populate(@NotNull World world, @NotNull Random random, @NotNull Chunk chunk) {
 		try {
@@ -96,7 +96,7 @@ public class CustomStructurePopulator extends BlockPopulator {
 					y = random.nextInt(((Map<String, Integer>) struc).get("max-height") - ((Map<String, Integer>) struc).get("min-height") + 1) + ((Map<String, Integer>) struc).get("min-height");
 					break;
 				default:
-					main.getLogger().warning(String.format(LangUtil.invalidSpawn, (String) struc.get("spawn")));
+					main.getLogger().warning(String.format(LangUtil.invalidSpawn, struc.get("spawn")));
 					return;
 			}
 			Location origin = new Location(world, (double) chunk.getX() * 16 + x, y, (double) chunk.getZ() * 16 + z);

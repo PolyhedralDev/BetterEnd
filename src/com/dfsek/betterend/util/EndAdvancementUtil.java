@@ -16,7 +16,7 @@ import com.dfsek.betterend.world.Biome;
 import com.dfsek.betterend.world.generation.EndChunkGenerator;
 
 public class EndAdvancementUtil {
-	private static Main main = Main.getInstance();
+	private static final Main main = Main.getInstance();
 
 	private EndAdvancementUtil() {
 	}

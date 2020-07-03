@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Objects;
 import java.util.logging.Logger;
 
 import org.bukkit.configuration.InvalidConfigurationException;
@@ -115,7 +116,7 @@ public class ConfigUtil {
 
 	public static void init(Logger logger, Main main) {
 		FileConfiguration config = main.getConfig();
-		if(!config.getString("config-version", "null").equals(main.getDescription().getVersion())) {
+		if(!Objects.equals(config.getString("config-version", "null"), main.getDescription().getVersion())) {
 			logger.info("Updating config...");
 			backupConfig(main);
 			File configBackupFile = new File(main.getDataFolder() + File.separator + "config.v" + main.getDescription().getVersion() + ".yml");
