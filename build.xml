@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="BetterEnd" default="makejar" basedir=".">
     <target name="makejar" description="Create a jar for the project">
-        <mkdir dir="target"></mkdir>
+		<mkdir dir="target"/>
         <jar destfile="target/${ant.project.name}-premium.jar">
-            <fileset dir="bin"></fileset>
-            <fileset file="plugin.yml"></fileset>
-        	<fileset file="config.yml"></fileset>
+			<fileset dir="bin"/>
+			<fileset file="plugin.yml"/>
+			<fileset file="config.yml"/>
         </jar>
     	<jar destfile="target/${ant.project.name}-free.jar">
     		<fileset dir="bin">
@@ -17,10 +17,10 @@
     			<exclude name="**/AetherFallUtil*.class"/>
     			<exclude name="**/Fortress*.class"/>
     			<exclude name="**/end_fortress*.nbt"/>
-    			<exclude name="**/BossTimeoutUtil*.nbt"/>
+    			<exclude name="**/BossTimeoutUtil*.java"/>
     		</fileset>
-    		<fileset file="plugin.yml"></fileset>
-    		<fileset file="config.yml"></fileset>
+			<fileset file="plugin.yml"/>
+			<fileset file="config.yml"/>
     	</jar>
     </target>
 </project> 

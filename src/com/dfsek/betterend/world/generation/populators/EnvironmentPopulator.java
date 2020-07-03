@@ -102,7 +102,7 @@ public class EnvironmentPopulator extends BlockPopulator {
 								}
 							} else {
 								if(random.nextInt(100) < 90) {
-									world.generateTree(blockLocation, TreeType.BIRCH);
+									world.generateTree(blockLocation, TreeType.BIRCH); 
 								} else {
 									world.generateTree(blockLocation, TreeType.TALL_BIRCH);
 								}

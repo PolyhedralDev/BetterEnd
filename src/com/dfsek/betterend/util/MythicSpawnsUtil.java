@@ -63,14 +63,14 @@ public class MythicSpawnsUtil {
 								IntStream.Builder weights = IntStream.builder();
 								for(int i = 0; i < mobs.size(); i++) {
 									mobIDs.add(i);
-									weights.add((int) mobs.get(i).get("weight"));
+									weights.add(((Map<String, Integer>) mobs.get(i)).get("weight"));
 								}
 								Map<?, ?> mob = mobs.get(chooseOnWeight(mobIDs.build().toArray(), weights.build().toArray()));
 								Location attemptLoc = p.getLocation()
-										.add(new Vector(random.nextInt((int) mob.get("maxDistance") - (int) mob.get("minDistance") + 1) + (int) mob.get("minDistance"), 0, 0)
+										.add(new Vector(random.nextInt(((Map<String, Integer>) mob).get("maxDistance") - ((Map<String, Integer>) mob).get("minDistance") + 1) + ((Map<String, Integer>) mob).get("minDistance"), 0, 0)
 												.rotateAroundY(random.nextInt(360)));
-								for(int i = 0; i < new Random().nextInt((int) mob.get("maxGroupSize") - (int) mob.get("minGroupSize") + 1)
-										+ (int) mob.get("minGroupSize"); i++) {
+								for(int i = 0; i < new Random().nextInt(((Map<String, Integer>) mob).get("maxGroupSize") - ((Map<String, Integer>) mob).get("minGroupSize") + 1)
+										+ ((Map<String, Integer>) mob).get("minGroupSize"); i++) {
 									int y = 0;
 									switch((String) mob.get("spawn")) {
 										case "GROUND":
@@ -97,7 +97,7 @@ public class MythicSpawnsUtil {
 									attemptLoc.setY(y);
 									if(((List<?>) mob.get("biomes")).contains(Biome.fromLocation(attemptLoc).toString())
 											&& attemptLoc.clone().add(0, 1, 0).getBlock().isPassable() && attemptLoc.clone().add(0, 2, 0).getBlock().isPassable()
-											&& attemptLoc.clone().add(0, 1, 0).getBlock().getLightLevel() < (int) mob.get("maxLight")) {
+											&& attemptLoc.clone().add(0, 1, 0).getBlock().getLightLevel() < ((Map<String, Integer>) mob).get("maxLight")) {
 										MythicMobs.inst().getMobManager().spawnMob((String) mob.get("name"), attemptLoc.add(0, 1, 0));
 										if(debug) main.getLogger().info("Spawning mob \"" + mob.get("name") + "\" at " + attemptLoc);
 									}

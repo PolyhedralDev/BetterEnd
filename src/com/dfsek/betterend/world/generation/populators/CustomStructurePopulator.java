@@ -25,6 +25,7 @@ import com.dfsek.betterend.util.ConfigUtil;
 import com.dfsek.betterend.util.LangUtil;
 import com.dfsek.betterend.util.StructureUtil;
 import com.dfsek.betterend.world.Biome;
+import org.jetbrains.annotations.NotNull;
 
 public class CustomStructurePopulator extends BlockPopulator {
 
@@ -52,7 +53,7 @@ public class CustomStructurePopulator extends BlockPopulator {
 	}
 
 	@Override
-	public void populate(World world, Random random, Chunk chunk) {
+	public void populate(@NotNull World world, @NotNull Random random, @NotNull Chunk chunk) {
 		try {
 			if(random.nextInt(100) > chancePerChunk || !doGeneration) return;
 			if(!(Math.abs(chunk.getX()) > 20 || Math.abs(chunk.getZ()) > 20 || ConfigUtil.allAether)) return;
@@ -68,7 +69,7 @@ public class CustomStructurePopulator extends BlockPopulator {
 			IntStream.Builder weights = IntStream.builder();
 			for(int i = 0; i < structures.size(); i++) {
 				structureIDs.add(i);
-				weights.add((int) structures.get(i).get("weight"));
+				weights.add(((Map<String, Integer>) structures.get(i)).get("weight"));
 			}
 			Map<?, ?> struc = structures.get(chooseOnWeight(structureIDs.build().toArray(), weights.build().toArray()));
 
@@ -89,10 +90,10 @@ public class CustomStructurePopulator extends BlockPopulator {
 									&& new Location(world, (double) chunk.getX() * 16 + x, y, (double) chunk.getZ() * 16 + z).getBlock().getType() != Material.GRAVEL
 									&& new Location(world, (double) chunk.getX() * 16 + x, y, (double) chunk.getZ() * 16 + z).getBlock().getType() != Material.STONE_SLAB
 									&& y > 0; y--);
-					y = y + (int) struc.get("y-offset");
+					y = y + ((Map<String, Integer>) struc).get("y-offset");
 					break;
 				case "AIR":
-					y = random.nextInt((int) struc.get("max-height") - (int) struc.get("min-height") + 1) + (int) struc.get("min-height");
+					y = random.nextInt(((Map<String, Integer>) struc).get("max-height") - ((Map<String, Integer>) struc).get("min-height") + 1) + ((Map<String, Integer>) struc).get("min-height");
 					break;
 				default:
 					main.getLogger().warning(String.format(LangUtil.invalidSpawn, (String) struc.get("spawn")));
@@ -103,13 +104,13 @@ public class CustomStructurePopulator extends BlockPopulator {
 			boolean ground = false;
 
 			structure = new NMSStructure(origin, new FileInputStream(main.getDataFolder() + "/structures/" + struc.get("name") + ".nbt"));
-			if((boolean) struc.get("override-checks") || StructureUtil.isValidSpawn(structure.getBoundingLocations()[0], structure.getBoundingLocations()[1], ground,
-					(boolean) struc.get("strict-check"))) {
+			if(((Map<String, Boolean>) struc).get("override-checks") || StructureUtil.isValidSpawn(structure.getBoundingLocations()[0], structure.getBoundingLocations()[1], ground,
+					((Map<String, Boolean>) struc).get("strict-check"))) {
 				main.getLogger().info(String.format(LangUtil.generateCustomStructureMessage, struc.get("name"), chunk.getX() * 16 + x, y, chunk.getZ() * 16 + z));
 				structure.paste();
 				LootTable table = new LootTable((String) struc.get("name"));
 				for(Location location: StructureUtil.getChestsIn(structure.getBoundingLocations()[0], structure.getBoundingLocations()[1])) {
-					if(location.getBlock().getState() instanceof Container && (boolean) struc.get("populate-loot")) {
+					if(location.getBlock().getState() instanceof Container && ((Map<String, Boolean>) struc).get("populate-loot")) {
 						table.populateChest(location, random);
 					}
 				}
