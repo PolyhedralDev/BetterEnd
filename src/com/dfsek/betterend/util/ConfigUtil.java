@@ -55,6 +55,10 @@ public class ConfigUtil {
 	public static String lang;
 	public static boolean fallToOverworld;
 	public static boolean fallToOverworldAether;
+	public static boolean generateBigTreesInBiomes;
+	public static boolean generateBigTreesInEnd;
+	public static boolean generateBigTreesEverywhere;
+	public static int treeGrowthMultiplier;
 
 	private ConfigUtil() {
 	}
@@ -110,6 +114,11 @@ public class ConfigUtil {
 		lang = config.getString("lang", "en_us");
 		fallToOverworld = config.getBoolean("outer-islands.fall-to-overworld", false);
 		fallToOverworldAether = config.getBoolean("aether.fall-to-overworld", true);
+		generateBigTreesInBiomes = config.getBoolean("trees.big-trees.saplings.in-respective-biomes", true);
+		generateBigTreesInEnd = config.getBoolean("trees.big-trees.saplings.in-all-betterend-worlds", false);
+		generateBigTreesEverywhere = config.getBoolean("trees.big-trees.saplings.everywhere", false);
+		treeGrowthMultiplier = config.getInt("trees.big-trees.saplings.growth-time-multiplier", 8);
+
 		LangUtil.loadlang(lang, logger);
 		logger.info("Complete. Time elapsed: " + ((double) (System.nanoTime() - start)) / 1000000 + "ms");
 	}

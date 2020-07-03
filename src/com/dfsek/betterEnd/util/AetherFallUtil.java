@@ -1,4 +1,4 @@
-package com.dfsek.betterend;
+package com.dfsek.betterend.util;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -14,7 +14,10 @@ public class AetherFallUtil {
 	public static void init(Plugin plugin) {
 		plugin.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, () -> {
 			for(Player p: plugin.getServer().getOnlinePlayers()) {
-				if(p.getWorld().getGenerator() instanceof EndChunkGenerator && p.getLocation().getY() < 0 && (ConfigUtil.fallToOverworld || Biome.fromLocation(p.getLocation()).isAether())) p.teleport(new Location(Bukkit.getWorlds().get(0), p.getLocation().getX(), (double) p.getWorld().getMaxHeight(), p.getLocation().getZ())); 
+				if(p.getWorld().getGenerator() instanceof EndChunkGenerator && p.getLocation().getY() < 0 && (ConfigUtil.fallToOverworld || Biome.fromLocation(p.getLocation()).isAether())) p.teleport(new Location(Bukkit.getWorlds().get(0), p.getLocation().getX(), (double) p.getWorld().getMaxHeight(), p.getLocation().getZ()));
+				else if(p.getLocation().getY() > (double) p.getWorld().getMaxHeight()+0.5 && p.getWorld().equals(Bukkit.getWorlds().get(0))) {
+
+				}
 			}
 		}, 2L, 2L);
 	}

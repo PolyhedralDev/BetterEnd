@@ -133,6 +133,20 @@ trees:
   min-per-chunk: 4
   #Maximum number of tree generation attempts per chunk.
   max-per-chunk: 7
+  #Configuration options for Big Trees (Premium Only)
+  big-trees:
+    #Configuration options for Big Trees generating from Vanilla saplings
+    saplings:
+      #Whether or not Oak saplings in Forest biomes generate large oak trees,
+      #and Spruce saplings in Highlands Forest biomes generate large spruce trees.
+      in-respective-biomes: true
+      #Whether or not Oak/Spruce saplings generate their corresponding large trees throughout the entire End.
+      in-all-betterend-worlds: false
+      #Whether or not Oak/Spruce saplings generate their corresponding large trees in all worlds.
+      everywhere: false
+      #How much longer it takes saplings that are to grow into large trees to grow.
+      #(e.g. 8 = 8 times as long, AND/OR 8 times as much bone meal)
+      growth-time-multiplier: 8
   #Configuration options for Obsidian Pillars found in the Shattered End.
   obsidian-pillars:
     #Maximum height of the pillars.

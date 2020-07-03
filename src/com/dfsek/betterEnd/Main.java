@@ -3,6 +3,7 @@ package com.dfsek.betterend;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.dfsek.betterend.util.*;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -10,13 +11,6 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.dfsek.betterend.util.ConfigUtil;
-import com.dfsek.betterend.util.EndAdvancementUtil;
-import com.dfsek.betterend.util.LangUtil;
-import com.dfsek.betterend.util.MythicSpawnsUtil;
-import com.dfsek.betterend.util.NMSReflectorUtil;
-import com.dfsek.betterend.util.PremiumUtil;
-import com.dfsek.betterend.util.Util;
 import com.dfsek.betterend.world.Biome;
 import com.dfsek.betterend.world.generation.EndChunkGenerator;
 

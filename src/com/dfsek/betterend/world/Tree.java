@@ -1,5 +1,6 @@
 package com.dfsek.betterend.world;
 
+import java.util.Objects;
 import java.util.Random;
 
 import org.bukkit.Location;
@@ -22,7 +23,7 @@ public class Tree {
 						for(int y = (int) -startR; y <= startR; y++) {
 							for(int z = (int) -startR; z <= startR; z++) {
 								Vector position = start.toVector().clone().add(new Vector(x, y, z));
-								if(start.toVector().distance(position) <= startR + 0.5 && position.toLocation(start.getWorld()).getBlock().isPassable()) {
+								if(start.toVector().distance(position) <= startR + 0.5 && position.toLocation(Objects.requireNonNull(start.getWorld())).getBlock().isPassable()) {
 									position.toLocation(start.getWorld()).getBlock().setType(Material.OAK_WOOD);
 								}
 							}
@@ -52,7 +53,7 @@ public class Tree {
 						for(int y = (int) -startR; y <= startR; y++) {
 							for(int z = (int) -startR; z <= startR; z++) {
 								Vector position = start.toVector().clone().add(new Vector(x, y, z));
-								if(start.toVector().distance(position) <= startR + 0.5 && position.toLocation(start.getWorld()).getBlock().isPassable()) position
+								if(start.toVector().distance(position) <= startR + 0.5 && position.toLocation(Objects.requireNonNull(start.getWorld())).getBlock().isPassable()) position
 										.toLocation(start.getWorld()).getBlock().setType(Material.SPRUCE_WOOD);
 							}
 						}
@@ -62,7 +63,7 @@ public class Tree {
 						for(int x = -r; x <= r; x++) {
 							for(int z = -r; z <= r; z++) {
 								Vector position = start.toVector().clone().add(new Vector(x, 0, z));
-								if(start.toVector().distance(position) <= r + 0.5 && position.toLocation(start.getWorld()).getBlock().isPassable()) position
+								if(start.toVector().distance(position) <= r + 0.5 && position.toLocation(Objects.requireNonNull(start.getWorld())).getBlock().isPassable()) position
 										.toLocation(start.getWorld()).getBlock().setType(Material.SPRUCE_LEAVES);
 							}
 						}
@@ -124,8 +125,8 @@ public class Tree {
 				for(int y = -radius; y <= radius; y++) {
 					for(int z = -radius; z <= radius; z++) {
 						Vector position = start.toVector().clone().add(new Vector(x, y, z));
-						if(start.toVector().distance(position) <= radius + 0.5 && position.toLocation(start.getWorld()).getBlock().getType() == Material.END_STONE
-								|| position.toLocation(start.getWorld()).getBlock().isEmpty() || position.toLocation(start.getWorld()).getBlock().getType() == Material.GRASS
+						if(start.toVector().distance(position) <= radius + 0.5 && position.toLocation(Objects.requireNonNull(start.getWorld())).getBlock().getType() == Material.END_STONE
+								|| position.toLocation(Objects.requireNonNull(start.getWorld())).getBlock().isEmpty() || position.toLocation(start.getWorld()).getBlock().getType() == Material.GRASS
 								|| position.toLocation(start.getWorld()).getBlock().getType() == Material.TALL_GRASS
 								|| position.toLocation(start.getWorld()).getBlock().getType() == Material.GRASS_BLOCK
 								|| position.toLocation(start.getWorld()).getBlock().getType() == Material.DIRT
@@ -143,7 +144,12 @@ public class Tree {
 								|| position.toLocation(start.getWorld()).getBlock().getType() == Material.LAPIS_ORE
 								|| position.toLocation(start.getWorld()).getBlock().getType() == Material.DIAMOND_ORE
 								|| position.toLocation(start.getWorld()).getBlock().getType() == Material.LANTERN
-								|| position.toLocation(start.getWorld()).getBlock().getType() == Material.STONE_SLAB) position.toLocation(start.getWorld()).getBlock()
+								|| position.toLocation(start.getWorld()).getBlock().getType() == Material.STONE_SLAB
+								|| position.toLocation(start.getWorld()).getBlock().getType() == Material.SAND
+								|| position.toLocation(start.getWorld()).getBlock().getType() == Material.WATER
+								|| position.toLocation(start.getWorld()).getBlock().getType() == Material.ANDESITE
+								|| position.toLocation(start.getWorld()).getBlock().getType() == Material.DIORITE
+								|| position.toLocation(start.getWorld()).getBlock().getType() == Material.GRANITE) position.toLocation(start.getWorld()).getBlock()
 										.setType(m);
 					}
 				}
@@ -170,7 +176,7 @@ public class Tree {
 				for(int z = -radius; z <= radius; z++) {
 					Vector position = l.toVector().clone().add(new Vector(x, y, z));
 
-					if(l.toVector().distance(position) <= radius + 0.5 && (position.toLocation(l.getWorld()).getBlock().isEmpty()
+					if(l.toVector().distance(position) <= radius + 0.5 && (position.toLocation(Objects.requireNonNull(l.getWorld())).getBlock().isEmpty()
 							|| position.toLocation(l.getWorld()).getBlock().getType() == Material.OAK_LEAVES)) position.toLocation(l.getWorld()).getBlock().setType(m);
 				}
 			}
