@@ -111,7 +111,7 @@ public class LootTable {
 								if(functionStr.equalsIgnoreCase("set_count")) {
 									long maxc = (long) ((JSONObject) ((JSONObject) function).get("count")).get("max");
 									long minc = (long) ((JSONObject) ((JSONObject) function).get("count")).get("min");
-									count = random.nextInt(Math.toIntExact(maxc) - Math.toIntExact(minc)) + Math.toIntExact(minc);
+									count = random.nextInt(Math.toIntExact(maxc) - Math.toIntExact(minc)+1) + Math.toIntExact(minc);
 								}
 								if(functionStr.equalsIgnoreCase("set_damage")) {
 									long maxd = (long) ((JSONObject) ((JSONObject) function).get("damage")).get("max");

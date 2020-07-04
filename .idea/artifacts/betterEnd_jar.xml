@@ -1,8 +1,9 @@
 <component name="ArtifactManager">
-  <artifact type="jar" name="betterEnd:jar">
-    <output-path>$PROJECT_DIR$/classes/artifacts/betterEnd_jar</output-path>
-    <root id="archive" name="betterEnd.jar">
-      <element id="module-output" name="betterEnd" />
+  <artifact type="jar" name="BetterEnd:jar">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="BetterEnd.jar">
+      <element id="module-output" name="BetterEnd" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/MythicMobs-4.9.1.jar" path-in-jar="/" />
     </root>
   </artifact>
 </component>

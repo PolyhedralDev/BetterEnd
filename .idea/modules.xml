@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/betterEnd.iml" filepath="$PROJECT_DIR$/betterEnd.iml" />
+      <module fileurl="file://$PROJECT_DIR$/BetterEnd.iml" filepath="$PROJECT_DIR$/BetterEnd.iml" />
     </modules>
   </component>
 </project>

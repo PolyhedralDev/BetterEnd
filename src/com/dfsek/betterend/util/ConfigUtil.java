@@ -13,6 +13,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import com.dfsek.betterend.Main;
+import org.yaml.snakeyaml.Yaml;
 
 public class ConfigUtil {
 	public static int shulkerSpawns;
@@ -138,10 +139,10 @@ public class ConfigUtil {
 				main.saveDefaultConfig();
 
 				InputStream out = main.getResource("config.yml");
-				byte[] linebuffer = new byte[4096];
+				byte[] lineBuffer = new byte[4096];
 				int lineLength = 0;
-				while ((lineLength = out.read(linebuffer)) > 0) {
-					writer.write(linebuffer, 0, lineLength);
+				while ((lineLength = out.read(lineBuffer)) > 0) {
+					writer.write(lineBuffer, 0, lineLength);
 				}
 				File configDefaultFile = new File(main.getDataFolder() + File.separator + "default.yml");
 				configBackup.load(configBackupFile);
