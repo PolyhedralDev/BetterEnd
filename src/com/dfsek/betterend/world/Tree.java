@@ -149,7 +149,12 @@ public class Tree {
 								|| position.toLocation(start.getWorld()).getBlock().getType() == Material.WATER
 								|| position.toLocation(start.getWorld()).getBlock().getType() == Material.ANDESITE
 								|| position.toLocation(start.getWorld()).getBlock().getType() == Material.DIORITE
-								|| position.toLocation(start.getWorld()).getBlock().getType() == Material.GRANITE) position.toLocation(start.getWorld()).getBlock()
+								|| position.toLocation(start.getWorld()).getBlock().getType() == Material.GRANITE
+								|| position.toLocation(start.getWorld()).getBlock().getType() == Material.COBBLESTONE
+								|| position.toLocation(start.getWorld()).getBlock().getType() == Material.END_STONE
+								|| position.toLocation(start.getWorld()).getBlock().getType() == Material.END_STONE_BRICK_WALL
+								|| position.toLocation(start.getWorld()).getBlock().getType() == Material.END_STONE_BRICK_SLAB
+								|| position.toLocation(start.getWorld()).getBlock().getType() == Material.END_ROD) position.toLocation(start.getWorld()).getBlock()
 										.setType(m);
 					}
 				}

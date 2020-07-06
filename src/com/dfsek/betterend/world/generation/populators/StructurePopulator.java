@@ -63,7 +63,7 @@ public class StructurePopulator extends BlockPopulator {
 					case "wood_house":
 						y--;
 						if(biome.isHighlands()) structureName = "spruce_house";
-						permutation = random.nextInt(5);
+						permutation = random.nextInt(45);
 						break;
 					case "gold_dungeon":
 						overrideSpawnCheck = true;
@@ -73,7 +73,9 @@ public class StructurePopulator extends BlockPopulator {
 				}
 				structure = new NMSStructure(new Location(world, (double) chunk.getX() * 16 + x, y, (double) chunk.getZ() * 16 + z), structureName, permutation);
 			} else if(random.nextInt(100) < ConfigUtil.ruinChance) {
-				structure = new NMSStructure(new Location(world, (double) chunk.getX() * 16 + x, y, (double) chunk.getZ() * 16 + z), "aether_ruin", random.nextInt(18));
+				Location ruinCandidate = new Location(world, (double) chunk.getX() * 16 + x, y, (double) chunk.getZ() * 16 + z);
+				boolean isAether = Biome.fromLocation(ruinCandidate).isAether();
+				structure = new NMSStructure(ruinCandidate, isAether ? "aether_ruin" : "end_ruin", isAether ? random.nextInt(18) : random.nextInt(109));
 			} else return;
 		} else if(biome.equals(Biome.STARFIELD)) {
 			genStars(random, chunk, world);
@@ -120,14 +122,14 @@ public class StructurePopulator extends BlockPopulator {
 		structure.setRotation(random.nextInt(4) * 90);
 		int[] dimension = structure.getDimensions();
 		Location[] b = structure.getBoundingLocations();
-		if(overrideSpawnCheck || (structure.getName().equals("aether_ruin")
+		if(overrideSpawnCheck || (structure.getName().equals("aether_ruin") || structure.getName().equals("end_ruin")
 				? StructureUtil.isValidSpawn(b[0], b[1], false, true)
 				: StructureUtil.isValidSpawn(b[0], b[1], ground, false))) {
 			structure.paste();
 			List<Location> locationsAll = StructureUtil.getLocationListBetween(b[0], b[1]);
 			if(biome.isHighlands()) randomCobwebs(locationsAll, random);
 			if("shulker_nest".equals(structure.getName())) spawnShulkers(locationsAll, random, world);
-			if(!"aether_ruin".equals(structure.getName())) main.getLogger().info(String.format(LangUtil.generateStructureMessage, structure.getName(), b[0].getX(),
+			if(!("aether_ruin".equals(structure.getName()) || "end_ruin".equals(structure.getName()))) main.getLogger().info(String.format(LangUtil.generateStructureMessage, structure.getName(), b[0].getX(),
 					b[0].getY(), b[0].getZ(), dimension[0], dimension[1], dimension[2]));
 			fillInventories(StructureUtil.getChestsIn(b[0], b[1]), random, structure);
 		}
@@ -206,7 +208,7 @@ public class StructurePopulator extends BlockPopulator {
 	}
 
 	private void fillInventories(List<Location> chests, Random random, NMSStructure structure) {
-		LootTable table = ("aether_ruin".equals(structure.getName())) ? null : new LootTable(structure.getName());
+		LootTable table = ("aether_ruin".equals(structure.getName()) || "end_ruin".equals(structure.getName())) ? null : new LootTable(structure.getName());
 		for(Location location: chests) {
 			if(location.getBlock().getState() instanceof Container) {
 				if("end_ship".equals(structure.getName()) && location.getBlock().getState() instanceof Container

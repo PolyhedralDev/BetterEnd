@@ -87,7 +87,7 @@ public class EventListener implements Listener {
 	}
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void saplingOverride(StructureGrowEvent e) {
-		if(((ConfigUtil.generateBigTreesInEnd || ConfigUtil.generateBigTreesInBiomes) && e.getWorld().getGenerator() instanceof EndChunkGenerator) || ConfigUtil.generateBigTreesEverywhere) {
+		if(Main.isPremium() && (((ConfigUtil.generateBigTreesInEnd || ConfigUtil.generateBigTreesInBiomes) && e.getWorld().getGenerator() instanceof EndChunkGenerator) || ConfigUtil.generateBigTreesEverywhere)) {
 			Random treeRandom = new Random();
 			if((ConfigUtil.generateBigTreesInEnd || ConfigUtil.generateBigTreesEverywhere || Biome.fromLocation(e.getLocation()).equals(Biome.AETHER_FOREST)) && (e.getSpecies().equals(TreeType.TREE) || e.getSpecies().equals(TreeType.BIG_TREE))) {
 				if(treeRandom.nextInt(100) < 100/ConfigUtil.treeGrowthMultiplier) new Tree(e.getLocation(), 1.5, treeRandom, treeRandom.nextInt(4) + 10, "OAK");

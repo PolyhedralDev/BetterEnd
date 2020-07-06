@@ -305,6 +305,11 @@ public class EndChunkGenerator extends ChunkGenerator {
 	}
 
 	@Override
+	public boolean isParallelCapable() {
+		return true;
+	}
+
+	@Override
 	public List<BlockPopulator> getDefaultPopulators(World world) {
 		if(Main.isPremium()) return Arrays.asList((BlockPopulator) new CustomStructurePopulator(), new StructurePopulator(), new EnvironmentPopulator(),
 				new OrePopulator());
