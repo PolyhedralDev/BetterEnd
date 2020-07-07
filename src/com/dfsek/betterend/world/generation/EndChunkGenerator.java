@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
+import com.dfsek.betterend.ProbabilityCollection;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Biome;
@@ -21,9 +22,17 @@ import com.dfsek.betterend.world.generation.populators.StructurePopulator;
 
 public class EndChunkGenerator extends ChunkGenerator {
 	private Main main = Main.getInstance();
-	private Material[] plants = {Material.GRASS, Material.TALL_GRASS, Material.LILY_OF_THE_VALLEY, Material.FERN, Material.AZURE_BLUET, Material.BLUE_ORCHID,
-			Material.WITHER_ROSE, Material.SWEET_BERRY_BUSH, Material.DANDELION, Material.POPPY};
-	private int[] weight = {670, 100, 30, 40, 30, 30, 5, 10, 10, 10};
+	private ProbabilityCollection<Material> plantProbabilities = new ProbabilityCollection<Material>()
+			.add(Material.GRASS, 670) //check
+			.add(Material.TALL_GRASS, 100) //check
+			.add(Material.LILY_OF_THE_VALLEY, 30) //check
+			.add(Material.FERN, 40) //check
+			.add(Material.AZURE_BLUET, 30) //check
+			.add(Material.BLUE_ORCHID, 30) //check
+			.add(Material.WITHER_ROSE, 5) //check
+			.add(Material.SWEET_BERRY_BUSH, 10) //check
+			.add(Material.DANDELION, 10) //check
+			.add(Material.POPPY, 10); //check
 
 	@SuppressWarnings("deprecation")
 	@Override
@@ -131,7 +140,7 @@ public class EndChunkGenerator extends ChunkGenerator {
 										if(heatNoiseLvl < -0.5 && random.nextInt(100) < -75 * (heatNoiseLvl + 0.5) && chunk.getBlockData(X, Y, Z).getMaterial() != Material.AIR) {
 											chunk.setBlock(X, Y + 1, Z, Material.SNOW);
 										} else if(random.nextInt(100) < 40 && chunk.getBlockData(X, Y, Z).getMaterial() == Material.GRASS_BLOCK) {
-											Material plant = (Material) Util.chooseOnWeight(plants, weight);
+											Material plant = (Material) plantProbabilities.get(random);
 											if(plant == Material.TALL_GRASS) {
 												chunk.setBlock(X, Y + 1, Z, Material.TALL_GRASS);
 												chunk.setBlock(X, Y + 2, Z, main.getServer().createBlockData("minecraft:tall_grass[half=upper]"));

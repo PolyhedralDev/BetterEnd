@@ -3,6 +3,7 @@ package com.dfsek.betterend.world.generation.populators;
 import java.util.List;
 import java.util.Random;
 
+import com.dfsek.betterend.ProbabilityCollection;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -50,9 +51,15 @@ public class StructurePopulator extends BlockPopulator {
 		boolean overrideSpawnCheck = false;
 
 		SimplexOctaveGenerator biomeGenerator = new SimplexOctaveGenerator(world.getSeed(), 4);
+		ProbabilityCollection<String> structureProbabilities = new ProbabilityCollection<String>();
 		if(biome.isAether()) {
 			if(random.nextInt(100) < ConfigUtil.structureChance) {
-				String structureName = (String) Util.chooseOnWeight(new String[]{"gold_dungeon", "cobble_house", "wood_house"}, ConfigUtil.aetherStructureWeights);
+				structureProbabilities
+						.add("gold_dungeon", ConfigUtil.getAetherStructureWeight("gold_dungeon"))
+						.add("cobble_house", ConfigUtil.getAetherStructureWeight("cobble_house"))
+						.add("wood_house", ConfigUtil.getAetherStructureWeight("wood_house"));
+				String structureName = structureProbabilities.get(random);
+				if(ConfigUtil.getAetherStructureWeight(structureName) <= 0) return;
 				switch(structureName) {
 					case "cobble_house":
 						permutation = random.nextInt(5);
@@ -82,8 +89,16 @@ public class StructurePopulator extends BlockPopulator {
 			return;
 		} else if(!biome.isShattered()) {
 			if(random.nextInt(100) < ConfigUtil.structureChance) {
-				String structureName = (String) Util.chooseOnWeight(
-						new String[]{"end_house", "shulker_nest", "stronghold", "end_ship", "end_tower", "wrecked_end_ship"}, ConfigUtil.endStructureWeights);
+				structureProbabilities
+						.add("end_house", ConfigUtil.getEndStructureWeight("end_house"))
+						.add("shulker_nest", ConfigUtil.getEndStructureWeight("shulker_nest"))
+						.add("stronghold", ConfigUtil.getEndStructureWeight("stronghold"))
+						.add("end_ship", ConfigUtil.getEndStructureWeight("end_ship"))
+						.add("end_tower", ConfigUtil.getEndStructureWeight("end_tower"))
+						.add("wrecked_end_ship", ConfigUtil.getEndStructureWeight("wrecked_end_ship"));
+
+				String structureName = structureProbabilities.get(random);
+				if(ConfigUtil.getEndStructureWeight(structureName) <= 0) return;
 				switch(structureName) {
 					case "end_house":
 						permutation = random.nextInt(3);
@@ -119,7 +134,7 @@ public class StructurePopulator extends BlockPopulator {
 						"stronghold", 0);
 			} else return;
 		}
-		if(ConfigUtil.getStructureWeight(structure.getName()) <= 0) return;
+
 		if(ConfigUtil.debug) main.getLogger().info("Attempting to generate " + structure.getName());
 		structure.setRotation(random.nextInt(4) * 90);
 		int[] dimension = structure.getDimensions();

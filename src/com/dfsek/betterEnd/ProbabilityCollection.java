@@ -58,11 +58,13 @@ public class ProbabilityCollection<E> {
      *
      * @param object
      * @param probability share
+     * @return The current probability collection, for chaining.
      */
-    public void add(E object, int probability) {
+    public ProbabilityCollection<E> add(E object, int probability) {
         this.collection.add(new ProbabilitySetElement<E>(object, probability));
         this.totalProbability += probability;
         this.updateIndexes();
+        return this;
     }
 
     /**

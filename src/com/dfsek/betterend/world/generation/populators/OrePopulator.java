@@ -2,6 +2,7 @@ package com.dfsek.betterend.world.generation.populators;
 
 import java.util.Random;
 
+import com.dfsek.betterend.ProbabilityCollection;
 import org.bukkit.Chunk;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -19,9 +20,14 @@ public class OrePopulator extends BlockPopulator {
 		int z;
 		if(!ConfigUtil.doOresAether) return;
 		for(int i = 1; i < ConfigUtil.oreChanceAether; i++) { // Number of tries
-			Ore ore = (Ore) Util.chooseOnWeight(new Ore[]{new Ore(Material.COAL_ORE, 85), new Ore(Material.IRON_ORE, 50), new Ore(Material.GOLD_ORE, 50),
-					new Ore(Material.REDSTONE_ORE, 65), new Ore(Material.LAPIS_ORE, 75), new Ore(Material.DIAMOND_ORE, 50), new Ore(Material.EMERALD_ORE, 40)},
-					ConfigUtil.oreChances);
+			Ore ore = new ProbabilityCollection<Ore>()
+					.add(new Ore(Material.COAL_ORE, 85), ConfigUtil.getOreWeight("coal_ore"))
+					.add(new Ore(Material.IRON_ORE, 50), ConfigUtil.getOreWeight("iron_ore"))
+					.add(new Ore(Material.GOLD_ORE, 50), ConfigUtil.getOreWeight("gold_ore"))
+					.add(new Ore(Material.REDSTONE_ORE, 65), ConfigUtil.getOreWeight("redstone_ore"))
+					.add(new Ore(Material.LAPIS_ORE, 75), ConfigUtil.getOreWeight("lapis_ore"))
+					.add(new Ore(Material.DIAMOND_ORE, 50), ConfigUtil.getOreWeight("diamond_ore"))
+					.add(new Ore(Material.EMERALD_ORE, 40), ConfigUtil.getOreWeight("emerald_ore")).get();
 			x = random.nextInt(15);
 			z = random.nextInt(15);
 			for(y = 63; chunk.getBlock(x, y, z).getType() != Material.AIR && y > 0; y--);

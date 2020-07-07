@@ -27,21 +27,8 @@ public class Util {
 	private static Main main = Main.getInstance();
 	private static Logger logger = main.getLogger();
 
-	private Util() {
-	}
+	private Util() {}
 
-	public static Object chooseOnWeight(Object[] items, int[] weights) {
-		double completeWeight = 0.0;
-		for(int weight: weights)
-			completeWeight += weight;
-		double r = Math.random() * completeWeight;
-		double countWeight = 0.0;
-		for(int i = 0; i < items.length; i++) {
-			countWeight += weights[i];
-			if(countWeight >= r) return items[i];
-		}
-		return null;
-	}
 
 	public static boolean tpBiome(Player p, String[] args) {
 		if(args[1].equalsIgnoreCase("END") || args[1].equalsIgnoreCase("SHATTERED_END") || args[1].equalsIgnoreCase("VOID") || args[1].equalsIgnoreCase("STARFIELD")

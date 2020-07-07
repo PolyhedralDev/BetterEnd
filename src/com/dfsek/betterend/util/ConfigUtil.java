@@ -167,8 +167,14 @@ public class ConfigUtil {
 
 	}
 
-	public static int getStructureWeight(String structure) {
+	public static int getAetherStructureWeight(String structure) {
 		return Main.getInstance().getConfig().getInt("structure-weight.aether." + structure, 1);
+	}
+	public static int getEndStructureWeight(String structure) {
+		return Main.getInstance().getConfig().getInt("structure-weight.end." + structure, 1);
+	}
+	public static int getOreWeight(String ore) {
+		return Main.getInstance().getConfig().getInt("aether.ores.weights." + ore, 1);
 	}
 
 	private static void backupConfig(Main main) {
