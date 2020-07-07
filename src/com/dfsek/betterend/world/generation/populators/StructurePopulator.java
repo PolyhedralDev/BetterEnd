@@ -59,7 +59,11 @@ public class StructurePopulator extends BlockPopulator {
 						break;
 					case "wood_house":
 						y--;
-						if(biome.isHighlands()) structureName = "spruce_house";
+						if(biome.isHighlands()) {
+							structureName = "spruce_house";
+							permutation = random.nextInt(5);
+							break;
+						}
 						permutation = random.nextInt(45);
 						break;
 					case "gold_dungeon":
