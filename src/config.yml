@@ -18,6 +18,11 @@ all-aether: false
 #Whether or not to use Overworld biomes (Useful for making an Aether dimension)
 overworld: false
 
+#Whether or not to use basic multithreading in world generation.
+#NOTE: This will greatly benefit multithreaded systems' performance, but will actually hurt single-threaded ones!
+parallel: true
+
+
 #Weights of structures, used in random selections.
 #When a structure spawn candidate location is chosen, a structure is randomly selected from a list, 
 #based on its weight. The probability of any one structure being chosen is:

@@ -50,12 +50,9 @@ public class StructurePopulator extends BlockPopulator {
 		boolean overrideSpawnCheck = false;
 
 		SimplexOctaveGenerator biomeGenerator = new SimplexOctaveGenerator(world.getSeed(), 4);
-		double biomeNoiseLvl = biomeGenerator.noise((double) (chunk.getX() * 16 + x) / ConfigUtil.biomeSize,
-				(double) (chunk.getZ() * 16 + z) / ConfigUtil.biomeSize, 0.5D, 0.5D);
-		if(biomeNoiseLvl > 0.5 || ConfigUtil.allAether) {
+		if(biome.isAether()) {
 			if(random.nextInt(100) < ConfigUtil.structureChance) {
 				String structureName = (String) Util.chooseOnWeight(new String[]{"gold_dungeon", "cobble_house", "wood_house"}, ConfigUtil.aetherStructureWeights);
-
 				switch(structureName) {
 					case "cobble_house":
 						permutation = random.nextInt(5);
@@ -74,8 +71,7 @@ public class StructurePopulator extends BlockPopulator {
 				structure = new NMSStructure(new Location(world, (double) chunk.getX() * 16 + x, y, (double) chunk.getZ() * 16 + z), structureName, permutation);
 			} else if(random.nextInt(100) < ConfigUtil.ruinChance) {
 				Location ruinCandidate = new Location(world, (double) chunk.getX() * 16 + x, y, (double) chunk.getZ() * 16 + z);
-				boolean isAether = Biome.fromLocation(ruinCandidate).isAether();
-				structure = new NMSStructure(ruinCandidate, isAether ? "aether_ruin" : "end_ruin", isAether ? random.nextInt(18) : random.nextInt(109));
+				structure = new NMSStructure(ruinCandidate, "aether_ruin", random.nextInt(18));
 			} else return;
 		} else if(biome.equals(Biome.STARFIELD)) {
 			genStars(random, chunk, world);
@@ -94,8 +90,6 @@ public class StructurePopulator extends BlockPopulator {
 						y = y - 4;
 						break;
 					case "shulker_nest":
-						permutation = random.nextInt(2);
-						break;
 					case "end_tower":
 						permutation = random.nextInt(2);
 						break;
@@ -111,6 +105,9 @@ public class StructurePopulator extends BlockPopulator {
 					default:
 				}
 				structure = new NMSStructure(new Location(world, (double) chunk.getX() * 16 + x, y, (double) chunk.getZ() * 16 + z), structureName, permutation);
+			}  else if(random.nextInt(100) < ConfigUtil.ruinChance) {
+				Location ruinCandidate = new Location(world, (double) chunk.getX() * 16 + x, y, (double) chunk.getZ() * 16 + z);
+				structure = new NMSStructure(ruinCandidate, "end_ruin", random.nextInt(109));
 			} else return;
 		} else {
 			if(random.nextInt(100) < ConfigUtil.structureChance) {
@@ -119,17 +116,18 @@ public class StructurePopulator extends BlockPopulator {
 			} else return;
 		}
 		if(ConfigUtil.getStructureWeight(structure.getName()) <= 0) return;
+		if(ConfigUtil.debug) main.getLogger().info("Attempting to generate " + structure.getName());
 		structure.setRotation(random.nextInt(4) * 90);
 		int[] dimension = structure.getDimensions();
 		Location[] b = structure.getBoundingLocations();
-		if(overrideSpawnCheck || (structure.getName().equals("aether_ruin") || structure.getName().equals("end_ruin")
+		if(overrideSpawnCheck || ((structure.getName().equals("aether_ruin") || structure.getName().equals("end_ruin"))
 				? StructureUtil.isValidSpawn(b[0], b[1], false, true)
 				: StructureUtil.isValidSpawn(b[0], b[1], ground, false))) {
 			structure.paste();
 			List<Location> locationsAll = StructureUtil.getLocationListBetween(b[0], b[1]);
 			if(biome.isHighlands()) randomCobwebs(locationsAll, random);
 			if("shulker_nest".equals(structure.getName())) spawnShulkers(locationsAll, random, world);
-			if(!("aether_ruin".equals(structure.getName()) || "end_ruin".equals(structure.getName()))) main.getLogger().info(String.format(LangUtil.generateStructureMessage, structure.getName(), b[0].getX(),
+			if(ConfigUtil.debug || !("aether_ruin".equals(structure.getName()) || "end_ruin".equals(structure.getName()))) main.getLogger().info(String.format(LangUtil.generateStructureMessage, structure.getName(), b[0].getX(),
 					b[0].getY(), b[0].getZ(), dimension[0], dimension[1], dimension[2]));
 			fillInventories(StructureUtil.getChestsIn(b[0], b[1]), random, structure);
 		}

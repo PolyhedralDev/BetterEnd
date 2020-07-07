@@ -60,9 +60,9 @@ public class ConfigUtil {
 	public static boolean generateBigTreesInEnd;
 	public static boolean generateBigTreesEverywhere;
 	public static int treeGrowthMultiplier;
+	public static boolean parallel;
 
-	private ConfigUtil() {
-	}
+	private ConfigUtil() {}
 
 	public static void loadConfig(Logger logger, Main main) {
 		long start = System.nanoTime();
@@ -119,8 +119,10 @@ public class ConfigUtil {
 		generateBigTreesInEnd = config.getBoolean("trees.big-trees.saplings.in-all-betterend-worlds", false);
 		generateBigTreesEverywhere = config.getBoolean("trees.big-trees.saplings.everywhere", false);
 		treeGrowthMultiplier = config.getInt("trees.big-trees.saplings.growth-time-multiplier", 8);
+		parallel = config.getBoolean("parallel", true);
 
 		LangUtil.loadlang(lang, logger);
+
 		logger.info("Complete. Time elapsed: " + ((double) (System.nanoTime() - start)) / 1000000 + "ms");
 	}
 

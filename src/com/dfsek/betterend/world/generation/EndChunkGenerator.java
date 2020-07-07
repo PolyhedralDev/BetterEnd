@@ -267,10 +267,8 @@ public class EndChunkGenerator extends ChunkGenerator {
 			for(int X = 0; X < 16; X++) {
 				for(int Z = 0; Z < 16; Z++) {
 					for(int Y = -64; Y < 64; Y++) {
-						double totalDistance3D = Math
-								.sqrt(Math.pow(((double) chunkX * 16) + X, 2) + Math.pow(((double) chunkZ * 16) + Z, 2) + Math.pow((double) (Y) * 3, 2));
-						if(totalDistance3D
-								* ((generator.noise((double) (chunkX * 16 + X) / 36, (double) (Y) / 48, (double) (chunkZ * 16 + Z) / 36, 0.1D, 0.55D) + 2) / 3) < 50) {
+						double totalDistance3D = Math.sqrt(Math.pow(((double) chunkX * 16) + X, 2) + Math.pow(((double) chunkZ * 16) + Z, 2) + Math.pow((double) (Y) * 3, 2));
+						if(totalDistance3D * ((generator.noise((double) (chunkX * 16 + X) / 36, (double) (Y) / 48, (double) (chunkZ * 16 + Z) / 36, 0.1D, 0.55D) + 2) / 3) < 50) {
 							if(Y > 0) {
 								chunk.setBlock(X, (Y / 6) + 56, Z, Material.END_STONE);
 							} else {
@@ -306,7 +304,7 @@ public class EndChunkGenerator extends ChunkGenerator {
 
 	@Override
 	public boolean isParallelCapable() {
-		return true;
+		return ConfigUtil.parallel;
 	}
 
 	@Override
