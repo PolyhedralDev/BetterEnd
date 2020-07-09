@@ -28,7 +28,7 @@ import io.lumine.xikage.mythicmobs.MythicMobs;
 import java.util.Random;
 
 public class EventListener implements Listener {
-	private final Main main = Main.getInstance();
+	private final BetterEnd main = BetterEnd.getInstance();
 
 	@EventHandler(ignoreCancelled = true)
 	public void onInventoryOpenEvent(InventoryOpenEvent event) {
@@ -42,7 +42,7 @@ public class EventListener implements Listener {
 				Chest chest = (Chest) l.getBlock().getState();
 				NamespacedKey key = new NamespacedKey(main, "valkyrie-spawner");
 				if(chest.getPersistentDataContainer().has(key, PersistentDataType.INTEGER)) {
-					if(Main.isPremium()) EndAdvancementUtil.grantAdvancement("gold_dungeon", (Player) event.getPlayer());
+					if(BetterEnd.isPremium()) EndAdvancementUtil.grantAdvancement("gold_dungeon", (Player) event.getPlayer());
 					Location spawn;
 					switch(chest.getPersistentDataContainer().get(key, PersistentDataType.INTEGER)) {
 						case 0:
@@ -65,12 +65,12 @@ public class EventListener implements Listener {
 					if(ConfigUtil.debug) main.getLogger().info("[BetterEnd] Chest is a Mythic Boss Spawn Chest.");
 					String boss = ConfigUtil.goldBossName;
 					try {
-						if(!Main.isPremium() || BossTimeoutUtil.timeoutReached(chest)) MythicMobs.inst().getMobManager().spawnMob(boss, spawn);
+						if(!BetterEnd.isPremium() || BossTimeoutUtil.timeoutReached(chest)) MythicMobs.inst().getMobManager().spawnMob(boss, spawn);
 					} catch(NoClassDefFoundError e) {
 						main.getLogger().warning("Failed to spawn Mythic Boss. Is MythicMobs installed?");
 					}
 				}
-				if(!Main.isPremium()) {
+				if(!BetterEnd.isPremium()) {
 					chest.getPersistentDataContainer().remove(key);
 					chest.update();
 				}
@@ -87,7 +87,7 @@ public class EventListener implements Listener {
 	}
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void saplingOverride(StructureGrowEvent e) {
-		if(Main.isPremium() && (((ConfigUtil.generateBigTreesInEnd || ConfigUtil.generateBigTreesInBiomes) && e.getWorld().getGenerator() instanceof EndChunkGenerator) || ConfigUtil.generateBigTreesEverywhere)) {
+		if(BetterEnd.isPremium() && (((ConfigUtil.generateBigTreesInEnd || ConfigUtil.generateBigTreesInBiomes) && e.getWorld().getGenerator() instanceof EndChunkGenerator) || ConfigUtil.generateBigTreesEverywhere)) {
 			Random treeRandom = new Random();
 			if((ConfigUtil.generateBigTreesInEnd || ConfigUtil.generateBigTreesEverywhere || Biome.fromLocation(e.getLocation()).equals(Biome.AETHER_FOREST)) && (e.getSpecies().equals(TreeType.TREE) || e.getSpecies().equals(TreeType.BIG_TREE))) {
 				if(treeRandom.nextInt(100) < 100/ConfigUtil.treeGrowthMultiplier) new Tree(e.getLocation(), 1.5, treeRandom, treeRandom.nextInt(4) + 10, "OAK");

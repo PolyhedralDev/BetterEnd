@@ -8,12 +8,10 @@ import java.io.InputStream;
 import java.util.Objects;
 import java.util.logging.Logger;
 
+import com.dfsek.betterend.BetterEnd;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-
-import com.dfsek.betterend.Main;
-import org.yaml.snakeyaml.Yaml;
 
 public class ConfigUtil {
 	public static int shulkerSpawns;
@@ -64,7 +62,7 @@ public class ConfigUtil {
 
 	private ConfigUtil() {}
 
-	public static void loadConfig(Logger logger, Main main) {
+	public static void loadConfig(Logger logger, BetterEnd main) {
 		long start = System.nanoTime();
 		logger.info("Loading configuration values...");
 		main.reloadConfig();
@@ -126,7 +124,7 @@ public class ConfigUtil {
 		logger.info("Complete. Time elapsed: " + ((double) (System.nanoTime() - start)) / 1000000 + "ms");
 	}
 
-	public static void init(Logger logger, Main main) {
+	public static void init(Logger logger, BetterEnd main) {
 		FileConfiguration config = main.getConfig();
 		if(!Objects.equals(config.getString("config-version", "null"), main.getDescription().getVersion())) {
 			logger.info("Updating config...");
@@ -168,16 +166,16 @@ public class ConfigUtil {
 	}
 
 	public static int getAetherStructureWeight(String structure) {
-		return Main.getInstance().getConfig().getInt("structure-weight.aether." + structure, 1);
+		return BetterEnd.getInstance().getConfig().getInt("structure-weight.aether." + structure, 1);
 	}
 	public static int getEndStructureWeight(String structure) {
-		return Main.getInstance().getConfig().getInt("structure-weight.end." + structure, 1);
+		return BetterEnd.getInstance().getConfig().getInt("structure-weight.end." + structure, 1);
 	}
 	public static int getOreWeight(String ore) {
-		return Main.getInstance().getConfig().getInt("aether.ores.weights." + ore, 1);
+		return BetterEnd.getInstance().getConfig().getInt("aether.ores.weights." + ore, 1);
 	}
 
-	private static void backupConfig(Main main) {
+	private static void backupConfig(BetterEnd main) {
 		File inFile = new File(main.getDataFolder() + File.separator + "config.yml");
 		File outFile = new File(main.getDataFolder() + File.separator + "config.v" + main.getDescription().getVersion() + ".yml");
 		try(FileInputStream inStream = new FileInputStream(inFile); FileOutputStream outStream = new FileOutputStream(outFile)) {

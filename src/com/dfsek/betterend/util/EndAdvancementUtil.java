@@ -11,12 +11,12 @@ import org.bukkit.advancement.AdvancementProgress;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
-import com.dfsek.betterend.Main;
+import com.dfsek.betterend.BetterEnd;
 import com.dfsek.betterend.world.Biome;
 import com.dfsek.betterend.world.generation.EndChunkGenerator;
 
 public class EndAdvancementUtil {
-	private static final Main main = Main.getInstance();
+	private static final BetterEnd main = BetterEnd.getInstance();
 
 	private EndAdvancementUtil() {
 	}
@@ -24,7 +24,7 @@ public class EndAdvancementUtil {
 	public static void enable(Plugin plugin) {
 		File file = new File(Bukkit.getWorlds().get(0).getWorldFolder(), "datapacks" + File.separator + "bukkit");
 
-		try(JarFile jar = new JarFile(new File(Main.class.getProtectionDomain().getCodeSource().getLocation().toURI()))) {
+		try(JarFile jar = new JarFile(new File(BetterEnd.class.getProtectionDomain().getCodeSource().getLocation().toURI()))) {
 			Util.copyResourcesToDirectory(jar, "datapacks/bukkit", file.toString());
 		} catch(IOException | URISyntaxException e) {
 			e.printStackTrace();

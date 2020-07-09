@@ -2,14 +2,13 @@ package com.dfsek.betterend.util;
 
 import java.util.Date;
 
+import com.dfsek.betterend.BetterEnd;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Chest;
 import org.bukkit.persistence.PersistentDataType;
 
-import com.dfsek.betterend.Main;
-
 public class BossTimeoutUtil {
-	private static final Main main = Main.getInstance();
+	private static final BetterEnd main = BetterEnd.getInstance();
 
 	private BossTimeoutUtil() {
 	}

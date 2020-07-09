@@ -4,9 +4,9 @@ import java.io.FileInputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Random;
 
+import com.dfsek.betterend.BetterEnd;
 import org.bukkit.Location;
 
-import com.dfsek.betterend.Main;
 import com.dfsek.betterend.util.NMSReflectorUtil;
 
 /**
@@ -16,7 +16,7 @@ import com.dfsek.betterend.util.NMSReflectorUtil;
  * @since 2.0.0
  */
 public class NMSStructure {
-	private static final Main main = Main.getInstance();
+	private static final BetterEnd main = BetterEnd.getInstance();
 	private int[] dimension;
 	private Object structure;
 	private Location origin;

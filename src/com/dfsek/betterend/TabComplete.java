@@ -14,7 +14,7 @@ public class TabComplete implements TabCompleter {
 	private static List<String> COMMANDS = Arrays.asList("biome", "tpbiome", "version", "reload");
 	private static List<String> BIOMES = Arrays.asList("AETHER", "END", "SHATTERED_END", "AETHER_HIGHLANDS", "SHATTERED_FOREST", "VOID", "STARFIELD");
 	static {
-		if(Main.isPremium()) {
+		if(BetterEnd.isPremium()) {
 			BIOMES = Arrays.asList("AETHER", "END", "SHATTERED_END", "AETHER_HIGHLANDS", "SHATTERED_FOREST", "AETHER_FOREST", "AETHER_HIGHLANDS_FOREST", "VOID",
 					"STARFIELD");
 		}

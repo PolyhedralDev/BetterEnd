@@ -18,7 +18,7 @@ import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.generator.BlockPopulator;
 
-import com.dfsek.betterend.Main;
+import com.dfsek.betterend.BetterEnd;
 import com.dfsek.betterend.structures.LootTable;
 import com.dfsek.betterend.structures.NMSStructure;
 import com.dfsek.betterend.util.ConfigUtil;
@@ -29,7 +29,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class CustomStructurePopulator extends BlockPopulator {
 
-	private static final Main main = Main.getInstance();
+	private static final BetterEnd main = BetterEnd.getInstance();
 	private static final File configFile = new File(main.getDataFolder() + File.separator + "customStructures.yml");
 	private static final YamlConfiguration config = new YamlConfiguration();
 	private static boolean doGeneration = false;
@@ -37,7 +37,7 @@ public class CustomStructurePopulator extends BlockPopulator {
 
 	static {
 
-		if(Main.isPremium()) {
+		if(BetterEnd.isPremium()) {
 			main.getLogger().info(LangUtil.enableStructureMessage);
 			try {
 				config.load(configFile);

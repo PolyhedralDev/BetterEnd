@@ -1,9 +1,9 @@
 package com.dfsek.betterend.world;
 
+import com.dfsek.betterend.BetterEnd;
 import org.bukkit.Location;
 import org.bukkit.util.noise.SimplexOctaveGenerator;
 
-import com.dfsek.betterend.Main;
 import com.dfsek.betterend.util.ConfigUtil;
 import com.dfsek.betterend.world.generation.EndChunkGenerator;
 
@@ -74,8 +74,8 @@ public enum Biome {
 	public static Biome fromNoiseVal(double c, double h, double d) {
 		if(ConfigUtil.allAether) {
 			if(h < -0.5 && c > -0.5) return Biome.AETHER_HIGHLANDS;
-			else if(h < -0.5 && Main.isPremium()) return Biome.AETHER_HIGHLANDS_FOREST;
-			else if(c > -0.5 || !Main.isPremium()) return Biome.AETHER;
+			else if(h < -0.5 && BetterEnd.isPremium()) return Biome.AETHER_HIGHLANDS_FOREST;
+			else if(c > -0.5 || !BetterEnd.isPremium()) return Biome.AETHER;
 			else return Biome.AETHER_FOREST;
 		}
 		if(d < -0.5 && h > 0) return Biome.SHATTERED_END;
@@ -85,8 +85,8 @@ public enum Biome {
 		else if(d < 0.5 && d > 0.15 && h < -0.5) return Biome.STARFIELD;
 		else if(d < 0.5) return Biome.VOID;
 		else if(h < -0.5 && c > -0.5) return Biome.AETHER_HIGHLANDS;
-		else if(h < -0.5 && Main.isPremium()) return Biome.AETHER_HIGHLANDS_FOREST;
-		else if(c > -0.5 || !Main.isPremium()) return Biome.AETHER;
+		else if(h < -0.5 && BetterEnd.isPremium()) return Biome.AETHER_HIGHLANDS_FOREST;
+		else if(c > -0.5 || !BetterEnd.isPremium()) return Biome.AETHER;
 		else return Biome.AETHER_FOREST;
 	}
 

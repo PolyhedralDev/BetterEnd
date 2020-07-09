@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
+import com.dfsek.betterend.BetterEnd;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.BlockState;
@@ -22,13 +23,12 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import com.dfsek.betterend.Main;
 import com.dfsek.betterend.util.ConfigUtil;
 import com.dfsek.betterend.util.Util;
 
 public class LootTable {
 	private Object tableJSON;
-	private static final Main main = Main.getInstance();
+	private static final BetterEnd main = BetterEnd.getInstance();
 
 	/**
 	 * Loads a loot table with a name.<br>
@@ -44,7 +44,7 @@ public class LootTable {
 	public LootTable(String name) {
 		File tableFile = new File(main.getDataFolder() + File.separator + "loot" + File.separator + name + ".json");
 		String json = "{}";
-		if(Main.isPremium() && tableFile.exists()) {
+		if(BetterEnd.isPremium() && tableFile.exists()) {
 			try {
 				json = Util.getFileAsString(new FileInputStream(tableFile));
 			} catch(IOException e) {

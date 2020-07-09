@@ -11,10 +11,10 @@ import org.bukkit.ChatColor;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 
-import com.dfsek.betterend.Main;
+import com.dfsek.betterend.BetterEnd;
 
 public class LangUtil {
-	private static final Main main = Main.getInstance();
+	private static final BetterEnd main = BetterEnd.getInstance();
 	public static List<String> enableMessage;
 	public static List<String> disableMessage;
 	public static List<String> freeVersionMessage;
@@ -52,7 +52,7 @@ public class LangUtil {
 
 	public static void loadlang(String id, Logger logger) {
 		File file = new File(main.getDataFolder(), "lang");
-		try(JarFile jar = new JarFile(new File(Main.class.getProtectionDomain().getCodeSource().getLocation().toURI()))) {
+		try(JarFile jar = new JarFile(new File(BetterEnd.class.getProtectionDomain().getCodeSource().getLocation().toURI()))) {
 			Util.copyResourcesToDirectory(jar, "lang", file.toString());
 		} catch(IOException | URISyntaxException e) {
 			e.printStackTrace();

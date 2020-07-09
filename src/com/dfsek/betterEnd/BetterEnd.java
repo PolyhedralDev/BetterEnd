@@ -14,10 +14,10 @@ import org.bukkit.plugin.java.JavaPlugin;
 import com.dfsek.betterend.world.Biome;
 import com.dfsek.betterend.world.generation.EndChunkGenerator;
 
-public class Main extends JavaPlugin {
+public class BetterEnd extends JavaPlugin {
 
 	public FileConfiguration config = this.getConfig();
-	private static Main instance;
+	private static BetterEnd instance;
 
 	@Override
 	public void onEnable() {
@@ -66,7 +66,7 @@ public class Main extends JavaPlugin {
 		Util.logForEach(LangUtil.disableMessage, Level.INFO);
 	}
 
-	public static Main getInstance() {
+	public static BetterEnd getInstance() {
 		return instance;
 	}
 

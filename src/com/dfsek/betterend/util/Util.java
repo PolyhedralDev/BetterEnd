@@ -14,17 +14,17 @@ import java.util.jar.JarFile;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.dfsek.betterend.BetterEnd;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
-import com.dfsek.betterend.Main;
 import com.dfsek.betterend.UpdateChecker;
 import com.dfsek.betterend.UpdateChecker.UpdateReason;
 import com.dfsek.betterend.world.Biome;
 
 public class Util {
-	private static Main main = Main.getInstance();
+	private static BetterEnd main = BetterEnd.getInstance();
 	private static Logger logger = main.getLogger();
 
 	private Util() {}
@@ -33,7 +33,7 @@ public class Util {
 	public static boolean tpBiome(Player p, String[] args) {
 		if(args[1].equalsIgnoreCase("END") || args[1].equalsIgnoreCase("SHATTERED_END") || args[1].equalsIgnoreCase("VOID") || args[1].equalsIgnoreCase("STARFIELD")
 				|| args[1].equalsIgnoreCase("SHATTERED_FOREST") || args[1].equalsIgnoreCase("AETHER") || args[1].equalsIgnoreCase("AETHER_HIGHLANDS")
-				|| (Main.isPremium() && args[1].equalsIgnoreCase("AETHER_HIGHLANDS_FOREST")) || (Main.isPremium() && args[1].equalsIgnoreCase("AETHER_FOREST"))) {
+				|| (BetterEnd.isPremium() && args[1].equalsIgnoreCase("AETHER_HIGHLANDS_FOREST")) || (BetterEnd.isPremium() && args[1].equalsIgnoreCase("AETHER_FOREST"))) {
 			p.sendMessage(LangUtil.prefix + String.format(LangUtil.locatingBiomeMessage, args[1].toUpperCase()));
 			int tries = 0;
 			Location candidate = p.getLocation();
@@ -74,7 +74,7 @@ public class Util {
 	}
 
 	public static void checkUpdates() {
-		Main instance = Main.getInstance();
+		BetterEnd instance = BetterEnd.getInstance();
 		UpdateChecker.init(instance, 79389).requestUpdateCheck().whenComplete((result, exception) -> {
 			if(result.requiresUpdate()) {
 				instance.getLogger().info(String.format(LangUtil.newVersion, result.getNewestVersion()));
@@ -108,16 +108,16 @@ public class Util {
 	public static void copyResourcesToDirectory(JarFile fromJar, String jarDir, String destDir) throws IOException {
 		for(Enumeration<JarEntry> entries = fromJar.entries(); entries.hasMoreElements();) {
 			JarEntry entry = entries.nextElement();
-			if(ConfigUtil.debug) Main.getInstance().getLogger().info(entry.getName());
+			if(ConfigUtil.debug) BetterEnd.getInstance().getLogger().info(entry.getName());
 			if(entry.getName().startsWith(jarDir + "/") && !entry.isDirectory()) {
 				File dest = new File(destDir + File.separator + entry.getName().substring(jarDir.length() + 1));
-				if(ConfigUtil.debug) Main.getInstance().getLogger().info("Output: " + dest.toString());
+				if(ConfigUtil.debug) BetterEnd.getInstance().getLogger().info("Output: " + dest.toString());
 				if(dest.exists()) continue;
 				File parent = dest.getParentFile();
 				if(parent != null) {
 					parent.mkdirs();
 				}
-				if(ConfigUtil.debug) Main.getInstance().getLogger().info("Output does not already exist. Creating... ");
+				if(ConfigUtil.debug) BetterEnd.getInstance().getLogger().info("Output does not already exist. Creating... ");
 				try(FileOutputStream out = new FileOutputStream(dest); InputStream in = fromJar.getInputStream(entry)) {
 					byte[] buffer = new byte[8 * 1024];
 

@@ -3,6 +3,7 @@ package com.dfsek.betterend.util;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.dfsek.betterend.BetterEnd;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.BlockState;
@@ -12,10 +13,8 @@ import org.bukkit.block.DoubleChest;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.util.noise.SimplexOctaveGenerator;
 
-import com.dfsek.betterend.Main;
-
 public class StructureUtil {
-	private static final Main main = Main.getInstance();
+	private static final BetterEnd main = BetterEnd.getInstance();
 
 	private StructureUtil() {
 	}

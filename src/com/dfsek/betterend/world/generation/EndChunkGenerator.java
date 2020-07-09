@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
+import com.dfsek.betterend.BetterEnd;
 import com.dfsek.betterend.ProbabilityCollection;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -12,16 +13,14 @@ import org.bukkit.generator.BlockPopulator;
 import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.util.noise.SimplexOctaveGenerator;
 
-import com.dfsek.betterend.Main;
 import com.dfsek.betterend.util.ConfigUtil;
-import com.dfsek.betterend.util.Util;
 import com.dfsek.betterend.world.generation.populators.CustomStructurePopulator;
 import com.dfsek.betterend.world.generation.populators.EnvironmentPopulator;
 import com.dfsek.betterend.world.generation.populators.OrePopulator;
 import com.dfsek.betterend.world.generation.populators.StructurePopulator;
 
 public class EndChunkGenerator extends ChunkGenerator {
-	private Main main = Main.getInstance();
+	private BetterEnd main = BetterEnd.getInstance();
 	private ProbabilityCollection<Material> plantProbabilities = new ProbabilityCollection<Material>()
 			.add(Material.GRASS, 670) //check
 			.add(Material.TALL_GRASS, 100) //check
@@ -318,7 +317,7 @@ public class EndChunkGenerator extends ChunkGenerator {
 
 	@Override
 	public List<BlockPopulator> getDefaultPopulators(World world) {
-		if(Main.isPremium()) return Arrays.asList((BlockPopulator) new CustomStructurePopulator(), new StructurePopulator(), new EnvironmentPopulator(),
+		if(BetterEnd.isPremium()) return Arrays.asList((BlockPopulator) new CustomStructurePopulator(), new StructurePopulator(), new EnvironmentPopulator(),
 				new OrePopulator());
 		else return Arrays.asList((BlockPopulator) new StructurePopulator(), new EnvironmentPopulator(), new OrePopulator());
 	}

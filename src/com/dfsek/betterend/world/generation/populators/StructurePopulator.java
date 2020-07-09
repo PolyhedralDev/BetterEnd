@@ -20,17 +20,16 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.util.noise.SimplexOctaveGenerator;
 
-import com.dfsek.betterend.Main;
+import com.dfsek.betterend.BetterEnd;
 import com.dfsek.betterend.structures.LootTable;
 import com.dfsek.betterend.structures.NMSStructure;
 import com.dfsek.betterend.util.ConfigUtil;
 import com.dfsek.betterend.util.LangUtil;
 import com.dfsek.betterend.util.StructureUtil;
-import com.dfsek.betterend.util.Util;
 import com.dfsek.betterend.world.Biome;
 
 public class StructurePopulator extends BlockPopulator {
-	private static Main main = Main.getInstance();
+	private static BetterEnd main = BetterEnd.getInstance();
 
 	@Override
 	public void populate(World world, Random random, Chunk chunk) {

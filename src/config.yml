@@ -12,7 +12,7 @@ update-checker:
 lang: en_us
 
 #When enabled, the entire world will be an Aether biome. 
-#Keep in mind that this prevents the Main Island from generating.
+#Keep in mind that this prevents the BetterEnd Island from generating.
 all-aether: false
 
 #Whether or not to use Overworld biomes (Useful for making an Aether dimension)
