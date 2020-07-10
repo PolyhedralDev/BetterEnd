@@ -67,9 +67,9 @@ public class ConfigUtil {
 		logger.info("Loading configuration values...");
 		main.reloadConfig();
 		FileConfiguration config = main.getConfig();
-		shulkerSpawns = config.getInt("outer-islands.structures.shulker-nest.shulker-spawn-attempts", 8);
+		shulkerSpawns = config.getInt("outer-islands.com.dfsek.betterend.structures.shulker-nest.shulker-spawn-attempts", 8);
 		allAether = config.getBoolean("all-aether", false);
-		structureChance = config.getInt("outer-islands.structures.chance-per-chunk", 6);
+		structureChance = config.getInt("outer-islands.com.dfsek.betterend.structures.chance-per-chunk", 6);
 		ruinChance = config.getInt("outer-islands.ruins.chance-per-chunk", 30);
 		cloudHeight = config.getInt("aether.clouds.cloud-height", 128);
 		biomeSize = config.getInt("outer-islands.biome-size");
