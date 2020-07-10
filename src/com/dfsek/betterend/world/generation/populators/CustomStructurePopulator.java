@@ -63,7 +63,7 @@ public class CustomStructurePopulator extends BlockPopulator {
 
 			NMSStructure structure;
 
-			List<Map<?, ?>> structures = config.getMapList("structures");
+			List<Map<?, ?>> structures = config.getMapList("com/dfsek/betterend/structures");
 
 			IntStream.Builder structureIDs = IntStream.builder();
 			IntStream.Builder weights = IntStream.builder();
@@ -103,7 +103,7 @@ public class CustomStructurePopulator extends BlockPopulator {
 
 			boolean ground = false;
 
-			structure = new NMSStructure(origin, new FileInputStream(main.getDataFolder() + "/structures/" + struc.get("name") + ".nbt"));
+			structure = new NMSStructure(origin, new FileInputStream(main.getDataFolder() + "/com/dfsek/betterend/structures/" + struc.get("name") + ".nbt"));
 			if(((Map<String, Boolean>) struc).get("override-checks") || StructureUtil.isValidSpawn(structure.getBoundingLocations()[0], structure.getBoundingLocations()[1], ground,
 					((Map<String, Boolean>) struc).get("strict-check"))) {
 				main.getLogger().info(String.format(LangUtil.generateCustomStructureMessage, struc.get("name"), chunk.getX() * 16 + x, y, chunk.getZ() * 16 + z));

@@ -92,20 +92,20 @@ public class LangUtil {
 		completeMessage = ChatColor.translateAlternateColorCodes('&', config.getString("commands.complete-msg", "&bComplete."));
 		biomeCommand = ChatColor.translateAlternateColorCodes('&', config.getString("commands.biome", "&bYou are standing in \"&3%s&b\""));
 		enableStructureMessage = ChatColor.translateAlternateColorCodes('&',
-				config.getString("custom-structures.enable", "Initializing Custom Structure Populator..."));
+				config.getString("custom-com.dfsek.betterend.structures.enable", "Initializing Custom Structure Populator..."));
 		enableMythicMobsMessage = ChatColor.translateAlternateColorCodes('&', config.getString("mythicmobs.enable", "Starting MythicMobs integration"));
 		generateCustomStructureMessage = ChatColor.translateAlternateColorCodes('&',
-				config.getString("custom-structures.log", "Generating custom structure \"%1$s\" at %2$s %3$s %4$s."));
+				config.getString("custom-com.dfsek.betterend.structures.log", "Generating custom structure \"%1$s\" at %2$s %3$s %4$s."));
 		generateStructureMessage = ChatColor.translateAlternateColorCodes('&',
 				config.getString("structure-log", "Generating structure \"%1$s\" at %2$s %3$s %4$s. Dimensions: X:%5$s, Y:%6$s, Z:%7$s."));
 		invalidSpawn = ChatColor.translateAlternateColorCodes('&',
-				config.getString("custom-structures.invalid-spawn", "%s is an invalid spawn location. Must be either GROUND or AIR."));
+				config.getString("custom-com.dfsek.betterend.structures.invalid-spawn", "%s is an invalid spawn location. Must be either GROUND or AIR."));
 		structureErrorMessage = ChatColor.translateAlternateColorCodes('&',
-				config.getString("custom-structures.error", "An error occurred whilst attempting to generate custom structure"));
+				config.getString("custom-com.dfsek.betterend.structures.error", "An error occurred whilst attempting to generate custom structure"));
 		structureFileNotFoundMessage = ChatColor.translateAlternateColorCodes('&',
-				config.getString("custom-structures.file-not-found", "The requested custom structure file could not be found."));
+				config.getString("custom-com.dfsek.betterend.structures.file-not-found", "The requested custom structure file could not be found."));
 		structureConfigNotFoundMessage = ChatColor.translateAlternateColorCodes('&',
-				config.getString("custom-structures.unable-to-find", "Unable to locate customStructures.yml. Aborting custom structure initialization."));
+				config.getString("custom-com.dfsek.betterend.structures.unable-to-find", "Unable to locate customStructures.yml. Aborting custom structure initialization."));
 		mythicMobsConfigNotFoundMessage = ChatColor.translateAlternateColorCodes('&',
 				config.getString("mythicmobs.unable-to-find", "Unable to locate mythicSpawns.yml. Aborting MythicMobs random spawning."));
 		mythicMobsFailToSpawnMessage = ChatColor.translateAlternateColorCodes('&',
