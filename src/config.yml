@@ -23,7 +23,7 @@ overworld: false
 parallel: true
 
 
-#Weights of com.dfsek.betterend.structures, used in random selections.
+#Weights of structures, used in random selections.
 #When a structure spawn candidate location is chosen, a structure is randomly selected from a list, 
 #based on its weight. The probability of any one structure being chosen is:
 # (Structure Weight) / (Total Weight)

@@ -52,7 +52,6 @@ public class NMSStructure {
 		} catch(InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	/**
@@ -200,7 +199,6 @@ public class NMSStructure {
 			default:
 				throw new IllegalArgumentException("Invalid rotation provided. Rotation must be multiple of 90.");
 		}
-
 	}
 
 	/**

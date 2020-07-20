@@ -125,44 +125,7 @@ public class ConfigUtil {
 	}
 
 	public static void init(Logger logger, BetterEnd main) {
-		FileConfiguration config = main.getConfig();
-		if(!Objects.equals(config.getString("config-version", "null"), main.getDescription().getVersion())) {
-			logger.info("Updating config...");
-			backupConfig(main);
-			File configBackupFile = new File(main.getDataFolder() + File.separator + "config.v" + main.getDescription().getVersion() + ".yml");
-			YamlConfiguration configBackup = new YamlConfiguration();
-			YamlConfiguration configDefault = new YamlConfiguration();
-			try(FileOutputStream writer = new FileOutputStream(new File(main.getDataFolder() + File.separator + "default.yml"));) {
-				configBackup.load(configBackupFile);
-				File configFile = new File(main.getDataFolder() + File.separator + "config.yml");
-				if(configFile.delete()) main.getLogger().info("Old config was succesfully deleted.");
-				main.saveDefaultConfig();
-
-				InputStream out = main.getResource("config.yml");
-				byte[] lineBuffer = new byte[4096];
-				int lineLength = 0;
-				while ((lineLength = out.read(lineBuffer)) > 0) {
-					writer.write(lineBuffer, 0, lineLength);
-				}
-				File configDefaultFile = new File(main.getDataFolder() + File.separator + "default.yml");
-				configBackup.load(configBackupFile);
-				configDefault.load(configDefaultFile);
-				main.saveConfig();
-				config = main.getConfig();
-				main.saveConfig();
-				for(String key: configDefault.getKeys(true)) {
-					if(configBackup.get(key) == null) config.set(key, configDefault.get(key));
-					else config.set(key, configBackup.get(key));
-				}
-				config.set("config-version", main.getDescription().getVersion());
-				main.saveConfig();
-
-			} catch(IOException | InvalidConfigurationException e) {
-				e.printStackTrace();
-			}
-		}
 		loadConfig(logger, main);
-
 	}
 
 	public static int getAetherStructureWeight(String structure) {

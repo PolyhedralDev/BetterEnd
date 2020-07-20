@@ -2,7 +2,7 @@ main: com.dfsek.betterend.BetterEnd
 name: BetterEnd
 version: 3.6.5
 author: dfsek
-description: Overhauls the End dimension with new biomes, com.dfsek.betterend.structures, and more!
+description: Overhauls the End dimension with new biomes, structures, and more!
 load: startup
 softdepend: [MythicMobs]
 api-version: 1.15
