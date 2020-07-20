@@ -19,6 +19,14 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="library" name="org.spigotmc:spigot-api:1.16.1-R0.1-SNAPSHOT" level="project" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/spigot-api-1.16.1-R0.1-SNAPSHOT-shaded.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
   </component>
 </module>
