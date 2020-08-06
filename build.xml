@@ -3,12 +3,12 @@
     <target name="makejar" description="Create a jar for the project">
 		<mkdir dir="target"/>
         <jar destfile="target/${ant.project.name}-premium.jar">
-			<fileset dir="bin"/>
+			<fileset dir="target/classes"/>
 			<fileset file="plugin.yml"/>
 			<fileset file="config.yml"/>
         </jar>
     	<jar destfile="target/${ant.project.name}-free.jar">
-    		<fileset dir="bin">
+    		<fileset dir="target/classes">
     			<exclude name="**/Tree*.class"/>
     			<exclude name="**/MythicSpawns*.class"/>
     			<exclude name="**/Premium*.class"/>
