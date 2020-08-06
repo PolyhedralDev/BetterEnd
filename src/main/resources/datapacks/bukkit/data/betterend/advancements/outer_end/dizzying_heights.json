@@ -1,0 +1,21 @@
+{
+  "parent": "betterend:outer_end/visit_void",
+  "display": {
+    "icon": {
+      "item": "minecraft:white_concrete"
+    },
+    "title": {
+      "text": "Dizzying Heights"
+    },
+    "description": {
+      "text": "Travel above Y level 5000"
+    },
+    "frame": "task"
+  },
+  "criteria": {
+    "0": {
+      "trigger": "minecraft:impossible",
+      "conditions": {}
+    }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "parent": "betterend:outer_end/visit_aether_highlands",
+  "display": {
+    "icon": {
+      "item": "minecraft:spruce_sapling"
+    },
+    "title": {
+      "text": "Another Forest?"
+    },
+    "description": {
+      "text": "Enter the Highlands Forest"
+    },
+    "frame": "task"
+  },
+  "criteria": {
+    "0": {
+      "trigger": "minecraft:impossible",
+      "conditions": {}
+    }
+  }
+}

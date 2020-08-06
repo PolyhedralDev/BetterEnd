@@ -1,0 +1,15 @@
+main: com.dfsek.betterend.BetterEnd
+name: BetterEnd
+version: 3.6.5
+author: dfsek
+description: Overhauls the End dimension with new biomes, com.dfsek.betterend.structures, and more!
+load: startup
+softdepend: [MythicMobs]
+api-version: 1.15
+commands:
+    betterend:
+       description: BetterEnd base command
+       usage: /betterend <biome|tpbiome|version|reload>
+       aliases: [be, end]
+       permission: betterend.command
+       permission-message: You don't have permission.

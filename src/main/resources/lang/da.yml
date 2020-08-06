@@ -1,0 +1,51 @@
+enable:
+   - "&fBetterEnd ville havde ikke været muligt uden støtte fra disse personer:"
+   - "&fUdviklere: dfsek og Baer"
+   - "&fByggere: GucciPoochie, sgtmushroom39, Daverono, og Merazmus"
+disable:
+   - "&fTak for at du bruger BetterEnd!"
+free-notification:
+   - "&bDu kører den gratis version af BetterEnd. Overvej venligst at købe den premium versionen for at støtte plugin'et og modtage yderligere funktioner!"
+   - "&bFlere informationer kan findes her: &nhttps://github.com/dfsek/BetterEnd-Public/wiki/Premium"
+command-prefix: "&3[BetterEnd] "
+update:
+   new-version: "En ny version af BetterEnd er tilgængelig: %s "
+   up-to-date: "Din version af BetterEnd (%s) er ajour!"
+   more-recent: "Din version af BetterEnd (%s) er nyere end den der er offentligt tilgængelig."
+   error: "Der opstod en fejl under tjek for en opdatering. Begrundelse: "
+commands:
+   for-players-only: "&bDenne kommando er kun til spillere!"
+   not-betterend-world: "&cDenne verden er ikke en BetterEnd verden!"
+   no-permission: "&cDu har ikke tilladelse til denne kommando."
+   version: "&bDenne server kører &3BetterEnd v%s"
+   reload-config: "&bGenindlæser BetterEnd konfiguration..."
+   complete-msg: "&bUdført."
+   biome: "&bDu står i \"&3%s&b\""
+   unable-to-locate: "&bKan ikke lokalisere biome'en."
+   tp: "&bTeleportere..."
+   locating-biome: "&bLokalisere biome'en \"&3%s&b\""
+structure-log: "Genererer strukturen \"%1$s\" ved %2$s %3$s %4$s. Dimensioner: X:%5$s, Y:%6$s, Z:%7$s."
+custom-structures:
+   enable: "Initialiserer Custom Struktur Populator..."
+   unable-to-find: "Kan ikke finde customStructures.yml. Afbryder custom struktur initialisering."
+   file-not-found: "Den anmodede custom strukturfil kunne ikke findes."
+   error: "Der opstod en fejl under forsøg på at generere custom struktur"
+   log: "Genererer custom struktur \"%1$s\" ved %2$s %3$s %4$s."
+   invalid-spawn: "%s er en ugyldig spawn placering. Skal enten være GROUND eller AIR."
+mythicmobs:
+   enable: "Starter MythicMobs integration"
+   fail-to-spawn: "Kunne ikke spawn mobs. Er MythicMobs installeret?"
+   unable-to-find: "Kan ikke finde mythicSpawns.yml. Afbryder MythicMobs tilfældig spawning."
+advancements:
+   enable: "Aktiverer fremskridt..."
+paper:
+   - "Du bruger Spigot/CraftBukkit til din server."
+   - "For den bedste oplevelse med BetterEnd, og alle dine plugins, benyt venligst Paper!"
+   - "Paper indeholder mange optimeringer oven på Spigot's, hvilket betyder at du vil se en stor forøgelse af ydeevnen."
+   - "Paper er også en fork af Spigot, hvilket betyder at alle dine plugins stadig skulle fungere med Paper."
+   - "Du kan find ud af mere på deres hjemmeside: https://papermc.io/"
+untested:
+   - "Du bruger en anden serverimplementering end Spigot eller Paper!"
+   - "BetterEnd er ikke testet på denne implementering, og der ydes minimal support, hvis der opstår problemer når du bruger den."
+   - "Hvis du oplever problemer, så test på Paper før du rapporterer dem!"
+   - "Hvis du vil have at din implementering understøttes officielt, så kontakt dfsek på BetterEnd's Discord server."

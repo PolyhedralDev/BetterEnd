@@ -1,0 +1,21 @@
+{
+  "parent": "betterend:outer_end/visit_void",
+  "display": {
+    "icon": {
+      "item": "minecraft:glowstone"
+    },
+    "title": {
+      "text": "A Field of Stars"
+    },
+    "description": {
+      "text": "Enter a Starfield Biome"
+    },
+    "frame": "task"
+  },
+  "criteria": {
+    "0": {
+      "trigger": "minecraft:impossible",
+      "conditions": {}
+    }
+  }
+}
