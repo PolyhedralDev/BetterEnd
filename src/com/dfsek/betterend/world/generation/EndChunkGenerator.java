@@ -18,10 +18,11 @@ import com.dfsek.betterend.world.generation.populators.CustomStructurePopulator;
 import com.dfsek.betterend.world.generation.populators.EnvironmentPopulator;
 import com.dfsek.betterend.world.generation.populators.OrePopulator;
 import com.dfsek.betterend.world.generation.populators.StructurePopulator;
+import org.jetbrains.annotations.NotNull;
 
 public class EndChunkGenerator extends ChunkGenerator {
-	private BetterEnd main = BetterEnd.getInstance();
-	private ProbabilityCollection<Material> plantProbabilities = new ProbabilityCollection<Material>()
+	private final BetterEnd main = BetterEnd.getInstance();
+	private final ProbabilityCollection<Material> plantProbabilities = new ProbabilityCollection<Material>()
 			.add(Material.GRASS, 670) //check
 			.add(Material.TALL_GRASS, 100) //check
 			.add(Material.LILY_OF_THE_VALLEY, 30) //check
@@ -33,9 +34,10 @@ public class EndChunkGenerator extends ChunkGenerator {
 			.add(Material.DANDELION, 10) //check
 			.add(Material.POPPY, 10); //check
 
+	@NotNull
 	@SuppressWarnings("deprecation")
 	@Override
-	public ChunkData generateChunkData(World world, Random random, int chunkX, int chunkZ, BiomeGrid biome) {
+	public ChunkData generateChunkData(World world, @NotNull Random random, int chunkX, int chunkZ, @NotNull BiomeGrid biome) {
 		SimplexOctaveGenerator generator = new SimplexOctaveGenerator(world.getSeed(), 4);
 		SimplexOctaveGenerator biomeGenerator = new SimplexOctaveGenerator(world.getSeed(), 4);
 		ChunkData chunk = createChunkData(world);
@@ -139,7 +141,7 @@ public class EndChunkGenerator extends ChunkGenerator {
 										if(heatNoiseLvl < -0.5 && random.nextInt(100) < -75 * (heatNoiseLvl + 0.5) && chunk.getBlockData(X, Y, Z).getMaterial() != Material.AIR) {
 											chunk.setBlock(X, Y + 1, Z, Material.SNOW);
 										} else if(random.nextInt(100) < 40 && chunk.getBlockData(X, Y, Z).getMaterial() == Material.GRASS_BLOCK) {
-											Material plant = (Material) plantProbabilities.get(random);
+											Material plant = plantProbabilities.get(random);
 											if(plant == Material.TALL_GRASS) {
 												chunk.setBlock(X, Y + 1, Z, Material.TALL_GRASS);
 												chunk.setBlock(X, Y + 2, Z, main.getServer().createBlockData("minecraft:tall_grass[half=upper]"));
@@ -225,7 +227,7 @@ public class EndChunkGenerator extends ChunkGenerator {
 						}
 						Material currentBlock = chunk.getBlockData(X, Y, Z).getMaterial();
 						if(currentBlock == Material.AIR && chunk.getBlockData(X, Y + 1, Z).getMaterial() == Material.END_STONE && random.nextInt(100) < 28
-								&& ConfigUtil.doEndCaveDec && Y >= yMin) {
+								&& ConfigUtil.doEndCaveDec) {
 							switch(random.nextInt(3)) {
 								case 0:
 									if(chunk.getBlockData(X, Y - 1, Z).getMaterial() == Material.AIR && random.nextInt(100) < 20) {
@@ -243,7 +245,7 @@ public class EndChunkGenerator extends ChunkGenerator {
 							}
 						}
 						if(currentBlock == Material.AIR && chunk.getBlockData(X, Y + 1, Z).getMaterial() == Material.STONE && random.nextInt(100) < 36
-								&& ConfigUtil.doAetherCaveDec && Y >= yMin) {
+								&& ConfigUtil.doAetherCaveDec) {
 							switch(random.nextInt(5)) {
 								case 0:
 									if(chunk.getBlockData(X, Y - 1, Z).getMaterial() == Material.AIR && random.nextInt(100) < 20) {
@@ -315,11 +317,12 @@ public class EndChunkGenerator extends ChunkGenerator {
 		return ConfigUtil.parallel;
 	}
 
+	@NotNull
 	@Override
-	public List<BlockPopulator> getDefaultPopulators(World world) {
-		if(BetterEnd.isPremium()) return Arrays.asList((BlockPopulator) new CustomStructurePopulator(), new StructurePopulator(), new EnvironmentPopulator(),
+	public List<BlockPopulator> getDefaultPopulators(@NotNull World world) {
+		if(BetterEnd.isPremium()) return Arrays.asList(new CustomStructurePopulator(), new StructurePopulator(), new EnvironmentPopulator(),
 				new OrePopulator());
-		else return Arrays.asList((BlockPopulator) new StructurePopulator(), new EnvironmentPopulator(), new OrePopulator());
+		else return Arrays.asList(new StructurePopulator(), new EnvironmentPopulator(), new OrePopulator());
 	}
 
 }

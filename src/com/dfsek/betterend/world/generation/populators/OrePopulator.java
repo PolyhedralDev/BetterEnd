@@ -1,20 +1,19 @@
 package com.dfsek.betterend.world.generation.populators;
 
-import java.util.Random;
-
 import com.dfsek.betterend.ProbabilityCollection;
+import com.dfsek.betterend.util.ConfigUtil;
+import com.dfsek.betterend.world.Ore;
 import org.bukkit.Chunk;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.generator.BlockPopulator;
+import org.jetbrains.annotations.NotNull;
 
-import com.dfsek.betterend.util.ConfigUtil;
-import com.dfsek.betterend.util.Util;
-import com.dfsek.betterend.world.Ore;
+import java.util.Random;
 
 public class OrePopulator extends BlockPopulator {
 	@Override
-	public void populate(World world, Random random, Chunk chunk) {
+	public void populate(@NotNull World world, @NotNull Random random, @NotNull Chunk chunk) {
 		int x;
 		int y;
 		int z;

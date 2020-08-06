@@ -3,6 +3,7 @@ package com.dfsek.betterend;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.dfsek.betterend.structures.NMSStructure;
 import com.dfsek.betterend.util.*;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -24,7 +25,7 @@ public class BetterEnd extends JavaPlugin {
 		instance = this;
 		final Logger logger = this.getLogger();
 
-		NMSReflectorUtil.init(logger);
+		NMSStructure.load();
 
 		Metrics metrics = new Metrics(this, 7709);
 		metrics.addCustomChart(new Metrics.SimplePie("premium", () -> isPremium() ? "Yes" : "No"));
