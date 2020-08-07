@@ -9,7 +9,7 @@
         </jar>
     	<jar destfile="target/${ant.project.name}-free.jar">
     		<fileset dir="target/classes">
-    			<exclude name="**/Tree*.class"/>
+    			<exclude name="**/WoodTree*.class"/>
     			<exclude name="**/MythicSpawns*.class"/>
     			<exclude name="**/Premium*.class"/>
     			<exclude name="**/EndAdvancementUtil*.class"/>

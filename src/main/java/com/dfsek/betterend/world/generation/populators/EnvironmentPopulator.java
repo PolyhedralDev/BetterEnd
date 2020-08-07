@@ -2,22 +2,22 @@ package com.dfsek.betterend.world.generation.populators;
 
 import java.util.Random;
 
-import org.bukkit.Chunk;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.TreeType;
-import org.bukkit.World;
+import com.dfsek.betterend.BetterEnd;
+import com.dfsek.betterend.world.generation.tree.CustomTreeType;
+import com.dfsek.betterend.world.generation.tree.WoodTree;
+import org.bukkit.*;
 import org.bukkit.entity.EnderCrystal;
 import org.bukkit.entity.EntityType;
 import org.bukkit.generator.BlockPopulator;
 import org.bukkit.util.noise.SimplexOctaveGenerator;
 
-import com.dfsek.betterend.world.ShatteredTree;
+import com.dfsek.betterend.world.generation.tree.ShatteredTree;
 import com.dfsek.betterend.world.Tree;
 import com.dfsek.betterend.util.ConfigUtil;
 import com.dfsek.betterend.world.Biome;
 
 public class EnvironmentPopulator extends BlockPopulator {
+	private final BetterEnd main = BetterEnd.getInstance();
 	@SuppressWarnings("deprecation")
 	public void populate(World world, Random random, Chunk chunk) {
 		// taiga
@@ -76,7 +76,34 @@ public class EnvironmentPopulator extends BlockPopulator {
 			}
 		}
 	}
+	private void plantLargeTree(CustomTreeType type, Location origin, Random random) {
+		if(ConfigUtil.debug) Bukkit.getLogger().info("[" + Thread.currentThread().getName() + "] Generating async tree of type " + type.toString());
+		long t = System.nanoTime();
+		Bukkit.getScheduler().runTaskAsynchronously(main, () -> {
+			if(ConfigUtil.debug) Bukkit.getLogger().info("[" + Thread.currentThread().getName() + "] Building async tree!");
+			boolean large = true;
+			switch(type) {
+				case SHATTERED_SMALL:
+					large = false;
+				case SHATTERED_LARGE:
+					ShatteredTree tree = new ShatteredTree(origin, random, large);
+					tree.grow();
+					if(ConfigUtil.debug) main.getLogger().info("[" + Thread.currentThread().getName() + "] Time saved: " + (System.nanoTime() - t)/1000000 + "ms");
+					Bukkit.getScheduler().runTask(main, tree::plant);
+					break;
+				case SPRUCE:
+				case OAK:
+					WoodTree woodTree = new WoodTree(origin, random, type);
+					woodTree.grow();
+					if(ConfigUtil.debug) main.getLogger().info("[" + Thread.currentThread().getName() + "] Time saved: " + (System.nanoTime() - t)/1000000 + "ms");
+					Bukkit.getScheduler().runTask(main, woodTree::plant);
+					break;
+				default:
+					throw new IllegalArgumentException("Invalid tree type.");
+			}
 
+		});
+	}
 	private void populateTrees(Random random, Chunk chunk, World world) {
 		int amount = random.nextInt(ConfigUtil.maxTrees - ConfigUtil.minTrees) + ConfigUtil.minTrees; // Amount
 																																																	// of
@@ -111,7 +138,7 @@ public class EnvironmentPopulator extends BlockPopulator {
 						break;
 					case AETHER_FOREST:
 						if(i % 2 == 0  && blockLocation.getBlock().getType() == Material.GRASS_BLOCK) {
-							new Tree(blockLocation, 1.5, random, random.nextInt(4) + 10, "OAK");
+							plantLargeTree(CustomTreeType.OAK, blockLocation, random);
 						}
 						break;
 					case AETHER_HIGHLANDS:
@@ -142,7 +169,7 @@ public class EnvironmentPopulator extends BlockPopulator {
 						if(i % 2 == 0 && (blockLocation.getBlock().getType() == Material.GRASS_BLOCK || blockLocation.getBlock().getType() == Material.PODZOL
 								|| blockLocation.getBlock().getType() == Material.COARSE_DIRT || blockLocation.getBlock().getType() == Material.SNOW
 								|| blockLocation.getBlock().getType() == Material.GRAVEL)) {
-							new Tree(blockLocation, 1.5, random, 3 * (random.nextInt(3) + 5), "SPRUCE");
+							plantLargeTree(CustomTreeType.SPRUCE, blockLocation, random);
 						}
 						break;
 					case SHATTERED_END:
@@ -162,9 +189,9 @@ public class EnvironmentPopulator extends BlockPopulator {
 						break;
 					case SHATTERED_FOREST:
 						if(blockLocation.getBlock().getType() == Material.END_STONE && random.nextInt(20) < 6 && i == 0) {
-							new ShatteredTree(blockLocation, 2, random, random.nextInt(10) + 20);
+							plantLargeTree(CustomTreeType.SHATTERED_LARGE, blockLocation, random);
 						} else if(blockLocation.getBlock().getType() == Material.END_STONE && random.nextInt(20) < 10) {
-							new ShatteredTree(blockLocation, 1, random, random.nextInt(5) + 5);
+							plantLargeTree(CustomTreeType.SHATTERED_SMALL, blockLocation, random);
 						}
 						break;
 					default:

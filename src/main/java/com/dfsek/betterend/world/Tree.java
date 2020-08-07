@@ -84,9 +84,7 @@ public class Tree {
 		if(length < 4) return;
 		if(startR < 0) return;
 		Vector initV = getPerpendicular(startV.clone()).rotateAroundAxis(startV, random.nextInt(360));
-		while (initV.getY() < 0 && doYCheck) {
-			initV = getPerpendicular(startV.clone()).rotateAroundAxis(startV, random.nextInt(360));
-		}
+		if (initV.getY() < 0 && doYCheck) initV = getPerpendicular(startV.clone()).rotateAroundAxis(startV, 180);
 		for(int i = 0; i < length; i++) {
 			doMSphereAtLoc(start.add(initV), (int) startR, m);
 			if(lvl >= 1) {

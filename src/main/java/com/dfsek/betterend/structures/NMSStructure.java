@@ -95,7 +95,7 @@ public class NMSStructure {
             }
             BetterEnd.getInstance().getLogger().info("Finished reflections. Time elapsed: " + ((double) (System.nanoTime() - start)) / 1000000 + "ms");
         } catch (ClassNotFoundException | NoSuchMethodException e) {
-			main.getLogger().severe("An error has occured whilst initializing Reflection. Please report this.");
+			main.getLogger().severe("An error occurred whilst initializing Reflection. Please report this.");
 			main.getLogger().severe(e.getMessage());
 			main.getLogger().severe("Report the above error to BetterEnd at https://github.com/dfsek/BetterEnd-Public/issues");
         }
