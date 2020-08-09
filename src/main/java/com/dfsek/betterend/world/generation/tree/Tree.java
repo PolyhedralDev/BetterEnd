@@ -5,6 +5,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.util.Vector;
 
 import java.util.HashMap;
@@ -12,7 +13,7 @@ import java.util.Map;
 import java.util.Random;
 
 public abstract class Tree {
-    private final Map<Block, Material> treeAssembler = new HashMap<>();
+    private final Map<Block, BlockData> treeAssembler = new HashMap<>();
     private final Location origin;
     private final Random random;
     /**
@@ -27,9 +28,9 @@ public abstract class Tree {
 
     /**
      * Gets the raw tree map.
-     * @return HashMap<Block, Material> - The raw dictionary representation of the tree.
+     * @return HashMap<Block, BlockData> - The raw dictionary representation of the tree.
      */
-    public Map<Block, Material> getTree() {
+    public Map<Block, BlockData> getTree() {
         return treeAssembler;
     }
 
@@ -56,7 +57,7 @@ public abstract class Tree {
      * @param m - The material to which it will be set.
      */
     public void setBlock(Block b, Material m) {
-        treeAssembler.put(b, m);
+        treeAssembler.put(b, m.createBlockData());
     }
 
     /**
@@ -69,8 +70,8 @@ public abstract class Tree {
      */
     public void plant() {
         if(ConfigUtil.debug) Bukkit.getLogger().info("[" + Thread.currentThread().getName() + "] Planting tree...");
-        for(Map.Entry<Block, Material> entry : treeAssembler.entrySet()) {
-            entry.getKey().setType(entry.getValue());
+        for(Map.Entry<Block, BlockData> entry : treeAssembler.entrySet()) {
+            entry.getKey().setBlockData(entry.getValue(), false);
         }
     }
 
@@ -81,7 +82,7 @@ public abstract class Tree {
      * @return Material - The material at the specified block.
      */
     public Material getMaterial(Block b) {
-        return treeAssembler.getOrDefault(b, Material.AIR);
+        return treeAssembler.getOrDefault(b, Material.AIR.createBlockData()).getMaterial();
     }
 
     public static Vector getPerpendicular(Vector v) {

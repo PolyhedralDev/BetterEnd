@@ -1,12 +1,13 @@
 package com.dfsek.betterend.world;
 
 import org.bukkit.Material;
+import org.bukkit.block.data.BlockData;
 
 public class Ore {
 	private final int contChance;
-	private final Material oreMaterial;
+	private final BlockData oreMaterial;
 
-	public Ore(Material oreMaterial, int contChance) {
+	public Ore(BlockData oreMaterial, int contChance) {
 		this.contChance = contChance;
 		this.oreMaterial = oreMaterial;
 	}
@@ -15,7 +16,7 @@ public class Ore {
 		return contChance;
 	}
 
-	public Material getType() {
+	public BlockData getType() {
 		return oreMaterial;
 	}
 }

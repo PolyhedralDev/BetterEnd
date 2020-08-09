@@ -1,11 +1,13 @@
 package com.dfsek.betterend.world;
 
 import com.dfsek.betterend.BetterEnd;
+import com.dfsek.betterend.world.generation.terrain.BiomeGenerator;
+import com.dfsek.betterend.world.generation.terrain.biomes.EndGenerator;
 import org.bukkit.Location;
 import org.bukkit.util.noise.SimplexOctaveGenerator;
 
 import com.dfsek.betterend.util.ConfigUtil;
-import com.dfsek.betterend.world.generation.EndChunkGenerator;
+import com.dfsek.betterend.world.generation.terrain.EndChunkGenerator;
 
 /**
  * Representation of BetterEnd custom biomes.
@@ -15,6 +17,9 @@ import com.dfsek.betterend.world.generation.EndChunkGenerator;
  */
 public enum Biome {
 	END, SHATTERED_END, SHATTERED_FOREST, AETHER, AETHER_HIGHLANDS, AETHER_FOREST, AETHER_HIGHLANDS_FOREST, VOID, STARFIELD;
+
+	private static final EndGenerator endGenerator = new EndGenerator();
+
 
 	/**
 	 * Gets the Biome at a location.
@@ -198,6 +203,13 @@ public enum Biome {
 				return "STARFIELD";
 			default:
 				throw new IllegalArgumentException();
+		}
+	}
+
+	public BiomeGenerator getGenerator() {
+		switch(this) {
+			case END: return endGenerator;
+			default: throw new IllegalStateException("how.");
 		}
 	}
 }

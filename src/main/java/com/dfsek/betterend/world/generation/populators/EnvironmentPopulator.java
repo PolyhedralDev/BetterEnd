@@ -2,22 +2,21 @@ package com.dfsek.betterend.world.generation.populators;
 
 import java.util.Random;
 
-import com.dfsek.betterend.BetterEnd;
+import com.dfsek.betterend.util.DataUtil;
 import com.dfsek.betterend.world.generation.tree.CustomTreeType;
-import com.dfsek.betterend.world.generation.tree.WoodTree;
+import com.dfsek.betterend.world.generation.tree.ThreadedTreeUtil;
 import org.bukkit.*;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.EnderCrystal;
 import org.bukkit.entity.EntityType;
 import org.bukkit.generator.BlockPopulator;
 import org.bukkit.util.noise.SimplexOctaveGenerator;
 
-import com.dfsek.betterend.world.generation.tree.ShatteredTree;
-import com.dfsek.betterend.world.Tree;
 import com.dfsek.betterend.util.ConfigUtil;
 import com.dfsek.betterend.world.Biome;
 
 public class EnvironmentPopulator extends BlockPopulator {
-	private final BetterEnd main = BetterEnd.getInstance();
+
 	@SuppressWarnings("deprecation")
 	public void populate(World world, Random random, Chunk chunk) {
 		// taiga
@@ -33,7 +32,7 @@ public class EnvironmentPopulator extends BlockPopulator {
 				int y;
 				for(y = world.getMaxHeight() - 1; (chunk.getBlock(x, y, z).getType() != Material.SPRUCE_LEAVES) && y > 0; y--);
 				if(heatNoiseLvl < -0.5 && random.nextInt(100) < -50 * (heatNoiseLvl + 0.5) && chunk.getBlock(x, y, z).getType() == Material.SPRUCE_LEAVES) {
-					chunk.getBlock(x, y + 1, z).setType(Material.SNOW);
+					chunk.getBlock(x, y + 1, z).setBlockData(DataUtil.SNOW, false);
 				}
 				if(heatNoiseLvl < -0.5 && (biomeNoiseLvl > 0.5 || ConfigUtil.allAether)) {
 					world.setBiome(chunk.getX() * 16 + x, chunk.getZ() * 16 + z, org.bukkit.block.Biome.TAIGA);
@@ -42,7 +41,7 @@ public class EnvironmentPopulator extends BlockPopulator {
 						for(y = world.getMaxHeight() - 1; (chunk.getBlock(x, y, z).getType() != Material.GRASS_BLOCK && chunk.getBlock(x, y, z).getType() != Material.GRAVEL
 								&& chunk.getBlock(x, y, z).getType() != Material.PODZOL && chunk.getBlock(x, y, z).getType() != Material.COARSE_DIRT) && y > 0; y--);
 						if(y > 1) world.getBlockAt(chunk.getX() * 16 + x, y + 1, chunk.getZ() * 16 + z)
-								.setType((random.nextBoolean()) ? Material.COBBLESTONE : Material.MOSSY_COBBLESTONE);
+								.setBlockData((random.nextBoolean()) ? DataUtil.COBBLESTONE : DataUtil.MOSSY_COBBLESTONE, false);
 					}
 				}
 			}
@@ -76,34 +75,7 @@ public class EnvironmentPopulator extends BlockPopulator {
 			}
 		}
 	}
-	private void plantLargeTree(CustomTreeType type, Location origin, Random random) {
-		if(ConfigUtil.debug) Bukkit.getLogger().info("[" + Thread.currentThread().getName() + "] Generating async tree of type " + type.toString());
-		long t = System.nanoTime();
-		Bukkit.getScheduler().runTaskAsynchronously(main, () -> {
-			if(ConfigUtil.debug) Bukkit.getLogger().info("[" + Thread.currentThread().getName() + "] Building async tree!");
-			boolean large = true;
-			switch(type) {
-				case SHATTERED_SMALL:
-					large = false;
-				case SHATTERED_LARGE:
-					ShatteredTree tree = new ShatteredTree(origin, random, large);
-					tree.grow();
-					if(ConfigUtil.debug) main.getLogger().info("[" + Thread.currentThread().getName() + "] Time saved: " + (System.nanoTime() - t)/1000000 + "ms");
-					Bukkit.getScheduler().runTask(main, tree::plant);
-					break;
-				case SPRUCE:
-				case OAK:
-					WoodTree woodTree = new WoodTree(origin, random, type);
-					woodTree.grow();
-					if(ConfigUtil.debug) main.getLogger().info("[" + Thread.currentThread().getName() + "] Time saved: " + (System.nanoTime() - t)/1000000 + "ms");
-					Bukkit.getScheduler().runTask(main, woodTree::plant);
-					break;
-				default:
-					throw new IllegalArgumentException("Invalid tree type.");
-			}
 
-		});
-	}
 	private void populateTrees(Random random, Chunk chunk, World world) {
 		int amount = random.nextInt(ConfigUtil.maxTrees - ConfigUtil.minTrees) + ConfigUtil.minTrees; // Amount
 																																																	// of
@@ -138,7 +110,7 @@ public class EnvironmentPopulator extends BlockPopulator {
 						break;
 					case AETHER_FOREST:
 						if(i % 2 == 0  && blockLocation.getBlock().getType() == Material.GRASS_BLOCK) {
-							plantLargeTree(CustomTreeType.OAK, blockLocation, random);
+							ThreadedTreeUtil.plantLargeTree(CustomTreeType.OAK, blockLocation, random);
 						}
 						break;
 					case AETHER_HIGHLANDS:
@@ -153,7 +125,7 @@ public class EnvironmentPopulator extends BlockPopulator {
 							if(y1 > 1) {
 								blockLocation = chunk.getBlock(x, y1, z).getLocation();
 								if(blockLocation.getBlock().getType() == Material.SNOW) {
-									blockLocation.getBlock().setType(Material.AIR);
+									blockLocation.getBlock().setBlockData(DataUtil.AIR, false);
 									blockLocation.subtract(0, 1, 0);
 								}
 								if(random.nextInt(100) < 85) {
@@ -169,7 +141,7 @@ public class EnvironmentPopulator extends BlockPopulator {
 						if(i % 2 == 0 && (blockLocation.getBlock().getType() == Material.GRASS_BLOCK || blockLocation.getBlock().getType() == Material.PODZOL
 								|| blockLocation.getBlock().getType() == Material.COARSE_DIRT || blockLocation.getBlock().getType() == Material.SNOW
 								|| blockLocation.getBlock().getType() == Material.GRAVEL)) {
-							plantLargeTree(CustomTreeType.SPRUCE, blockLocation, random);
+							ThreadedTreeUtil.plantLargeTree(CustomTreeType.SPRUCE, blockLocation, random);
 						}
 						break;
 					case SHATTERED_END:
@@ -182,16 +154,16 @@ public class EnvironmentPopulator extends BlockPopulator {
 								int lowBound = (int) (random.nextInt((int) ((ConfigUtil.maxObsidianPillarHeight * 0.75) - (ConfigUtil.minObsidianPillarHeight * 0.75)))
 										+ (ConfigUtil.minObsidianPillarHeight * 0.75));
 								for(int j = -lowBound; j < upBound; j++) {
-									world.getBlockAt((chunk.getX() * 16) + x, y + j, (chunk.getZ() * 16) + z).setType(Material.OBSIDIAN);
+									world.getBlockAt((chunk.getX() * 16) + x, y + j, (chunk.getZ() * 16) + z).setBlockData(DataUtil.OBSIDIAN, false);
 								}
 							}
 						}
 						break;
 					case SHATTERED_FOREST:
 						if(blockLocation.getBlock().getType() == Material.END_STONE && random.nextInt(20) < 6 && i == 0) {
-							plantLargeTree(CustomTreeType.SHATTERED_LARGE, blockLocation, random);
+							ThreadedTreeUtil.plantLargeTree(CustomTreeType.SHATTERED_LARGE, blockLocation, random);
 						} else if(blockLocation.getBlock().getType() == Material.END_STONE && random.nextInt(20) < 10) {
-							plantLargeTree(CustomTreeType.SHATTERED_SMALL, blockLocation, random);
+							ThreadedTreeUtil.plantLargeTree(CustomTreeType.SHATTERED_SMALL, blockLocation, random);
 						}
 						break;
 					default:
@@ -235,7 +207,7 @@ public class EnvironmentPopulator extends BlockPopulator {
 					|| world.getBlockAt((chunk.getX() * 16) + x, y + j, (chunk.getZ() * 16) + z).getType() == Material.END_STONE_BRICK_SLAB
 					|| world.getBlockAt((chunk.getX() * 16) + x, y + j, (chunk.getZ() * 16) + z).getType() == Material.END_STONE_BRICK_WALL
 					|| world.getBlockAt((chunk.getX() * 16) + x, y + j, (chunk.getZ() * 16) + z)
-							.isPassable()) world.getBlockAt((chunk.getX() * 16) + x, y + j, (chunk.getZ() * 16) + z).setType(Material.OBSIDIAN);
+							.isPassable()) world.getBlockAt((chunk.getX() * 16) + x, y + j, (chunk.getZ() * 16) + z).setBlockData(DataUtil.OBSIDIAN, false);
 		}
 		for(int j = -lowBound[1]; j < upBound[1]; j++) {
 			if(world.getBlockAt((chunk.getX() * 16) + x + 1, y + j, (chunk.getZ() * 16) + z).getType() == Material.END_STONE
@@ -243,7 +215,7 @@ public class EnvironmentPopulator extends BlockPopulator {
 					|| world.getBlockAt((chunk.getX() * 16) + x + 1, y + j, (chunk.getZ() * 16) + z).getType() == Material.END_STONE_BRICK_SLAB
 					|| world.getBlockAt((chunk.getX() * 16) + x + 1, y + j, (chunk.getZ() * 16) + z).getType() == Material.END_STONE_BRICK_WALL
 					|| world.getBlockAt((chunk.getX() * 16) + x + 1, y + j, (chunk.getZ() * 16) + z)
-							.isPassable()) world.getBlockAt((chunk.getX() * 16) + x + 1, y + j, (chunk.getZ() * 16) + z).setType(Material.OBSIDIAN);
+							.isPassable()) world.getBlockAt((chunk.getX() * 16) + x + 1, y + j, (chunk.getZ() * 16) + z).setBlockData(DataUtil.OBSIDIAN, false);
 		}
 		for(int j = -lowBound[2]; j < upBound[2]; j++) {
 			if(world.getBlockAt((chunk.getX() * 16) + x, y + j, (chunk.getZ() * 16) + z + 1).getType() == Material.END_STONE
@@ -251,7 +223,7 @@ public class EnvironmentPopulator extends BlockPopulator {
 					|| world.getBlockAt((chunk.getX() * 16) + x, y + j, (chunk.getZ() * 16) + z + 1).getType() == Material.END_STONE_BRICK_SLAB
 					|| world.getBlockAt((chunk.getX() * 16) + x, y + j, (chunk.getZ() * 16) + z + 1).getType() == Material.END_STONE_BRICK_WALL
 					|| world.getBlockAt((chunk.getX() * 16) + x, y + j, (chunk.getZ() * 16) + z + 1)
-							.isPassable()) world.getBlockAt((chunk.getX() * 16) + x, y + j, (chunk.getZ() * 16) + z + 1).setType(Material.OBSIDIAN);
+							.isPassable()) world.getBlockAt((chunk.getX() * 16) + x, y + j, (chunk.getZ() * 16) + z + 1).setBlockData(DataUtil.OBSIDIAN, false);
 		}
 		for(int j = -lowBound[3]; j < upBound[3]; j++) {
 			if(world.getBlockAt((chunk.getX() * 16) + x + 1, y + j, (chunk.getZ() * 16) + z + 1).getType() == Material.END_STONE
@@ -259,7 +231,7 @@ public class EnvironmentPopulator extends BlockPopulator {
 					|| world.getBlockAt((chunk.getX() * 16) + x + 1, y + j, (chunk.getZ() * 16) + z + 1).getType() == Material.END_STONE_BRICK_SLAB
 					|| world.getBlockAt((chunk.getX() * 16) + x + 1, y + j, (chunk.getZ() * 16) + z + 1).getType() == Material.END_STONE_BRICK_WALL
 					|| world.getBlockAt((chunk.getX() * 16) + x + 1, y + j, (chunk.getZ() * 16) + z + 1)
-							.isPassable()) world.getBlockAt((chunk.getX() * 16) + x + 1, y + j, (chunk.getZ() * 16) + z + 1).setType(Material.OBSIDIAN);
+							.isPassable()) world.getBlockAt((chunk.getX() * 16) + x + 1, y + j, (chunk.getZ() * 16) + z + 1).setBlockData(DataUtil.OBSIDIAN, false);
 		}
 		if(random.nextInt(100) < 25) {
 			switch(maxH) {

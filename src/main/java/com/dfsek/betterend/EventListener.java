@@ -1,7 +1,9 @@
 package com.dfsek.betterend;
 
-import com.dfsek.betterend.world.Tree;
+import com.dfsek.betterend.world.generation.tree.CustomTreeType;
+import com.dfsek.betterend.world.generation.tree.ThreadedTreeUtil;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.TreeType;
 import org.bukkit.block.Chest;
@@ -21,7 +23,7 @@ import com.dfsek.betterend.util.BossTimeoutUtil;
 import com.dfsek.betterend.util.ConfigUtil;
 import com.dfsek.betterend.util.EndAdvancementUtil;
 import com.dfsek.betterend.world.Biome;
-import com.dfsek.betterend.world.generation.EndChunkGenerator;
+import com.dfsek.betterend.world.generation.terrain.EndChunkGenerator;
 
 import io.lumine.xikage.mythicmobs.MythicMobs;
 
@@ -90,10 +92,12 @@ public class EventListener implements Listener {
 		if(BetterEnd.isPremium() && (((ConfigUtil.generateBigTreesInEnd || ConfigUtil.generateBigTreesInBiomes) && e.getWorld().getGenerator() instanceof EndChunkGenerator) || ConfigUtil.generateBigTreesEverywhere)) {
 			Random treeRandom = new Random();
 			if((ConfigUtil.generateBigTreesInEnd || ConfigUtil.generateBigTreesEverywhere || Biome.fromLocation(e.getLocation()).equals(Biome.AETHER_FOREST)) && (e.getSpecies().equals(TreeType.TREE) || e.getSpecies().equals(TreeType.BIG_TREE))) {
-				if(treeRandom.nextInt(100) < 100/ConfigUtil.treeGrowthMultiplier) new Tree(e.getLocation(), 1.5, treeRandom, treeRandom.nextInt(4) + 10, "OAK");
+				e.getLocation().getBlock().setType(Material.AIR);
+				if(treeRandom.nextInt(100) < 100/ConfigUtil.treeGrowthMultiplier) ThreadedTreeUtil.plantLargeTree(CustomTreeType.OAK, e.getLocation(), treeRandom);
 				e.setCancelled(true);
 			} else if((ConfigUtil.generateBigTreesInEnd || ConfigUtil.generateBigTreesEverywhere || Biome.fromLocation(e.getLocation()).equals(Biome.AETHER_HIGHLANDS_FOREST)) && (e.getSpecies().equals(TreeType.TALL_REDWOOD) || e.getSpecies().equals(TreeType.REDWOOD) || e.getSpecies().equals(TreeType.MEGA_REDWOOD))) {
-				if(treeRandom.nextInt(100) < 100/ConfigUtil.treeGrowthMultiplier) new Tree(e.getLocation(), 1.5, treeRandom, 3 * (treeRandom.nextInt(3) + 5), "SPRUCE");
+				e.getLocation().getBlock().setType(Material.AIR);
+				if(treeRandom.nextInt(100) < 100/ConfigUtil.treeGrowthMultiplier) ThreadedTreeUtil.plantLargeTree(CustomTreeType.SPRUCE, e.getLocation(), treeRandom);
 				e.setCancelled(true);
 			}
 		}

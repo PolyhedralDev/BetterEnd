@@ -1,4 +1,4 @@
-package com.dfsek.betterend.world.generation;
+package com.dfsek.betterend.world.generation.terrain;
 
 import java.util.Arrays;
 import java.util.List;
@@ -43,8 +43,8 @@ public class EndChunkGenerator extends ChunkGenerator {
 		ChunkData chunk = createChunkData(world);
 		double totalChunkDistance2D = Math.sqrt(Math.pow(chunkX, 2) + Math.pow(chunkZ, 2));
 		if(totalChunkDistance2D > 50 || ConfigUtil.allAether) {
-			for(int X = 0; X < 16; X++)
-				for(int Z = 0; Z < 16; Z++) {
+			for(byte X = 0; X < 16; X++)
+				for(byte Z = 0; Z < 16; Z++) {
 					double biomeNoiseLvl = (ConfigUtil.allAether)
 							? 1
 							: biomeGenerator.noise((double) (chunkX * 16 + X) / ConfigUtil.biomeSize, (double) (chunkZ * 16 + Z) / ConfigUtil.biomeSize, 0.5D, 0.5D);

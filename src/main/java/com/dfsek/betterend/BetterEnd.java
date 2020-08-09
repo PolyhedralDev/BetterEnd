@@ -13,7 +13,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.dfsek.betterend.world.Biome;
-import com.dfsek.betterend.world.generation.EndChunkGenerator;
+import com.dfsek.betterend.world.generation.terrain.EndChunkGenerator;
 import org.jetbrains.annotations.NotNull;
 
 public class BetterEnd extends JavaPlugin {
@@ -107,6 +107,12 @@ public class BetterEnd extends JavaPlugin {
 			ConfigUtil.loadConfig(this.getLogger(), this);
 			sender.sendMessage(LangUtil.prefix + LangUtil.completeMessage);
 			return true;
+		} else if(args.length == 3 && args[0].equalsIgnoreCase("tree")) {
+			if(args[1].equalsIgnoreCase("plant")) {
+
+			} else if(args[1].equalsIgnoreCase("grow")) {
+
+			}
 		}
 		return false;
 	}

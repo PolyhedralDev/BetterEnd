@@ -5,9 +5,8 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
-import com.dfsek.betterend.util.ConfigUtil;
 import com.dfsek.betterend.world.Biome;
-import com.dfsek.betterend.world.generation.EndChunkGenerator;
+import com.dfsek.betterend.world.generation.terrain.EndChunkGenerator;
 
 public class AetherFallUtil {
 	private AetherFallUtil() {}

@@ -2,10 +2,12 @@ package com.dfsek.betterend.world.generation.populators;
 
 import com.dfsek.betterend.ProbabilityCollection;
 import com.dfsek.betterend.util.ConfigUtil;
+import com.dfsek.betterend.util.DataUtil;
 import com.dfsek.betterend.world.Ore;
 import org.bukkit.Chunk;
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.generator.BlockPopulator;
 import org.jetbrains.annotations.NotNull;
 
@@ -20,13 +22,13 @@ public class OrePopulator extends BlockPopulator {
 		if(!ConfigUtil.doOresAether) return;
 		for(int i = 1; i < ConfigUtil.oreChanceAether; i++) { // Number of tries
 			Ore ore = new ProbabilityCollection<Ore>()
-					.add(new Ore(Material.COAL_ORE, 85), ConfigUtil.getOreWeight("coal_ore"))
-					.add(new Ore(Material.IRON_ORE, 50), ConfigUtil.getOreWeight("iron_ore"))
-					.add(new Ore(Material.GOLD_ORE, 50), ConfigUtil.getOreWeight("gold_ore"))
-					.add(new Ore(Material.REDSTONE_ORE, 65), ConfigUtil.getOreWeight("redstone_ore"))
-					.add(new Ore(Material.LAPIS_ORE, 75), ConfigUtil.getOreWeight("lapis_ore"))
-					.add(new Ore(Material.DIAMOND_ORE, 50), ConfigUtil.getOreWeight("diamond_ore"))
-					.add(new Ore(Material.EMERALD_ORE, 40), ConfigUtil.getOreWeight("emerald_ore")).get();
+					.add(new Ore(DataUtil.COAL_ORE, 85), ConfigUtil.getOreWeight("coal_ore"))
+					.add(new Ore(DataUtil.IRON_ORE, 50), ConfigUtil.getOreWeight("iron_ore"))
+					.add(new Ore(DataUtil.GOLD_ORE, 50), ConfigUtil.getOreWeight("gold_ore"))
+					.add(new Ore(DataUtil.REDSTONE_ORE, 65), ConfigUtil.getOreWeight("redstone_ore"))
+					.add(new Ore(DataUtil.LAPIS_ORE, 75), ConfigUtil.getOreWeight("lapis_ore"))
+					.add(new Ore(DataUtil.DIAMOND_ORE, 50), ConfigUtil.getOreWeight("diamond_ore"))
+					.add(new Ore(DataUtil.EMERALD_ORE, 40), ConfigUtil.getOreWeight("emerald_ore")).get();
 			x = random.nextInt(15);
 			z = random.nextInt(15);
 			for(y = 63; chunk.getBlock(x, y, z).getType() != Material.AIR && y > 0; y--);
@@ -38,14 +40,14 @@ public class OrePopulator extends BlockPopulator {
 
 	}
 
-	private void doVein(World world, Chunk chunk, Random random, int[] coords, Material ore, int continueChance) {
+	private void doVein(World world, Chunk chunk, Random random, int[] coords, BlockData ore, int continueChance) {
 		int x = coords[0];
 		int y = coords[1];
 		int z = coords[2];
 		if(world.getBlockAt(x + chunk.getX() * 16, y, z + chunk.getZ() * 16).getType() == Material.STONE) {
 			boolean isStone = true;
 			while (isStone) {
-				world.getBlockAt(x + chunk.getX() * 16, y, z + chunk.getZ() * 16).setType(ore);
+				world.getBlockAt(x + chunk.getX() * 16, y, z + chunk.getZ() * 16).setBlockData(ore, false);
 				if(random.nextInt(100) < continueChance) {
 					switch(random.nextInt(6)) {
 						case 0:
@@ -69,7 +71,7 @@ public class OrePopulator extends BlockPopulator {
 						default:
 					}
 					isStone = (world.getBlockAt(x + chunk.getX() * 16, y, z + chunk.getZ() * 16).getType() == Material.STONE)
-							&& (world.getBlockAt(x + chunk.getX() * 16, y, z + chunk.getZ() * 16).getType() != ore);
+							&& (world.getBlockAt(x + chunk.getX() * 16, y, z + chunk.getZ() * 16).getBlockData() != ore);
 				} else isStone = false;
 			}
 		}
