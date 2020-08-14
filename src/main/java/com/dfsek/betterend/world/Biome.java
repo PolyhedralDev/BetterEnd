@@ -1,13 +1,13 @@
 package com.dfsek.betterend.world;
 
 import com.dfsek.betterend.BetterEnd;
-import com.dfsek.betterend.world.generation.terrain.BiomeGenerator;
-import com.dfsek.betterend.world.generation.terrain.biomes.EndGenerator;
+import com.dfsek.betterend.world.terrain.BiomeGenerator;
+import com.dfsek.betterend.world.terrain.biomes.EndGenerator;
 import org.bukkit.Location;
 import org.bukkit.util.noise.SimplexOctaveGenerator;
 
 import com.dfsek.betterend.util.ConfigUtil;
-import com.dfsek.betterend.world.generation.terrain.EndChunkGenerator;
+import com.dfsek.betterend.world.terrain.EndChunkGenerator;
 
 /**
  * Representation of BetterEnd custom biomes.

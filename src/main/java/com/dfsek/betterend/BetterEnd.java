@@ -13,7 +13,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.dfsek.betterend.world.Biome;
-import com.dfsek.betterend.world.generation.terrain.EndChunkGenerator;
+import com.dfsek.betterend.world.terrain.EndChunkGenerator;
 import org.jetbrains.annotations.NotNull;
 
 public class BetterEnd extends JavaPlugin {
