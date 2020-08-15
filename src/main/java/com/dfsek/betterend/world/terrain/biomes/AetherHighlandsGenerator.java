@@ -3,9 +3,12 @@ package com.dfsek.betterend.world.terrain.biomes;
 import com.dfsek.betterend.world.terrain.BiomeGenerator;
 import com.dfsek.betterend.world.terrain.ChunkSlice;
 import com.dfsek.betterend.world.terrain.FeatureGenerator;
+import com.dfsek.betterend.world.terrain.features.AetherCaveGenerator;
+import com.dfsek.betterend.world.terrain.features.CloudGenerator;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class AetherHighlandsGenerator implements BiomeGenerator {
@@ -26,6 +29,6 @@ public class AetherHighlandsGenerator implements BiomeGenerator {
 
     @Override
     public List<FeatureGenerator> getFeatures() {
-        return null;
+        return Arrays.asList(new AetherCaveGenerator(), new CloudGenerator());
     }
 }

@@ -35,14 +35,6 @@ public class Interpolator {
         return blerp(_00Heights[1], _10Heights[1], _01Heights[1], _11Heights[1], finalX, finalZ);
     }
 
-    public void forEach(InterpolatorIterator i) {
-        for(byte x = 0; x <= 4; x++) {
-            for(byte z = 0; z <= 4; z++) {
-                i.execute(x, z);
-            }
-        }
-    }
-
     private static double lerp(double s, double e, double t) {
         return s + (e - s) * t;
     }

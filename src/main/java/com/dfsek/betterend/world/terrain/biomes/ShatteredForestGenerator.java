@@ -3,9 +3,11 @@ package com.dfsek.betterend.world.terrain.biomes;
 import com.dfsek.betterend.world.terrain.BiomeGenerator;
 import com.dfsek.betterend.world.terrain.ChunkSlice;
 import com.dfsek.betterend.world.terrain.FeatureGenerator;
+import com.dfsek.betterend.world.terrain.features.EndCaveGenerator;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class ShatteredForestGenerator implements BiomeGenerator {
@@ -27,6 +29,6 @@ public class ShatteredForestGenerator implements BiomeGenerator {
 
     @Override
     public List<FeatureGenerator> getFeatures() {
-        return null;
+        return Arrays.asList(new EndCaveGenerator());
     }
 }

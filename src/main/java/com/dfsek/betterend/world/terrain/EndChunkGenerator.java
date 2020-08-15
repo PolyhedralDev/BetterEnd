@@ -24,10 +24,11 @@ public class EndChunkGenerator extends ChunkGenerator {
 		ChunkData chunk = createChunkData(world);
 		int xOrigin = chunkX << 4;
 		int zOrigin = chunkZ << 4;
+		Interpolator bilerp;
+		for(byte x = 0; x < 16; x++) {
+			for(byte z = 0; z < 16; z++) {
+				if(x % 4 == 0 && z % 4 == 0) bilerp = new Interpolator(new int[] {xOrigin + (x), zOrigin + (z)}, world.getSeed());
 
-		for(byte x = 0; x < 4; x++) {
-			for(byte z = 0; z < 4; z++) {
-				Interpolator bilerp = new Interpolator(new int[] {xOrigin + (x << 2), zOrigin + (z << 2)}, world.getSeed());
 			}
 		}
 
