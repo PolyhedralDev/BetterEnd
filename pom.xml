@@ -31,7 +31,7 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.16.1-R0.1-SNAPSHOT</version>
+            <version>1.16.2-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -50,6 +50,13 @@
             <version>4.9.1</version>
             <scope>system</scope>
             <systemPath>${basedir}/lib/MythicMobs-4.9.1.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>net.minecraft.server</groupId>
+            <version>1_16_R2</version>
+            <artifactId>nms</artifactId>
+            <scope>system</scope>
+            <systemPath>${basedir}/lib/spigot-1.16.2.jar</systemPath>
         </dependency>
     </dependencies>
 

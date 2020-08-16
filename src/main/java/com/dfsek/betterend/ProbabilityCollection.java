@@ -9,7 +9,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class ProbabilityCollection<E> {
 
     protected final Comparator<ProbabilitySetElement<E>> comparator =
-            (o1, o2)-> Integer.compare(o1.getIndex(), o2.getIndex());
+            Comparator.comparingInt(ProbabilitySetElement::getIndex);
 
     private final TreeSet<ProbabilitySetElement<E>> collection;
 

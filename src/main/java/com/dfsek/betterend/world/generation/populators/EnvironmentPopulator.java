@@ -1,5 +1,7 @@
 package com.dfsek.betterend.world.generation.populators;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
 import com.dfsek.betterend.BetterEnd;
@@ -89,14 +91,14 @@ public class EnvironmentPopulator extends BlockPopulator {
 					ShatteredTree tree = new ShatteredTree(origin, random, large);
 					tree.grow();
 					if(ConfigUtil.debug) main.getLogger().info("[" + Thread.currentThread().getName() + "] Time saved: " + (System.nanoTime() - t)/1000000 + "ms");
-					Bukkit.getScheduler().runTask(main, tree::plant);
+					Bukkit.getScheduler().runTask(main, () -> tree.plant(false));
 					break;
 				case SPRUCE:
 				case OAK:
 					WoodTree woodTree = new WoodTree(origin, random, type);
 					woodTree.grow();
 					if(ConfigUtil.debug) main.getLogger().info("[" + Thread.currentThread().getName() + "] Time saved: " + (System.nanoTime() - t)/1000000 + "ms");
-					Bukkit.getScheduler().runTask(main, woodTree::plant);
+					Bukkit.getScheduler().runTask(main, () -> woodTree.plant(false));
 					break;
 				default:
 					throw new IllegalArgumentException("Invalid tree type.");
@@ -139,6 +141,7 @@ public class EnvironmentPopulator extends BlockPopulator {
 					case AETHER_FOREST:
 						if(i % 2 == 0  && blockLocation.getBlock().getType() == Material.GRASS_BLOCK) {
 							plantLargeTree(CustomTreeType.OAK, blockLocation, random);
+							return;
 						}
 						break;
 					case AETHER_HIGHLANDS:
@@ -170,6 +173,7 @@ public class EnvironmentPopulator extends BlockPopulator {
 								|| blockLocation.getBlock().getType() == Material.COARSE_DIRT || blockLocation.getBlock().getType() == Material.SNOW
 								|| blockLocation.getBlock().getType() == Material.GRAVEL)) {
 							plantLargeTree(CustomTreeType.SPRUCE, blockLocation, random);
+							return;
 						}
 						break;
 					case SHATTERED_END:
