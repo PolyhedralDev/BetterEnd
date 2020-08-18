@@ -3,11 +3,16 @@ package com.dfsek.betterend.world;
 import com.dfsek.betterend.BetterEnd;
 import com.dfsek.betterend.world.terrain.BiomeGenerator;
 import com.dfsek.betterend.world.terrain.biomes.EndGenerator;
+import com.dfsek.betterend.world.terrain.biomes.ShatteredEndGenerator;
+import org.apache.commons.lang.WordUtils;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.util.noise.SimplexOctaveGenerator;
 
 import com.dfsek.betterend.util.ConfigUtil;
 import com.dfsek.betterend.world.terrain.EndChunkGenerator;
+
+import java.lang.reflect.InvocationTargetException;
 
 /**
  * Representation of BetterEnd custom biomes.
@@ -17,8 +22,6 @@ import com.dfsek.betterend.world.terrain.EndChunkGenerator;
  */
 public enum Biome {
 	END, SHATTERED_END, SHATTERED_FOREST, AETHER, AETHER_HIGHLANDS, AETHER_FOREST, AETHER_HIGHLANDS_FOREST, VOID, STARFIELD;
-
-	private static final EndGenerator endGenerator = new EndGenerator();
 
 
 	/**
@@ -206,10 +209,15 @@ public enum Biome {
 		}
 	}
 
-	public BiomeGenerator getGenerator() {
-		switch(this) {
-			case END: return endGenerator;
-			default: throw new IllegalStateException("how.");
+	public BiomeGenerator getGenerator(World world) {
+		try {
+			return (BiomeGenerator) Class.forName("com.dfsek.betterend.world.terrain.biomes." +
+					WordUtils.capitalizeFully(this.toString(), new char[]{'_'}).replaceAll("_", "") + "Generator")
+					.getConstructor(World.class)
+					.newInstance(world);
+		} catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
+			e.printStackTrace();
 		}
+		return null;
 	}
 }

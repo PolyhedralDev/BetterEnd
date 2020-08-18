@@ -9,9 +9,11 @@ import java.util.Map;
 
 public class ChunkSlice {
     private final Map<Integer, BlockData> slice = new HashMap<>();
-
-    public ChunkSlice() {
-
+    private final byte x;
+    private final byte z;
+    public ChunkSlice(byte x, byte z) {
+        this.x = x;
+        this.z = z;
     }
 
     public void setBlock(int y, BlockData data) {
@@ -24,7 +26,7 @@ public class ChunkSlice {
 
     public ChunkGenerator.ChunkData insert(ChunkGenerator.ChunkData data) {
         for(Map.Entry<Integer, BlockData> entry : slice.entrySet()) {
-            data.setBlock(x, entry.getKey(), z, entry.getValue());
+            data.setBlock(this.x, entry.getKey(), this.z, entry.getValue());
         }
         return data;
     }

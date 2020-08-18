@@ -2,6 +2,7 @@ package com.dfsek.betterend.world.terrain;
 
 import com.dfsek.betterend.BetterEnd;
 import com.dfsek.betterend.util.ConfigUtil;
+import com.dfsek.betterend.world.Biome;
 import com.dfsek.betterend.world.populators.CustomStructurePopulator;
 import com.dfsek.betterend.world.populators.EnvironmentPopulator;
 import com.dfsek.betterend.world.populators.OrePopulator;
@@ -24,11 +25,9 @@ public class EndChunkGenerator extends ChunkGenerator {
 		ChunkData chunk = createChunkData(world);
 		int xOrigin = chunkX << 4;
 		int zOrigin = chunkZ << 4;
-		Interpolator bilerp;
 		for(byte x = 0; x < 16; x++) {
 			for(byte z = 0; z < 16; z++) {
-				if(x % 4 == 0 && z % 4 == 0) bilerp = new Interpolator(new int[] {xOrigin + (x), zOrigin + (z)}, world.getSeed());
-
+				chunk = Biome.fromCoordinates(xOrigin+x, zOrigin+z, world.getSeed()).getGenerator(world).generateSlice(x, z, chunkX, chunkZ).insert(chunk);
 			}
 		}
 
