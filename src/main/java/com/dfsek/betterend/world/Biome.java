@@ -2,8 +2,7 @@ package com.dfsek.betterend.world;
 
 import com.dfsek.betterend.BetterEnd;
 import com.dfsek.betterend.world.terrain.BiomeGenerator;
-import com.dfsek.betterend.world.terrain.biomes.EndGenerator;
-import com.dfsek.betterend.world.terrain.biomes.ShatteredEndGenerator;
+import com.dfsek.betterend.world.terrain.biomes.*;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -210,14 +209,33 @@ public enum Biome {
 	}
 
 	public BiomeGenerator getGenerator(World world) {
-		try {
-			return (BiomeGenerator) Class.forName("com.dfsek.betterend.world.terrain.biomes." +
-					WordUtils.capitalizeFully(this.toString(), new char[]{'_'}).replaceAll("_", "") + "Generator")
-					.getConstructor(World.class)
-					.newInstance(world);
-		} catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
-			e.printStackTrace();
+		switch (this) {
+			case AETHER:
+			case AETHER_FOREST:
+				return new AetherGenerator(world);
+			case AETHER_HIGHLANDS:
+			case AETHER_HIGHLANDS_FOREST:
+				return new AetherHighlandsGenerator(world);
+			case SHATTERED_END:
+			case SHATTERED_FOREST:
+				return new ShatteredEndGenerator(world);
+			case VOID:
+			case STARFIELD:
+				return new VoidGenerator(world);
+			case END:
+				return new EndGenerator(world);
 		}
 		return null;
+	}
+	public static double getVoidLevel(int x, int z, long seed) {
+		SimplexOctaveGenerator biomeGenerator = new SimplexOctaveGenerator(seed, 4);
+		double d = biomeGenerator.noise((double) (x) / ConfigUtil.biomeSize, (double) (z) / ConfigUtil.biomeSize, 0.5D, 0.5D);
+		if(d < 0 || d > 0.5) return 0;
+		return -8D*Math.abs(d-0.25)+2D;
+	}
+	public static boolean isAetherVoid(int x, int z, long seed) {
+		SimplexOctaveGenerator biomeGenerator = new SimplexOctaveGenerator(seed, 4);
+		double d = biomeGenerator.noise((double) (x) / ConfigUtil.biomeSize, (double) (z) / ConfigUtil.biomeSize, 0.5D, 0.5D);
+		return d > 0.25;
 	}
 }
