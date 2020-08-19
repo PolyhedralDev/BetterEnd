@@ -32,7 +32,7 @@ public class ShatteredEndGenerator extends BiomeGenerator {
     }
 
     private int getShatteredNoise(int x, int z) {
-        return (int) (super.getNoiseGenerator().noise((double) (x) / 10, (double) (z) / 10, 0.5D, 0.7D) * 2.5* Biome.getShatteredLevel(x, z, super.getWorld().getSeed()));
+        return (int) (super.getNoiseGenerator().noise((double) (x) / 10, (double) (z) / 10, 0.5D, 0.7D) * 4 * Biome.getShatteredLevel(x, z, super.getWorld().getSeed()));
     }
 
     @Override
