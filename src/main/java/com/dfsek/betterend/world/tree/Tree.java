@@ -68,7 +68,8 @@ public abstract class Tree {
     /**
      * Pastes the tree in the world. Must be invoked from main thread.
      */
-    public void plant() {
+    public void plant(boolean doCheck) {
+        if(doCheck && !this.getOrigin().getBlock().isPassable()) return;
         if(ConfigUtil.debug) Bukkit.getLogger().info("[" + Thread.currentThread().getName() + "] Planting tree...");
         for(Map.Entry<Block, BlockData> entry : treeAssembler.entrySet()) {
             entry.getKey().setBlockData(entry.getValue(), false);

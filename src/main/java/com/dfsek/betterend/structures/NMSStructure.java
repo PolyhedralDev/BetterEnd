@@ -21,52 +21,43 @@ import java.util.Random;
 public class NMSStructure {
 
     private static final BetterEnd main = BetterEnd.getInstance();
-    public static String version = Bukkit.getServer().getClass().getPackage().getName().replace(".", ",").split(",")[3];
-    public static Class definedStructureClass;
-    public static Constructor definedStructureConstructor;
-    public static Method loadStructure;
-    public static Constructor compoundNBTConstructor;
-    public static Class compoundNBTTagClass;
-    public static Class listNBTTagClass;
-    public static Method getStructureAsNBTMethod;
-    public static Method getNBTListMethod;
-    public static Method getNBTListItemMethod;
-    public static Method loadNBTStreamFromInputStream;
-    public static Method pasteMethod;
-    public static Class nbtStreamToolsClass;
-    public static Class generatorAccessClass;
-    public static Class worldServerClass;
-    public static Class blockPositionClass;
-    public static Class definedStructureInfoClass;
-    public static Class craftWorldClass;
-    public static Class enumBlockRotationClass;
-    public static Method enumBlockRotationValueOfMethod;
-    public static Class enumBlockMirrorClass;
-    public static Method enumBlockMirrorValueOfMethod;
-    public static Method setReflectionMethod;
-    public static Method setRotationMethod;
-    public static Method mysteryBooleanMethod;
-    public static Method mysteryBooleancMethod;
-    public static Method setRandomMethod;
-    public static Constructor definedStructureInfoConstructor;
-    public static Method getCraftWorldHandleMethod;
-    public static Class chunkCoordIntPairClass;
-    public static Method chunkCoordIntPairMethod;
-    public static Constructor blockPositionConstructor;
+    private static final String version = Bukkit.getServer().getClass().getPackage().getName().replace(".", ",").split(",")[3];
+    private static Constructor definedStructureConstructor;
+    private static Method loadStructure;
+    private static Constructor compoundNBTConstructor;
+    private static Method getStructureAsNBTMethod;
+    private static Method getNBTListMethod;
+    private static Method getNBTListItemMethod;
+    private static Method loadNBTStreamFromInputStreamMethod;
+    private static Method pasteMethod;
+    private static Class nbtStreamToolsClass;
+    private static Class craftWorldClass;
+    private static Class enumBlockRotationClass;
+    private static Method enumBlockRotationValueOfMethod;
+    private static Class enumBlockMirrorClass;
+    private static Method enumBlockMirrorValueOfMethod;
+    private static Method setReflectionMethod;
+    private static Method setRotationMethod;
+    private static Method mysteryBooleanMethod;
+    private static Method mysteryBooleancMethod;
+    private static Method setRandomMethod;
+    private static Constructor definedStructureInfoConstructor;
+    private static Method getCraftWorldHandleMethod;
+    private static Class chunkCoordIntPairClass;
+    private static Method chunkCoordIntPairMethod;
+    private static Constructor blockPositionConstructor;
 
     static {
         try {
             long start = System.nanoTime();
             main.getLogger().info("Beginning reflections for net.minecraft.server." + version + ".");
             craftWorldClass = Class.forName("org.bukkit.craftbukkit." + version + ".CraftWorld");
-            compoundNBTTagClass = Class.forName("net.minecraft.server." + version + ".NBTTagCompound");
-            generatorAccessClass = Class.forName("net.minecraft.server." + version + ".GeneratorAccess");
-            definedStructureInfoClass = Class.forName("net.minecraft.server." + version + ".DefinedStructureInfo");
-            worldServerClass = Class.forName("net.minecraft.server." + version + ".WorldServer");
-            blockPositionClass = Class.forName("net.minecraft.server." + version + ".BlockPosition");
+            Class compoundNBTTagClass = Class.forName("net.minecraft.server." + version + ".NBTTagCompound");
+            Class definedStructureInfoClass = Class.forName("net.minecraft.server." + version + ".DefinedStructureInfo");
+            Class blockPositionClass = Class.forName("net.minecraft.server." + version + ".BlockPosition");
             nbtStreamToolsClass = Class.forName("net.minecraft.server." + version + ".NBTCompressedStreamTools");
-            loadNBTStreamFromInputStream = nbtStreamToolsClass.getMethod("a", InputStream.class);
-            definedStructureClass = Class.forName("net.minecraft.server." + version + ".DefinedStructure");
+            loadNBTStreamFromInputStreamMethod = nbtStreamToolsClass.getMethod("a", InputStream.class);
+            Class definedStructureClass = Class.forName("net.minecraft.server." + version + ".DefinedStructure");
             definedStructureConstructor = definedStructureClass.getConstructor();
             loadStructure = definedStructureClass.getMethod("b", compoundNBTTagClass);
             enumBlockRotationClass = Class.forName("net.minecraft.server." + version + ".EnumBlockRotation");
@@ -74,7 +65,7 @@ public class NMSStructure {
             enumBlockMirrorClass = Class.forName("net.minecraft.server." + version + ".EnumBlockMirror");
             enumBlockMirrorValueOfMethod = enumBlockMirrorClass.getMethod("valueOf", String.class);
             compoundNBTConstructor = compoundNBTTagClass.getConstructor();
-            listNBTTagClass = Class.forName("net.minecraft.server." + version + ".NBTTagList");
+            Class listNBTTagClass = Class.forName("net.minecraft.server." + version + ".NBTTagList");
             getNBTListMethod = compoundNBTTagClass.getMethod("getList", String.class, int.class);
             getNBTListItemMethod = listNBTTagClass.getMethod("e", int.class);
             blockPositionConstructor = blockPositionClass.getConstructor(int.class, int.class, int.class);
@@ -88,6 +79,12 @@ public class NMSStructure {
             setRotationMethod = definedStructureInfoClass.getMethod("a", enumBlockRotationClass);
             setReflectionMethod = definedStructureInfoClass.getMethod("a", enumBlockMirrorClass);
             definedStructureInfoConstructor = definedStructureInfoClass.getConstructor();
+            Class generatorAccessClass;
+            if(version.startsWith("v1_16_R2")) {
+                generatorAccessClass = Class.forName("net.minecraft.server." + version + ".WorldAccess");
+            } else {
+                generatorAccessClass = Class.forName("net.minecraft.server." + version + ".GeneratorAccess");
+            }
             if (version.startsWith("v1_15")) {
                 pasteMethod = definedStructureClass.getMethod("a", generatorAccessClass, blockPositionClass, definedStructureInfoClass);
             } else {
@@ -96,8 +93,9 @@ public class NMSStructure {
             BetterEnd.getInstance().getLogger().info("Finished reflections. Time elapsed: " + ((double) (System.nanoTime() - start)) / 1000000 + "ms");
         } catch (ClassNotFoundException | NoSuchMethodException e) {
 			main.getLogger().severe("An error occurred whilst initializing Reflection. Please report this.");
-			main.getLogger().severe(e.getMessage());
+			e.printStackTrace();
 			main.getLogger().severe("Report the above error to BetterEnd at https://github.com/dfsek/BetterEnd-Public/issues");
+            main.getLogger().severe("This is most likely caused by running the plugin on an unsupported version.");
         }
     }
 
@@ -120,7 +118,7 @@ public class NMSStructure {
         Object structure;
         try {
             structure = definedStructureConstructor.newInstance();
-            loadStructure.invoke(structure, loadNBTStreamFromInputStream.invoke(nbtStreamToolsClass,
+            loadStructure.invoke(structure, loadNBTStreamFromInputStreamMethod.invoke(nbtStreamToolsClass,
                     main.getResource("struc/" + name + "/" + name + "_" + permutation + ".nbt")));
 
             Object tag = getStructureAsNBTMethod.invoke(structure, compoundNBTConstructor.newInstance());
@@ -149,7 +147,7 @@ public class NMSStructure {
         try {
             structure = definedStructureConstructor.newInstance();
             loadStructure.invoke(structure,
-                    loadNBTStreamFromInputStream.invoke(nbtStreamToolsClass, main.getResource("struc/" + name + ".nbt")));
+                    loadNBTStreamFromInputStreamMethod.invoke(nbtStreamToolsClass, main.getResource("struc/" + name + ".nbt")));
 
             Object tag = getStructureAsNBTMethod.invoke(structure, compoundNBTConstructor.newInstance());
             this.dimension = new int[]{(int) getNBTListItemMethod.invoke(getNBTListMethod.invoke(tag, "size", 3), 0),
@@ -176,7 +174,7 @@ public class NMSStructure {
         Object structure;
         try {
             structure = definedStructureConstructor.newInstance();
-            loadStructure.invoke(structure, loadNBTStreamFromInputStream.invoke(nbtStreamToolsClass, file));
+            loadStructure.invoke(structure, loadNBTStreamFromInputStreamMethod.invoke(nbtStreamToolsClass, file));
 
             Object tag = getStructureAsNBTMethod.invoke(structure, compoundNBTConstructor.newInstance());
             this.dimension = new int[]{(int) getNBTListItemMethod.invoke(getNBTListMethod.invoke(tag, "size", 3), 0),
