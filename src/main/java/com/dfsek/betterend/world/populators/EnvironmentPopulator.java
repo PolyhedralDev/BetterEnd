@@ -1,22 +1,18 @@
-package com.dfsek.betterend.world.generation.populators;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
+package com.dfsek.betterend.world.populators;
 
 import com.dfsek.betterend.BetterEnd;
-import com.dfsek.betterend.world.generation.tree.CustomTreeType;
-import com.dfsek.betterend.world.generation.tree.WoodTree;
+import com.dfsek.betterend.util.ConfigUtil;
+import com.dfsek.betterend.world.Biome;
+import com.dfsek.betterend.world.tree.CustomTreeType;
+import com.dfsek.betterend.world.tree.ShatteredTree;
+import com.dfsek.betterend.world.tree.WoodTree;
 import org.bukkit.*;
 import org.bukkit.entity.EnderCrystal;
 import org.bukkit.entity.EntityType;
 import org.bukkit.generator.BlockPopulator;
 import org.bukkit.util.noise.SimplexOctaveGenerator;
 
-import com.dfsek.betterend.world.generation.tree.ShatteredTree;
-import com.dfsek.betterend.world.Tree;
-import com.dfsek.betterend.util.ConfigUtil;
-import com.dfsek.betterend.world.Biome;
+import java.util.Random;
 
 public class EnvironmentPopulator extends BlockPopulator {
 	private final BetterEnd main = BetterEnd.getInstance();

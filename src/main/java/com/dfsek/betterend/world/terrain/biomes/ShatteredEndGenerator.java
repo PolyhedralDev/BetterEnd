@@ -1,6 +1,7 @@
 package com.dfsek.betterend.world.terrain.biomes;
 
 import com.dfsek.betterend.util.ConfigUtil;
+import com.dfsek.betterend.world.Biome;
 import com.dfsek.betterend.world.terrain.BiomeGenerator;
 import com.dfsek.betterend.world.terrain.ChunkSlice;
 import com.dfsek.betterend.world.terrain.FeatureGenerator;
@@ -20,14 +21,18 @@ public class ShatteredEndGenerator extends BiomeGenerator {
     public int getMaxHeight(int x, int z) {
         double iNoise = super.getNoiseGenerator().noise((double) x / ConfigUtil.outerEndNoise, (double) z / ConfigUtil.outerEndNoise, 0.1D,
                 0.55D);
-        return (int) (ConfigUtil.islandHeightMultiplierTop * (iNoise - ConfigUtil.landPercent) + 64);
+        return (int) (ConfigUtil.islandHeightMultiplierTop * (iNoise - ConfigUtil.landPercent) + 64) - getShatteredNoise(x, z);
     }
 
     @Override
     public int getMinHeight(int x, int z) {
         double iNoise = super.getNoiseGenerator().noise((double) x / ConfigUtil.outerEndNoise, (double) z / ConfigUtil.outerEndNoise, 0.1D,
                 0.55D);
-        return (int) ((-ConfigUtil.islandHeightMultiplierBottom * (iNoise - ConfigUtil.landPercent) + 64) + 1);
+        return (int) ((-ConfigUtil.islandHeightMultiplierBottom * (iNoise - ConfigUtil.landPercent) + 64) + 1) + getShatteredNoise(x, z);
+    }
+
+    private int getShatteredNoise(int x, int z) {
+        return (int) (super.getNoiseGenerator().noise((double) (x) / 10, (double) (z) / 10, 0.5D, 0.7D) * 2.5* Biome.getShatteredLevel(x, z, super.getWorld().getSeed()));
     }
 
     @Override

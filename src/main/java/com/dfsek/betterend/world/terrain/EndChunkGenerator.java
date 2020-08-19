@@ -4,13 +4,13 @@ import com.dfsek.betterend.BetterEnd;
 import com.dfsek.betterend.util.ConfigUtil;
 import com.dfsek.betterend.world.Biome;
 import com.dfsek.betterend.world.populators.CustomStructurePopulator;
-import com.dfsek.betterend.world.populators.EnvironmentPopulator;
 import com.dfsek.betterend.world.populators.OrePopulator;
 import com.dfsek.betterend.world.populators.StructurePopulator;
 import org.bukkit.World;
 import org.bukkit.generator.BlockPopulator;
 import org.bukkit.generator.ChunkGenerator;
 import org.jetbrains.annotations.NotNull;
+import com.dfsek.betterend.world.populators.EnvironmentPopulator;
 
 import java.util.Arrays;
 import java.util.List;

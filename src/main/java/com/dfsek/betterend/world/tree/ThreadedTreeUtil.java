@@ -22,14 +22,14 @@ public class ThreadedTreeUtil {
                     ShatteredTree tree = new ShatteredTree(origin, random, large);
                     tree.grow();
                     if(ConfigUtil.debug) main.getLogger().info("[" + Thread.currentThread().getName() + "] Time saved: " + (System.nanoTime() - t)/1000000 + "ms");
-                    Bukkit.getScheduler().runTask(main, tree::plant);
+                    Bukkit.getScheduler().runTask(main, () -> tree.plant(true));
                     break;
                 case SPRUCE:
                 case OAK:
                     WoodTree woodTree = new WoodTree(origin, random, type);
                     woodTree.grow();
                     if(ConfigUtil.debug) main.getLogger().info("[" + Thread.currentThread().getName() + "] Time saved: " + (System.nanoTime() - t)/1000000 + "ms");
-                    Bukkit.getScheduler().runTask(main, woodTree::plant);
+                    Bukkit.getScheduler().runTask(main, () -> woodTree.plant(true));
                     break;
                 default:
                     throw new IllegalArgumentException("Invalid tree type.");
