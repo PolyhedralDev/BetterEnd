@@ -1,6 +1,7 @@
 package com.dfsek.betterend.world.terrain.biomes;
 
 import com.dfsek.betterend.util.ConfigUtil;
+import com.dfsek.betterend.util.TerrainUtil;
 import com.dfsek.betterend.world.Biome;
 import com.dfsek.betterend.world.terrain.BiomeGenerator;
 import com.dfsek.betterend.world.terrain.ChunkSlice;
@@ -32,7 +33,7 @@ public class ShatteredEndGenerator extends BiomeGenerator {
     }
 
     private int getShatteredNoise(int x, int z) {
-        return (int) (super.getNoiseGenerator().noise((double) (x) / 10, (double) (z) / 10, 0.5D, 0.7D) * 4 * Biome.getShatteredLevel(x, z, super.getWorld().getSeed()));
+        return (int) (super.getNoiseGenerator().noise((double) (x) / 10, (double) (z) / 10, 0.5D, 0.7D) * 4 * TerrainUtil.getShatteredLevel(x, z, super.getWorld().getSeed()));
     }
 
     @Override

@@ -260,7 +260,7 @@ public class StructurePopulator extends BlockPopulator {
 		ItemStack[] containerContent = containerInventory.getContents();
 		for(int j = 0; j < randomItem.getAmount(); j++) {
 			boolean done = false;
-			int attemps = 0;
+			int attempts = 0;
 			while (!done) {
 				int randomPos = random.nextInt(containerContent.length);
 				ItemStack randomPosItem = containerInventory.getItem(randomPos);
@@ -276,8 +276,8 @@ public class StructurePopulator extends BlockPopulator {
 					containerContent[randomPos] = randomItemCopy;
 					containerInventory.setContents(containerContent);
 				}
-				attemps++;
-				done = attemps >= containerContent.length;
+				attempts++;
+				done = attempts >= containerContent.length;
 			}
 		}
 	}
