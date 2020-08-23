@@ -1,6 +1,13 @@
 package com.dfsek.betterend.world.terrain.features;
 
+import com.dfsek.betterend.world.terrain.ChunkSlice;
 import com.dfsek.betterend.world.terrain.FeatureGenerator;
 
-public class CloudGenerator implements FeatureGenerator {
+import java.util.Random;
+
+public class CloudGenerator extends FeatureGenerator {
+    @Override
+    public ChunkSlice generateSlice(ChunkSlice slice, Random random) {
+        return slice;
+    }
 }

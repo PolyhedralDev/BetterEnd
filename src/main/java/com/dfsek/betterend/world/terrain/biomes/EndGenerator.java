@@ -1,6 +1,7 @@
 package com.dfsek.betterend.world.terrain.biomes;
 
 import com.dfsek.betterend.util.ConfigUtil;
+import com.dfsek.betterend.world.WorldConfig;
 import com.dfsek.betterend.world.terrain.BiomeGenerator;
 import com.dfsek.betterend.world.terrain.ChunkSlice;
 import com.dfsek.betterend.world.terrain.FeatureGenerator;
@@ -12,23 +13,24 @@ import java.util.Collections;
 import java.util.List;
 
 public class EndGenerator extends BiomeGenerator {
-
+    private final WorldConfig config;
     public EndGenerator(World world) {
         super(world);
+        config = WorldConfig.fromWorld(world);
     }
 
     @Override
     public int getMaxHeight(int x, int z) {
-        double iNoise = super.getNoiseGenerator().noise((double) x / ConfigUtil.outerEndNoise, (double) z / ConfigUtil.outerEndNoise, 0.1D,
+        double iNoise = super.getNoiseGenerator().noise((double) x / config.outerEndNoise, (double) z / config.outerEndNoise, 0.1D,
                 0.55D);
-        return (int) (ConfigUtil.islandHeightMultiplierTop * (iNoise - ConfigUtil.landPercent) + 64);
+        return (int) (config.islandHeightMultiplierTop * (iNoise - ConfigUtil.landPercent) + 64);
     }
 
     @Override
     public int getMinHeight(int x, int z) {
-        double iNoise = super.getNoiseGenerator().noise((double) x / ConfigUtil.outerEndNoise, (double) z / ConfigUtil.outerEndNoise, 0.1D,
+        double iNoise = super.getNoiseGenerator().noise((double) x / config.outerEndNoise, (double) z / config.outerEndNoise, 0.1D,
                 0.55D);
-        return (int) ((-ConfigUtil.islandHeightMultiplierBottom * (iNoise - ConfigUtil.landPercent) + 64) + 1);
+        return (int) ((-config.islandHeightMultiplierBottom * (iNoise - config.landPercent) + 64) + 1);
     }
 
     @Override

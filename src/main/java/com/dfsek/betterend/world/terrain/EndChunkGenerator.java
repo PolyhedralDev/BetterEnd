@@ -27,7 +27,7 @@ public class EndChunkGenerator extends ChunkGenerator {
 		int zOrigin = chunkZ << 4;
 		for(byte x = 0; x < 16; x++) {
 			for(byte z = 0; z < 16; z++) {
-				chunk = Biome.fromCoordinates(xOrigin+x, zOrigin+z, world.getSeed()).getGenerator(world).generateSlice(x, z, chunkX, chunkZ).insert(chunk);
+				chunk = Biome.fromCoordinates(xOrigin+x, zOrigin+z, world).getGenerator(world).generateSlice(x, z, chunkX, chunkZ).insert(chunk);
 			}
 		}
 

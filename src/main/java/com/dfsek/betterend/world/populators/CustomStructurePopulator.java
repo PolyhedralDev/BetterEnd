@@ -74,7 +74,7 @@ public class CustomStructurePopulator extends BlockPopulator {
 			Map<?, ?> struc = structures.get(chooseOnWeight(structureIDs.build().toArray(), weights.build().toArray()));
 
 			if(!((List<?>) struc.get("biomes"))
-					.contains(Biome.fromCoordinates(chunk.getX() * 16 + x, chunk.getZ() * 16 + z, world.getSeed()).toString().toUpperCase())) return;
+					.contains(Biome.fromCoordinates(chunk.getX() * 16 + x, chunk.getZ() * 16 + z, world).toString().toUpperCase())) return;
 
 			int y;
 

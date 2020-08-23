@@ -1,10 +1,12 @@
 package com.dfsek.betterend;
 
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.dfsek.betterend.structures.NMSStructure;
 import com.dfsek.betterend.util.*;
+import com.dfsek.betterend.world.WorldConfig;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -119,6 +121,7 @@ public class BetterEnd extends JavaPlugin {
 
 	@Override
 	public EndChunkGenerator getDefaultWorldGenerator(@NotNull String worldName, String id) {
+		new WorldConfig(Objects.requireNonNull(worldName), this);
 		return new EndChunkGenerator();
 	}
 

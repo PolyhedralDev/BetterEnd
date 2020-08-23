@@ -39,7 +39,7 @@ public enum Biome {
 		return fromNoiseVal(
 				biomeGenerator.noise((double) (l.getBlockX() + 1000) / ConfigUtil.climateNoise, (double) (l.getBlockZ() + 1000) / ConfigUtil.climateNoise, 0.5D, 0.5D),
 				biomeGenerator.noise((double) (l.getBlockX()) / ConfigUtil.heatNoise, (double) (l.getBlockZ()) / ConfigUtil.heatNoise, 0.5D, 0.5D),
-				biomeGenerator.noise((double) (l.getBlockX()) / ConfigUtil.biomeSize, (double) (l.getBlockZ()) / ConfigUtil.biomeSize, 0.5D, 0.5D));
+				biomeGenerator.noise((double) (l.getBlockX()) / ConfigUtil.biomeSize, (double) (l.getBlockZ()) / ConfigUtil.biomeSize, 0.5D, 0.5D), l.getWorld());
 	}
 
 	/**
@@ -51,17 +51,17 @@ public enum Biome {
 	 *          - The X-coordinate at which to fetch the Biome.
 	 * @param z
 	 *          - The Z-coordinate at which to fetch the Biome.
-	 * @param seed
-	 *          - The seed of the world in which to fetch the Biome.
+	 * @param w
+	 *          - The world in which to fetch the Biome.
 	 * @return The Biome at the specified location.
 	 */
-	public static Biome fromCoordinates(int x, int z, long seed) {
-		SimplexOctaveGenerator biomeGenerator = new SimplexOctaveGenerator(seed, 4);
-		int heatNoise = ConfigUtil.heatNoise;
-		int climateNoise = ConfigUtil.climateNoise;
+	public static Biome fromCoordinates(int x, int z, World w) {
+		SimplexOctaveGenerator biomeGenerator = new SimplexOctaveGenerator(w.getSeed(), 4);
+		int heatNoise = WorldConfig.fromWorld(w).heatNoise;
+		int climateNoise = WorldConfig.fromWorld(w).climateNoise;
 		return fromNoiseVal(biomeGenerator.noise((double) (x + 1000) / climateNoise, (double) (z + 1000) / climateNoise, 0.5D, 0.5D),
 				biomeGenerator.noise((double) (x) / heatNoise, (double) (z) / heatNoise, 0.5D, 0.5D),
-				biomeGenerator.noise((double) (x) / ConfigUtil.biomeSize, (double) (z) / ConfigUtil.biomeSize, 0.5D, 0.5D));
+				biomeGenerator.noise((double) (x) / WorldConfig.fromWorld(w).biomeSize, (double) (z) / WorldConfig.fromWorld(w).biomeSize, 0.5D, 0.5D), w);
 
 	}
 
@@ -79,8 +79,8 @@ public enum Biome {
 	 *          - Biome Noise
 	 * @return - The Biome corresponding to the given noise values.
 	 */
-	public static Biome fromNoiseVal(double c, double h, double d) {
-		if(ConfigUtil.allAether) {
+	public static Biome fromNoiseVal(double c, double h, double d, World w) {
+		if(WorldConfig.fromWorld(w).allAether) {
 			if(h < -0.5 && c > -0.5) return Biome.AETHER_HIGHLANDS;
 			else if(h < -0.5 && BetterEnd.isPremium()) return Biome.AETHER_HIGHLANDS_FOREST;
 			else if(c > -0.5 || !BetterEnd.isPremium()) return Biome.AETHER;

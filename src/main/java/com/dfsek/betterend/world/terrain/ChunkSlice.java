@@ -30,4 +30,14 @@ public class ChunkSlice {
         }
         return data;
     }
+
+    public Map<Integer, BlockData> getAsMap() {
+        return slice;
+    }
+
+    public void merge(ChunkSlice c) {
+        for(Map.Entry<Integer, BlockData> entry : c.getAsMap().entrySet()) {
+            this.slice.putIfAbsent(entry.getKey(), entry.getValue());
+        }
+    }
 }

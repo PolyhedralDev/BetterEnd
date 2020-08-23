@@ -43,7 +43,7 @@ public class StructurePopulator extends BlockPopulator {
 				&& chunk.getBlock(x, y, z).getType() != Material.PODZOL && chunk.getBlock(x, y, z).getType() != Material.END_STONE
 				&& chunk.getBlock(x, y, z).getType() != Material.DIRT && chunk.getBlock(x, y, z).getType() != Material.STONE
 				&& chunk.getBlock(x, y, z).getType() != Material.COARSE_DIRT) && y > 0; y--);
-		Biome biome = Biome.fromCoordinates(chunk.getX() * 16 + x, chunk.getZ() * 16 + z, world.getSeed());
+		Biome biome = Biome.fromCoordinates(chunk.getX() * 16 + x, chunk.getZ() * 16 + z, world);
 		if(y < ConfigUtil.islandHeight - 1 && !biome.equals(Biome.STARFIELD)) return;
 		int permutation = 0;
 		boolean ground = false;

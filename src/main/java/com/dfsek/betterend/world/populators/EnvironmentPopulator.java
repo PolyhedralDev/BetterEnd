@@ -63,7 +63,7 @@ public class EnvironmentPopulator extends BlockPopulator {
 			}
 			int x = random.nextInt(16);
 			int z = random.nextInt(16);
-			if(Biome.fromCoordinates(chunk.getX() * 16 + x, chunk.getZ() * 16 + z, world.getSeed()).isAether()) {
+			if(Biome.fromCoordinates(chunk.getX() * 16 + x, chunk.getZ() * 16 + z, world).isAether()) {
 				for(int i = 0; i < size; i++) {
 					int y;
 					for(y = world.getMaxHeight() - 1; chunk.getBlock(x, y, z).getType() != Material.GRASS_BLOCK && y > 0; y--);

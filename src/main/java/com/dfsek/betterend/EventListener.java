@@ -92,12 +92,16 @@ public class EventListener implements Listener {
 		if(BetterEnd.isPremium() && (((ConfigUtil.generateBigTreesInEnd || ConfigUtil.generateBigTreesInBiomes) && e.getWorld().getGenerator() instanceof EndChunkGenerator) || ConfigUtil.generateBigTreesEverywhere)) {
 			Random treeRandom = new Random();
 			if((ConfigUtil.generateBigTreesInEnd || ConfigUtil.generateBigTreesEverywhere || Biome.fromLocation(e.getLocation()).equals(Biome.AETHER_FOREST)) && (e.getSpecies().equals(TreeType.TREE) || e.getSpecies().equals(TreeType.BIG_TREE))) {
-				e.getLocation().getBlock().setType(Material.AIR);
-				if(treeRandom.nextInt(100) < 100/ConfigUtil.treeGrowthMultiplier) ThreadedTreeUtil.plantLargeTree(CustomTreeType.OAK, e.getLocation(), treeRandom);
+				if(treeRandom.nextInt(100) < 100/ConfigUtil.treeGrowthMultiplier) {
+					e.getLocation().getBlock().setType(Material.AIR);
+					ThreadedTreeUtil.plantLargeTree(CustomTreeType.OAK, e.getLocation(), treeRandom);
+				}
 				e.setCancelled(true);
 			} else if((ConfigUtil.generateBigTreesInEnd || ConfigUtil.generateBigTreesEverywhere || Biome.fromLocation(e.getLocation()).equals(Biome.AETHER_HIGHLANDS_FOREST)) && (e.getSpecies().equals(TreeType.TALL_REDWOOD) || e.getSpecies().equals(TreeType.REDWOOD) || e.getSpecies().equals(TreeType.MEGA_REDWOOD))) {
-				e.getLocation().getBlock().setType(Material.AIR);
-				if(treeRandom.nextInt(100) < 100/ConfigUtil.treeGrowthMultiplier) ThreadedTreeUtil.plantLargeTree(CustomTreeType.SPRUCE, e.getLocation(), treeRandom);
+				if(treeRandom.nextInt(100) < 100/ConfigUtil.treeGrowthMultiplier) {
+					e.getLocation().getBlock().setType(Material.AIR);
+					ThreadedTreeUtil.plantLargeTree(CustomTreeType.SPRUCE, e.getLocation(), treeRandom);
+				}
 				e.setCancelled(true);
 			}
 		}
