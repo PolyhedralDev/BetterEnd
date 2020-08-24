@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class WorldConfig {
-    private static Map<String, WorldConfig> configs = new HashMap<>();
+    private static final Map<String, WorldConfig> configs = new HashMap<>();
     public int shulkerSpawns;
     public boolean allAether;
     public int structureChance;
@@ -72,9 +72,9 @@ public class WorldConfig {
             main.getLogger().severe("Unable to load configuration for world " + w + ". Falling back to master config.");
             config = main.getConfig();
         }
-        shulkerSpawns = config.getInt("outer-islands.com.dfsek.betterend.structures.shulker-nest.shulker-spawn-attempts", 8);
+        shulkerSpawns = config.getInt("outer-islands.structures.shulker-nest.shulker-spawn-attempts", 8);
         allAether = config.getBoolean("all-aether", false);
-        structureChance = config.getInt("outer-islands.com.dfsek.betterend.structures.chance-per-chunk", 6);
+        structureChance = config.getInt("outer-islands.structures.chance-per-chunk", 6);
         ruinChance = config.getInt("outer-islands.ruins.chance-per-chunk", 30);
         cloudHeight = config.getInt("aether.clouds.cloud-height", 128);
         biomeSize = config.getInt("outer-islands.biome-size");

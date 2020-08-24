@@ -21,7 +21,7 @@ import org.bukkit.entity.Player;
 
 import com.dfsek.betterend.UpdateChecker;
 import com.dfsek.betterend.UpdateChecker.UpdateReason;
-import com.dfsek.betterend.world.Biome;
+import com.dfsek.betterend.world.generation.biomes.Biome;
 
 public class Util {
 	private static BetterEnd main = BetterEnd.getInstance();

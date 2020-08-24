@@ -4,7 +4,7 @@ import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.dfsek.betterend.structures.NMSStructure;
+import com.dfsek.betterend.world.population.structures.NMSStructure;
 import com.dfsek.betterend.util.*;
 import com.dfsek.betterend.world.WorldConfig;
 import org.bukkit.Bukkit;
@@ -14,8 +14,8 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.dfsek.betterend.world.Biome;
-import com.dfsek.betterend.world.terrain.EndChunkGenerator;
+import com.dfsek.betterend.world.generation.biomes.Biome;
+import com.dfsek.betterend.world.generation.EndChunkGenerator;
 import org.jetbrains.annotations.NotNull;
 
 public class BetterEnd extends JavaPlugin {
