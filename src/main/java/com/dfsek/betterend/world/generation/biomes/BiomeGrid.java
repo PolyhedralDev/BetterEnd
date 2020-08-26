@@ -28,19 +28,19 @@ public class BiomeGrid {
     World world;
 
     /**
-     * Insstantiates a BiomeGrid linked to a world.
+     * Instantiates a BiomeGrid linked to a world.
      * @param w - The world in which the BiomeGrid is to be used.
      */
     private BiomeGrid(World w) {
         this.world = w;
         this.biome = new FastNoise((int) w.getSeed());
-        this.biome.SetNoiseType(FastNoise.NoiseType.ValueFractal);
-        this.biome.SetFractalOctaves(4);
-        this.biome.SetFrequency((float)1/WorldConfig.fromWorld(world).biomeSize);
+        this.biome.setNoiseType(FastNoise.NoiseType.ValueFractal);
+        this.biome.setFractalOctaves(4);
+        this.biome.setFrequency((float)1/WorldConfig.fromWorld(world).biomeSize);
         this.climate = new FastNoise((int) w.getSeed()+1);
-        this.climate.SetNoiseType(FastNoise.NoiseType.ValueFractal);
-        this.climate.SetFractalOctaves(4);
-        this.climate.SetFrequency((float)1/WorldConfig.fromWorld(world).climateNoise);
+        this.climate.setNoiseType(FastNoise.NoiseType.ValueFractal);
+        this.climate.setFractalOctaves(4);
+        this.climate.setFrequency((float)1/WorldConfig.fromWorld(world).climateNoise);
     }
 
     /**
@@ -49,13 +49,13 @@ public class BiomeGrid {
      */
     public BiomeGrid() {
         this.biome = new FastNoise(5);
-        this.biome.SetNoiseType(FastNoise.NoiseType.ValueFractal);
-        this.biome.SetFractalOctaves(4);
-        this.biome.SetFrequency((float)1/512);
+        this.biome.setNoiseType(FastNoise.NoiseType.ValueFractal);
+        this.biome.setFractalOctaves(4);
+        this.biome.setFrequency((float)1/512);
         this.climate = new FastNoise(6);
-        this.climate.SetNoiseType(FastNoise.NoiseType.ValueFractal);
-        this.climate.SetFractalOctaves(4);
-        this.climate.SetFrequency((float)1/384);
+        this.climate.setNoiseType(FastNoise.NoiseType.ValueFractal);
+        this.climate.setFractalOctaves(4);
+        this.climate.setFrequency((float)1/384);
     }
 
     /**
@@ -65,8 +65,8 @@ public class BiomeGrid {
      * @return Biome - Biome at the given coordinates.
      */
     public Biome getBiome(int x, int z) {
-        float biomeNoise = biome.GetSimplexFractal((float) x, (float) z);
-        float climateNoise = climate.GetSimplexFractal((float) x, (float) z);
+        float biomeNoise = biome.getSimplexFractal((float) x, (float) z);
+        float climateNoise = climate.getSimplexFractal((float) x, (float) z);
         return grid[normalize(biomeNoise)][normalize(climateNoise)];
     }
 
@@ -76,8 +76,8 @@ public class BiomeGrid {
      * @return Biome - Biome at the given coordinates.
      */
     public Biome getBiome(Location l) {
-        float biomeNoise = biome.GetSimplexFractal((float) l.getBlockX(), (float) l.getBlockZ());
-        float climateNoise = climate.GetSimplexFractal((float) l.getBlockX(), (float) l.getBlockZ());
+        float biomeNoise = biome.getSimplexFractal((float) l.getBlockX(), (float) l.getBlockZ());
+        float climateNoise = climate.getSimplexFractal((float) l.getBlockX(), (float) l.getBlockZ());
         return grid[normalize(biomeNoise)][normalize(climateNoise)];
     }
 
@@ -96,7 +96,7 @@ public class BiomeGrid {
     /**
      * Takes a noise input and normalizes it to a value between 0 and 7 inclusive.
      * @param i - The noise value to normalize.
-     * @return
+     * @return int - The normalized value.
      */
     private static int normalize(double i) {
         i*= 13; //accounts for noise being distributed inequally
