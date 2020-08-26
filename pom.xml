@@ -18,11 +18,16 @@
                 </configuration>
             </plugin>
         </plugins>
+
     </build>
     <repositories>
         <repository>
             <id>spigotmc-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
+        </repository>
+        <repository>
+            <id>minecraft-repo</id>
+            <url>https://libraries.minecraft.net/</url>
         </repository>
 
     </repositories>
@@ -57,6 +62,11 @@
             <artifactId>nms</artifactId>
             <scope>system</scope>
             <systemPath>${basedir}/lib/spigot-1.16.2.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>javax.vecmath</groupId>
+            <artifactId>vecmath</artifactId>
+            <version>1.5.2</version>
         </dependency>
     </dependencies>
 

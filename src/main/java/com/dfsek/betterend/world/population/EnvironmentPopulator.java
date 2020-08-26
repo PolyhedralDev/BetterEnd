@@ -3,6 +3,7 @@ package com.dfsek.betterend.world.population;
 import com.dfsek.betterend.BetterEnd;
 import com.dfsek.betterend.util.ConfigUtil;
 import com.dfsek.betterend.world.generation.biomes.Biome;
+import com.dfsek.betterend.world.generation.biomes.BiomeGrid;
 import com.dfsek.betterend.world.population.tree.CustomTreeType;
 import com.dfsek.betterend.world.population.tree.ShatteredTree;
 import com.dfsek.betterend.world.population.tree.WoodTree;
@@ -63,7 +64,7 @@ public class EnvironmentPopulator extends BlockPopulator {
 			}
 			int x = random.nextInt(16);
 			int z = random.nextInt(16);
-			if(Biome.fromCoordinates(chunk.getX() * 16 + x, chunk.getZ() * 16 + z, world).isAether()) {
+			if(BiomeGrid.fromWorld(world).getBiome(chunk.getX() * 16 + x, chunk.getZ() * 16 + z).isAether()) {
 				for(int i = 0; i < size; i++) {
 					int y;
 					for(y = world.getMaxHeight() - 1; chunk.getBlock(x, y, z).getType() != Material.GRASS_BLOCK && y > 0; y--);
@@ -115,7 +116,7 @@ public class EnvironmentPopulator extends BlockPopulator {
 					&& chunk.getBlock(x, y, z).getType() != Material.END_STONE) && y > 0; y--);
 			if(y > ConfigUtil.islandHeight - 1 && y < 255) {
 				Location blockLocation = chunk.getBlock(x, y, z).getLocation();
-				switch(Biome.fromLocation(blockLocation)) {
+				switch(BiomeGrid.fromWorld(world).getBiome(blockLocation)) {
 					case AETHER:
 						for(y = world.getMaxHeight() - 1; (chunk.getBlock(x, y, z).getType() != Material.GRASS_BLOCK) && y > 0; y--);
 						if(y > 1) {

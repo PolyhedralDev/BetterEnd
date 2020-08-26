@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Random;
 
 import com.dfsek.betterend.ProbabilityCollection;
+import com.dfsek.betterend.world.generation.biomes.BiomeGrid;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -43,7 +44,7 @@ public class StructurePopulator extends BlockPopulator {
 				&& chunk.getBlock(x, y, z).getType() != Material.PODZOL && chunk.getBlock(x, y, z).getType() != Material.END_STONE
 				&& chunk.getBlock(x, y, z).getType() != Material.DIRT && chunk.getBlock(x, y, z).getType() != Material.STONE
 				&& chunk.getBlock(x, y, z).getType() != Material.COARSE_DIRT) && y > 0; y--);
-		Biome biome = Biome.fromCoordinates(chunk.getX() * 16 + x, chunk.getZ() * 16 + z, world);
+		Biome biome = BiomeGrid.fromWorld(world).getBiome(chunk.getX() * 16 + x, chunk.getZ() * 16 + z);
 		if(y < ConfigUtil.islandHeight - 1 && !biome.equals(Biome.STARFIELD)) return;
 		int permutation = 0;
 		boolean ground = false;
@@ -162,7 +163,7 @@ public class StructurePopulator extends BlockPopulator {
 					random.nextInt(4));
 			boolean p2 = true;
 			for(Location l: StructureUtil.getLocationListBetween(s2.getBoundingLocations()[0], s2.getBoundingLocations()[1])) {
-				if(!l.getBlock().isEmpty() || !Biome.fromLocation(l).equals(Biome.STARFIELD)) {
+				if(!l.getBlock().isEmpty() || !BiomeGrid.fromWorld(world).getBiome(l).equals(Biome.STARFIELD)) {
 					p2 = false;
 				}
 			}
@@ -170,7 +171,7 @@ public class StructurePopulator extends BlockPopulator {
 		}
 		boolean p1 = true;
 		for(Location l: StructureUtil.getLocationListBetween(s1.getBoundingLocations()[0], s1.getBoundingLocations()[1])) {
-			if(!l.getBlock().isEmpty() || !Biome.fromLocation(l).equals(Biome.STARFIELD)) {
+			if(!l.getBlock().isEmpty() || !BiomeGrid.fromWorld(world).getBiome(l).equals(Biome.STARFIELD)) {
 				p1 = false;
 			}
 		}

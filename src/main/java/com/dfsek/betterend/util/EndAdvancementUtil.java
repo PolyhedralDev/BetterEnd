@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.jar.JarFile;
 
+import com.dfsek.betterend.world.generation.biomes.BiomeGrid;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.advancement.AdvancementProgress;
@@ -35,7 +36,7 @@ public class EndAdvancementUtil {
 			for(Player p: plugin.getServer().getOnlinePlayers()) {
 				double totalChunkDistance2D = Math.sqrt(Math.pow(p.getLocation().getChunk().getX(), 2) + Math.pow(p.getLocation().getChunk().getZ(), 2));
 				if(p.getWorld().getGenerator() instanceof EndChunkGenerator && (totalChunkDistance2D > 50)) {
-					switch(Biome.fromLocation(p.getLocation())) {
+					switch(BiomeGrid.fromWorld(p.getWorld()).getBiome(p.getLocation())) {
 						case AETHER:
 							grantAdvancement("visit_aether", p);
 							break;

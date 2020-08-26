@@ -1,5 +1,6 @@
 package com.dfsek.betterend;
 
+import com.dfsek.betterend.world.generation.biomes.BiomeGrid;
 import com.dfsek.betterend.world.population.tree.CustomTreeType;
 import com.dfsek.betterend.world.population.tree.ThreadedTreeUtil;
 import org.bukkit.Location;
@@ -83,7 +84,7 @@ public class EventListener implements Listener {
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void onEntityPickup(EntityChangeBlockEvent event) {
 		if(event.getEntity() instanceof Enderman && event.getEntity().getWorld().getGenerator() instanceof EndChunkGenerator && ConfigUtil.preventEndermanPickup
-				&& Biome.fromLocation(event.getBlock().getLocation()).isAether()) {
+				&& BiomeGrid.fromWorld(event.getEntity().getWorld()).getBiome(event.getBlock().getLocation()).isAether()) {
 			event.setCancelled(true);
 		}
 	}
@@ -91,13 +92,13 @@ public class EventListener implements Listener {
 	public void saplingOverride(StructureGrowEvent e) {
 		if(BetterEnd.isPremium() && (((ConfigUtil.generateBigTreesInEnd || ConfigUtil.generateBigTreesInBiomes) && e.getWorld().getGenerator() instanceof EndChunkGenerator) || ConfigUtil.generateBigTreesEverywhere)) {
 			Random treeRandom = new Random();
-			if((ConfigUtil.generateBigTreesInEnd || ConfigUtil.generateBigTreesEverywhere || Biome.fromLocation(e.getLocation()).equals(Biome.AETHER_FOREST)) && (e.getSpecies().equals(TreeType.TREE) || e.getSpecies().equals(TreeType.BIG_TREE))) {
+			if((ConfigUtil.generateBigTreesInEnd || ConfigUtil.generateBigTreesEverywhere || BiomeGrid.fromWorld(e.getWorld()).getBiome(e.getLocation()).equals(Biome.AETHER_FOREST)) && (e.getSpecies().equals(TreeType.TREE) || e.getSpecies().equals(TreeType.BIG_TREE))) {
 				if(treeRandom.nextInt(100) < 100/ConfigUtil.treeGrowthMultiplier) {
 					e.getLocation().getBlock().setType(Material.AIR);
 					ThreadedTreeUtil.plantLargeTree(CustomTreeType.OAK, e.getLocation(), treeRandom);
 				}
 				e.setCancelled(true);
-			} else if((ConfigUtil.generateBigTreesInEnd || ConfigUtil.generateBigTreesEverywhere || Biome.fromLocation(e.getLocation()).equals(Biome.AETHER_HIGHLANDS_FOREST)) && (e.getSpecies().equals(TreeType.TALL_REDWOOD) || e.getSpecies().equals(TreeType.REDWOOD) || e.getSpecies().equals(TreeType.MEGA_REDWOOD))) {
+			} else if((ConfigUtil.generateBigTreesInEnd || ConfigUtil.generateBigTreesEverywhere || BiomeGrid.fromWorld(e.getWorld()).getBiome(e.getLocation()).equals(Biome.AETHER_HIGHLANDS_FOREST)) && (e.getSpecies().equals(TreeType.TALL_REDWOOD) || e.getSpecies().equals(TreeType.REDWOOD) || e.getSpecies().equals(TreeType.MEGA_REDWOOD))) {
 				if(treeRandom.nextInt(100) < 100/ConfigUtil.treeGrowthMultiplier) {
 					e.getLocation().getBlock().setType(Material.AIR);
 					ThreadedTreeUtil.plantLargeTree(CustomTreeType.SPRUCE, e.getLocation(), treeRandom);

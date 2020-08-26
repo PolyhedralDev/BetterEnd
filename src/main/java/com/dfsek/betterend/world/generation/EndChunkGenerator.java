@@ -21,13 +21,13 @@ public class EndChunkGenerator extends ChunkGenerator {
 
 	@NotNull
 	@Override
-	public ChunkData generateChunkData(@NotNull World world, @NotNull Random random, int chunkX, int chunkZ, @NotNull BiomeGrid biome) {
+	public ChunkData generateChunkData(@NotNull World world, @NotNull Random random, int chunkX, int chunkZ, @NotNull ChunkGenerator.BiomeGrid biome) {
 		ChunkData chunk = createChunkData(world);
 		int xOrigin = chunkX << 4;
 		int zOrigin = chunkZ << 4;
 		for(byte x = 0; x < 16; x++) {
 			for(byte z = 0; z < 16; z++) {
-				chunk = Biome.fromCoordinates(xOrigin+x, zOrigin+z, world).getGenerator(world).generateSlice(x, z, chunkX, chunkZ).insert(chunk);
+				chunk = com.dfsek.betterend.world.generation.biomes.BiomeGrid.fromWorld(world).getBiome(xOrigin+x, zOrigin+z).getGenerator(world).generateSlice(x, z, chunkX, chunkZ).insert(chunk);
 			}
 		}
 

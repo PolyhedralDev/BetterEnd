@@ -4,6 +4,7 @@ import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.dfsek.betterend.world.generation.biomes.BiomeGrid;
 import com.dfsek.betterend.world.population.structures.NMSStructure;
 import com.dfsek.betterend.util.*;
 import com.dfsek.betterend.world.WorldConfig;
@@ -82,7 +83,7 @@ public class BetterEnd extends JavaPlugin {
 			Player p = (Player) sender;
 			if(sender.hasPermission("betterend.checkbiome")) {
 				if(p.getWorld().getGenerator() instanceof EndChunkGenerator) sender
-						.sendMessage(LangUtil.prefix + String.format(LangUtil.biomeCommand, Biome.fromLocation(p.getLocation())));
+						.sendMessage(LangUtil.prefix + String.format(LangUtil.biomeCommand, BiomeGrid.fromWorld(p.getWorld()).getBiome(p.getLocation()).toString()));
 				else sender.sendMessage(LangUtil.prefix + LangUtil.notBetterEndWorld);
 			} else {
 				sender.sendMessage(LangUtil.prefix + LangUtil.noPermission);
