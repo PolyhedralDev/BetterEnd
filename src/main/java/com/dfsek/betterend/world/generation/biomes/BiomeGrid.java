@@ -47,7 +47,7 @@ public class BiomeGrid {
      * Constructor for tests. Not for production.
      * Sets seed to 5, because 5 is a cool number B)
      */
-    private BiomeGrid() {
+    public BiomeGrid() {
         this.biome = new FastNoise(5);
         this.biome.SetNoiseType(FastNoise.NoiseType.ValueFractal);
         this.biome.SetFractalOctaves(4);
@@ -91,10 +91,6 @@ public class BiomeGrid {
         BiomeGrid g = new BiomeGrid(w);
         grids.put(w, g);
         return g;
-    }
-
-    public static BiomeGrid blank() {
-        return new BiomeGrid();
     }
 
     /**

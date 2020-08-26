@@ -13,9 +13,10 @@ public class TestBiomeDistribution {
         long t = System.nanoTime();
         System.out.println("*-----------------------------------------*");
         Map<Biome, Integer> map = new HashMap<>();
+        BiomeGrid grid = new BiomeGrid();
         for(int x = 0; x < 100000; x++) {
             for(int z = 0; z < 10; z++) {
-                Biome b = BiomeGrid.blank().getBiome(x, z);
+                Biome b = grid.getBiome(x, z);
                 map.put(b, map.getOrDefault(b, 0) + 1);
             }
         }
