@@ -38,7 +38,8 @@ public class EndChunkGenerator extends ChunkGenerator {
 		int zOrigin = chunkZ << 4;
 		for(byte x = 0; x < 16; x++) {
 			for(byte z = 0; z < 16; z++) {
-				for(int y = this.getMinHeight(xOrigin+x, zOrigin+z, world); y < this.getMaxHeight(xOrigin+x, zOrigin+z, world); y++) {
+				double iNoise = gen.getSimplexFractal(xOrigin+x+4, zOrigin+z)*2.0f;
+				for(int y = getMinHeight(iNoise, world); y < getMaxHeight(iNoise, world); y++) {
 					chunk.setBlock(x, y, z, Material.END_STONE);
 				}
 			}
@@ -46,12 +47,10 @@ public class EndChunkGenerator extends ChunkGenerator {
 
 		return chunk;
 	}
-	private int getMaxHeight(int x, int z, World w) {
-		double iNoise = gen.getSimplexFractal(x, z)*2.0f;
+	private int getMaxHeight(double iNoise, World w) {
 		return (int) (WorldConfig.fromWorld(w).islandHeightMultiplierTop * (iNoise - ConfigUtil.landPercent) + 64);
 	}
-	private int getMinHeight(int x, int z, World w) {
-		double iNoise = gen.getSimplexFractal(x, z)*2.0f;
+	private int getMinHeight(double iNoise, World w) {
 		return (int) ((-WorldConfig.fromWorld(w).islandHeightMultiplierBottom * (iNoise - WorldConfig.fromWorld(w).landPercent) + 64) + 1);
 	}
 	@Override
