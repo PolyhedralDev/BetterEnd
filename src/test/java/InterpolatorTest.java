@@ -1,4 +1,4 @@
-import com.dfsek.betterend.world.generation.Interpolator;
+import com.dfsek.betterend.generation.Interpolator;
 
 public class InterpolatorTest {
     public static void main(String[] args) {

@@ -15,14 +15,14 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.dfsek.betterend.BetterEnd;
-import com.dfsek.betterend.world.generation.biomes.BiomeGrid;
+import com.dfsek.betterend.biomes.BiomeGrid;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import com.dfsek.betterend.UpdateChecker;
 import com.dfsek.betterend.UpdateChecker.UpdateReason;
-import com.dfsek.betterend.world.generation.biomes.Biome;
+import com.dfsek.betterend.biomes.Biome;
 
 public class Util {
 	private static BetterEnd main = BetterEnd.getInstance();

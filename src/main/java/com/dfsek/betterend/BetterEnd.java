@@ -1,23 +1,26 @@
 package com.dfsek.betterend;
 
-import java.util.Objects;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import com.dfsek.betterend.world.generation.biomes.BiomeGrid;
-import com.dfsek.betterend.world.population.structures.NMSStructure;
 import com.dfsek.betterend.util.*;
 import com.dfsek.betterend.world.WorldConfig;
+import com.dfsek.betterend.generation.EndChunkGenerator;
+import com.dfsek.betterend.biomes.BiomeGrid;
+import com.dfsek.betterend.population.structures.NMSStructure;
+import com.dfsek.betterend.population.tree.CustomTreeType;
+import com.dfsek.betterend.population.tree.ShatteredTree;
+import com.dfsek.betterend.population.tree.ThreadedTreeUtil;
+import com.dfsek.betterend.population.tree.WoodTree;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import com.dfsek.betterend.world.generation.biomes.Biome;
-import com.dfsek.betterend.world.generation.EndChunkGenerator;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Objects;
+import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class BetterEnd extends JavaPlugin {
 
@@ -111,10 +114,38 @@ public class BetterEnd extends JavaPlugin {
 			sender.sendMessage(LangUtil.prefix + LangUtil.completeMessage);
 			return true;
 		} else if(args.length == 3 && args[0].equalsIgnoreCase("tree")) {
-			if(args[1].equalsIgnoreCase("plant")) {
-
-			} else if(args[1].equalsIgnoreCase("grow")) {
-
+			try {
+				CustomTreeType type = CustomTreeType.valueOf(args[2]);
+				long t = System.nanoTime();
+				if (args[1].equalsIgnoreCase("plant")) {
+					ThreadedTreeUtil.plantLargeTree(type, ((Player) sender).getLocation(), new Random());
+					sender.sendMessage("Done. Time elapsed: " + t/1000000 + "ms");
+				} else if (args[1].equalsIgnoreCase("grow")) {
+					Bukkit.getScheduler().runTaskAsynchronously(this, () -> {
+						boolean large = true;
+						switch (type) {
+							case SHATTERED_SMALL:
+								large = false;
+							case SHATTERED_LARGE:
+								ShatteredTree tree = new ShatteredTree(((Player) sender).getLocation(), new Random(), large);
+								tree.grow();
+								Bukkit.getScheduler().runTask(this, () -> sender.sendMessage("Done. Time elapsed: " + t/1000000 + "ms"));
+								break;
+							case SPRUCE:
+							case OAK:
+								WoodTree woodTree = new WoodTree(((Player) sender).getLocation(), new Random(), type);
+								woodTree.grow();
+								Bukkit.getScheduler().runTask(this, () -> sender.sendMessage("Done. Time elapsed: " + t/1000000 + "ms"));
+								break;
+							default:
+								throw new IllegalArgumentException("Invalid tree type.");
+						}
+					});
+				}
+				return true;
+			}
+			catch(IllegalArgumentException e) {
+				sender.sendMessage("Invalid tree type.");
 			}
 		}
 		return false;

@@ -1,13 +1,12 @@
 package com.dfsek.betterend.util;
 
-import com.dfsek.betterend.world.generation.biomes.BiomeGrid;
+import com.dfsek.betterend.biomes.BiomeGrid;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
-import com.dfsek.betterend.world.generation.biomes.Biome;
-import com.dfsek.betterend.world.generation.EndChunkGenerator;
+import com.dfsek.betterend.generation.EndChunkGenerator;
 
 public class AetherFallUtil {
 	private AetherFallUtil() {}

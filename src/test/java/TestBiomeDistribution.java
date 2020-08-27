@@ -1,5 +1,5 @@
-import com.dfsek.betterend.world.generation.biomes.Biome;
-import com.dfsek.betterend.world.generation.biomes.BiomeGrid;
+import com.dfsek.betterend.biomes.Biome;
+import com.dfsek.betterend.biomes.BiomeGrid;
 
 import java.util.HashMap;
 import java.util.Map;

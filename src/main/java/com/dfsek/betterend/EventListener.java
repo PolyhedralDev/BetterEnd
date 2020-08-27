@@ -1,8 +1,8 @@
 package com.dfsek.betterend;
 
-import com.dfsek.betterend.world.generation.biomes.BiomeGrid;
-import com.dfsek.betterend.world.population.tree.CustomTreeType;
-import com.dfsek.betterend.world.population.tree.ThreadedTreeUtil;
+import com.dfsek.betterend.biomes.BiomeGrid;
+import com.dfsek.betterend.population.tree.CustomTreeType;
+import com.dfsek.betterend.population.tree.ThreadedTreeUtil;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -23,8 +23,8 @@ import org.bukkit.persistence.PersistentDataType;
 import com.dfsek.betterend.util.BossTimeoutUtil;
 import com.dfsek.betterend.util.ConfigUtil;
 import com.dfsek.betterend.util.EndAdvancementUtil;
-import com.dfsek.betterend.world.generation.biomes.Biome;
-import com.dfsek.betterend.world.generation.EndChunkGenerator;
+import com.dfsek.betterend.biomes.Biome;
+import com.dfsek.betterend.generation.EndChunkGenerator;
 
 import io.lumine.xikage.mythicmobs.MythicMobs;
 

@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.jar.JarFile;
 
-import com.dfsek.betterend.world.generation.biomes.BiomeGrid;
+import com.dfsek.betterend.biomes.BiomeGrid;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.advancement.AdvancementProgress;
@@ -13,8 +13,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
 import com.dfsek.betterend.BetterEnd;
-import com.dfsek.betterend.world.generation.biomes.Biome;
-import com.dfsek.betterend.world.generation.EndChunkGenerator;
+import com.dfsek.betterend.generation.EndChunkGenerator;
 
 public class EndAdvancementUtil {
 	private static final BetterEnd main = BetterEnd.getInstance();

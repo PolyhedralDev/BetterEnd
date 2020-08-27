@@ -1,5 +1,5 @@
 import com.dfsek.betterend.ProbabilityCollection;
-import com.dfsek.betterend.world.generation.biomes.BlockPalette;
+import com.dfsek.betterend.generation.BlockPalette;
 import org.bukkit.Material;
 
 import java.util.ArrayList;
