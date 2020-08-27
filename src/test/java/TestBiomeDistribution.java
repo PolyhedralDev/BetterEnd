@@ -17,10 +17,13 @@ public class TestBiomeDistribution {
         BiomeGrid grid = new BiomeGrid(ThreadLocalRandom.current().nextInt());
         for(int x = 0; x < 10000; x++) {
             for(int z = 0; z < 1; z++) {
+                long l = System.nanoTime();
                 Biome b = grid.getBiome(x, z);
+                if(x%100 == 0) System.out.println("Biome retrieved in " + (System.nanoTime() - l) + "ns");
                 map.put(b, map.getOrDefault(b, 0) + 1);
             }
         }
+        System.out.println("*-----------------------------------------*");
         for(Map.Entry<Biome, Integer> e : map.entrySet()) {
             System.out.println(e.getKey().toString() + ": " + e.getValue());
         }
