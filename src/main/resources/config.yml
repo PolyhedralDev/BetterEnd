@@ -76,7 +76,7 @@ outer-islands:
   #Whether or not to enable End Cave decoration.
   cave-decoration: true
   #The average size of the biomes; bigger values correspond to larger biome sizes.
-  biome-size: 512
+  biome-size: 896
   #The distribution of different climates
   climate-noise: 384
   #The amount of spread of the heat noise (used to calculate Aether/Aether Highlands difference), larger values correspond to

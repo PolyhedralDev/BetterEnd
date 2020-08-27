@@ -23,14 +23,14 @@ public class EndGenerator extends BiomeGenerator {
     public int getMaxHeight(int x, int z) {
         double iNoise = super.getNoiseGenerator().noise((double) x / config.outerEndNoise, (double) z / config.outerEndNoise, 0.1D,
                 0.55D);
-        return (int) (config.islandHeightMultiplierTop * (iNoise - ConfigUtil.landPercent) + 64);
+        return (int) (config.islandHeightMultiplierTop * (iNoise - 0.1) + 64);
     }
 
     @Override
     public int getMinHeight(int x, int z) {
         double iNoise = super.getNoiseGenerator().noise((double) x / config.outerEndNoise, (double) z / config.outerEndNoise, 0.1D,
                 0.55D);
-        return (int) ((-config.islandHeightMultiplierBottom * (iNoise - config.landPercent) + 64) + 1);
+        return (int) ((-config.islandHeightMultiplierBottom * (iNoise - 0.1) + 64) + 1);
     }
 
     @Override

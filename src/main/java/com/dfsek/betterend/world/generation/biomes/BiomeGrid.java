@@ -59,14 +59,28 @@ public class BiomeGrid {
     }
 
     /**
+     * Constructor for tests. Not for production.
+     */
+    public BiomeGrid(int seed) {
+        this.biome = new FastNoise(seed);
+        this.biome.setNoiseType(FastNoise.NoiseType.ValueFractal);
+        this.biome.setFractalOctaves(4);
+        this.biome.setFrequency((float)1/512);
+        this.climate = new FastNoise(seed+1);
+        this.climate.setNoiseType(FastNoise.NoiseType.ValueFractal);
+        this.climate.setFractalOctaves(4);
+        this.climate.setFrequency((float)1/384);
+    }
+
+    /**
      * Gets the biome at a pair of coordinates.
      * @param x - X-coordinate at which to fetch biome
      * @param z - Z-coordinate at which to fetch biome
      * @return Biome - Biome at the given coordinates.
      */
     public Biome getBiome(int x, int z) {
-        float biomeNoise = biome.getSimplexFractal((float) x, (float) z);
-        float climateNoise = climate.getSimplexFractal((float) x, (float) z);
+        float biomeNoise = biome.getValueFractal((float) x, (float) z);
+        float climateNoise = climate.getValueFractal((float) x, (float) z);
         return grid[normalize(biomeNoise)][normalize(climateNoise)];
     }
 
@@ -76,8 +90,8 @@ public class BiomeGrid {
      * @return Biome - Biome at the given coordinates.
      */
     public Biome getBiome(Location l) {
-        float biomeNoise = biome.getSimplexFractal((float) l.getBlockX(), (float) l.getBlockZ());
-        float climateNoise = climate.getSimplexFractal((float) l.getBlockX(), (float) l.getBlockZ());
+        float biomeNoise = biome.getValueFractal((float) l.getBlockX(), (float) l.getBlockZ());
+        float climateNoise = climate.getValueFractal((float) l.getBlockX(), (float) l.getBlockZ());
         return grid[normalize(biomeNoise)][normalize(climateNoise)];
     }
 
@@ -99,7 +113,7 @@ public class BiomeGrid {
      * @return int - The normalized value.
      */
     private static int normalize(double i) {
-        i*= 13; //accounts for noise being distributed inequally
+        i*= 9; //accounts for noise being distributed inequally
         if(i > 3.5) i = 3.5; //cuts off values too high
         if(i < -3.5) i = -3.5; //cuts off values too low
         i += 3.5; //makes it positive

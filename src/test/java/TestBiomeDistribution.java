@@ -3,6 +3,7 @@ import com.dfsek.betterend.world.generation.biomes.BiomeGrid;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Test class for testing and troubleshooting distribution of BiomeGrid biomes
@@ -13,9 +14,9 @@ public class TestBiomeDistribution {
         long t = System.nanoTime();
         System.out.println("*-----------------------------------------*");
         Map<Biome, Integer> map = new HashMap<>();
-        BiomeGrid grid = new BiomeGrid();
-        for(int x = 0; x < 100000; x++) {
-            for(int z = 0; z < 10; z++) {
+        BiomeGrid grid = new BiomeGrid(ThreadLocalRandom.current().nextInt());
+        for(int x = 0; x < 10000; x++) {
+            for(int z = 0; z < 1; z++) {
                 Biome b = grid.getBiome(x, z);
                 map.put(b, map.getOrDefault(b, 0) + 1);
             }
@@ -29,6 +30,6 @@ public class TestBiomeDistribution {
         System.out.println("End Aggregated: " + (map.get(Biome.END)));
         System.out.println("Shattered End Aggregated: " + (map.get(Biome.SHATTERED_END) + map.get(Biome.SHATTERED_FOREST)));
         System.out.println("*-----------------------------------------*");
-        System.out.println("Done. Time elapsed: " + (System.nanoTime() - t)/1000000L + "ms. " + (System.nanoTime() - t)/(100000L*10L) + "ns per calculation.");
+        System.out.println("Done. Time elapsed: " + (System.nanoTime() - t)/1000000L + "ms. " + (System.nanoTime() - t)/(10000L) + "ns per calculation.");
     }
 }
