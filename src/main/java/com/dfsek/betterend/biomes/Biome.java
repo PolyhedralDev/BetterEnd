@@ -1,6 +1,10 @@
 package com.dfsek.betterend.biomes;
 
-import com.dfsek.betterend.biomes.generators.*;
+import com.dfsek.betterend.biomes.generators.biomes.*;
+import com.dfsek.betterend.biomes.generators.border.AetherHighlandsBorderGenerator;
+import com.dfsek.betterend.biomes.generators.border.VoidAetherBorderGenerator;
+import com.dfsek.betterend.biomes.generators.border.VoidAetherHighlandsBorderGenerator;
+import com.dfsek.betterend.biomes.generators.border.VoidEndBorderGenerator;
 
 /**
  * Representation of BetterEnd custom biomes.
@@ -17,6 +21,10 @@ public enum Biome {
 	AETHER_FOREST(new AetherGenerator()),
 	AETHER_HIGHLANDS_FOREST(new AetherHighlandsGenerator()),
 	VOID(new VoidGenerator()),
+	VOID_END_BORDER(new VoidEndBorderGenerator()),
+	VOID_AETHER_BORDER(new VoidAetherBorderGenerator()),
+	VOID_AETHER_HIGHLANDS_BORDER(new VoidAetherHighlandsBorderGenerator()),
+	AETHER_HIGHLANDS_BORDER(new AetherHighlandsBorderGenerator()),
 	STARFIELD(new VoidGenerator());
 
 	private final BiomeTerrain generator;
@@ -33,7 +41,13 @@ public enum Biome {
 	 * @return Whether or not the Biome is an Aether variant.
 	 */
 	public boolean isAether() {
-		return(this.equals(Biome.AETHER) || this.equals(Biome.AETHER_FOREST) || this.equals(Biome.AETHER_HIGHLANDS) || this.equals(Biome.AETHER_HIGHLANDS_FOREST));
+		return(this.equals(Biome.AETHER)
+				|| this.equals(Biome.AETHER_FOREST)
+				|| this.equals(Biome.AETHER_HIGHLANDS)
+				|| this.equals(Biome.AETHER_HIGHLANDS_FOREST)
+				|| this.equals(Biome.VOID_AETHER_BORDER)
+				|| this.equals(Biome.VOID_AETHER_HIGHLANDS_BORDER)
+				|| this.equals(Biome.AETHER_HIGHLANDS_BORDER));
 	}
 
 	/**
@@ -100,39 +114,6 @@ public enum Biome {
 				return Biome.STARFIELD;
 			default:
 				throw new IllegalArgumentException("Invalid biome name \"" + biome + "\"");
-		}
-	}
-
-	/**
-	 * Gets the String representation of the Biome's ID.
-	 * 
-	 * @author dfsek
-	 * @since 3.6.2
-	 * @return The Biome's ID as a String.
-	 */
-	@Override
-	public String toString() {
-		switch(this) {
-			case END:
-				return "END";
-			case SHATTERED_END:
-				return "SHATTERED_END";
-			case SHATTERED_FOREST:
-				return "SHATTERED_FOREST";
-			case AETHER:
-				return "AETHER";
-			case AETHER_HIGHLANDS:
-				return "AETHER_HIGHLANDS";
-			case AETHER_FOREST:
-				return "AETHER_FOREST";
-			case AETHER_HIGHLANDS_FOREST:
-				return "AETHER_HIGHLANDS_FOREST";
-			case VOID:
-				return "VOID";
-			case STARFIELD:
-				return "STARFIELD";
-			default:
-				throw new IllegalArgumentException();
 		}
 	}
 

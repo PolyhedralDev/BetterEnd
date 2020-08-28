@@ -13,16 +13,25 @@ public class BiomeGrid {
     private static final Map<World, BiomeGrid> grids = new HashMap<>();
     //Grid of biomes (woah, kinda crazy i know)
     //Y = Biome type, X = "climate"
-    //Holds 8x8 biomes
+    //Holds 16x16 biomes
     private final Biome[][] grid = new Biome[][] {
-            {Biome.AETHER, Biome.AETHER, Biome.AETHER, Biome.AETHER_FOREST, Biome.AETHER_HIGHLANDS_FOREST, Biome.AETHER_HIGHLANDS, Biome.AETHER_HIGHLANDS, Biome.AETHER_HIGHLANDS},
-            {Biome.AETHER, Biome.AETHER, Biome.AETHER, Biome.AETHER_FOREST, Biome.AETHER_HIGHLANDS_FOREST, Biome.AETHER_HIGHLANDS, Biome.AETHER_HIGHLANDS, Biome.AETHER_HIGHLANDS},
-            {Biome.VOID, Biome.VOID, Biome.VOID, Biome.VOID, Biome.STARFIELD, Biome.STARFIELD, Biome.STARFIELD, Biome.STARFIELD},
-            {Biome.VOID, Biome.VOID, Biome.VOID, Biome.VOID, Biome.STARFIELD, Biome.STARFIELD, Biome.STARFIELD, Biome.STARFIELD},
-            {Biome.END, Biome.END, Biome.END, Biome.END, Biome.END, Biome.END, Biome.END, Biome.END},
-            {Biome.END, Biome.END, Biome.END, Biome.END, Biome.END, Biome.END, Biome.END, Biome.END},
-            {Biome.SHATTERED_END, Biome.SHATTERED_END, Biome.SHATTERED_END, Biome.SHATTERED_END, Biome.SHATTERED_FOREST, Biome.SHATTERED_FOREST, Biome.SHATTERED_FOREST, Biome.SHATTERED_FOREST},
-            {Biome.SHATTERED_END, Biome.SHATTERED_END, Biome.SHATTERED_END, Biome.SHATTERED_END, Biome.SHATTERED_FOREST, Biome.SHATTERED_FOREST, Biome.SHATTERED_FOREST, Biome.SHATTERED_FOREST}};
+            {Biome.AETHER_FOREST, Biome.AETHER_FOREST, Biome.AETHER, Biome.AETHER, Biome.AETHER, Biome.AETHER, Biome.AETHER, Biome.AETHER, Biome.AETHER_HIGHLANDS_BORDER, Biome.AETHER_HIGHLANDS, Biome.AETHER_HIGHLANDS, Biome.AETHER_HIGHLANDS, Biome.AETHER_HIGHLANDS, Biome.AETHER_HIGHLANDS, Biome.AETHER_HIGHLANDS_FOREST, Biome.AETHER_HIGHLANDS_FOREST},
+            {Biome.AETHER_FOREST, Biome.AETHER_FOREST, Biome.AETHER, Biome.AETHER, Biome.AETHER, Biome.AETHER, Biome.AETHER, Biome.AETHER, Biome.AETHER_HIGHLANDS_BORDER, Biome.AETHER_HIGHLANDS, Biome.AETHER_HIGHLANDS, Biome.AETHER_HIGHLANDS, Biome.AETHER_HIGHLANDS, Biome.AETHER_HIGHLANDS, Biome.AETHER_HIGHLANDS_FOREST, Biome.AETHER_HIGHLANDS_FOREST},
+            {Biome.AETHER_FOREST, Biome.AETHER_FOREST, Biome.AETHER, Biome.AETHER, Biome.AETHER, Biome.AETHER, Biome.AETHER, Biome.AETHER, Biome.AETHER_HIGHLANDS_BORDER, Biome.AETHER_HIGHLANDS, Biome.AETHER_HIGHLANDS, Biome.AETHER_HIGHLANDS, Biome.AETHER_HIGHLANDS, Biome.AETHER_HIGHLANDS, Biome.AETHER_HIGHLANDS_FOREST, Biome.AETHER_HIGHLANDS_FOREST},
+            {Biome.AETHER_FOREST, Biome.AETHER_FOREST, Biome.AETHER, Biome.AETHER, Biome.AETHER, Biome.AETHER, Biome.AETHER, Biome.AETHER, Biome.AETHER_HIGHLANDS_BORDER, Biome.AETHER_HIGHLANDS, Biome.AETHER_HIGHLANDS, Biome.AETHER_HIGHLANDS, Biome.AETHER_HIGHLANDS, Biome.AETHER_HIGHLANDS, Biome.AETHER_HIGHLANDS_FOREST, Biome.AETHER_HIGHLANDS_FOREST},
+            {Biome.VOID_AETHER_BORDER, Biome.VOID_AETHER_BORDER, Biome.VOID_AETHER_BORDER, Biome.VOID_AETHER_BORDER, Biome.VOID_AETHER_BORDER, Biome.VOID_AETHER_BORDER, Biome.VOID_AETHER_BORDER, Biome.VOID_AETHER_BORDER, Biome.VOID_AETHER_HIGHLANDS_BORDER, Biome.VOID_AETHER_HIGHLANDS_BORDER, Biome.VOID_AETHER_HIGHLANDS_BORDER, Biome.VOID_AETHER_HIGHLANDS_BORDER, Biome.VOID_AETHER_HIGHLANDS_BORDER, Biome.VOID_AETHER_HIGHLANDS_BORDER, Biome.VOID_AETHER_HIGHLANDS_BORDER, Biome.VOID_AETHER_HIGHLANDS_BORDER},
+            {Biome.VOID, Biome.VOID, Biome.VOID, Biome.VOID, Biome.VOID, Biome.VOID, Biome.VOID, Biome.VOID, Biome.STARFIELD, Biome.STARFIELD, Biome.STARFIELD, Biome.STARFIELD, Biome.STARFIELD, Biome.STARFIELD, Biome.STARFIELD, Biome.STARFIELD},
+            {Biome.VOID, Biome.VOID, Biome.VOID, Biome.VOID, Biome.VOID, Biome.VOID, Biome.VOID, Biome.VOID, Biome.STARFIELD, Biome.STARFIELD, Biome.STARFIELD, Biome.STARFIELD, Biome.STARFIELD, Biome.STARFIELD, Biome.STARFIELD, Biome.STARFIELD},
+            {Biome.VOID_END_BORDER, Biome.VOID_END_BORDER, Biome.VOID_END_BORDER, Biome.VOID_END_BORDER, Biome.VOID_END_BORDER, Biome.VOID_END_BORDER, Biome.VOID_END_BORDER, Biome.VOID_END_BORDER, Biome.VOID_END_BORDER, Biome.VOID_END_BORDER, Biome.VOID_END_BORDER, Biome.VOID_END_BORDER, Biome.VOID_END_BORDER, Biome.VOID_END_BORDER, Biome.VOID_END_BORDER, Biome.VOID_END_BORDER},
+            {Biome.END, Biome.END, Biome.END, Biome.END, Biome.END, Biome.END, Biome.END, Biome.END, Biome.END, Biome.END, Biome.END, Biome.END, Biome.END, Biome.END, Biome.END, Biome.END},
+            {Biome.END, Biome.END, Biome.END, Biome.END, Biome.END, Biome.END, Biome.END, Biome.END, Biome.END, Biome.END, Biome.END, Biome.END, Biome.END, Biome.END, Biome.END, Biome.END},
+            {Biome.END, Biome.END, Biome.END, Biome.END, Biome.END, Biome.END, Biome.END, Biome.END, Biome.END, Biome.END, Biome.END, Biome.END, Biome.END, Biome.END, Biome.END, Biome.END},
+            {Biome.END, Biome.END, Biome.END, Biome.END, Biome.END, Biome.END, Biome.END, Biome.END, Biome.END, Biome.END, Biome.END, Biome.END, Biome.END, Biome.END, Biome.END, Biome.END},
+            {Biome.SHATTERED_END, Biome.SHATTERED_END, Biome.SHATTERED_END, Biome.SHATTERED_END, Biome.SHATTERED_END, Biome.SHATTERED_END, Biome.SHATTERED_END, Biome.SHATTERED_END, Biome.SHATTERED_FOREST, Biome.SHATTERED_FOREST, Biome.SHATTERED_FOREST, Biome.SHATTERED_FOREST, Biome.SHATTERED_FOREST, Biome.SHATTERED_FOREST, Biome.SHATTERED_FOREST, Biome.SHATTERED_FOREST},
+            {Biome.SHATTERED_END, Biome.SHATTERED_END, Biome.SHATTERED_END, Biome.SHATTERED_END, Biome.SHATTERED_END, Biome.SHATTERED_END, Biome.SHATTERED_END, Biome.SHATTERED_END, Biome.SHATTERED_FOREST, Biome.SHATTERED_FOREST, Biome.SHATTERED_FOREST, Biome.SHATTERED_FOREST, Biome.SHATTERED_FOREST, Biome.SHATTERED_FOREST, Biome.SHATTERED_FOREST, Biome.SHATTERED_FOREST},
+            {Biome.SHATTERED_END, Biome.SHATTERED_END, Biome.SHATTERED_END, Biome.SHATTERED_END, Biome.SHATTERED_END, Biome.SHATTERED_END, Biome.SHATTERED_END, Biome.SHATTERED_END, Biome.SHATTERED_FOREST, Biome.SHATTERED_FOREST, Biome.SHATTERED_FOREST, Biome.SHATTERED_FOREST, Biome.SHATTERED_FOREST, Biome.SHATTERED_FOREST, Biome.SHATTERED_FOREST, Biome.SHATTERED_FOREST},
+            {Biome.SHATTERED_END, Biome.SHATTERED_END, Biome.SHATTERED_END, Biome.SHATTERED_END, Biome.SHATTERED_END, Biome.SHATTERED_END, Biome.SHATTERED_END, Biome.SHATTERED_END, Biome.SHATTERED_FOREST, Biome.SHATTERED_FOREST, Biome.SHATTERED_FOREST, Biome.SHATTERED_FOREST, Biome.SHATTERED_FOREST, Biome.SHATTERED_FOREST, Biome.SHATTERED_FOREST, Biome.SHATTERED_FOREST}};
+
     FastNoise biome;
     FastNoise climate;
     World world;
@@ -113,10 +122,10 @@ public class BiomeGrid {
      * @return int - The normalized value.
      */
     private static int normalize(double i) {
-        i*= 9; //accounts for noise being distributed inequally
-        if(i > 3.5) i = 3.5; //cuts off values too high
-        if(i < -3.5) i = -3.5; //cuts off values too low
-        i += 3.5; //makes it positive
+        i*= 17; //accounts for noise being distributed inequally
+        if(i > 7.5) i = 7.5; //cuts off values too high
+        if(i < -7.5) i = -7.5; //cuts off values too low
+        i += 7.5; //makes it positive
         return (int) Math.floor(i);
     }
 }

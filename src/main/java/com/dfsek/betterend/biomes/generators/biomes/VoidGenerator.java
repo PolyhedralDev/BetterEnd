@@ -1,4 +1,4 @@
-package com.dfsek.betterend.biomes.generators;
+package com.dfsek.betterend.biomes.generators.biomes;
 
 import com.dfsek.betterend.biomes.BiomeTerrain;
 import com.dfsek.betterend.generation.BlockPalette;
@@ -15,7 +15,7 @@ public class VoidGenerator extends BiomeTerrain {
 
     @Override
     public double getNoise(FastNoise gen, int x, int z) {
-        return 0.4;
+        return 0;
     }
 
     @Override

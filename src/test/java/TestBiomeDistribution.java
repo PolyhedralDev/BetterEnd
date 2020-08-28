@@ -28,8 +28,8 @@ public class TestBiomeDistribution {
             System.out.println(e.getKey().toString() + ": " + e.getValue());
         }
         System.out.println("*-----------------------------------------*");
-        System.out.println("Aether Aggregated: " + (map.get(Biome.AETHER) + map.get(Biome.AETHER_FOREST) + map.get(Biome.AETHER_HIGHLANDS) + map.get(Biome.AETHER_HIGHLANDS_FOREST)));
-        System.out.println("Void Aggregated: " + (map.get(Biome.VOID) + map.get(Biome.STARFIELD)));
+        System.out.println("Aether Aggregated: " + (map.get(Biome.AETHER) + map.get(Biome.AETHER_FOREST) + map.get(Biome.AETHER_HIGHLANDS) + map.get(Biome.AETHER_HIGHLANDS_FOREST) + map.get(Biome.AETHER_HIGHLANDS_BORDER)));
+        System.out.println("Void Aggregated: " + (map.get(Biome.VOID) + map.get(Biome.STARFIELD) + map.get(Biome.VOID_AETHER_BORDER) + map.get(Biome.VOID_AETHER_HIGHLANDS_BORDER) + map.get(Biome.VOID_END_BORDER)));
         System.out.println("End Aggregated: " + (map.get(Biome.END)));
         System.out.println("Shattered End Aggregated: " + (map.get(Biome.SHATTERED_END) + map.get(Biome.SHATTERED_FOREST)));
         System.out.println("*-----------------------------------------*");

@@ -36,7 +36,6 @@ public class EndChunkGenerator extends ChunkGenerator {
         int zOrigin = chunkZ << 4;
         for (byte x = 0; x < 4; x++) {
             for (byte z = 0; z < 4; z++) {
-
                 Interpolator interp = new Interpolator(
                         getGenerator(xOrigin + x * 4, zOrigin + z * 4, world).getNoise(gen, xOrigin + x * 4, zOrigin + z * 4) * 2.0f,
                         getGenerator(xOrigin + x * 4 + 4, zOrigin + z * 4, world).getNoise(gen,xOrigin + x * 4 + 4, zOrigin + z * 4) * 2.0f,
@@ -44,18 +43,14 @@ public class EndChunkGenerator extends ChunkGenerator {
                         getGenerator(xOrigin + x * 4 + 4, zOrigin + z * 4 + 4, world).getNoise(gen,xOrigin + x * 4 + 4, zOrigin + z * 4 + 4) * 2.0f);
                 for (byte x2 = 0; x2 < 4; x2++) {
                     for (byte z2 = 0; z2 < 4; z2++) {
-                        System.out.print(interp.bilerp((double) x2 / 3, (double) z2 / 3) + " ");
+                        //System.out.print(interp.bilerp((double) x2 / 3, (double) z2 / 3) + " ");
                         double iNoise = interp.bilerp((float) x2 / 3, (float) z2 / 3);
                         int diff = getMaxHeight(iNoise, world) - getMinHeight(iNoise, world);
                         for (int y = 0; y < diff; y++) {
                             chunk.setBlock(x * 4 + x2, getMaxHeight(iNoise, world) - y, z * 4 + z2, getGenerator(xOrigin + x * 4 + x2, zOrigin + z * 4 + z2, world).getPalette().get(y, random));
                         }
                     }
-                    System.out.println();
                 }
-                System.out.println();
-                System.out.println();
-
             }
         }
         return chunk;
