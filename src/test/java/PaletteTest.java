@@ -9,9 +9,9 @@ import java.util.Random;
 public class PaletteTest {
     public static void main(String[] args) {
         long l = System.nanoTime();
-
+        Random r = new Random();
         //testing time taken to instantiate/fill palette. Realistic test.
-        BlockPalette p = new BlockPalette(new Random());
+        BlockPalette p = new BlockPalette();
         System.out.println((System.nanoTime() - l)/1000 + "us elapsed (Instantiation)");
         l = System.nanoTime();
         p.add(Material.GRASS_BLOCK, 1);
@@ -31,14 +31,14 @@ public class PaletteTest {
         List<Material> m = new ArrayList<>();
         for(int i = 0; i < 10; i++) {
             long l2 = System.nanoTime();
-            m.add(p.get(i));
-            System.out.println(p.get(i) + " retrieved in " + (System.nanoTime() - l2)/1000 + "us");
+            m.add(p.get(i, r));
+            System.out.println(p.get(i, r) + " retrieved in " + (System.nanoTime() - l2)/1000 + "us");
         }
         System.out.println((double)(System.nanoTime() - l)/1000000 + "ms elapsed (Getters, raw x10), got " + m.size() + " values");
 
         //testing time taken to get 100k materials. Unrealistic stress test.
         for(int i = 0; i < 100000; i++) {
-            p.get(i);
+            p.get(i, r);
         }
         System.out.println((double)(System.nanoTime() - l)/1000000 + "ms elapsed (Getters, raw x100000), got " + 100000 + " values");
 
@@ -46,7 +46,7 @@ public class PaletteTest {
         System.out.println();
         System.out.println("Beginning fill for stress-test");
         l = System.nanoTime();
-        BlockPalette p2 = new BlockPalette(new Random());
+        BlockPalette p2 = new BlockPalette();
         for(int i = 0; i < 500000; i++) {
             p2.add(Material.DIRT, 1);
             p2.add(Material.STONE, 1);
@@ -57,7 +57,7 @@ public class PaletteTest {
         l = System.nanoTime();
         for(int i = 0; i < 1000000; i++) {
             long l2 = System.nanoTime();
-            if(i % 100001 == 0) System.out.println(p2.get(i) + " retrieved in " + (System.nanoTime() - l2)/1000 + "us at layer " + i);
+            if(i % 100001 == 0) System.out.println(p2.get(i, r) + " retrieved in " + (System.nanoTime() - l2)/1000 + "us at layer " + i);
         }
         System.out.println((double)(System.nanoTime() - l)/1000000 + "ms elapsed (Getters, raw x1000000), got " + 1000000 + " values");
     }

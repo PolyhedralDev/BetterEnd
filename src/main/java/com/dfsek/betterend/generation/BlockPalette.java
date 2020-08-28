@@ -13,14 +13,13 @@ import java.util.Random;
  */
 public class BlockPalette {
     private final List<PaletteLayer> pallet = new ArrayList<>();
-    private final Random random;
+
 
     /**
-     * Constructs a palette from the given Random object
-     * @param random - The random object to use.
+     * Constructs a blank palette.
      */
-    public BlockPalette(Random random) {
-        this.random = random;
+    public BlockPalette() {
+        
     }
 
     /**
@@ -50,7 +49,7 @@ public class BlockPalette {
      * @param layer - The layer at which to fetch the material.
      * @return - Material - The material fetched.
      */
-    public Material get(int layer) {
+    public Material get(int layer, Random random) {
         for(PaletteLayer p : pallet) {
             if(layer < p.getLayers()) return p.get(random);
         }

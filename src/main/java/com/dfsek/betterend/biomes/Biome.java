@@ -1,5 +1,7 @@
 package com.dfsek.betterend.biomes;
 
+import com.dfsek.betterend.biomes.generators.*;
+
 /**
  * Representation of BetterEnd custom biomes.
  * 
@@ -7,7 +9,21 @@ package com.dfsek.betterend.biomes;
  * @since 3.6.2
  */
 public enum Biome {
-	END, SHATTERED_END, SHATTERED_FOREST, AETHER, AETHER_HIGHLANDS, AETHER_FOREST, AETHER_HIGHLANDS_FOREST, VOID, STARFIELD;
+	END(new EndGenerator()),
+	SHATTERED_END(new ShatteredEndGenerator()),
+	SHATTERED_FOREST(new ShatteredEndGenerator()),
+	AETHER(new AetherGenerator()),
+	AETHER_HIGHLANDS(new AetherHighlandsGenerator()),
+	AETHER_FOREST(new AetherGenerator()),
+	AETHER_HIGHLANDS_FOREST(new AetherHighlandsGenerator()),
+	VOID(new VoidGenerator()),
+	STARFIELD(new VoidGenerator());
+
+	private final BiomeTerrain generator;
+
+	Biome(BiomeTerrain g) {
+		this.generator = g;
+	}
 
 	/**
 	 * Checks whether or not the Biome is a variant of the Aether.
@@ -118,5 +134,13 @@ public enum Biome {
 			default:
 				throw new IllegalArgumentException();
 		}
+	}
+
+	/**
+	 * Gets the generator object
+	 * @return BiomeTerrain - the terrain gen object.
+	 */
+	public BiomeTerrain getGenerator() {
+		return this.generator;
 	}
 }

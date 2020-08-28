@@ -14,7 +14,7 @@ public class Interpolator {
         this.v2 = 0;
         this.v3 = 0;
     }
-    public double lerp(double t,double  v0, double v1) {
+    private double lerp(double t,double  v0, double v1) {
         return v0 + t*(v1-v0);
     }
     public double bilerp(double s, double t) {
