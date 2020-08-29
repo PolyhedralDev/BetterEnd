@@ -1,10 +1,15 @@
 package com.dfsek.betterend.biomes;
 
+import com.dfsek.betterend.ProbabilityCollection;
 import com.dfsek.betterend.biomes.generators.biomes.*;
 import com.dfsek.betterend.biomes.generators.border.AetherHighlandsBorderGenerator;
 import com.dfsek.betterend.biomes.generators.border.VoidAetherBorderGenerator;
 import com.dfsek.betterend.biomes.generators.border.VoidAetherHighlandsBorderGenerator;
 import com.dfsek.betterend.biomes.generators.border.VoidEndBorderGenerator;
+import com.dfsek.betterend.population.structures.Structure;
+import com.dfsek.betterend.population.structures.StructureProbabilityUtil;
+
+import java.util.Random;
 
 /**
  * Representation of BetterEnd custom biomes.
@@ -13,24 +18,25 @@ import com.dfsek.betterend.biomes.generators.border.VoidEndBorderGenerator;
  * @since 3.6.2
  */
 public enum Biome {
-	END(new EndGenerator()),
-	SHATTERED_END(new ShatteredEndGenerator()),
-	SHATTERED_FOREST(new ShatteredEndGenerator()),
-	AETHER(new AetherGenerator()),
-	AETHER_HIGHLANDS(new AetherHighlandsGenerator()),
-	AETHER_FOREST(new AetherGenerator()),
-	AETHER_HIGHLANDS_FOREST(new AetherHighlandsGenerator()),
-	VOID(new VoidGenerator()),
-	VOID_END_BORDER(new VoidEndBorderGenerator()),
-	VOID_AETHER_BORDER(new VoidAetherBorderGenerator()),
-	VOID_AETHER_HIGHLANDS_BORDER(new VoidAetherHighlandsBorderGenerator()),
-	AETHER_HIGHLANDS_BORDER(new AetherHighlandsBorderGenerator()),
-	STARFIELD(new VoidGenerator());
+	END(new EndGenerator(), StructureProbabilityUtil.END_STRUCTURES),
+	SHATTERED_END(new ShatteredEndGenerator(), StructureProbabilityUtil.SHATTERED_END_STRUCTURES),
+	SHATTERED_FOREST(new ShatteredEndGenerator(), StructureProbabilityUtil.SHATTERED_END_STRUCTURES),
+	AETHER(new AetherGenerator(), StructureProbabilityUtil.AETHER_STRUCTURES),
+	AETHER_HIGHLANDS(new AetherHighlandsGenerator(), StructureProbabilityUtil.AETHER_HIGHLAND_STRUCTURES),
+	AETHER_FOREST(new AetherGenerator(), StructureProbabilityUtil.AETHER_STRUCTURES),
+	AETHER_HIGHLANDS_FOREST(new AetherHighlandsGenerator(), StructureProbabilityUtil.AETHER_HIGHLAND_STRUCTURES),
+	VOID(new VoidGenerator(), new ProbabilityCollection<>()),
+	VOID_END_BORDER(new VoidEndBorderGenerator(), StructureProbabilityUtil.END_STRUCTURES),
+	VOID_AETHER_BORDER(new VoidAetherBorderGenerator(), StructureProbabilityUtil.AETHER_STRUCTURES),
+	VOID_AETHER_HIGHLANDS_BORDER(new VoidAetherHighlandsBorderGenerator(), StructureProbabilityUtil.AETHER_HIGHLAND_STRUCTURES),
+	AETHER_HIGHLANDS_BORDER(new AetherHighlandsBorderGenerator(), StructureProbabilityUtil.AETHER_HIGHLAND_STRUCTURES),
+	STARFIELD(new VoidGenerator(), StructureProbabilityUtil.STARFIELD_STRUCTURES);
 
 	private final BiomeTerrain generator;
-
-	Biome(BiomeTerrain g) {
+	private final ProbabilityCollection<Structure> structures;
+	Biome(BiomeTerrain g, ProbabilityCollection<Structure> s) {
 		this.generator = g;
+		this.structures = s;
 	}
 
 	/**
@@ -115,6 +121,15 @@ public enum Biome {
 			default:
 				throw new IllegalArgumentException("Invalid biome name \"" + biome + "\"");
 		}
+	}
+
+	/**
+	 * Gets a random structure from the biome's structure collection using the given Random instance.
+	 * @param r - The random instance to use.
+	 * @return Structure - a random structure.
+	 */
+	public Structure getRandomStructure(Random r) {
+		return this.structures.get(r);
 	}
 
 	/**

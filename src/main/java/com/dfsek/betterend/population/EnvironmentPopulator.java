@@ -3,7 +3,7 @@ package com.dfsek.betterend.population;
 import com.dfsek.betterend.BetterEnd;
 import com.dfsek.betterend.util.ConfigUtil;
 import com.dfsek.betterend.biomes.BiomeGrid;
-import com.dfsek.betterend.population.tree.CustomTreeType;
+import com.dfsek.betterend.population.tree.EndTreeType;
 import com.dfsek.betterend.population.tree.ShatteredTree;
 import com.dfsek.betterend.population.tree.WoodTree;
 import org.bukkit.*;
@@ -74,7 +74,7 @@ public class EnvironmentPopulator extends BlockPopulator {
 			}
 		}
 	}
-	private void plantLargeTree(CustomTreeType type, Location origin, Random random) {
+	private void plantLargeTree(EndTreeType type, Location origin, Random random) {
 		if(ConfigUtil.debug) Bukkit.getLogger().info("[" + Thread.currentThread().getName() + "] Generating async tree of type " + type.toString());
 		long t = System.nanoTime();
 		Bukkit.getScheduler().runTaskAsynchronously(main, () -> {
@@ -136,7 +136,7 @@ public class EnvironmentPopulator extends BlockPopulator {
 						break;
 					case AETHER_FOREST:
 						if(i % 2 == 0  && blockLocation.getBlock().getType() == Material.GRASS_BLOCK) {
-							plantLargeTree(CustomTreeType.OAK, blockLocation, random);
+							plantLargeTree(EndTreeType.OAK, blockLocation, random);
 							return;
 						}
 						break;
@@ -168,7 +168,7 @@ public class EnvironmentPopulator extends BlockPopulator {
 						if(i % 2 == 0 && (blockLocation.getBlock().getType() == Material.GRASS_BLOCK || blockLocation.getBlock().getType() == Material.PODZOL
 								|| blockLocation.getBlock().getType() == Material.COARSE_DIRT || blockLocation.getBlock().getType() == Material.SNOW
 								|| blockLocation.getBlock().getType() == Material.GRAVEL)) {
-							plantLargeTree(CustomTreeType.SPRUCE, blockLocation, random);
+							plantLargeTree(EndTreeType.SPRUCE, blockLocation, random);
 							return;
 						}
 						break;
@@ -189,9 +189,9 @@ public class EnvironmentPopulator extends BlockPopulator {
 						break;
 					case SHATTERED_FOREST:
 						if(blockLocation.getBlock().getType() == Material.END_STONE && random.nextInt(20) < 6 && i == 0) {
-							plantLargeTree(CustomTreeType.SHATTERED_LARGE, blockLocation, random);
+							plantLargeTree(EndTreeType.SHATTERED_LARGE, blockLocation, random);
 						} else if(blockLocation.getBlock().getType() == Material.END_STONE && random.nextInt(20) < 10) {
-							plantLargeTree(CustomTreeType.SHATTERED_SMALL, blockLocation, random);
+							plantLargeTree(EndTreeType.SHATTERED_SMALL, blockLocation, random);
 						}
 						break;
 					default:

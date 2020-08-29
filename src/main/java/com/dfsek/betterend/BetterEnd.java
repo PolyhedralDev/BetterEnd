@@ -5,7 +5,7 @@ import com.dfsek.betterend.world.WorldConfig;
 import com.dfsek.betterend.generation.EndChunkGenerator;
 import com.dfsek.betterend.biomes.BiomeGrid;
 import com.dfsek.betterend.population.structures.NMSStructure;
-import com.dfsek.betterend.population.tree.CustomTreeType;
+import com.dfsek.betterend.population.tree.EndTreeType;
 import com.dfsek.betterend.population.tree.ShatteredTree;
 import com.dfsek.betterend.population.tree.ThreadedTreeUtil;
 import com.dfsek.betterend.population.tree.WoodTree;
@@ -115,13 +115,14 @@ public class BetterEnd extends JavaPlugin {
 			return true;
 		} else if(args.length == 3 && args[0].equalsIgnoreCase("tree")) {
 			try {
-				CustomTreeType type = CustomTreeType.valueOf(args[2]);
-				long t = System.nanoTime();
+				EndTreeType type = EndTreeType.valueOf(args[2]);
 				if (args[1].equalsIgnoreCase("plant")) {
+					long t = System.nanoTime();
 					ThreadedTreeUtil.plantLargeTree(type, ((Player) sender).getLocation(), new Random());
 					sender.sendMessage("Done. Time elapsed: " + t/1000000 + "ms");
 				} else if (args[1].equalsIgnoreCase("grow")) {
 					Bukkit.getScheduler().runTaskAsynchronously(this, () -> {
+						long t = System.nanoTime();
 						boolean large = true;
 						switch (type) {
 							case SHATTERED_SMALL:
@@ -129,13 +130,13 @@ public class BetterEnd extends JavaPlugin {
 							case SHATTERED_LARGE:
 								ShatteredTree tree = new ShatteredTree(((Player) sender).getLocation(), new Random(), large);
 								tree.grow();
-								Bukkit.getScheduler().runTask(this, () -> sender.sendMessage("Done. Time elapsed: " + t/1000000 + "ms"));
+								Bukkit.getScheduler().runTask(this, () -> sender.sendMessage("Done. Time elapsed: " + (t/1000000) + "ms"));
 								break;
-							case SPRUCE:
-							case OAK:
+							case GIANT_SPRUCE:
+							case GIANT_OAK:
 								WoodTree woodTree = new WoodTree(((Player) sender).getLocation(), new Random(), type);
 								woodTree.grow();
-								Bukkit.getScheduler().runTask(this, () -> sender.sendMessage("Done. Time elapsed: " + t/1000000 + "ms"));
+								Bukkit.getScheduler().runTask(this, () -> sender.sendMessage("Done. Time elapsed: " + (t/1000000) + "ms"));
 								break;
 							default:
 								throw new IllegalArgumentException("Invalid tree type.");

@@ -9,7 +9,7 @@ import java.util.Objects;
 import java.util.Random;
 
 public class WoodTree extends Tree {
-    private CustomTreeType type;
+    private EndTreeType type;
 
     /**
      * Instantiates a TreeGrower at an origin location.
@@ -17,7 +17,7 @@ public class WoodTree extends Tree {
      * @param origin - The origin location.
      * @param random - The random object to use whilst generating the tree.
      */
-    public WoodTree(Location origin, Random random, CustomTreeType type) {
+    public WoodTree(Location origin, Random random, EndTreeType type) {
         super(origin, random);
         this.type = type;
     }

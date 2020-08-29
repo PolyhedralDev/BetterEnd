@@ -9,7 +9,7 @@ import java.util.Random;
 
 public class ThreadedTreeUtil {
     private static final BetterEnd main = BetterEnd.getInstance();
-    public static void plantLargeTree(CustomTreeType type, Location origin, Random random) {
+    public static void plantLargeTree(EndTreeType type, Location origin, Random random) {
         if(ConfigUtil.debug) Bukkit.getLogger().info("[" + Thread.currentThread().getName() + "] Generating async tree of type " + type.toString());
         long t = System.nanoTime();
         Bukkit.getScheduler().runTaskAsynchronously(main, () -> {
