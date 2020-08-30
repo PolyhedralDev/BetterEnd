@@ -17,6 +17,49 @@
                     <target>8</target>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.1.1</version>
+                <configuration>
+                    <dependencyReducedPomLocation>${project.build.directory}/dependency-reduced-pom.xml</dependencyReducedPomLocation>
+                    <relocations>
+                        <relocation>
+                            <pattern>co.aikar.taskchain</pattern>
+                            <shadedPattern>com.dfsek.betterend.taskchain</shadedPattern> <!-- Replace this -->
+                        </relocation>
+                    </relocations>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>3.0.0</version>
+                <executions>
+                    <execution>
+                        <id>deploy-artifact</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <ant antfile="${basedir}/build.xml">
+                                    <target name="makejar"/>
+                                </ant>
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
 
     </build>
@@ -28,6 +71,15 @@
         <repository>
             <id>minecraft-repo</id>
             <url>https://libraries.minecraft.net/</url>
+        </repository>
+        <repository>
+            <id>aikar</id>
+            <url>https://repo.aikar.co/content/groups/aikar/</url>
+        </repository>
+        <repository>
+            <id>nexus</id>
+            <name>Lumine Releases</name>
+            <url>https://mvn.lumine.io/repository/maven-public/</url>
         </repository>
 
     </repositories>
@@ -51,23 +103,32 @@
         </dependency>
         <dependency>
             <groupId>io.lumine.xikage</groupId>
-            <artifactId>mythicmobs</artifactId>
+            <artifactId>MythicMobs</artifactId>
             <version>4.9.1</version>
-            <scope>system</scope>
-            <systemPath>${basedir}/lib/MythicMobs-4.9.1.jar</systemPath>
-        </dependency>
-        <dependency>
-            <groupId>net.minecraft.server</groupId>
-            <version>1_16_R2</version>
-            <artifactId>nms</artifactId>
-            <scope>system</scope>
-            <systemPath>${basedir}/lib/spigot-1.16.2.jar</systemPath>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>javax.vecmath</groupId>
             <artifactId>vecmath</artifactId>
             <version>1.5.2</version>
         </dependency>
+        <dependency>
+            <groupId>co.aikar</groupId>
+            <artifactId>taskchain-bukkit</artifactId>
+            <version>3.7.2</version> <!-- Replace this with the version from TaskChain -->
+        </dependency>
+        <dependency>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-antrun-plugin</artifactId>
+            <version>3.0.0</version>
+            <type>maven-plugin</type>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>1.4</version>
+        </dependency>
     </dependencies>
+
 
 </project>

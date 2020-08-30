@@ -1,13 +1,11 @@
 package com.dfsek.betterend.world;
 
 import com.dfsek.betterend.BetterEnd;
-import com.dfsek.betterend.util.LangUtil;
-import org.bukkit.Bukkit;
+import org.apache.commons.io.FileUtils;
 import org.bukkit.World;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.craftbukkit.libs.org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;

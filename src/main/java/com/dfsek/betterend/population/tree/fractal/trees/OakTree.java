@@ -24,7 +24,7 @@ public class OakTree extends FractalTree {
      */
     @Override
     public void grow() {
-        growBranch(super.getOrigin().clone(), new Vector(super.getRandom().nextInt(5)-2, super.getRandom().nextInt(4)+8, super.getRandom().nextInt(5)-2), 2, 0);
+        growBranch(super.getOrigin().clone(), new Vector(super.getRandom().nextInt(5)-2, super.getRandom().nextInt(4)+6, super.getRandom().nextInt(5)-2), 2, 0);
     }
 
     private void growBranch(Location l1, Vector diff, double d1, int recursions) {
@@ -39,13 +39,13 @@ public class OakTree extends FractalTree {
             super.generateSphere(l1.clone().add(diff.clone().multiply((double)i/d)), Material.OAK_WOOD, Math.max((int) d1, 0), false);
         }
         double runningAngle = (double) 45 / (recursions + 1);
-        growBranch(l1.clone().add(diff), diff.clone().multiply(0.65).rotateAroundX(Math.toRadians(runningAngle + getNoise())).rotateAroundZ(Math.toRadians(getNoise())),
+        growBranch(l1.clone().add(diff), diff.clone().multiply(0.7).rotateAroundX(Math.toRadians(runningAngle + getNoise())).rotateAroundZ(Math.toRadians(getNoise())),
                 d1-1, recursions+1);
-        growBranch(l1.clone().add(diff), diff.clone().multiply(0.65).rotateAroundX(Math.toRadians(-runningAngle + getNoise())).rotateAroundZ(Math.toRadians(getNoise())),
+        growBranch(l1.clone().add(diff), diff.clone().multiply(0.7).rotateAroundX(Math.toRadians(-runningAngle + getNoise())).rotateAroundZ(Math.toRadians(getNoise())),
                 d1-1, recursions+1);
-            growBranch(l1.clone().add(diff), diff.clone().multiply(0.65).rotateAroundZ(Math.toRadians(runningAngle + getNoise())).rotateAroundX(Math.toRadians(getNoise())),
+            growBranch(l1.clone().add(diff), diff.clone().multiply(0.7).rotateAroundZ(Math.toRadians(runningAngle + getNoise())).rotateAroundX(Math.toRadians(getNoise())),
                     d1 - 1, recursions + 1);
-            growBranch(l1.clone().add(diff), diff.clone().multiply(0.65).rotateAroundZ(Math.toRadians(-runningAngle + getNoise())).rotateAroundX(Math.toRadians(getNoise())),
+            growBranch(l1.clone().add(diff), diff.clone().multiply(0.7).rotateAroundZ(Math.toRadians(-runningAngle + getNoise())).rotateAroundX(Math.toRadians(getNoise())),
                     d1 - 1, recursions + 1);
     }
 

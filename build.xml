@@ -2,13 +2,13 @@
 <project name="BetterEnd" default="makejar" basedir=".">
     <target name="makejar" description="Create a jar for the project">
 		<mkdir dir="target"/>
-        <jar destfile="target/${ant.project.name}-premium.jar">
-			<fileset dir="target/classes"/>
+        <jar destfile="prod/${ant.project.name}-premium.jar">
+			<fileset dir="classes"/>
 			<fileset file="plugin.yml"/>
 			<fileset file="config.yml"/>
         </jar>
-    	<jar destfile="target/${ant.project.name}-free.jar">
-    		<fileset dir="target/classes">
+    	<jar destfile="prod/${ant.project.name}-free.jar">
+    		<fileset dir="classes">
     			<exclude name="**/WoodTree*.class"/>
     			<exclude name="**/MythicSpawns*.class"/>
     			<exclude name="**/Premium*.class"/>
