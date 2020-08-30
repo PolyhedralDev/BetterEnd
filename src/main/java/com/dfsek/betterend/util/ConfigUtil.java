@@ -59,6 +59,8 @@ public class ConfigUtil {
 	public static boolean generateBigTreesEverywhere;
 	public static int treeGrowthMultiplier;
 	public static boolean parallel;
+	public static boolean reloadData;
+	public static boolean enableAdvancements;
 
 	private ConfigUtil() {}
 
@@ -118,6 +120,8 @@ public class ConfigUtil {
 		generateBigTreesEverywhere = config.getBoolean("trees.big-trees.saplings.everywhere", false);
 		treeGrowthMultiplier = config.getInt("trees.big-trees.saplings.growth-time-multiplier", 8);
 		parallel = config.getBoolean("parallel", true);
+		reloadData = config.getBoolean("advancements.reload-data", false);
+		enableAdvancements = config.getBoolean("advancements.enable", true);
 
 		LangUtil.loadlang(lang, logger);
 

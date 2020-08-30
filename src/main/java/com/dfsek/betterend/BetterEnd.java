@@ -36,7 +36,7 @@ public class BetterEnd extends JavaPlugin {
 		try {
 			MythicSpawnsUtil.startSpawnRoutine();
 			if(ConfigUtil.fallToOverworld || ConfigUtil.fallToOverworldAether) AetherFallUtil.init(this);
-			if(isPremium()) getServer().getScheduler().scheduleSyncDelayedTask(this, () -> {
+			if(isPremium() && ConfigUtil.enableAdvancements) getServer().getScheduler().scheduleSyncDelayedTask(this, () -> {
 				logger.info("Enabling advancements...");
 				EndAdvancementUtil.enable(instance);
 			}, 60);
