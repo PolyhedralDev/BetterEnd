@@ -6,9 +6,9 @@ import com.dfsek.betterend.generation.EndChunkGenerator;
 import com.dfsek.betterend.biomes.BiomeGrid;
 import com.dfsek.betterend.population.structures.NMSStructure;
 import com.dfsek.betterend.population.tree.EndTreeType;
-import com.dfsek.betterend.population.tree.ShatteredTree;
+import com.dfsek.betterend.population.tree.ShatteredTreeLegacy;
 import com.dfsek.betterend.population.tree.ThreadedTreeUtil;
-import com.dfsek.betterend.population.tree.WoodTree;
+import com.dfsek.betterend.population.tree.WoodTreeLegacy;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -128,13 +128,13 @@ public class BetterEnd extends JavaPlugin {
 							case SHATTERED_SMALL:
 								large = false;
 							case SHATTERED_LARGE:
-								ShatteredTree tree = new ShatteredTree(((Player) sender).getLocation(), new Random(), large);
+								ShatteredTreeLegacy tree = new ShatteredTreeLegacy(((Player) sender).getLocation(), new Random(), large);
 								tree.grow();
 								Bukkit.getScheduler().runTask(this, () -> sender.sendMessage("Done. Time elapsed: " + (t/1000000) + "ms"));
 								break;
 							case GIANT_SPRUCE:
 							case GIANT_OAK:
-								WoodTree woodTree = new WoodTree(((Player) sender).getLocation(), new Random(), type);
+								WoodTreeLegacy woodTree = new WoodTreeLegacy(((Player) sender).getLocation(), new Random(), type);
 								woodTree.grow();
 								Bukkit.getScheduler().runTask(this, () -> sender.sendMessage("Done. Time elapsed: " + (t/1000000) + "ms"));
 								break;

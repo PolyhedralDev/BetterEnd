@@ -9,7 +9,7 @@ import org.bukkit.util.Vector;
 
 import java.util.Random;
 
-public class ShatteredTree extends Tree {
+public class ShatteredTreeLegacy extends TreeLegacy {
     private final boolean large;
 
     /**
@@ -19,7 +19,7 @@ public class ShatteredTree extends Tree {
      * @param random - The random object to use whilst generating the tree.
      * @param large  - Whether the tree is large.
      */
-    public ShatteredTree(Location origin, Random random, boolean large) {
+    public ShatteredTreeLegacy(Location origin, Random random, boolean large) {
         super(origin, random);
         this.large = large;
     }

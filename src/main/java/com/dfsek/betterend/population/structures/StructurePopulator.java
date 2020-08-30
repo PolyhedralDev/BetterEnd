@@ -29,6 +29,7 @@ public class StructurePopulator extends BlockPopulator {
             x += (chunk.getX() << 4);
             z += (chunk.getZ() << 4);
             Structure struc = BiomeGrid.fromWorld(world).getBiome(x, z).getRandomStructure(random);
+            if(struc == null) return;
             System.out.println(struc);
             if(struc.getSpawnRequirement().isSky()) y = 96;
             NMSStructure nms = struc.getInstance(new Location(world, x, y, z), random);

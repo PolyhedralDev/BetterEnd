@@ -1,4 +1,4 @@
-package com.dfsek.betterend.population.tree.fractal;
+package com.dfsek.betterend.population.tree;
 
 import com.dfsek.betterend.util.ConfigUtil;
 import org.bukkit.Bukkit;
@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-public abstract class FractalTree {
+public abstract class TreeLegacy {
     private final Map<Block, BlockData> treeAssembler = new HashMap<>();
     private final Location origin;
     private final Random random;
@@ -21,7 +21,7 @@ public abstract class FractalTree {
      * @param origin - The origin location.
      * @param random - The random object to use whilst generating the tree.
      */
-    public FractalTree(Location origin, Random random) {
+    public TreeLegacy(Location origin, Random random) {
         this.origin = origin;
         this.random = random;
     }
@@ -88,17 +88,5 @@ public abstract class FractalTree {
 
     public static Vector getPerpendicular(Vector v) {
         return v.getZ() < v.getX() ? new Vector(v.getY(), -v.getX(), 0) : new Vector(0, -v.getZ(), v.getY());
-    }
-
-    public void generateSphere(Location l, Material m, int radius, boolean overwrite) {
-        for(int x = -radius; x <= radius; x++) {
-            for(int y = -radius; y <= radius; y++) {
-                for(int z = -radius; z <= radius; z++) {
-                    Vector position = l.toVector().clone().add(new Vector(x, y, z));
-                    if(l.toVector().distance(position) <= radius + 0.5 && (overwrite || getMaterial(position.toLocation(l.getWorld()).getBlock()).isAir()))
-                        setBlock(position.toLocation(l.getWorld()).getBlock(), m);
-                }
-            }
-        }
     }
 }

@@ -19,14 +19,14 @@ public class ThreadedTreeUtil {
                 case SHATTERED_SMALL:
                     large = false;
                 case SHATTERED_LARGE:
-                    ShatteredTree tree = new ShatteredTree(origin, random, large);
+                    ShatteredTreeLegacy tree = new ShatteredTreeLegacy(origin, random, large);
                     tree.grow();
                     if(ConfigUtil.debug) main.getLogger().info("[" + Thread.currentThread().getName() + "] Time saved: " + (System.nanoTime() - t)/1000000 + "ms");
                     Bukkit.getScheduler().runTask(main, () -> tree.plant(true));
                     break;
                 case SPRUCE:
                 case OAK:
-                    WoodTree woodTree = new WoodTree(origin, random, type);
+                    WoodTreeLegacy woodTree = new WoodTreeLegacy(origin, random, type);
                     woodTree.grow();
                     if(ConfigUtil.debug) main.getLogger().info("[" + Thread.currentThread().getName() + "] Time saved: " + (System.nanoTime() - t)/1000000 + "ms");
                     Bukkit.getScheduler().runTask(main, () -> woodTree.plant(true));

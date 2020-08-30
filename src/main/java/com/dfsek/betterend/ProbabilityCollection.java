@@ -100,6 +100,7 @@ public class ProbabilityCollection<E> {
         return this.collection.floor(toFind).getObject();
     }
     public E get(Random random) {
+        if(this.totalProbability == 0) return null;
         ProbabilitySetElement<E> toFind = new ProbabilitySetElement<>(null, 0);
         toFind.setIndex(random.nextInt(this.totalProbability) + 1);
 

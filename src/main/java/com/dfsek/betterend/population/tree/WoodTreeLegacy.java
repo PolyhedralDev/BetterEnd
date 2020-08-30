@@ -8,7 +8,7 @@ import org.bukkit.util.Vector;
 import java.util.Objects;
 import java.util.Random;
 
-public class WoodTree extends Tree {
+public class WoodTreeLegacy extends TreeLegacy {
     private EndTreeType type;
 
     /**
@@ -17,7 +17,7 @@ public class WoodTree extends Tree {
      * @param origin - The origin location.
      * @param random - The random object to use whilst generating the tree.
      */
-    public WoodTree(Location origin, Random random, EndTreeType type) {
+    public WoodTreeLegacy(Location origin, Random random, EndTreeType type) {
         super(origin, random);
         this.type = type;
     }
