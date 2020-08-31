@@ -12,11 +12,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * Representation of a single item entry within a Loot Table pool.
+ */
 public class Entry {
     private final JSONObject entry;
     private final Material item;
     private final long weight;
     private final List<Function> functions = new ArrayList<>();
+
+    /**
+     * Instantiates an Entry from a JSON representation.
+     * @param entry The JSON Object to instantiate from.
+     */
     public Entry(JSONObject entry) {
         this.entry = entry;
         this.item = Material.valueOf(entry.get("name").toString().toUpperCase());
@@ -37,6 +45,12 @@ public class Entry {
             }
         }
     }
+
+    /**
+     * Fetches a single ItemStack from the Entry, applying all functions to it.
+     * @param r The Random instance to apply functions with
+     * @return ItemStack - The ItemStack with all functions applied.
+     */
     public ItemStack getItem(Random r) {
         ItemStack item = new ItemStack(this.item, 1);
         for(Function f : functions) {
@@ -44,6 +58,11 @@ public class Entry {
         }
         return item;
     }
+
+    /**
+     * Gets the weight attribute of the Entry.
+     * @return long - The weight of the Entry.
+     */
     public long getWeight() {
         return this.weight;
     }

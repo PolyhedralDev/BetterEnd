@@ -12,8 +12,17 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * Class representation of a Loot Table to populate chest loot.
+ */
 public class LootTable {
     private final List<Pool> pools = new ArrayList<>();
+
+    /**
+     * Instantiates a LootTable from a JSON String.
+     * @param json The JSON String representing the loot table.
+     * @throws ParseException if malformed JSON is passed.
+     */
     public LootTable(String json) throws ParseException {
         System.out.println(json);
         JSONParser jsonParser = new JSONParser();
@@ -23,6 +32,12 @@ public class LootTable {
             pools.add(new Pool((JSONObject) pool));
         }
     }
+
+    /**
+     * Fetches a list of ItemStacks from the loot table using the given Random instance.
+     * @param r The Random instance to use.
+     * @return List&lt;ItemStack&gt; - The list of loot fetched.
+     */
     public List<ItemStack> getLoot(Random r) {
         List<ItemStack> itemList = new ArrayList<>();
         for(Pool pool : pools) {
@@ -30,6 +45,12 @@ public class LootTable {
         }
         return itemList;
     }
+
+    /**
+     * Fills an Inventory with loot.
+     * @param i The Inventory to fill.
+     * @param r The The Random instance to use.
+     */
     public void fillInventory(Inventory i, Random r) {
         List<ItemStack> loot = getLoot(r);
         for(ItemStack stack : loot) {
