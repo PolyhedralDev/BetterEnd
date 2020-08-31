@@ -4,9 +4,6 @@ import org.polydev.gaea.structures.NMSStructure;
 
 import java.util.Random;
 
-public class EntityFeature  implements Feature {
-    @Override
-    public void populate(NMSStructure s, Random r) {
-
-    }
+public interface Feature {
+    void populate(NMSStructure s, Random r);
 }

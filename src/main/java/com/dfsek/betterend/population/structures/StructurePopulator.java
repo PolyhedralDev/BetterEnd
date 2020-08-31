@@ -9,6 +9,7 @@ import org.bukkit.World;
 import org.bukkit.generator.BlockPopulator;
 import org.jetbrains.annotations.NotNull;
 import org.polydev.gaea.structures.NMSStructure;
+import org.polydev.gaea.structures.features.Feature;
 import org.polydev.gaea.util.WorldUtil;
 
 import java.util.Random;
@@ -31,6 +32,9 @@ public class StructurePopulator extends BlockPopulator {
             nms.setRotation(random.nextInt(4)*90);
             if(struc.getSpawnInfo().isValidSpawn(nms)) nms.paste();
             else return;
+            for(Feature f : struc.getFeatures()) {
+                f.populate(nms, random);
+            }
             System.out.println("Generated " + struc + " at " + x + " " + origin.getY() + " " + z);
         }
     }

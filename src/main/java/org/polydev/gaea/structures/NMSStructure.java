@@ -99,8 +99,6 @@ public class NMSStructure {
     private Object structure;
     private Location origin;
     private int rotation = 0;
-    private String name;
-    private int permutation = 0;
 
     /**
      * Load a structure from an InputStream.
@@ -122,8 +120,6 @@ public class NMSStructure {
                     (int) getNBTListItemMethod.invoke(getNBTListMethod.invoke(tag, "size", 3), 2)};
             this.structure = structure;
             this.origin = origin;
-            this.name = null;
-            this.permutation = -1;
         } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
             e.printStackTrace();
         }
@@ -145,21 +141,6 @@ public class NMSStructure {
      */
     public Location getOrigin() {
         return this.origin;
-    }
-
-    public int getPermutation() {
-        return this.permutation;
-    }
-
-    /**
-     * Gets the name of a structure.
-     *
-     * @return String - The name of the structure
-     * @author dfsek
-     * @since 2.0.0
-     */
-    public String getName() {
-        return this.name;
     }
 
     /**

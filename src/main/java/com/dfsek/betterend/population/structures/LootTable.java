@@ -124,9 +124,7 @@ public class LootTable {
 									try {
 										disabled = (JSONArray) ((JSONObject) function).get("disabled_enchants");
 										enchant = (random.nextDouble() * (maxd - mind)) + mind;
-									} catch(ClassCastException e) {
-										// what's this? :eyes:
-									}
+									} catch(ClassCastException ignored) {}
 								}
 							}
 						} catch(ClassCastException | IllegalArgumentException e) {
@@ -184,7 +182,6 @@ public class LootTable {
 					}
 
 				}
-
 			}
 		}
 	}

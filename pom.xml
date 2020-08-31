@@ -55,7 +55,6 @@
             <name>Lumine Releases</name>
             <url>https://mvn.lumine.io/repository/maven-public/</url>
         </repository>
-
     </repositories>
 
     <dependencies>
@@ -93,9 +92,11 @@
             <type>maven-plugin</type>
         </dependency>
         <dependency>
-            <groupId>commons-io</groupId>
-            <artifactId>commons-io</artifactId>
-            <version>1.4</version>
+            <groupId>org.bukkit</groupId>
+            <artifactId>craftbukkit</artifactId>
+            <version>LATEST</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/spigot-1.16.2.jar</systemPath>
         </dependency>
     </dependencies>
 
