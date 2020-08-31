@@ -1,6 +1,6 @@
 package com.dfsek.betterend.biomes.generators.biomes;
 
-import org.polydev.gaea.terrain2.BiomeTerrain;
+import org.polydev.gaea.biome.BiomeTerrain;
 import org.polydev.gaea.world.palette.BlockPalette;
 import org.polydev.gaea.math.FastNoise;
 import org.bukkit.Material;

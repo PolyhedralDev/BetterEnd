@@ -7,8 +7,9 @@ import com.dfsek.betterend.biomes.generators.border.VoidAetherBorderGenerator;
 import com.dfsek.betterend.biomes.generators.border.VoidAetherHighlandsBorderGenerator;
 import com.dfsek.betterend.biomes.generators.border.VoidEndBorderGenerator;
 import com.dfsek.betterend.population.structures.Structure;
-import org.polydev.gaea.terrain2.BiomeTerrain;
+import org.polydev.gaea.biome.BiomeTerrain;
 import org.polydev.gaea.tree.Tree;
+import org.polydev.gaea.biome.BiomeTemplate;
 import org.polydev.gaea.world.Decorator;
 
 import java.util.Random;
@@ -19,7 +20,7 @@ import java.util.Random;
  * @author dfsek
  * @since 3.6.2
  */
-public enum Biome {
+public enum Biome implements BiomeTemplate {
 	END(new EndGenerator(), new EndDecorator()),
 	SHATTERED_END(new ShatteredEndGenerator(), new ShatteredEndDecorator()),
 	SHATTERED_FOREST(new ShatteredEndGenerator(), new ShatteredForestDecorator()),
@@ -96,6 +97,7 @@ public enum Biome {
 	 * @param r - The random instance to use.
 	 * @return Structure - a random structure.
 	 */
+	@Override
 	public Structure getRandomStructure(Random r) {
 		return this.decorator.getStructures().get(r);
 	}
@@ -105,10 +107,12 @@ public enum Biome {
 	 * @param r - The random instance to use.
 	 * @return Tree - a random tree.
 	 */
+	@Override
 	public Tree getTree(Random r) {
 		return this.decorator.getTrees().get(r);
 	}
-	
+
+	@Override
 	public int getTreeDensity() {
 		return decorator.getTreeDensity();
 	}
@@ -117,6 +121,7 @@ public enum Biome {
 	 * Gets the generator object
 	 * @return BiomeTerrain - the terrain gen object.
 	 */
+	@Override
 	public BiomeTerrain getGenerator() {
 		return this.generator;
 	}

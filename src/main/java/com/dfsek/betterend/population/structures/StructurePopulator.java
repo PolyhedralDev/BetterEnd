@@ -1,10 +1,9 @@
 package com.dfsek.betterend.population.structures;
 
-import com.dfsek.betterend.biomes.BiomeGrid;
+import com.dfsek.betterend.biomes.EndBiomeGrid;
 import com.dfsek.betterend.world.WorldConfig;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.generator.BlockPopulator;
 import org.jetbrains.annotations.NotNull;
@@ -24,7 +23,7 @@ public class StructurePopulator extends BlockPopulator {
             int y = WorldUtil.getHighestValidSpawnAt(chunk, x, z);
             x += (chunk.getX() << 4);
             z += (chunk.getZ() << 4);
-            Structure struc = BiomeGrid.fromWorld(world).getBiome(x, z).getRandomStructure(random);
+            Structure struc = EndBiomeGrid.fromWorld(world).getBiome(x, z).getRandomStructure(random);
             if(struc == null) return;
             Location origin = struc.getSpawnInfo().getSpawnLocation(new Location(world, x, y, z), random);
             if(origin.getY() <= 0) return;

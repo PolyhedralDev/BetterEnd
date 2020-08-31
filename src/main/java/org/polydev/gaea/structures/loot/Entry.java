@@ -6,6 +6,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.polydev.gaea.structures.loot.functions.AmountFunction;
 import org.polydev.gaea.structures.loot.functions.DamageFunction;
+import org.polydev.gaea.structures.loot.functions.EnchantWithLevelsFunction;
 import org.polydev.gaea.structures.loot.functions.Function;
 
 import java.util.ArrayList;
@@ -41,6 +42,14 @@ public class Entry {
                         long maxDamage = (long) ((JSONObject) ((JSONObject) function).get("damage")).get("max");
                         long minDamage = (long) ((JSONObject) ((JSONObject) function).get("damage")).get("min");
                         functions.add(new DamageFunction(Math.toIntExact(minDamage), Math.toIntExact(maxDamage)));
+                        break;
+                    case "enchant_with_levels":
+                        long maxEnchant = (long) ((JSONObject) ((JSONObject) function).get("levels")).get("max");
+                        long minEnchant = (long) ((JSONObject) ((JSONObject) function).get("levels")).get("min");
+                        JSONArray disabled = null;
+                        if(((JSONObject) function).containsKey("disabled_enchants")) disabled = (JSONArray) ((JSONObject) function).get("disabled_enchants");
+                        functions.add(new EnchantWithLevelsFunction(Math.toIntExact(minEnchant), Math.toIntExact(maxEnchant), disabled));
+                        break;
                 }
             }
         }

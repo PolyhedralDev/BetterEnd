@@ -4,12 +4,13 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.stream.IntStream;
 
-import com.dfsek.betterend.biomes.BiomeGrid;
+import com.dfsek.betterend.biomes.EndBiomeGrid;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -17,15 +18,17 @@ import org.bukkit.World;
 import org.bukkit.block.Container;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.craftbukkit.libs.org.apache.commons.io.FileUtils;
 import org.bukkit.generator.BlockPopulator;
 
 import com.dfsek.betterend.BetterEnd;
-import com.dfsek.betterend.population.structures.LootTable;
+import org.json.simple.parser.ParseException;
 import org.polydev.gaea.structures.NMSStructure;
 import com.dfsek.betterend.util.ConfigUtil;
 import com.dfsek.betterend.util.LangUtil;
 import com.dfsek.betterend.util.StructureUtil;
 import org.jetbrains.annotations.NotNull;
+import org.polydev.gaea.structures.loot.LootTable;
 
 public class CustomStructurePopulator extends BlockPopulator {
 
@@ -74,7 +77,7 @@ public class CustomStructurePopulator extends BlockPopulator {
 			Map<?, ?> struc = structures.get(chooseOnWeight(structureIDs.build().toArray(), weights.build().toArray()));
 
 			if(!((List<?>) struc.get("biomes"))
-					.contains(BiomeGrid.fromWorld(world).getBiome(chunk.getX() * 16 + x, chunk.getZ() * 16 + z).toString().toUpperCase())) return;
+					.contains(EndBiomeGrid.fromWorld(world).getBiome(chunk.getX() * 16 + x, chunk.getZ() * 16 + z).toString().toUpperCase())) return;
 
 			int y;
 
@@ -108,18 +111,22 @@ public class CustomStructurePopulator extends BlockPopulator {
 					((Map<String, Boolean>) struc).get("strict-check"))) {
 				main.getLogger().info(String.format(LangUtil.generateCustomStructureMessage, struc.get("name"), chunk.getX() * 16 + x, y, chunk.getZ() * 16 + z));
 				structure.paste();
-				LootTable table = new LootTable((String) struc.get("name"));
+				File tableFile = new File(main.getDataFolder() + File.separator + "loot" + File.separator + struc.get("name") + ".json");
+				LootTable table = new LootTable(FileUtils.readFileToString(tableFile, StandardCharsets.UTF_8));
 				for(Location location: StructureUtil.getChestsIn(structure.getBoundingLocations()[0], structure.getBoundingLocations()[1])) {
 					if(location.getBlock().getState() instanceof Container && ((Map<String, Boolean>) struc).get("populate-loot")) {
-						table.populateChest(location, random);
+						table.fillInventory(((Container) location.getBlock().getState()).getInventory(), random);
 					}
 				}
 			}
-		} catch(NullPointerException e) {
+		} catch(NullPointerException | ParseException e) {
 			main.getLogger().warning(LangUtil.structureErrorMessage);
 			e.printStackTrace();
 		} catch(FileNotFoundException e) {
 			main.getLogger().warning(LangUtil.structureFileNotFoundMessage);
+		} catch (IOException e) {
+			main.getLogger().warning(LangUtil.structureFileNotFoundMessage);
+			e.printStackTrace();
 		}
 
 	}

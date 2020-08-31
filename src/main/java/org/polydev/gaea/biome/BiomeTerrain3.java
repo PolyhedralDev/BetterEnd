@@ -1,4 +1,4 @@
-package org.polydev.gaea.terrain3;
+package org.polydev.gaea.biome;
 
 import org.polydev.gaea.math.FastNoise;
 import org.polydev.gaea.world.palette.BlockPalette;

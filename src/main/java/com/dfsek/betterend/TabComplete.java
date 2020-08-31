@@ -11,6 +11,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.jetbrains.annotations.NotNull;
+import org.polydev.gaea.tree.Tree;
 
 public class TabComplete implements TabCompleter {
 	private static final List<String> COMMANDS = Arrays.asList("biome", "tpbiome", "version", "reload", "tree");
@@ -36,13 +37,7 @@ public class TabComplete implements TabCompleter {
 					if(args.length == 2) argList.addAll(BIOMES);
 					break;
 				case "tree":
-					if(args.length == 3) for(CustomTreeType t : CustomTreeType.values()) {
-						argList.add(t.toString());
-					}
-					else if(args.length == 2) {
-						argList.add("plant");
-						argList.add("grow");
-					}
+					if(args.length == 2) for(Tree t : Tree.values()) argList.add(t.toString());
 					break;
 				default:
 			}

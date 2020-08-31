@@ -8,7 +8,7 @@ import java.util.Random;
 import java.util.stream.IntStream;
 
 import com.dfsek.betterend.BetterEnd;
-import com.dfsek.betterend.biomes.BiomeGrid;
+import com.dfsek.betterend.biomes.EndBiomeGrid;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.configuration.InvalidConfigurationException;
@@ -95,7 +95,7 @@ public class MythicSpawnsUtil {
 									}
 									if(y < 1) continue;
 									attemptLoc.setY(y);
-									if(((List<?>) mob.get("biomes")).contains(BiomeGrid.fromWorld(attemptLoc.getWorld()).getBiome(attemptLoc).toString())
+									if(((List<?>) mob.get("biomes")).contains(EndBiomeGrid.fromWorld(attemptLoc.getWorld()).getBiome(attemptLoc).toString())
 											&& attemptLoc.clone().add(0, 1, 0).getBlock().isPassable() && attemptLoc.clone().add(0, 2, 0).getBlock().isPassable()
 											&& attemptLoc.clone().add(0, 1, 0).getBlock().getLightLevel() < ((Map<String, Integer>) mob).get("maxLight")) {
 										MythicMobs.inst().getMobManager().spawnMob((String) mob.get("name"), attemptLoc.add(0, 1, 0));

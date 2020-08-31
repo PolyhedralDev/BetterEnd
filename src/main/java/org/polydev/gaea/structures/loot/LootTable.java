@@ -54,7 +54,13 @@ public class LootTable {
     public void fillInventory(Inventory i, Random r) {
         List<ItemStack> loot = getLoot(r);
         for(ItemStack stack : loot) {
-            i.setItem(r.nextInt(i.getSize()), stack);
+            while(stack.getAmount() != 0) {
+                int deposit = Math.min(r.nextInt(2)+1, stack.getAmount());
+                ItemStack newStack = stack.clone();
+                newStack.setAmount(deposit);
+                i.setItem(r.nextInt(i.getSize()), newStack);
+                stack.setAmount(stack.getAmount()-deposit);
+            }
         }
     }
 }

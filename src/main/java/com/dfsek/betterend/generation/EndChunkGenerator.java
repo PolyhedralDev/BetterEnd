@@ -1,7 +1,8 @@
 package com.dfsek.betterend.generation;
 
 import com.dfsek.betterend.BetterEnd;
-import org.polydev.gaea.terrain2.BiomeTerrain;
+import com.dfsek.betterend.biomes.EndBiomeGrid;
+import org.polydev.gaea.biome.BiomeTerrain;
 import com.dfsek.betterend.population.CustomStructurePopulator;
 import com.dfsek.betterend.population.structures.StructurePopulator;
 import org.polydev.gaea.math.FastNoise;
@@ -60,7 +61,7 @@ public class EndChunkGenerator extends ChunkGenerator {
     }
 
     private BiomeTerrain getGenerator(int x, int z, World w) {
-        return com.dfsek.betterend.biomes.BiomeGrid.fromWorld(w).getBiome(x, z).getGenerator();
+        return EndBiomeGrid.fromWorld(w).getBiome(x, z).getGenerator();
     }
 
     private int getMaxHeight(double iNoise, World w) {

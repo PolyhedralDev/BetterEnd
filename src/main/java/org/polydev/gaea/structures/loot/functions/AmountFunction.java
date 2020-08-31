@@ -30,6 +30,6 @@ public class AmountFunction implements Function {
     @Override
     public ItemStack apply(ItemStack original, Random r) {
         original.setAmount(r.nextInt(max-min+1)+min);
-        return null;
+        return original;
     }
 }

@@ -15,7 +15,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.dfsek.betterend.BetterEnd;
-import com.dfsek.betterend.biomes.BiomeGrid;
+import com.dfsek.betterend.biomes.EndBiomeGrid;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -40,28 +40,28 @@ public class Util {
 			Location candidate = p.getLocation();
 			while (tries < 400000) {
 				Location candidateN = candidate.add(tries, 0, 0);
-				if(BiomeGrid.fromWorld(p.getWorld()).getBiome(candidateN).equals(Biome.valueOf(args[1]))
+				if(EndBiomeGrid.fromWorld(p.getWorld()).getBiome(candidateN).equals(Biome.valueOf(args[1]))
 						&& Math.sqrt(Math.pow(candidateN.getBlockX(), 2) + Math.pow(candidateN.getBlockZ(), 2)) > 1000) {
 					p.sendMessage(LangUtil.prefix + LangUtil.teleportingMessage);
 					p.teleport(candidateN);
 					return true;
 				}
 				candidateN = candidate.add(-tries, 0, 0);
-				if(BiomeGrid.fromWorld(p.getWorld()).getBiome(candidateN).equals(Biome.valueOf(args[1]))
+				if(EndBiomeGrid.fromWorld(p.getWorld()).getBiome(candidateN).equals(Biome.valueOf(args[1]))
 						&& Math.sqrt(Math.pow(candidateN.getBlockX(), 2) + Math.pow(candidateN.getBlockZ(), 2)) > 1000) {
 					p.sendMessage(LangUtil.prefix + LangUtil.teleportingMessage);
 					p.teleport(candidateN);
 					return true;
 				}
 				candidateN = candidate.add(0, 0, tries);
-				if(BiomeGrid.fromWorld(p.getWorld()).getBiome(candidateN).equals(Biome.valueOf(args[1]))
+				if(EndBiomeGrid.fromWorld(p.getWorld()).getBiome(candidateN).equals(Biome.valueOf(args[1]))
 						&& Math.sqrt(Math.pow(candidateN.getBlockX(), 2) + Math.pow(candidateN.getBlockZ(), 2)) > 1000) {
 					p.sendMessage(LangUtil.prefix + LangUtil.teleportingMessage);
 					p.teleport(candidateN);
 					return true;
 				}
 				candidateN = candidate.add(0, 0, -tries);
-				if(BiomeGrid.fromWorld(p.getWorld()).getBiome(candidateN).equals(Biome.valueOf(args[1]))
+				if(EndBiomeGrid.fromWorld(p.getWorld()).getBiome(candidateN).equals(Biome.valueOf(args[1]))
 						&& Math.sqrt(Math.pow(candidateN.getBlockX(), 2) + Math.pow(candidateN.getBlockZ(), 2)) > 1000) {
 					p.sendMessage(LangUtil.prefix + LangUtil.teleportingMessage);
 					p.teleport(candidateN);

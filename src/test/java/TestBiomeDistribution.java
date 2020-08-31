@@ -1,5 +1,5 @@
 import com.dfsek.betterend.biomes.Biome;
-import com.dfsek.betterend.biomes.BiomeGrid;
+import com.dfsek.betterend.biomes.EndBiomeGrid;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -14,8 +14,8 @@ public class TestBiomeDistribution {
         long t = System.nanoTime();
         System.out.println("*-----------------------------------------*");
         Map<Biome, Integer> map = new HashMap<>();
-        BiomeGrid grid = new BiomeGrid(ThreadLocalRandom.current().nextInt());
-        for(int x = 0; x < 10000; x++) {
+        EndBiomeGrid grid = new EndBiomeGrid(ThreadLocalRandom.current().nextInt());
+        for(int x = 0; x < 100000; x++) {
             for(int z = 0; z < 1; z++) {
                 long l = System.nanoTime();
                 Biome b = grid.getBiome(x, z);
