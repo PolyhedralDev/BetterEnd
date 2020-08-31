@@ -8,8 +8,8 @@ import org.polydev.gaea.world.Decorator;
 public class ShatteredForestDecorator implements Decorator<Structure> {
     private final ProbabilityCollection<Structure> structures = new ProbabilityCollection<Structure>()
             .add(Structure.END_RUIN, 85)
-            .add(Structure.END_SHIP, 5)
-            .add(Structure.STRONGHOLD, 10);
+            .add(Structure.END_SHIP, 1)
+            .add(Structure.STRONGHOLD, 14);
     private final ProbabilityCollection<Tree> trees = new ProbabilityCollection<Tree>()
             .add(Tree.SHATTERED_LARGE, 30)
             .add(Tree.SHATTERED_SMALL, 70);
@@ -26,7 +26,7 @@ public class ShatteredForestDecorator implements Decorator<Structure> {
 
     @Override
     public int getTreeDensity() {
-        return 4;
+        return 1;
     }
     
     @Override

@@ -43,19 +43,18 @@ public class SmallShatteredTree extends FractalTree {
             return;
         }
         if(diff.getY() < 0) diff.rotateAroundAxis(TreeGeometry.getPerpendicular(diff.clone()).normalize(), Math.PI);
-        System.out.println(Thread.currentThread() + " Recursion " + recursions);
         int d = (int) diff.length();
         for(int i = 0; i < d; i++) {
             geo.generateSphere(l1.clone().add(diff.clone().multiply((double)i/d)), bark, Math.max((int) d1, 0), true);
         }
         double runningAngle = (double) 45 / (recursions + 1);
-        growBranch(l1.clone().add(diff), diff.clone().multiply(0.95).rotateAroundX(Math.toRadians(runningAngle + getNoise())).rotateAroundZ(Math.toRadians(getNoise())),
+        growBranch(l1.clone().add(diff), diff.clone().multiply(0.7).rotateAroundX(Math.toRadians(runningAngle + getNoise())).rotateAroundZ(Math.toRadians(getNoise())),
                 d1-1, recursions+1);
-        growBranch(l1.clone().add(diff), diff.clone().multiply(0.95).rotateAroundX(Math.toRadians(-runningAngle + getNoise())).rotateAroundZ(Math.toRadians(getNoise())),
+        growBranch(l1.clone().add(diff), diff.clone().multiply(0.7).rotateAroundX(Math.toRadians(-runningAngle + getNoise())).rotateAroundZ(Math.toRadians(getNoise())),
                 d1-1, recursions+1);
-        growBranch(l1.clone().add(diff), diff.clone().multiply(0.95).rotateAroundZ(Math.toRadians(runningAngle + getNoise())).rotateAroundX(Math.toRadians(getNoise())),
+        growBranch(l1.clone().add(diff), diff.clone().multiply(0.7).rotateAroundZ(Math.toRadians(runningAngle + getNoise())).rotateAroundX(Math.toRadians(getNoise())),
                 d1 - 1, recursions + 1);
-        growBranch(l1.clone().add(diff), diff.clone().multiply(0.95).rotateAroundZ(Math.toRadians(-runningAngle + getNoise())).rotateAroundX(Math.toRadians(getNoise())),
+        growBranch(l1.clone().add(diff), diff.clone().multiply(0.7).rotateAroundZ(Math.toRadians(-runningAngle + getNoise())).rotateAroundX(Math.toRadians(getNoise())),
                 d1 - 1, recursions + 1);
     }
 

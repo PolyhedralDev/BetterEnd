@@ -36,7 +36,6 @@ public class OakTree extends FractalTree {
             if(recursions > 2) return;
         }
         if(diff.getY() < 0) diff.rotateAroundAxis(TreeGeometry.getPerpendicular(diff.clone()).normalize(), Math.PI);
-        System.out.println(Thread.currentThread() + " Recursion " + recursions);
         int d = (int) diff.length();
         for(int i = 0; i < d; i++) {
             geo.generateSphere(l1.clone().add(diff.clone().multiply((double)i/d)), Material.OAK_WOOD, Math.max((int) d1, 0), true);

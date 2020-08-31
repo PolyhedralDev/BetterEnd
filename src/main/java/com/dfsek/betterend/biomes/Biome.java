@@ -1,14 +1,12 @@
 package com.dfsek.betterend.biomes;
 
 import com.dfsek.betterend.biomes.decor.*;
-import org.polydev.gaea.math.ProbabilityCollection;
 import com.dfsek.betterend.biomes.generators.biomes.*;
 import com.dfsek.betterend.biomes.generators.border.AetherHighlandsBorderGenerator;
 import com.dfsek.betterend.biomes.generators.border.VoidAetherBorderGenerator;
 import com.dfsek.betterend.biomes.generators.border.VoidAetherHighlandsBorderGenerator;
 import com.dfsek.betterend.biomes.generators.border.VoidEndBorderGenerator;
 import com.dfsek.betterend.population.structures.Structure;
-import com.dfsek.betterend.population.structures.StructureProbabilityUtil;
 import org.polydev.gaea.terrain2.BiomeTerrain;
 import org.polydev.gaea.tree.Tree;
 import org.polydev.gaea.world.Decorator;

@@ -8,9 +8,9 @@ import org.polydev.gaea.world.Decorator;
 public class AetherHighlandsForestDecorator implements Decorator<Structure> {
     private final ProbabilityCollection<Structure> structures = new ProbabilityCollection<Structure>()
             .add(Structure.AETHER_RUIN, 75)
-            .add(Structure.SPRUCE_WOOD_HOUSE, 11)
-            .add(Structure.COBBLE_HOUSE, 11)
-            .add(Structure.GOLD_DUNGEON, 3);
+            .add(Structure.SPRUCE_WOOD_HOUSE, 12)
+            .add(Structure.COBBLE_HOUSE, 12)
+            .add(Structure.GOLD_DUNGEON, 1);
     private final ProbabilityCollection<Tree> trees = new ProbabilityCollection<Tree>()
             .add(Tree.GIANT_SPRUCE, 1);
 

@@ -10,7 +10,7 @@ public class EndDecorator implements Decorator<Structure> {
             .add(Structure.END_RUIN, 75)
             .add(Structure.END_HOUSE, 10)
             .add(Structure.END_TOWER, 6)
-            .add(Structure.END_SHIP, 2)
+            .add(Structure.END_SHIP, 1)
             .add(Structure.STRONGHOLD, 7);
     private final ProbabilityCollection<Tree> trees = new ProbabilityCollection<Tree>()
             .add(Tree.CHORUS_PLANT, 80);
