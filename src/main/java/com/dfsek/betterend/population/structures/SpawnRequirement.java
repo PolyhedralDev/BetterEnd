@@ -3,6 +3,7 @@ package com.dfsek.betterend.population.structures;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.polydev.gaea.structures.NMSStructure;
 
 import java.util.Random;
 

@@ -1,6 +1,6 @@
 package com.dfsek.betterend.population;
 
-import com.dfsek.betterend.ProbabilityCollection;
+import org.polydev.gaea.math.ProbabilityCollection;
 import com.dfsek.betterend.util.ConfigUtil;
 import com.dfsek.betterend.world.DataUtil;
 import org.bukkit.Chunk;
@@ -9,6 +9,7 @@ import org.bukkit.World;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.generator.BlockPopulator;
 import org.jetbrains.annotations.NotNull;
+import org.polydev.gaea.world.Ore;
 
 import java.util.Random;
 

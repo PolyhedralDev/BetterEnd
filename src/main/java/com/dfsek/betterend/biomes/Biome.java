@@ -1,6 +1,6 @@
 package com.dfsek.betterend.biomes;
 
-import com.dfsek.betterend.ProbabilityCollection;
+import org.polydev.gaea.math.ProbabilityCollection;
 import com.dfsek.betterend.biomes.generators.biomes.*;
 import com.dfsek.betterend.biomes.generators.border.AetherHighlandsBorderGenerator;
 import com.dfsek.betterend.biomes.generators.border.VoidAetherBorderGenerator;
@@ -8,6 +8,7 @@ import com.dfsek.betterend.biomes.generators.border.VoidAetherHighlandsBorderGen
 import com.dfsek.betterend.biomes.generators.border.VoidEndBorderGenerator;
 import com.dfsek.betterend.population.structures.Structure;
 import com.dfsek.betterend.population.structures.StructureProbabilityUtil;
+import org.polydev.gaea.terrain2.BiomeTerrain;
 
 import java.util.Random;
 

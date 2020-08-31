@@ -1,6 +1,6 @@
 package com.dfsek.betterend.generation.features.generators;
 
-import com.dfsek.betterend.generation.ChunkSlice;
+import org.polydev.gaea.world.ChunkSlice;
 import com.dfsek.betterend.generation.features.FeatureGenerator;
 import org.bukkit.World;
 

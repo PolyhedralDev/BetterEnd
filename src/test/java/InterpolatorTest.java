@@ -1,4 +1,4 @@
-import com.dfsek.betterend.generation.Interpolator;
+import org.polydev.gaea.math.Interpolator;
 
 public class InterpolatorTest {
     public static void main(String[] args) {

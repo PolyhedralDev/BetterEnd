@@ -21,7 +21,7 @@ import org.bukkit.generator.BlockPopulator;
 
 import com.dfsek.betterend.BetterEnd;
 import com.dfsek.betterend.population.structures.LootTable;
-import com.dfsek.betterend.population.structures.NMSStructure;
+import org.polydev.gaea.structures.NMSStructure;
 import com.dfsek.betterend.util.ConfigUtil;
 import com.dfsek.betterend.util.LangUtil;
 import com.dfsek.betterend.util.StructureUtil;

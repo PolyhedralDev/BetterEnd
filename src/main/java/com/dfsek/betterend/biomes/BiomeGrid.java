@@ -1,6 +1,6 @@
 package com.dfsek.betterend.biomes;
 
-import com.dfsek.betterend.generation.FastNoise;
+import org.polydev.gaea.math.FastNoise;
 import com.dfsek.betterend.world.WorldConfig;
 import org.bukkit.Location;
 import org.bukkit.World;

@@ -6,7 +6,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.dfsek.betterend.population.tree.EndTreeType;
+import org.polydev.gaea.tree.CustomTreeType;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
@@ -36,7 +36,7 @@ public class TabComplete implements TabCompleter {
 					if(args.length == 2) argList.addAll(BIOMES);
 					break;
 				case "tree":
-					if(args.length == 3) for(EndTreeType t : EndTreeType.values()) {
+					if(args.length == 3) for(CustomTreeType t : CustomTreeType.values()) {
 						argList.add(t.toString());
 					}
 					else if(args.length == 2) {

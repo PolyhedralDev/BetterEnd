@@ -1,9 +1,9 @@
 package com.dfsek.betterend.biomes.generators.border;
 
-import com.dfsek.betterend.ProbabilityCollection;
-import com.dfsek.betterend.biomes.BiomeTerrain;
-import com.dfsek.betterend.generation.BlockPalette;
-import com.dfsek.betterend.generation.FastNoise;
+import org.polydev.gaea.math.ProbabilityCollection;
+import org.polydev.gaea.terrain2.BiomeTerrain;
+import org.polydev.gaea.world.palette.BlockPalette;
+import org.polydev.gaea.math.FastNoise;
 import org.bukkit.Material;
 
 public class AetherHighlandsBorderGenerator extends BiomeTerrain {
@@ -22,7 +22,7 @@ public class AetherHighlandsBorderGenerator extends BiomeTerrain {
 
     @Override
     public double getNoise(FastNoise gen, int x, int z) {
-        return gen.getSimplexFractal(x, z) * 0.5f;
+        return gen.getSimplexFractal(x, z);
     }
 
     @Override

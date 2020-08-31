@@ -1,10 +1,12 @@
 package com.dfsek.betterend.generation;
 
 import com.dfsek.betterend.BetterEnd;
-import com.dfsek.betterend.biomes.BiomeTerrain;
+import org.polydev.gaea.terrain2.BiomeTerrain;
 import com.dfsek.betterend.population.CustomStructurePopulator;
 import com.dfsek.betterend.population.structures.StructurePopulator;
-import com.dfsek.betterend.population.tree.TreePopulator;
+import org.polydev.gaea.math.FastNoise;
+import org.polydev.gaea.math.Interpolator;
+import com.dfsek.betterend.population.TreePopulator;
 import com.dfsek.betterend.util.ConfigUtil;
 import com.dfsek.betterend.world.WorldConfig;
 import org.bukkit.Material;
@@ -12,6 +14,7 @@ import org.bukkit.World;
 import org.bukkit.generator.BlockPopulator;
 import org.bukkit.generator.ChunkGenerator;
 import org.jetbrains.annotations.NotNull;
+import org.polydev.gaea.world.palette.BlockPalette;
 
 import java.util.Arrays;
 import java.util.List;

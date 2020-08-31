@@ -1,14 +1,16 @@
 package com.dfsek.betterend;
 
+import org.polydev.gaea.taskchain.BukkitTaskChainFactory;
+import org.polydev.gaea.taskchain.TaskChainFactory;
 import com.dfsek.betterend.util.*;
 import com.dfsek.betterend.world.WorldConfig;
 import com.dfsek.betterend.generation.EndChunkGenerator;
 import com.dfsek.betterend.biomes.BiomeGrid;
-import com.dfsek.betterend.population.structures.NMSStructure;
-import com.dfsek.betterend.population.tree.EndTreeType;
-import com.dfsek.betterend.population.tree.ShatteredTreeLegacy;
-import com.dfsek.betterend.population.tree.ThreadedTreeUtil;
-import com.dfsek.betterend.population.tree.WoodTreeLegacy;
+import org.polydev.gaea.structures.NMSStructure;
+import org.polydev.gaea.tree.CustomTreeType;
+import com.dfsek.betterend.population.legacytree.ShatteredTreeLegacy;
+import com.dfsek.betterend.util.ThreadedTreeUtil;
+import com.dfsek.betterend.population.legacytree.WoodTreeLegacy;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -26,10 +28,11 @@ public class BetterEnd extends JavaPlugin {
 
 	public FileConfiguration config = this.getConfig();
 	private static BetterEnd instance;
-
+	private TaskChainFactory genChain;
 	@Override
 	public void onEnable() {
 		instance = this;
+		genChain = BukkitTaskChainFactory.create(this);
 		final Logger logger = this.getLogger();
 
 		NMSStructure.load();
@@ -65,6 +68,10 @@ public class BetterEnd extends JavaPlugin {
 			getServer().getScheduler().scheduleSyncRepeatingTask(this, Util::checkUpdates, 100, 20L * ConfigUtil.updateCheckFrequency);
 		}
 		this.getCommand("betterend").setTabCompleter(new TabComplete());
+	}
+
+	public TaskChainFactory getFactory() {
+		return genChain;
 	}
 
 	@Override
@@ -115,7 +122,7 @@ public class BetterEnd extends JavaPlugin {
 			return true;
 		} else if(args.length == 3 && args[0].equalsIgnoreCase("tree")) {
 			try {
-				EndTreeType type = EndTreeType.valueOf(args[2]);
+				CustomTreeType type = CustomTreeType.valueOf(args[2]);
 				if (args[1].equalsIgnoreCase("plant")) {
 					long t = System.nanoTime();
 					ThreadedTreeUtil.plantLargeTree(type, ((Player) sender).getLocation(), new Random());

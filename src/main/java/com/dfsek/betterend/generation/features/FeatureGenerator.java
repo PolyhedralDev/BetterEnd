@@ -1,6 +1,6 @@
 package com.dfsek.betterend.generation.features;
 
-import com.dfsek.betterend.generation.ChunkSlice;
+import org.polydev.gaea.world.ChunkSlice;
 import org.bukkit.World;
 
 import java.util.Random;

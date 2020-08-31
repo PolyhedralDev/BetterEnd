@@ -1,11 +1,11 @@
 package com.dfsek.betterend.population;
 
 import com.dfsek.betterend.BetterEnd;
+import com.dfsek.betterend.population.legacytree.ShatteredTreeLegacy;
+import com.dfsek.betterend.population.legacytree.WoodTreeLegacy;
 import com.dfsek.betterend.util.ConfigUtil;
 import com.dfsek.betterend.biomes.BiomeGrid;
-import com.dfsek.betterend.population.tree.EndTreeType;
-import com.dfsek.betterend.population.tree.ShatteredTreeLegacy;
-import com.dfsek.betterend.population.tree.WoodTreeLegacy;
+import org.polydev.gaea.tree.CustomTreeType;
 import org.bukkit.*;
 import org.bukkit.entity.EnderCrystal;
 import org.bukkit.entity.EntityType;
@@ -74,7 +74,7 @@ public class EnvironmentPopulator extends BlockPopulator {
 			}
 		}
 	}
-	private void plantLargeTree(EndTreeType type, Location origin, Random random) {
+	private void plantLargeTree(CustomTreeType type, Location origin, Random random) {
 		if(ConfigUtil.debug) Bukkit.getLogger().info("[" + Thread.currentThread().getName() + "] Generating async tree of type " + type.toString());
 		long t = System.nanoTime();
 		Bukkit.getScheduler().runTaskAsynchronously(main, () -> {
@@ -89,8 +89,8 @@ public class EnvironmentPopulator extends BlockPopulator {
 					if(ConfigUtil.debug) main.getLogger().info("[" + Thread.currentThread().getName() + "] Time saved: " + (System.nanoTime() - t)/1000000 + "ms");
 					Bukkit.getScheduler().runTask(main, () -> tree.plant(false));
 					break;
-				case SPRUCE:
-				case OAK:
+				case GIANT_SPRUCE:
+				case GIANT_OAK:
 					WoodTreeLegacy woodTree = new WoodTreeLegacy(origin, random, type);
 					woodTree.grow();
 					if(ConfigUtil.debug) main.getLogger().info("[" + Thread.currentThread().getName() + "] Time saved: " + (System.nanoTime() - t)/1000000 + "ms");
@@ -136,7 +136,7 @@ public class EnvironmentPopulator extends BlockPopulator {
 						break;
 					case AETHER_FOREST:
 						if(i % 2 == 0  && blockLocation.getBlock().getType() == Material.GRASS_BLOCK) {
-							plantLargeTree(EndTreeType.OAK, blockLocation, random);
+							plantLargeTree(CustomTreeType.GIANT_OAK, blockLocation, random);
 							return;
 						}
 						break;
@@ -168,7 +168,7 @@ public class EnvironmentPopulator extends BlockPopulator {
 						if(i % 2 == 0 && (blockLocation.getBlock().getType() == Material.GRASS_BLOCK || blockLocation.getBlock().getType() == Material.PODZOL
 								|| blockLocation.getBlock().getType() == Material.COARSE_DIRT || blockLocation.getBlock().getType() == Material.SNOW
 								|| blockLocation.getBlock().getType() == Material.GRAVEL)) {
-							plantLargeTree(EndTreeType.SPRUCE, blockLocation, random);
+							plantLargeTree(CustomTreeType.GIANT_SPRUCE, blockLocation, random);
 							return;
 						}
 						break;
@@ -189,9 +189,9 @@ public class EnvironmentPopulator extends BlockPopulator {
 						break;
 					case SHATTERED_FOREST:
 						if(blockLocation.getBlock().getType() == Material.END_STONE && random.nextInt(20) < 6 && i == 0) {
-							plantLargeTree(EndTreeType.SHATTERED_LARGE, blockLocation, random);
+							plantLargeTree(CustomTreeType.SHATTERED_LARGE, blockLocation, random);
 						} else if(blockLocation.getBlock().getType() == Material.END_STONE && random.nextInt(20) < 10) {
-							plantLargeTree(EndTreeType.SHATTERED_SMALL, blockLocation, random);
+							plantLargeTree(CustomTreeType.SHATTERED_SMALL, blockLocation, random);
 						}
 						break;
 					default:

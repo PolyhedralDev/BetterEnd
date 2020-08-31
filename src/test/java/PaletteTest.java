@@ -1,5 +1,5 @@
-import com.dfsek.betterend.ProbabilityCollection;
-import com.dfsek.betterend.generation.BlockPalette;
+import org.polydev.gaea.math.ProbabilityCollection;
+import org.polydev.gaea.world.palette.BlockPalette;
 import org.bukkit.Material;
 
 import java.util.ArrayList;

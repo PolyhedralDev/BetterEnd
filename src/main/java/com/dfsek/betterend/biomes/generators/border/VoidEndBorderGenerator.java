@@ -1,8 +1,8 @@
 package com.dfsek.betterend.biomes.generators.border;
 
-import com.dfsek.betterend.biomes.BiomeTerrain;
-import com.dfsek.betterend.generation.BlockPalette;
-import com.dfsek.betterend.generation.FastNoise;
+import org.polydev.gaea.terrain2.BiomeTerrain;
+import org.polydev.gaea.world.palette.BlockPalette;
+import org.polydev.gaea.math.FastNoise;
 import org.bukkit.Material;
 
 public class VoidEndBorderGenerator extends BiomeTerrain {

@@ -1,7 +1,6 @@
 package com.dfsek.betterend.population.structures;
 
-import com.dfsek.betterend.ProbabilityCollection;
-import com.dfsek.betterend.biomes.Biome;
+import org.polydev.gaea.math.ProbabilityCollection;
 
 public class StructureProbabilityUtil {
     public static ProbabilityCollection<Structure> END_STRUCTURES = new ProbabilityCollection<Structure>()

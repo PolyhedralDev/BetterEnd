@@ -1,7 +1,12 @@
 package com.dfsek.betterend.population.structures;
 
+import com.dfsek.betterend.BetterEnd;
 import org.bukkit.Location;
+import org.polydev.gaea.structures.NMSStructure;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -38,7 +43,7 @@ public enum Structure {
     }
 
     public NMSStructure getInstance(Location origin, Random random) {
-        return new NMSStructure(origin, filename, random.nextInt(permutations));
+        return new NMSStructure(origin, BetterEnd.getInstance().getResource("structures" + File.separator + filename + File.separator + filename + "_" + random.nextInt(permutations) + ".nbt"));
     }
     public boolean shouldGenerateShulkers() {
         return features.contains(StructureFeatures.SHULKERS);
