@@ -95,13 +95,13 @@ public class EventListener implements Listener {
 			if((ConfigUtil.generateBigTreesInEnd || ConfigUtil.generateBigTreesEverywhere || BiomeGrid.fromWorld(e.getWorld()).getBiome(e.getLocation()).equals(Biome.AETHER_FOREST)) && (e.getSpecies().equals(TreeType.TREE) || e.getSpecies().equals(TreeType.BIG_TREE))) {
 				if(treeRandom.nextInt(100) < 100/ConfigUtil.treeGrowthMultiplier) {
 					e.getLocation().getBlock().setType(Material.AIR);
-					ThreadedTreeUtil.plantLargeTree(CustomTreeType.OAK, e.getLocation(), treeRandom);
+					ThreadedTreeUtil.plantLargeTree(CustomTreeType.GIANT_OAK, e.getLocation(), treeRandom);
 				}
 				e.setCancelled(true);
 			} else if((ConfigUtil.generateBigTreesInEnd || ConfigUtil.generateBigTreesEverywhere || BiomeGrid.fromWorld(e.getWorld()).getBiome(e.getLocation()).equals(Biome.AETHER_HIGHLANDS_FOREST)) && (e.getSpecies().equals(TreeType.TALL_REDWOOD) || e.getSpecies().equals(TreeType.REDWOOD) || e.getSpecies().equals(TreeType.MEGA_REDWOOD))) {
 				if(treeRandom.nextInt(100) < 100/ConfigUtil.treeGrowthMultiplier) {
 					e.getLocation().getBlock().setType(Material.AIR);
-					ThreadedTreeUtil.plantLargeTree(CustomTreeType.SPRUCE, e.getLocation(), treeRandom);
+					ThreadedTreeUtil.plantLargeTree(CustomTreeType.GIANT_SPRUCE, e.getLocation(), treeRandom);
 				}
 				e.setCancelled(true);
 			}

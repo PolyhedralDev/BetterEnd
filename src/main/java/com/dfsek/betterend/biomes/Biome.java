@@ -1,5 +1,6 @@
 package com.dfsek.betterend.biomes;
 
+import com.dfsek.betterend.biomes.decor.*;
 import org.polydev.gaea.math.ProbabilityCollection;
 import com.dfsek.betterend.biomes.generators.biomes.*;
 import com.dfsek.betterend.biomes.generators.border.AetherHighlandsBorderGenerator;
@@ -9,6 +10,8 @@ import com.dfsek.betterend.biomes.generators.border.VoidEndBorderGenerator;
 import com.dfsek.betterend.population.structures.Structure;
 import com.dfsek.betterend.population.structures.StructureProbabilityUtil;
 import org.polydev.gaea.terrain2.BiomeTerrain;
+import org.polydev.gaea.tree.Tree;
+import org.polydev.gaea.world.Decorator;
 
 import java.util.Random;
 
@@ -19,25 +22,25 @@ import java.util.Random;
  * @since 3.6.2
  */
 public enum Biome {
-	END(new EndGenerator(), StructureProbabilityUtil.END_STRUCTURES),
-	SHATTERED_END(new ShatteredEndGenerator(), StructureProbabilityUtil.SHATTERED_END_STRUCTURES),
-	SHATTERED_FOREST(new ShatteredEndGenerator(), StructureProbabilityUtil.SHATTERED_END_STRUCTURES),
-	AETHER(new AetherGenerator(), StructureProbabilityUtil.AETHER_STRUCTURES),
-	AETHER_HIGHLANDS(new AetherHighlandsGenerator(), StructureProbabilityUtil.AETHER_HIGHLAND_STRUCTURES),
-	AETHER_FOREST(new AetherGenerator(), StructureProbabilityUtil.AETHER_STRUCTURES),
-	AETHER_HIGHLANDS_FOREST(new AetherHighlandsGenerator(), StructureProbabilityUtil.AETHER_HIGHLAND_STRUCTURES),
-	VOID(new VoidGenerator(), new ProbabilityCollection<>()),
-	VOID_END_BORDER(new VoidEndBorderGenerator(), StructureProbabilityUtil.END_STRUCTURES),
-	VOID_AETHER_BORDER(new VoidAetherBorderGenerator(), StructureProbabilityUtil.AETHER_STRUCTURES),
-	VOID_AETHER_HIGHLANDS_BORDER(new VoidAetherHighlandsBorderGenerator(), StructureProbabilityUtil.AETHER_HIGHLAND_STRUCTURES),
-	AETHER_HIGHLANDS_BORDER(new AetherHighlandsBorderGenerator(), StructureProbabilityUtil.AETHER_HIGHLAND_STRUCTURES),
-	STARFIELD(new VoidGenerator(), StructureProbabilityUtil.STARFIELD_STRUCTURES);
+	END(new EndGenerator(), new EndDecorator()),
+	SHATTERED_END(new ShatteredEndGenerator(), new ShatteredEndDecorator()),
+	SHATTERED_FOREST(new ShatteredEndGenerator(), new ShatteredForestDecorator()),
+	AETHER(new AetherGenerator(), new AetherDecorator()),
+	AETHER_HIGHLANDS(new AetherHighlandsGenerator(), new AetherHighlandsDecorator()),
+	AETHER_FOREST(new AetherGenerator(), new AetherForestDecorator()),
+	AETHER_HIGHLANDS_FOREST(new AetherHighlandsGenerator(), new AetherHighlandsForestDecorator()),
+	VOID(new VoidGenerator(), new VoidDecorator()),
+	VOID_END_BORDER(new VoidEndBorderGenerator(), new EndDecorator()),
+	VOID_AETHER_BORDER(new VoidAetherBorderGenerator(), new AetherDecorator()),
+	VOID_AETHER_HIGHLANDS_BORDER(new VoidAetherHighlandsBorderGenerator(), new AetherHighlandsDecorator()),
+	AETHER_HIGHLANDS_BORDER(new AetherHighlandsBorderGenerator(), new AetherHighlandsDecorator()),
+	STARFIELD(new VoidGenerator(), new StarfieldDecorator());
 
 	private final BiomeTerrain generator;
-	private final ProbabilityCollection<Structure> structures;
-	Biome(BiomeTerrain g, ProbabilityCollection<Structure> s) {
+	private final Decorator<Structure> decorator;
+	Biome(BiomeTerrain g, Decorator<Structure> d) {
 		this.generator = g;
-		this.structures = s;
+		this.decorator = d;
 	}
 
 	/**
@@ -91,46 +94,25 @@ public enum Biome {
 	}
 
 	/**
-	 * Gets a Biome from a String containing the Biome ID.
-	 * 
-	 * @author dfsek
-	 * @since 3.6.2
-	 * @param biome
-	 *          - The Biome ID
-	 * @return The Biome matching the ID.
-	 */
-	public static Biome fromString(String biome) {
-		switch(biome.toUpperCase()) {
-			case "END":
-				return Biome.END;
-			case "SHATTERED_END":
-				return Biome.SHATTERED_END;
-			case "SHATTERED_FOREST":
-				return Biome.SHATTERED_FOREST;
-			case "AETHER":
-				return Biome.AETHER;
-			case "AETHER_HIGHLANDS":
-				return Biome.AETHER_HIGHLANDS;
-			case "AETHER_FOREST":
-				return Biome.AETHER_FOREST;
-			case "AETHER_HIGHLANDS_FOREST":
-				return Biome.AETHER_HIGHLANDS_FOREST;
-			case "VOID":
-				return Biome.VOID;
-			case "STARFIELD":
-				return Biome.STARFIELD;
-			default:
-				throw new IllegalArgumentException("Invalid biome name \"" + biome + "\"");
-		}
-	}
-
-	/**
 	 * Gets a random structure from the biome's structure collection using the given Random instance.
 	 * @param r - The random instance to use.
 	 * @return Structure - a random structure.
 	 */
 	public Structure getRandomStructure(Random r) {
-		return this.structures.get(r);
+		return this.decorator.getStructures().get(r);
+	}
+
+	/**
+	 * Gets a random tree from the biome's tree collection.
+	 * @param r - The random instance to use.
+	 * @return Tree - a random tree.
+	 */
+	public Tree getTree(Random r) {
+		return this.decorator.getTrees().get(r);
+	}
+	
+	public int getTreeDensity() {
+		return decorator.getTreeDensity();
 	}
 
 	/**

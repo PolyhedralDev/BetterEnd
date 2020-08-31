@@ -26,14 +26,16 @@ public class SpruceTree extends FractalTree {
      */
     @Override
     public void grow() {
-        growTrunk(super.getOrigin().clone(), new Vector(0, 18, 0));
+        growTrunk(super.getOrigin().clone(), new Vector(0, 16+super.getRandom().nextInt(5), 0));
     }
     private void growTrunk(Location l1, Vector diff) {
         if(diff.getY() < 0) diff.rotateAroundAxis(TreeGeometry.getPerpendicular(diff.clone()).normalize(), Math.PI);
         int d = (int) diff.length();
         for(int i = 0; i < d; i++) {
             geo.generateSphere(l1.clone().add(diff.clone().multiply((double)i/d)), Material.SPRUCE_WOOD, (int) ((i > d*0.65) ? 0.5 : 1.5), true);
-            if(i > 3) geo.generateCylinder(l1.clone().add(diff.clone().multiply((double)i/d)), Material.SPRUCE_LEAVES, (int) ((((6-(i % 4))) * (1-((double) i/d)))), 1, false);
+            if(i > 3) geo.generateCylinder(l1.clone().add(diff.clone().multiply((double)i/d)), Material.SPRUCE_LEAVES, (int) ((((6-(i % 4))) * (1.25-((double) i/d)))), 1, false);
         }
+        setBlock(l1.clone().add(diff).getBlock(), Material.SPRUCE_LEAVES);
+        setBlock(l1.clone().add(diff).add(0,1,0).getBlock(), Material.SPRUCE_LEAVES);
     }
 }

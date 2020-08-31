@@ -3,6 +3,7 @@ package org.polydev.gaea.tree.fractal;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.util.Vector;
+import org.polydev.gaea.math.ProbabilityCollection;
 
 public class TreeGeometry {
     private final FractalTree tree;
@@ -17,24 +18,32 @@ public class TreeGeometry {
     }
 
     public void generateSphere(Location l, Material m, int radius, boolean overwrite) {
+        generateSphere(l, new ProbabilityCollection<Material>().add(m, 1), radius, overwrite);
+    }
+
+    public void generateCylinder(Location l, Material m, int radius, int height, boolean overwrite) {
+        generateCylinder(l, new ProbabilityCollection<Material>().add(m, 1), radius, height, overwrite);
+    }
+
+    public void generateSphere(Location l, ProbabilityCollection<Material> m, int radius, boolean overwrite) {
         for(int x = -radius; x <= radius; x++) {
             for(int y = -radius; y <= radius; y++) {
                 for(int z = -radius; z <= radius; z++) {
                     Vector position = l.toVector().clone().add(new Vector(x, y, z));
                     if(l.toVector().distance(position) <= radius + 0.5 && (overwrite || tree.getMaterial(position.toLocation(l.getWorld()).getBlock()).isAir()))
-                        tree.setBlock(position.toLocation(l.getWorld()).getBlock(), m);
+                        tree.setBlock(position.toLocation(l.getWorld()).getBlock(), m.get());
                 }
             }
         }
     }
 
-    public void generateCylinder(Location l, Material m, int radius, int height, boolean overwrite) {
+    public void generateCylinder(Location l, ProbabilityCollection<Material> m, int radius, int height, boolean overwrite) {
         for(int x = -radius; x <= radius; x++) {
             for(int y = 0; y <= height; y++) {
                 for(int z = -radius; z <= radius; z++) {
                     Vector position = l.toVector().clone().add(new Vector(x, 0, z));
                     if(l.toVector().distance(position) <= radius + 0.5 && (overwrite || tree.getMaterial(position.toLocation(l.getWorld()).getBlock()).isAir()))
-                        tree.setBlock(position.toLocation(l.getWorld()).getBlock(), m);
+                        tree.setBlock(position.toLocation(l.getWorld()).getBlock(), m.get());
                 }
             }
         }

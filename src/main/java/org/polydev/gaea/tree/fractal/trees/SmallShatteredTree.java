@@ -9,7 +9,7 @@ import org.polydev.gaea.tree.fractal.TreeGeometry;
 
 import java.util.Random;
 
-public class ShatteredTree extends FractalTree {
+public class SmallShatteredTree extends FractalTree {
     private final TreeGeometry geo;
     private final ProbabilityCollection<Material> bark = new ProbabilityCollection<Material>()
             .add(Material.OBSIDIAN, 1)
@@ -23,7 +23,7 @@ public class ShatteredTree extends FractalTree {
      * @param origin - The origin location.
      * @param random - The random object to use whilst generating the tree.
      */
-    public ShatteredTree(Location origin, Random random) {
+    public SmallShatteredTree(Location origin, Random random) {
         super(origin, random);
         geo = new TreeGeometry(this);
     }
@@ -33,13 +33,13 @@ public class ShatteredTree extends FractalTree {
      */
     @Override
     public void grow() {
-        growBranch(super.getOrigin().clone(), new Vector(super.getRandom().nextInt(5)-2, super.getRandom().nextInt(4)+6, super.getRandom().nextInt(5)-2), 1, 0);
+        growBranch(super.getOrigin().clone(), new Vector(super.getRandom().nextInt(5)-2, super.getRandom().nextInt(3)+4, super.getRandom().nextInt(5)-2), 1.5, 0);
 
     }
 
     private void growBranch(Location l1, Vector diff, double d1, int recursions) {
         if(recursions > 2) {
-            geo.generateSphere(l1, leaves, 1+super.getRandom().nextInt(2), false);
+            geo.generateSphere(l1, leaves, 1+super.getRandom().nextInt(2)+(3-recursions), false);
             return;
         }
         if(diff.getY() < 0) diff.rotateAroundAxis(TreeGeometry.getPerpendicular(diff.clone()).normalize(), Math.PI);
