@@ -1,5 +1,6 @@
 package com.dfsek.betterend.population.structures;
 
+import com.dfsek.betterend.config.ConfigUtil;
 import com.dfsek.betterend.config.WorldConfig;
 import com.dfsek.betterend.world.EndBiome;
 import com.dfsek.betterend.world.EndBiomeGrid;
@@ -35,7 +36,7 @@ public class StructurePopulator extends BlockPopulator {
             for(Feature f : struc.getFeatures()) {
                 f.populate(nms, random);
             }
-            System.out.println("Generated " + struc + " at " + x + " " + origin.getY() + " " + z);
+            if(ConfigUtil.debug) System.out.println("Generated " + struc + " at " + x + " " + origin.getY() + " " + z);
         }
     }
 }

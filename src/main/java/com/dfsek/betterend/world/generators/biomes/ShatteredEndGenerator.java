@@ -21,7 +21,7 @@ public class ShatteredEndGenerator extends BiomeTerrain {
     @Override
     public double getNoise(FastNoise gen, int x, int z) {
         if(shattered.getSeed() != gen.getSeed()) shattered.setSeed(gen.getSeed());
-        return gen.getSimplexFractal(x, z) + 0.25*(shattered.getSimplexFractal(x, z)+0.5f);
+        return gen.getSimplexFractal(x, z) + 0.3*shattered.getSimplexFractal(x, z);
     }
 
     @Override
