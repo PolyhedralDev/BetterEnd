@@ -24,7 +24,6 @@ public class LootTable {
      * @throws ParseException if malformed JSON is passed.
      */
     public LootTable(String json) throws ParseException {
-        System.out.println(json);
         JSONParser jsonParser = new JSONParser();
         Object tableJSON = jsonParser.parse(json);
         JSONArray poolArray = (JSONArray) ((JSONObject) tableJSON).get("pools");

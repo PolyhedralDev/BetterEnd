@@ -1,16 +1,9 @@
 package com.dfsek.betterend.population;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.stream.IntStream;
-
+import com.dfsek.betterend.BetterEnd;
 import com.dfsek.betterend.biomes.EndBiomeGrid;
+import com.dfsek.betterend.util.LangUtil;
+import com.dfsek.betterend.util.StructureUtil;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -20,15 +13,20 @@ import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.craftbukkit.libs.org.apache.commons.io.FileUtils;
 import org.bukkit.generator.BlockPopulator;
-
-import com.dfsek.betterend.BetterEnd;
+import org.jetbrains.annotations.NotNull;
 import org.json.simple.parser.ParseException;
 import org.polydev.gaea.structures.NMSStructure;
-import com.dfsek.betterend.util.ConfigUtil;
-import com.dfsek.betterend.util.LangUtil;
-import com.dfsek.betterend.util.StructureUtil;
-import org.jetbrains.annotations.NotNull;
 import org.polydev.gaea.structures.loot.LootTable;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import java.util.stream.IntStream;
 
 public class CustomStructurePopulator extends BlockPopulator {
 
@@ -59,7 +57,7 @@ public class CustomStructurePopulator extends BlockPopulator {
 	public void populate(@NotNull World world, @NotNull Random random, @NotNull Chunk chunk) {
 		try {
 			if(random.nextInt(100) > chancePerChunk || !doGeneration) return;
-			if(!(Math.abs(chunk.getX()) > 20 || Math.abs(chunk.getZ()) > 20 || ConfigUtil.allAether)) return;
+			if(!(Math.abs(chunk.getX()) > 20 || Math.abs(chunk.getZ()) > 20)) return;
 			int x = random.nextInt(15);
 			int z = random.nextInt(15);
 			if(chunk.getX() * 16 + x >= 29999900 || chunk.getZ() * 16 + z >= 29999900) return;

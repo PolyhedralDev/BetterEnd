@@ -1,7 +1,6 @@
 package com.dfsek.betterend.population.structures;
 
 import com.dfsek.betterend.biomes.EndBiomeGrid;
-import com.dfsek.betterend.world.WorldConfig;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -16,8 +15,7 @@ import java.util.Random;
 public class StructurePopulator extends BlockPopulator {
     @Override
     public void populate(@NotNull World world, @NotNull Random random, @NotNull Chunk chunk) {
-        if(WorldConfig.fromWorld(world).structureChance < random.nextInt(100)) {
-
+        if(50 > random.nextInt(100)) {
             int x = random.nextInt(16);
             int z = random.nextInt(16);
             int y = WorldUtil.getHighestValidSpawnAt(chunk, x, z);

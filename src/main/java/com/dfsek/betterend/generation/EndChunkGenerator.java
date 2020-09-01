@@ -8,8 +8,8 @@ import com.dfsek.betterend.population.structures.StructurePopulator;
 import org.polydev.gaea.math.FastNoise;
 import org.polydev.gaea.math.Interpolator;
 import com.dfsek.betterend.population.TreePopulator;
-import com.dfsek.betterend.util.ConfigUtil;
-import com.dfsek.betterend.world.WorldConfig;
+import com.dfsek.betterend.config.ConfigUtil;
+import com.dfsek.betterend.config.WorldConfig;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.generator.BlockPopulator;
@@ -32,8 +32,8 @@ public class EndChunkGenerator extends ChunkGenerator {
         if (gen == null) {
             gen = new FastNoise((int) world.getSeed());
             gen.setNoiseType(FastNoise.NoiseType.SimplexFractal);
-            gen.setFractalOctaves(5);
-            gen.setFrequency(1f / WorldConfig.fromWorld(world).outerEndNoise);
+            gen.setFractalOctaves(WorldConfig.fromWorld(world).octaves);
+            gen.setFrequency(1f / WorldConfig.fromWorld(world).noise);
         }
         BlockPalette p = new BlockPalette().add(Material.END_STONE, 1);
         ChunkData chunk = createChunkData(world);
@@ -65,21 +65,21 @@ public class EndChunkGenerator extends ChunkGenerator {
     }
 
     private int getMaxHeight(double iNoise, World w) {
-        return (int) (WorldConfig.fromWorld(w).islandHeightMultiplierTop * (iNoise - ConfigUtil.landPercent) + 64);
+        return (int) (WorldConfig.fromWorld(w).islandHeightMultiplierTop * (iNoise - 0.4) + 64);
     }
 
     private int getMinHeight(double iNoise, World w) {
-        return (int) ((-WorldConfig.fromWorld(w).islandHeightMultiplierBottom * (iNoise - WorldConfig.fromWorld(w).landPercent) + 64) + 1);
+        return (int) ((-WorldConfig.fromWorld(w).islandHeightMultiplierBottom * (iNoise - 0.4) + 64) + 1);
     }
 
     @Override
     public boolean shouldGenerateStructures() {
-        return main.getConfig().getBoolean("outer-islands.generate-end-cities", false);
+        return main.getConfig().getBoolean("generate-end-cities", false);
     }
 
     @Override
     public boolean shouldGenerateDecorations() {
-        return !ConfigUtil.overworld;
+        return true;
     }
 
     @Override

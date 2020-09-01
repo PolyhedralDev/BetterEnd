@@ -9,6 +9,7 @@ import java.util.stream.IntStream;
 
 import com.dfsek.betterend.BetterEnd;
 import com.dfsek.betterend.biomes.EndBiomeGrid;
+import com.dfsek.betterend.config.ConfigUtil;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.configuration.InvalidConfigurationException;

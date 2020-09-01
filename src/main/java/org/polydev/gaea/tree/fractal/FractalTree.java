@@ -1,12 +1,11 @@
 package org.polydev.gaea.tree.fractal;
 
-import com.dfsek.betterend.util.ConfigUtil;
+import com.dfsek.betterend.config.ConfigUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.BlockData;
-import org.bukkit.util.Vector;
 
 import java.util.HashMap;
 import java.util.Map;

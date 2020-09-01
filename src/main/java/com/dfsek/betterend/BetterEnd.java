@@ -1,9 +1,10 @@
 package com.dfsek.betterend;
 
 import com.dfsek.betterend.biomes.EndBiomeGrid;
+import com.dfsek.betterend.config.ConfigUtil;
+import com.dfsek.betterend.config.WorldConfig;
 import com.dfsek.betterend.generation.EndChunkGenerator;
 import com.dfsek.betterend.util.*;
-import com.dfsek.betterend.world.WorldConfig;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -31,17 +32,17 @@ public class BetterEnd extends JavaPlugin {
 		instance = this;
 		genChain = BukkitTaskChainFactory.create(this);
 		final Logger logger = this.getLogger();
-
 		NMSStructure.load();
-
 		Metrics metrics = new Metrics(this, 7709);
 		metrics.addCustomChart(new Metrics.SimplePie("premium", () -> isPremium() ? "Yes" : "No"));
+
 		this.getServer().getPluginManager().registerEvents(new EventListener(), this);
 		this.saveDefaultConfig();
+
 		ConfigUtil.init(logger, this);
+
 		try {
 			MythicSpawnsUtil.startSpawnRoutine();
-			if(ConfigUtil.fallToOverworld || ConfigUtil.fallToOverworldAether) AetherFallUtil.init(this);
 			if(isPremium()) getServer().getScheduler().scheduleSyncDelayedTask(this, () -> {
 				logger.info("Enabling advancements...");
 				EndAdvancementUtil.enable(instance);

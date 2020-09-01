@@ -9,5 +9,6 @@ public interface BiomeTemplate {
     Structure getRandomStructure(Random r);
     Tree getTree(Random r);
     int getTreeDensity();
+    int getStructureChance();
     BiomeTerrain getGenerator();
 }

@@ -3,6 +3,8 @@ package com.dfsek.betterend.util;
 import java.util.Date;
 
 import com.dfsek.betterend.BetterEnd;
+import com.dfsek.betterend.config.ConfigUtil;
+import com.dfsek.betterend.config.WorldConfig;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Chest;
 import org.bukkit.persistence.PersistentDataType;
@@ -25,13 +27,13 @@ public class BossTimeoutUtil {
 		try {
 			if(chest.getPersistentDataContainer().get(key, PersistentDataType.LONG) < time) {
 				if(ConfigUtil.debug) main.getLogger().info("Timeout reached.");
-				chest.getPersistentDataContainer().set(key, PersistentDataType.LONG, time + ConfigUtil.bossRespawnTime);
+				chest.getPersistentDataContainer().set(key, PersistentDataType.LONG, time + WorldConfig.fromWorld(chest.getWorld()).bossRespawnTime);
 				chest.update();
 				return true;
 			}
 		} catch(NullPointerException e) {
 			if(ConfigUtil.debug) main.getLogger().info("Timeout reached.");
-			chest.getPersistentDataContainer().set(key, PersistentDataType.LONG, time + ConfigUtil.bossRespawnTime);
+			chest.getPersistentDataContainer().set(key, PersistentDataType.LONG, time + WorldConfig.fromWorld(chest.getWorld()).bossRespawnTime);
 			chest.update();
 			return true;
 		}

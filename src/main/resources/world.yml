@@ -1,0 +1,54 @@
+# BetterEnd world configuration file
+# Settings changed here only affect the world the file is named for.
+
+# Terrain options
+terrain:
+  noise:
+    octaves: 5
+    island-size: 96
+  height:
+    top: 6
+    bottom: 32
+  ground-level: 64
+  biomes:
+    size: 1024
+    climate-distribution: 512
+    replacements:
+      AETHER: AETHER
+      AETHER_HIGHLANDS: AETHER_HIGHLANDS
+      AETHER_FOREST: AETHER_FOREST
+      AETHER_HIGHLANDS_FOREST: AETHER_HIGHLANDS_FOREST
+      VOID: VOID
+      VOID_END_BORDER: VOID_END_BORDER
+      VOID_AETHER_BORDER: VOID_AETHER_BORDER
+      VOID_AETHER_HIGHLANDS_BORDER: VOID_AETHER_HIGHLANDS_BORDER
+      AETHER_HIGHLANDS_BORDER: AETHER_HIGHLANDS_BORDER
+      STARFIELD: STARFIELD
+      END: END
+      SHATTERED_END: AETHER
+      SHATTERED_FOREST: SHATTERED_FOREST
+
+disable-enderman-block-pickup-aether: true
+
+# Configuration for players falling to overworld (Premium only)
+fall:
+  fall-to-overworld:
+    enable-aether: true
+    enable-everywhere: false
+
+overworld: false
+
+trees:
+  fractal-trees:
+    from-sapings:
+      in-biomes: true
+      in-world: false
+
+
+boss:
+  # Enable/disable the MythicMobs boss fight
+  enable: false
+  # Amount of time before boss respawns (premium only). https://en.wikipedia.org/wiki/ISO_8601#Durations
+  respawn-time: P14D
+  # The name of the boss to spawn
+  gold-name: SkeletonKing

@@ -1,5 +1,6 @@
 package com.dfsek.betterend.biomes;
 
+import com.dfsek.betterend.config.WorldConfig;
 import org.bukkit.World;
 import org.polydev.gaea.biome.BiomeGrid;
 
@@ -31,8 +32,21 @@ public class EndBiomeGrid extends BiomeGrid<Biome> {
             {Biome.SHATTERED_END, Biome.SHATTERED_END, Biome.SHATTERED_END, Biome.SHATTERED_END, Biome.SHATTERED_END, Biome.SHATTERED_END, Biome.SHATTERED_END, Biome.SHATTERED_END, Biome.SHATTERED_FOREST, Biome.SHATTERED_FOREST, Biome.SHATTERED_FOREST, Biome.SHATTERED_FOREST, Biome.SHATTERED_FOREST, Biome.SHATTERED_FOREST, Biome.SHATTERED_FOREST, Biome.SHATTERED_FOREST}};
 
     public EndBiomeGrid(World w) {
-        super(w);
+        super(w, 1f/WorldConfig.fromWorld(w).biomeSize, 1f/WorldConfig.fromWorld(w).climateSize);
+        WorldConfig config = WorldConfig.fromWorld(w);
+        for(Biome b : Biome.values()) {
+            replaceInGrid(b, config.getBiomeReplacement(b));
+        }
         super.setGrid(grid);
+    }
+
+    public void replaceInGrid(Biome from, Biome to) {
+        System.out.println("Replacing " + from + " with " + to);
+        for(int i = 0; i < grid.length; i++) {
+            for(int j = 0; j < grid[i].length; j++) {
+                if(grid[i][j].equals(from)) grid[i][j] = to;
+            }
+        }
     }
 
     public EndBiomeGrid(int seed) {

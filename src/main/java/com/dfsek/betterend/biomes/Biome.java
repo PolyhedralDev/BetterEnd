@@ -117,6 +117,11 @@ public enum Biome implements BiomeTemplate {
 		return decorator.getTreeDensity();
 	}
 
+	@Override
+	public int getStructureChance() {
+		return 0;
+	}
+
 	/**
 	 * Gets the generator object
 	 * @return BiomeTerrain - the terrain gen object.

@@ -1,6 +1,5 @@
 package org.polydev.gaea.biome;
 
-import com.dfsek.betterend.world.WorldConfig;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.polydev.gaea.math.FastNoise;
@@ -12,16 +11,16 @@ public abstract class BiomeGrid<B extends BiomeTemplate> {
     private final World world;
 
 
-    public BiomeGrid(World w) {
+    public BiomeGrid(World w, float freq1, float freq2) {
         this.world = w;
         this.biome = new FastNoise((int) w.getSeed());
         this.biome.setNoiseType(FastNoise.NoiseType.ValueFractal);
         this.biome.setFractalOctaves(4);
-        this.biome.setFrequency((float)1/ WorldConfig.fromWorld(world).biomeSize);
+        this.biome.setFrequency(freq1);
         this.climate = new FastNoise((int) w.getSeed()+1);
         this.climate.setNoiseType(FastNoise.NoiseType.ValueFractal);
         this.climate.setFractalOctaves(4);
-        this.climate.setFrequency((float)1/WorldConfig.fromWorld(world).climateNoise);
+        this.climate.setFrequency(freq2);
     }
 
     public BiomeGrid(int seed) {
