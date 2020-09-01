@@ -13,6 +13,8 @@ public enum Tree {
     SHATTERED_LARGE(null),
     GIANT_OAK(null),
     GIANT_SPRUCE(null),
+    SMALL_SHATTERED_PILLAR(null),
+    LARGE_SHATTERED_PILLAR(null),
     OAK(TreeType.TREE),
     LARGE_OAK(TreeType.BIG_TREE),
     SPRUCE(TreeType.REDWOOD),

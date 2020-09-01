@@ -15,7 +15,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.dfsek.betterend.BetterEnd;
-import com.dfsek.betterend.biomes.EndBiomeGrid;
+import com.dfsek.betterend.world.EndBiomeGrid;
 import com.dfsek.betterend.config.ConfigUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -23,7 +23,7 @@ import org.bukkit.entity.Player;
 
 import com.dfsek.betterend.UpdateChecker;
 import com.dfsek.betterend.UpdateChecker.UpdateReason;
-import com.dfsek.betterend.biomes.Biome;
+import com.dfsek.betterend.world.EndBiome;
 
 public class Util {
 	private static BetterEnd main = BetterEnd.getInstance();
@@ -41,28 +41,28 @@ public class Util {
 			Location candidate = p.getLocation();
 			while (tries < 400000) {
 				Location candidateN = candidate.add(tries, 0, 0);
-				if(EndBiomeGrid.fromWorld(p.getWorld()).getBiome(candidateN).equals(Biome.valueOf(args[1]))
+				if(EndBiomeGrid.fromWorld(p.getWorld()).getBiome(candidateN).equals(EndBiome.valueOf(args[1]))
 						&& Math.sqrt(Math.pow(candidateN.getBlockX(), 2) + Math.pow(candidateN.getBlockZ(), 2)) > 1000) {
 					p.sendMessage(LangUtil.prefix + LangUtil.teleportingMessage);
 					p.teleport(candidateN);
 					return true;
 				}
 				candidateN = candidate.add(-tries, 0, 0);
-				if(EndBiomeGrid.fromWorld(p.getWorld()).getBiome(candidateN).equals(Biome.valueOf(args[1]))
+				if(EndBiomeGrid.fromWorld(p.getWorld()).getBiome(candidateN).equals(EndBiome.valueOf(args[1]))
 						&& Math.sqrt(Math.pow(candidateN.getBlockX(), 2) + Math.pow(candidateN.getBlockZ(), 2)) > 1000) {
 					p.sendMessage(LangUtil.prefix + LangUtil.teleportingMessage);
 					p.teleport(candidateN);
 					return true;
 				}
 				candidateN = candidate.add(0, 0, tries);
-				if(EndBiomeGrid.fromWorld(p.getWorld()).getBiome(candidateN).equals(Biome.valueOf(args[1]))
+				if(EndBiomeGrid.fromWorld(p.getWorld()).getBiome(candidateN).equals(EndBiome.valueOf(args[1]))
 						&& Math.sqrt(Math.pow(candidateN.getBlockX(), 2) + Math.pow(candidateN.getBlockZ(), 2)) > 1000) {
 					p.sendMessage(LangUtil.prefix + LangUtil.teleportingMessage);
 					p.teleport(candidateN);
 					return true;
 				}
 				candidateN = candidate.add(0, 0, -tries);
-				if(EndBiomeGrid.fromWorld(p.getWorld()).getBiome(candidateN).equals(Biome.valueOf(args[1]))
+				if(EndBiomeGrid.fromWorld(p.getWorld()).getBiome(candidateN).equals(EndBiome.valueOf(args[1]))
 						&& Math.sqrt(Math.pow(candidateN.getBlockX(), 2) + Math.pow(candidateN.getBlockZ(), 2)) > 1000) {
 					p.sendMessage(LangUtil.prefix + LangUtil.teleportingMessage);
 					p.teleport(candidateN);

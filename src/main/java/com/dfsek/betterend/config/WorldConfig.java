@@ -1,24 +1,24 @@
 package com.dfsek.betterend.config;
 
-import com.dfsek.betterend.biomes.Biome;
+import com.dfsek.betterend.world.EndBiome;
 import org.bukkit.World;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.craftbukkit.libs.org.apache.commons.io.FileUtils;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
 import java.time.Duration;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
 public class WorldConfig {
     private static final Map<String, WorldConfig> configs = new HashMap<>();
+    private static JavaPlugin main;
+
 
     public boolean endermanBlockPickup;
     public boolean bigTreeSaplingBiomes;
@@ -35,9 +35,11 @@ public class WorldConfig {
     public int noise;
     public int biomeSize;
     public int climateSize;
+    public int structureChancePerChunk;
     private final Map<String, Object> biomeReplacements;
 
     public WorldConfig(String w, JavaPlugin main) {
+        WorldConfig.main = main;
         long start = System.nanoTime();
         main.getLogger().info("Loading world configuration values for " + w + "...");
         FileConfiguration config = new YamlConfiguration();
@@ -60,12 +62,14 @@ public class WorldConfig {
         mythicBossName = config.getString("boss.gold-name", "SkeletonKing");
         overworld = config.getBoolean("overworld", false);
         bossRespawnTime = Duration.parse(Objects.requireNonNull(config.getString("boss.respawn-time", "P14D"))).toMillis();
+        System.out.println("Boss respawn time parsed to " + bossRespawnTime + "ms for " + w);
         islandHeightMultiplierBottom = config.getInt("terrain.height.bottom",32);
         islandHeightMultiplierTop = config.getInt("terrain.height.top", 6);
         octaves = config.getInt("terrain.noise.octaves", 5);
         noise = config.getInt("terrain.noise.island-size", 96);
         biomeSize = config.getInt("terrain.biomes.size", 1024);
         climateSize = config.getInt("terrain.biome.climate-distribution", 512);
+        structureChancePerChunk = config.getInt("structures.chance-per-chunk", 30);
         biomeReplacements = config.getConfigurationSection("terrain.biomes.replacements").getValues(false);
 
 
@@ -74,12 +78,15 @@ public class WorldConfig {
         configs.put(w, this);
     }
 
-    public Biome getBiomeReplacement(Biome b) {
-        if(biomeReplacements.containsKey(b.toString())) return Biome.valueOf((String) biomeReplacements.get(b.toString()));
+    public EndBiome getBiomeReplacement(EndBiome b) {
+        if(biomeReplacements.containsKey(b.toString())) return EndBiome.valueOf((String) biomeReplacements.get(b.toString()));
         return b;
     }
 
     public static WorldConfig fromWorld(World w) {
+        if(!configs.containsKey(w.getName())) {
+            WorldConfig c = new WorldConfig(w.getName(), main);
+        }
         return configs.get(w.getName());
     }
 }

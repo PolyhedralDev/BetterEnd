@@ -1,7 +1,7 @@
 package com.dfsek.betterend.population;
 
 import com.dfsek.betterend.BetterEnd;
-import com.dfsek.betterend.biomes.EndBiomeGrid;
+import com.dfsek.betterend.world.EndBiomeGrid;
 import com.dfsek.betterend.util.LangUtil;
 import com.dfsek.betterend.util.StructureUtil;
 import org.bukkit.Chunk;

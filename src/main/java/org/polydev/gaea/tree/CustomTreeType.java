@@ -3,10 +3,7 @@ package org.polydev.gaea.tree;
 import org.bukkit.Location;
 import org.polydev.gaea.tree.fractal.FractalTree;
 import org.polydev.gaea.tree.fractal.TreeGetter;
-import org.polydev.gaea.tree.fractal.trees.OakTree;
-import org.polydev.gaea.tree.fractal.trees.ShatteredTree;
-import org.polydev.gaea.tree.fractal.trees.SmallShatteredTree;
-import org.polydev.gaea.tree.fractal.trees.SpruceTree;
+import org.polydev.gaea.tree.fractal.trees.*;
 
 import java.util.Random;
 
@@ -34,5 +31,17 @@ public enum CustomTreeType implements TreeGetter {
         public FractalTree getTree(Location l, Random r) {
             return new SpruceTree(l, r);
         }
-    };
+    },
+    SMALL_SHATTERED_PILLAR {
+        @Override
+        public FractalTree getTree(Location l, Random r) {
+            return new SmallShatteredPillar(l, r);
+        }
+    },
+    LARGE_SHATTERED_PILLAR {
+        @Override
+        public FractalTree getTree(Location l, Random r) {
+            return new ShatteredPillar(l, r);
+        }
+    }
 }

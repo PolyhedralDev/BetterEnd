@@ -14,7 +14,6 @@ update-checker:
 # The language in which to display plugin messages
 lang: en_us
 
-structures:
 
 # Enables/disables generation of custom trees in all worlds
 big-trees-everywhere: false;

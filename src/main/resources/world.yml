@@ -25,7 +25,7 @@ terrain:
       AETHER_HIGHLANDS_BORDER: AETHER_HIGHLANDS_BORDER
       STARFIELD: STARFIELD
       END: END
-      SHATTERED_END: AETHER
+      SHATTERED_END: SHATTERED_END
       SHATTERED_FOREST: SHATTERED_FOREST
 
 disable-enderman-block-pickup-aether: true
@@ -44,6 +44,8 @@ trees:
       in-biomes: true
       in-world: false
 
+structures:
+  chance-per-chunk: 30
 
 boss:
   # Enable/disable the MythicMobs boss fight

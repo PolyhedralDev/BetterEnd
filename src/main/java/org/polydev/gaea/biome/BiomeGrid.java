@@ -4,7 +4,7 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.polydev.gaea.math.FastNoise;
 
-public abstract class BiomeGrid<B extends BiomeTemplate> {
+public abstract class BiomeGrid<B extends Biome> {
     private B[][] grid;
     private final FastNoise biome;
     private final FastNoise climate;

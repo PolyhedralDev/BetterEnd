@@ -1,7 +1,7 @@
 package com.dfsek.betterend.util;
 
-import com.dfsek.betterend.biomes.EndBiomeGrid;
-import com.dfsek.betterend.generation.EndChunkGenerator;
+import com.dfsek.betterend.world.EndBiomeGrid;
+import com.dfsek.betterend.world.EndChunkGenerator;
 import com.dfsek.betterend.config.WorldConfig;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;

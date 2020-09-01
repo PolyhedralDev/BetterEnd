@@ -8,7 +8,7 @@ import java.util.Random;
 import java.util.stream.IntStream;
 
 import com.dfsek.betterend.BetterEnd;
-import com.dfsek.betterend.biomes.EndBiomeGrid;
+import com.dfsek.betterend.world.EndBiomeGrid;
 import com.dfsek.betterend.config.ConfigUtil;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -17,7 +17,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
-import com.dfsek.betterend.generation.EndChunkGenerator;
+import com.dfsek.betterend.world.EndChunkGenerator;
 
 import io.lumine.xikage.mythicmobs.MythicMobs;
 

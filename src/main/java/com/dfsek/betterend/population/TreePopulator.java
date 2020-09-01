@@ -1,8 +1,8 @@
 package com.dfsek.betterend.population;
 
 import com.dfsek.betterend.BetterEnd;
-import com.dfsek.betterend.biomes.Biome;
-import com.dfsek.betterend.biomes.EndBiomeGrid;
+import com.dfsek.betterend.world.EndBiome;
+import com.dfsek.betterend.world.EndBiomeGrid;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -23,7 +23,7 @@ public class TreePopulator extends BlockPopulator  {
             int y = WorldUtil.getHighestValidSpawnAt(chunk, x, z);
             if(y <= 0) continue;
             Location origin = chunk.getBlock(x, y, z).getLocation().add(0, 1, 0);
-            Biome b = EndBiomeGrid.fromWorld(world).getBiome(origin);
+            EndBiome b = EndBiomeGrid.fromWorld(world).getBiome(origin);
             numTrees++;
             try {
                 b.getTree(random).plant(origin, random, false, main);
