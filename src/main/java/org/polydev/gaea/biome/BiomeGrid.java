@@ -74,4 +74,8 @@ public abstract class BiomeGrid<B extends Biome> {
         i += 7.5; //makes it positive
         return (int) Math.floor(i);
     }
+
+    public World getWorld() {
+        return world;
+    }
 }

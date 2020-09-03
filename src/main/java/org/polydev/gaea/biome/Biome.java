@@ -10,5 +10,6 @@ public interface Biome {
     Tree getTree(Random r);
     int getTreeDensity();
     boolean overrideStructureChance();
+    org.bukkit.block.Biome getVanillaBiome();
     BiomeTerrain getGenerator();
 }

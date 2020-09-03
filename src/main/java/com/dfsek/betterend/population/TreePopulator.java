@@ -3,19 +3,22 @@ package com.dfsek.betterend.population;
 import com.dfsek.betterend.BetterEnd;
 import com.dfsek.betterend.world.EndBiome;
 import com.dfsek.betterend.world.EndBiomeGrid;
+import com.dfsek.betterend.world.EndProfiler;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.generator.BlockPopulator;
 import org.jetbrains.annotations.NotNull;
+import org.polydev.gaea.profiler.ProfileFuture;
 import org.polydev.gaea.util.WorldUtil;
 
 import java.util.Random;
 
-public class TreePopulator extends BlockPopulator  {
+public class TreePopulator extends BlockPopulator {
     private final BetterEnd main = BetterEnd.getInstance();
     @Override
     public void populate(@NotNull World world, @NotNull Random random, @NotNull Chunk chunk) {
+        ProfileFuture gen = EndProfiler.fromWorld(world).measure("TreeGenTime");
         int numTrees = 0;
         for(int i = 0; i < 10; i++) {
             int x = random.nextInt(16);
@@ -30,5 +33,6 @@ public class TreePopulator extends BlockPopulator  {
             } catch(NullPointerException ignored) {}
             if(numTrees >= b.getTreeDensity()) return;
         }
+        if(gen != null) gen.complete();
     }
 }

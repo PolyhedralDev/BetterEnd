@@ -9,4 +9,5 @@ public interface Decorator<S> {
     int getTreeDensity();
     boolean overrideStructureChance();
     boolean shouldGenerateSnow();
+    org.bukkit.block.Biome getVanillaBiome();
 }

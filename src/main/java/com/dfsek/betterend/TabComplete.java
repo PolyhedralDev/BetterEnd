@@ -14,7 +14,7 @@ import org.jetbrains.annotations.NotNull;
 import org.polydev.gaea.tree.Tree;
 
 public class TabComplete implements TabCompleter {
-	private static final List<String> COMMANDS = Arrays.asList("biome", "tpbiome", "version", "reload", "tree");
+	private static final List<String> COMMANDS = Arrays.asList("biome", "tpbiome", "version", "reload", "tree", "profile");
 	private static List<String> BIOMES = Arrays.asList("AETHER", "END", "SHATTERED_END", "AETHER_HIGHLANDS", "SHATTERED_FOREST", "VOID", "STARFIELD");
 	static {
 		if(BetterEnd.isPremium()) {
@@ -39,9 +39,12 @@ public class TabComplete implements TabCompleter {
 				case "tree":
 					if(args.length == 2) for(Tree t : Tree.values()) argList.add(t.toString());
 					break;
+				case "profile":
+					if(args.length == 2) argList.addAll(Arrays.asList("reset", "start", "stop", "query"));
+					break;
 				default:
 			}
-			return argList.stream().filter(a -> a.startsWith(args[1].toUpperCase())).collect(Collectors.toList());
+			return argList.stream().filter(a -> a.toUpperCase().startsWith(args[args.length-1].toUpperCase())).collect(Collectors.toList());
 		}
 		return Collections.emptyList();
 	}

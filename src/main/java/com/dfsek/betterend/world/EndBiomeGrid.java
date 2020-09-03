@@ -1,6 +1,7 @@
 package com.dfsek.betterend.world;
 
 import com.dfsek.betterend.config.WorldConfig;
+import org.bukkit.Location;
 import org.bukkit.World;
 import org.polydev.gaea.biome.BiomeGrid;
 
@@ -10,6 +11,7 @@ import java.util.Map;
 
 public class EndBiomeGrid extends BiomeGrid<EndBiome> {
     private static final Map<World, EndBiomeGrid> grids = new HashMap<>();
+    private final WorldConfig config;
     //Grid of biomes (woah, kinda crazy i know)
     //Y = Biome type, X = "climate"
     //Holds 16x16 biomes
@@ -33,7 +35,7 @@ public class EndBiomeGrid extends BiomeGrid<EndBiome> {
 
     public EndBiomeGrid(World w) {
         super(w, 1f/WorldConfig.fromWorld(w).biomeSize, 1f/WorldConfig.fromWorld(w).climateSize);
-        WorldConfig config = WorldConfig.fromWorld(w);
+        this.config = WorldConfig.fromWorld(w);
         for(EndBiome b : EndBiome.values()) {
             replaceInGrid(b, config.getBiomeReplacement(b));
         }
@@ -51,7 +53,37 @@ public class EndBiomeGrid extends BiomeGrid<EndBiome> {
 
     public EndBiomeGrid(int seed) {
         super(seed);
+        this.config = null;
         super.setGrid(grid);
+    }
+
+    /**
+     * Gets the biome at a pair of coordinates.
+     *
+     * @param x - X-coordinate at which to fetch biome
+     * @param z - Z-coordinate at which to fetch biome
+     * @return Biome - Biome at the given coordinates.
+     */
+    @Override
+    public EndBiome getBiome(int x, int z) {
+        if(config.genMainIsland) {
+            long ds = (long) (Math.pow(x, 2) + Math.pow(z, 2));
+            if(ds < 62500) return config.getBiomeReplacement(EndBiome.MAIN_ISLAND); // 62500 = 250^2, main island width
+            else if (ds < 980100) return config.getBiomeReplacement(EndBiome.VOID); // 980100 = 990^2, outer end edge
+            else if (ds < 1000000) return config.getBiomeReplacement(super.getBiome(x, z).getVoidBorderVariant()); // 1000000 = 1000^2, outer end beginning
+        }
+        return super.getBiome(x, z);
+    }
+
+    /**
+     * Gets the biome at a location.
+     *
+     * @param l - The location at which to fetch the biome.
+     * @return Biome - Biome at the given coordinates.
+     */
+    @Override
+    public EndBiome getBiome(Location l) {
+        return this.getBiome(l.getBlockX(), l.getBlockZ());
     }
 
     /**

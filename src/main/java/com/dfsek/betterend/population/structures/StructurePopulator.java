@@ -4,11 +4,13 @@ import com.dfsek.betterend.config.ConfigUtil;
 import com.dfsek.betterend.config.WorldConfig;
 import com.dfsek.betterend.world.EndBiome;
 import com.dfsek.betterend.world.EndBiomeGrid;
+import com.dfsek.betterend.world.EndProfiler;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.generator.BlockPopulator;
 import org.jetbrains.annotations.NotNull;
+import org.polydev.gaea.profiler.ProfileFuture;
 import org.polydev.gaea.structures.NMSStructure;
 import org.polydev.gaea.structures.features.Feature;
 import org.polydev.gaea.util.WorldUtil;
@@ -18,6 +20,7 @@ import java.util.Random;
 public class StructurePopulator extends BlockPopulator {
     @Override
     public void populate(@NotNull World world, @NotNull Random random, @NotNull Chunk chunk) {
+        ProfileFuture gen = EndProfiler.fromWorld(world).measure("StructureGenTime");
         int x = random.nextInt(16);
         int z = random.nextInt(16);
         EndBiome biome = EndBiomeGrid.fromWorld(world).getBiome(x, z);
@@ -38,5 +41,6 @@ public class StructurePopulator extends BlockPopulator {
             }
             if(ConfigUtil.debug) System.out.println("Generated " + struc + " at " + x + " " + origin.getY() + " " + z);
         }
+        gen.complete();
     }
 }

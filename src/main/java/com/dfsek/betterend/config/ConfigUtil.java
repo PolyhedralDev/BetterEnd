@@ -13,6 +13,7 @@ import com.dfsek.betterend.util.LangUtil;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.plugin.java.JavaPlugin;
 
 public class ConfigUtil {
 	public static String lang;
@@ -25,7 +26,7 @@ public class ConfigUtil {
 
 	private ConfigUtil() {}
 
-	public static void loadConfig(Logger logger, BetterEnd main) {
+	public static void loadConfig(Logger logger, JavaPlugin main) {
 		long start = System.nanoTime();
 		logger.info("Loading configuration values...");
 		main.reloadConfig();

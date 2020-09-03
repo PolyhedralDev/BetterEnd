@@ -17,7 +17,7 @@ public class VoidAetherBorderGenerator extends BiomeTerrain {
 
     @Override
     public double getNoise(FastNoise gen, int x, int z) {
-        return gen.getSimplexFractal(x, z)*0.5f;
+        return gen.getSimplexFractal(x, z)-0.15f;
     }
 
     @Override

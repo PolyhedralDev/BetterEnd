@@ -25,6 +25,7 @@ public enum EndBiome implements Biome {
 	SHATTERED_END(new ShatteredEndGenerator(), new ShatteredEndDecorator()),
 	SHATTERED_FOREST(new ShatteredEndGenerator(), new ShatteredForestDecorator()),
 	AETHER(new AetherGenerator(), new AetherDecorator()),
+	MAIN_ISLAND(new MainIslandGenerator(), new MainIslandDecorator()),
 	AETHER_HIGHLANDS(new AetherHighlandsGenerator(), new AetherHighlandsDecorator()),
 	AETHER_FOREST(new AetherGenerator(), new AetherForestDecorator()),
 	AETHER_HIGHLANDS_FOREST(new AetherHighlandsGenerator(), new AetherHighlandsForestDecorator()),
@@ -120,6 +121,27 @@ public enum EndBiome implements Biome {
 	@Override
 	public boolean overrideStructureChance() {
 		return this.decorator.overrideStructureChance();
+	}
+
+	@Override
+	public org.bukkit.block.Biome getVanillaBiome() {
+		return decorator.getVanillaBiome();
+	}
+
+	public EndBiome getVoidBorderVariant() {
+		switch(this) {
+			case END:
+			case SHATTERED_END:
+			case SHATTERED_FOREST:
+				return VOID_END_BORDER;
+			case AETHER:
+			case AETHER_FOREST:
+				return VOID_AETHER_BORDER;
+			case AETHER_HIGHLANDS:
+			case AETHER_HIGHLANDS_FOREST:
+				return VOID_AETHER_HIGHLANDS_BORDER;
+			default: return this;
+		}
 	}
 
 	/**

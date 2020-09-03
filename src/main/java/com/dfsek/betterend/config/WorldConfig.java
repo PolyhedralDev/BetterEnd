@@ -36,6 +36,8 @@ public class WorldConfig {
     public int biomeSize;
     public int climateSize;
     public int structureChancePerChunk;
+    public boolean genMainIsland;
+    public int islandHeight;
     private final Map<String, Object> biomeReplacements;
 
     public WorldConfig(String w, JavaPlugin main) {
@@ -71,6 +73,8 @@ public class WorldConfig {
         climateSize = config.getInt("terrain.biome.climate-distribution", 512);
         structureChancePerChunk = config.getInt("structures.chance-per-chunk", 30);
         biomeReplacements = config.getConfigurationSection("terrain.biomes.replacements").getValues(false);
+        genMainIsland = config.getBoolean("terrain.main-island", true);
+        islandHeight = config.getInt("terrain.ground-level", 64);
 
 
         main.getLogger().info("Complete. Time elapsed: " + ((double) (System.nanoTime() - start)) / 1000000 + "ms");

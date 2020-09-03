@@ -10,6 +10,7 @@ terrain:
     top: 6
     bottom: 32
   ground-level: 64
+  main-island: true
   biomes:
     size: 1024
     climate-distribution: 512

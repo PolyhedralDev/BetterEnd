@@ -38,6 +38,7 @@ public class BetterEnd extends JavaPlugin {
 
 		this.getServer().getPluginManager().registerEvents(new EventListener(), this);
 		this.saveDefaultConfig();
+		this.getCommand("betterend").setExecutor(new BetterEndCommand(this));
 
 		ConfigUtil.init(logger, this);
 
@@ -79,56 +80,6 @@ public class BetterEnd extends JavaPlugin {
 
 	public static BetterEnd getInstance() {
 		return instance;
-	}
-
-	@Override
-	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
-		if(args.length == 1 && args[0].equalsIgnoreCase("biome")) {
-			if(!(sender instanceof Player)) {
-				sender.sendMessage(LangUtil.prefix + LangUtil.playersOnly);
-				return true;
-			}
-			Player p = (Player) sender;
-			if(sender.hasPermission("betterend.checkbiome")) {
-				if(p.getWorld().getGenerator() instanceof EndChunkGenerator) sender
-						.sendMessage(LangUtil.prefix + String.format(LangUtil.biomeCommand, EndBiomeGrid.fromWorld(p.getWorld()).getBiome(p.getLocation()).toString()));
-				else sender.sendMessage(LangUtil.prefix + LangUtil.notBetterEndWorld);
-			} else {
-				sender.sendMessage(LangUtil.prefix + LangUtil.noPermission);
-			}
-			return true;
-		} else if(args.length == 2 && args[0].equalsIgnoreCase("tpbiome")) {
-			if(!(sender instanceof Player)) {
-				sender.sendMessage(LangUtil.prefix + LangUtil.playersOnly);
-				return true;
-			}
-			Player p = (Player) sender;
-			if(p.hasPermission("betterend.gotobiome")) {
-				if(p.getWorld().getGenerator() instanceof EndChunkGenerator) return Util.tpBiome(p, args);
-				else sender.sendMessage(LangUtil.prefix + LangUtil.notBetterEndWorld);
-			} else {
-				sender.sendMessage(LangUtil.prefix + LangUtil.noPermission);
-			}
-			return true;
-		} else if(args.length == 1 && args[0].equalsIgnoreCase("version")) {
-			sender.sendMessage(LangUtil.prefix + String.format(LangUtil.versionCommand, this.getDescription().getVersion()));
-			return true;
-		} else if(args.length == 1 && args[0].equalsIgnoreCase("reload")) {
-			sender.sendMessage(LangUtil.prefix + LangUtil.reloadConfig);
-			ConfigUtil.loadConfig(this.getLogger(), this);
-			sender.sendMessage(LangUtil.prefix + LangUtil.completeMessage);
-			return true;
-		} else if(args.length == 2 && args[0].equalsIgnoreCase("tree")) {
-			if(sender.hasPermission("betterend.tree")) {
-				try {
-					Tree.valueOf(args[1]).plant(((Player) sender).getLocation(), new Random(), false, this);
-					return true;
-				} catch (IllegalArgumentException e) {
-					sender.sendMessage("Invalid tree type.");
-				}
-			}
-		}
-		return false;
 	}
 
 	@Override

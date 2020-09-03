@@ -1,10 +1,18 @@
 package com.dfsek.betterend.world.generators.biomes;
 
+import org.bukkit.Material;
 import org.polydev.gaea.biome.BiomeTerrain;
 import org.polydev.gaea.math.FastNoise;
 import org.polydev.gaea.world.palette.BlockPalette;
 
 public class MainIslandGenerator extends BiomeTerrain {
+    private final BlockPalette palette;
+
+    public MainIslandGenerator() {
+        super();
+        this.palette = new BlockPalette().add(Material.END_STONE, 1);
+    }
+
     /**
      * Gets the 2D noise at a pair of coordinates using the provided FastNoise instance.
      *
@@ -15,7 +23,7 @@ public class MainIslandGenerator extends BiomeTerrain {
      */
     @Override
     public double getNoise(FastNoise gen, int x, int z) {
-        return 0;
+        return ((gen.getSimplexFractal(x, z)+0.75)/1.25) * (Math.sqrt(-(Math.pow(x, 2) + Math.pow(z, 2)) + 10000))/96;
     }
 
     /**
@@ -25,6 +33,6 @@ public class MainIslandGenerator extends BiomeTerrain {
      */
     @Override
     public BlockPalette getPalette() {
-        return null;
+        return this.palette;
     }
 }

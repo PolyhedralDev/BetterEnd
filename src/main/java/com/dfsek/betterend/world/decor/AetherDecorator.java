@@ -1,6 +1,7 @@
 package com.dfsek.betterend.world.decor;
 
 import com.dfsek.betterend.population.structures.EndStructure;
+import org.bukkit.block.Biome;
 import org.polydev.gaea.math.ProbabilityCollection;
 import org.polydev.gaea.tree.Tree;
 import org.polydev.gaea.biome.Decorator;
@@ -39,5 +40,10 @@ public class AetherDecorator implements Decorator<EndStructure> {
     @Override
     public boolean shouldGenerateSnow() {
         return false;
+    }
+
+    @Override
+    public Biome getVanillaBiome() {
+        return Biome.END_HIGHLANDS;
     }
 }
