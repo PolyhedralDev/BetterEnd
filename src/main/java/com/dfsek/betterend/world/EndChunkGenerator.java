@@ -4,18 +4,16 @@ import com.dfsek.betterend.BetterEnd;
 import com.dfsek.betterend.config.ConfigUtil;
 import com.dfsek.betterend.config.WorldConfig;
 import com.dfsek.betterend.population.CustomStructurePopulator;
+import com.dfsek.betterend.population.SnowPopulator;
 import com.dfsek.betterend.population.TreePopulator;
 import com.dfsek.betterend.population.structures.StructurePopulator;
 import org.bukkit.World;
 import org.bukkit.generator.BlockPopulator;
 import org.bukkit.generator.ChunkGenerator;
-import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import org.polydev.gaea.biome.Biome;
 import org.polydev.gaea.math.FastNoise;
 import org.polydev.gaea.math.Interpolator;
-import org.polydev.gaea.profiler.WorldProfiler;
-import org.polydev.gaea.profiler.Measurement;
 import org.polydev.gaea.profiler.ProfileFuture;
 
 import java.util.Arrays;
@@ -113,8 +111,8 @@ public class EndChunkGenerator extends ChunkGenerator {
     @NotNull
     @Override
     public List<BlockPopulator> getDefaultPopulators(@NotNull World world) {
-        if(BetterEnd.isPremium()) return Arrays.asList(new CustomStructurePopulator(), new StructurePopulator(), new TreePopulator());
-        else return Arrays.asList(new StructurePopulator(), new TreePopulator());
+        if(BetterEnd.isPremium()) return Arrays.asList(new CustomStructurePopulator(), new StructurePopulator(), new TreePopulator(), new SnowPopulator());
+        else return Arrays.asList(new StructurePopulator(), new TreePopulator(), new SnowPopulator());
     }
 
 }

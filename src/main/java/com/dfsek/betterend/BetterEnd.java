@@ -1,24 +1,19 @@
 package com.dfsek.betterend;
 
-import com.dfsek.betterend.world.EndBiomeGrid;
 import com.dfsek.betterend.config.ConfigUtil;
 import com.dfsek.betterend.config.WorldConfig;
-import com.dfsek.betterend.world.EndChunkGenerator;
+import com.dfsek.betterend.population.structures.EndStructure;
 import com.dfsek.betterend.util.*;
+import com.dfsek.betterend.world.EndChunkGenerator;
 import org.bukkit.Bukkit;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import org.polydev.gaea.structures.NMSStructure;
 import org.polydev.gaea.taskchain.BukkitTaskChainFactory;
 import org.polydev.gaea.taskchain.TaskChainFactory;
-import org.polydev.gaea.tree.Tree;
 
 import java.util.Objects;
-import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -33,6 +28,7 @@ public class BetterEnd extends JavaPlugin {
 		genChain = BukkitTaskChainFactory.create(this);
 		final Logger logger = this.getLogger();
 		NMSStructure.load();
+
 		Metrics metrics = new Metrics(this, 7709);
 		metrics.addCustomChart(new Metrics.SimplePie("premium", () -> isPremium() ? "Yes" : "No"));
 
@@ -41,7 +37,7 @@ public class BetterEnd extends JavaPlugin {
 		this.getCommand("betterend").setExecutor(new BetterEndCommand(this));
 
 		ConfigUtil.init(logger, this);
-
+		EndStructure.init();
 		try {
 			MythicSpawnsUtil.startSpawnRoutine();
 			if(isPremium()) getServer().getScheduler().scheduleSyncDelayedTask(this, () -> {

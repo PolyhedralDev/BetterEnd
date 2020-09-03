@@ -1,5 +1,6 @@
 package org.polydev.gaea.profiler;
 
+import org.bukkit.ChatColor;
 import org.bukkit.World;
 
 import java.util.HashMap;
@@ -17,15 +18,24 @@ public class WorldProfiler {
 
     public String getResultsFormatted() {
         if(!isProfiling) return "Profiler is not currently running.";
-        StringBuilder result = new StringBuilder();
+        StringBuilder result = new StringBuilder(ChatColor.GOLD + "Gaea World Profiler Results:\n");
         for(Map.Entry<String, Measurement> e : measures.entrySet()) {
-            result.append(e.getKey())
+            result.append(ChatColor.GOLD)
+                    .append(e.getKey())
                     .append(": Avg ")
-                    .append((double) e.getValue().average()/1000000)
-                    .append("ms, Min")
-                    .append((double) e.getValue().getMin()/1000000)
-                    .append("ms, Max ")
-                    .append((double) e.getValue().getMax()/1000000)
+                    .append(e.getValue().getDataHolder().getFormattedData(e.getValue().average()))
+                    .append(ChatColor.GOLD)
+                    .append(", Min ")
+                    .append(e.getValue().getDataHolder().getFormattedData(e.getValue().getMin()))
+                    .append(ChatColor.GOLD)
+                    .append(", Max ")
+                    .append(e.getValue().getDataHolder().getFormattedData(e.getValue().getMax()))
+                    .append(ChatColor.GOLD)
+                    .append(", Std Dev ")
+                    .append(ChatColor.GREEN)
+                    .append((double) Math.round((e.getValue().getStdDev()/1000000)*100D)/100D)
+                    .append("ms")
+                    .append(ChatColor.GOLD)
                     .append("\n");
         }
         return result.toString();

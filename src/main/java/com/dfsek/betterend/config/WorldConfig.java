@@ -71,7 +71,7 @@ public class WorldConfig {
         noise = config.getInt("terrain.noise.island-size", 96);
         biomeSize = config.getInt("terrain.biomes.size", 1024);
         climateSize = config.getInt("terrain.biome.climate-distribution", 512);
-        structureChancePerChunk = config.getInt("structures.chance-per-chunk", 30);
+        structureChancePerChunk = config.getInt("structures.chance-per-chunk", 50);
         biomeReplacements = config.getConfigurationSection("terrain.biomes.replacements").getValues(false);
         genMainIsland = config.getBoolean("terrain.main-island", true);
         islandHeight = config.getInt("terrain.ground-level", 64);

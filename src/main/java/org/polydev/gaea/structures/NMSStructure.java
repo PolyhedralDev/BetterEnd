@@ -4,6 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -107,22 +108,76 @@ public class NMSStructure {
      * @param file   - The InputStream from which to load the structure.
      * @author dfsek
      * @since 3.5.0
+     * @deprecated
      */
+    @Deprecated
     public NMSStructure(Location origin, InputStream file) {
         Object structure;
         try {
             structure = definedStructureConstructor.newInstance();
             loadStructure.invoke(structure, loadNBTStreamFromInputStreamMethod.invoke(nbtStreamToolsClass, file));
-
             Object tag = getStructureAsNBTMethod.invoke(structure, compoundNBTConstructor.newInstance());
-            this.dimension = new int[]{(int) getNBTListItemMethod.invoke(getNBTListMethod.invoke(tag, "size", 3), 0),
-                    (int) getNBTListItemMethod.invoke(getNBTListMethod.invoke(tag, "size", 3), 1),
-                    (int) getNBTListItemMethod.invoke(getNBTListMethod.invoke(tag, "size", 3), 2)};
+            Object dimTag = getNBTListMethod.invoke(tag, "size", 3);
+            this.dimension = new int[]{(int) getNBTListItemMethod.invoke(dimTag, 0),
+                    (int) getNBTListItemMethod.invoke(dimTag, 1),
+                    (int) getNBTListItemMethod.invoke(dimTag, 2)};
             this.structure = structure;
             this.origin = origin;
         } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
             e.printStackTrace();
         }
+        try {
+            file.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Load a structure from an Object.
+     *
+     * @param origin - The origin location of the structure.
+     * @param file   - The InputStream from which to load the structure.
+     * @author dfsek
+     * @since 4.0.0
+     */
+    public NMSStructure(Location origin, Object file) {
+        if(file.getClass() != definedStructureConstructor.getDeclaringClass()) throw new IllegalArgumentException("Object is not member of required class!");
+        try {
+            Object tag = getStructureAsNBTMethod.invoke(file, compoundNBTConstructor.newInstance());
+            Object dimTag = getNBTListMethod.invoke(tag, "size", 3);
+            this.dimension = new int[]{(int) getNBTListItemMethod.invoke(dimTag, 0),
+                    (int) getNBTListItemMethod.invoke(dimTag, 1),
+                    (int) getNBTListItemMethod.invoke(dimTag, 2)};
+            this.structure = file;
+            this.origin = origin;
+        } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Gets the NBT Tag object from an InputStream.<br>
+     *     Use for loading structure data into memory.
+     * @param file InputStream to load from.
+     * @return Object - The NBT Tag object
+     */
+    public static Object getAsTag(InputStream file) {
+        Object structure;
+        try {
+            structure = definedStructureConstructor.newInstance();
+            loadStructure.invoke(structure, loadNBTStreamFromInputStreamMethod.invoke(nbtStreamToolsClass, file));
+
+            return structure;
+        } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+            e.printStackTrace();
+        }
+        try {
+            file.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     /**

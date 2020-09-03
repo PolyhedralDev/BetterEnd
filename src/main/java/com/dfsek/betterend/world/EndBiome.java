@@ -7,11 +7,17 @@ import com.dfsek.betterend.world.generators.border.VoidAetherBorderGenerator;
 import com.dfsek.betterend.world.generators.border.VoidAetherHighlandsBorderGenerator;
 import com.dfsek.betterend.world.generators.border.VoidEndBorderGenerator;
 import com.dfsek.betterend.population.structures.EndStructure;
+import org.bukkit.Material;
 import org.polydev.gaea.biome.BiomeTerrain;
+import org.polydev.gaea.math.ProbabilityCollection;
+import org.polydev.gaea.structures.features.BlockReplaceFeature;
+import org.polydev.gaea.structures.features.Feature;
 import org.polydev.gaea.tree.Tree;
 import org.polydev.gaea.biome.Biome;
 import org.polydev.gaea.biome.Decorator;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -151,5 +157,20 @@ public enum EndBiome implements Biome {
 	@Override
 	public BiomeTerrain getGenerator() {
 		return this.generator;
+	}
+
+	@Override
+	public List<Feature> getStructureFeatures() {
+		switch (this) {
+			case AETHER_HIGHLANDS_FOREST:
+			case AETHER_HIGHLANDS_BORDER:
+			case AETHER_HIGHLANDS:
+				return Collections.singletonList(new BlockReplaceFeature(4, new ProbabilityCollection<Material>().add(Material.COBWEB, 1)));
+			default: return Collections.emptyList();
+		}
+	}
+
+	public boolean shouldGenerateSnow() {
+		return decorator.shouldGenerateSnow();
 	}
 }

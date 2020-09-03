@@ -19,6 +19,11 @@ public class WorldUtil {
                 && chunk.getBlock(x, y, z).getType() != Material.COARSE_DIRT) && y > 0; y--);
         return y;
     }
+    public static int getHighestBlockAt(Chunk chunk, int x, int z) {
+        int y;
+        for(y = chunk.getWorld().getMaxHeight() - 1; (chunk.getBlock(x, y, z).getType().isAir()) && y > 0; y--);
+        return y;
+    }
     public static List<Location> getLocationListBetween(Location loc1, Location loc2) {
         int lowX = Math.min(loc1.getBlockX(), loc2.getBlockX());
         int lowY = Math.min(loc1.getBlockY(), loc2.getBlockY());

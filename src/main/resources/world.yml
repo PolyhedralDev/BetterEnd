@@ -46,7 +46,7 @@ trees:
       in-world: false
 
 structures:
-  chance-per-chunk: 30
+  chance-per-chunk: 50
 
 boss:
   # Enable/disable the MythicMobs boss fight
