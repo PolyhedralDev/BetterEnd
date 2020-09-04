@@ -1,6 +1,5 @@
 package org.polydev.gaea.math;
 
-import org.bukkit.Bukkit;
 import org.polydev.gaea.biome.Biome;
 import org.polydev.gaea.biome.BiomeGrid;
 

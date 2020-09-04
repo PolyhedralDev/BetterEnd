@@ -1,10 +1,8 @@
 package org.polydev.gaea.biome;
 
 import com.dfsek.betterend.population.structures.EndStructure;
-import org.polydev.gaea.math.ProbabilityCollection;
 import org.polydev.gaea.structures.features.Feature;
 import org.polydev.gaea.tree.Tree;
-import org.polydev.gaea.world.Fauna;
 
 import java.util.List;
 import java.util.Random;

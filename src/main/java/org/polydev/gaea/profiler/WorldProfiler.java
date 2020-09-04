@@ -55,9 +55,8 @@ public class WorldProfiler {
         return this;
     }
 
-    public boolean setMeasurement(String id, long value) {
-        if(isProfiling) measures.get(id).record(value);
-        return isProfiling;
+    public void setMeasurement(String id, long value) {
+        if (isProfiling) measures.get(id).record(value);
     }
 
     public ProfileFuture measure(String id) {

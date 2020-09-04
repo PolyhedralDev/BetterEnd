@@ -16,7 +16,6 @@ public abstract class GaeaChunkGenerator extends ChunkGenerator {
     private FastNoise gen;
     private ChunkInterpolator interp;
     private WorldProfiler profiler;
-    private boolean isProfiling = false;
 
     @Override
     public @NotNull ChunkData generateChunkData(@NotNull World world, @NotNull Random random, int chunkX, int chunkZ, @NotNull BiomeGrid biome) {
@@ -51,7 +50,6 @@ public abstract class GaeaChunkGenerator extends ChunkGenerator {
 
     public void attachProfiler(WorldProfiler p) {
         this.profiler = p;
-        isProfiling = true;
     }
 
     private ProfileFuture measure(String id) {
