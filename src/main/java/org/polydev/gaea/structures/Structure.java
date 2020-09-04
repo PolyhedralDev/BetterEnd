@@ -9,6 +9,8 @@ import java.util.Random;
 
 public interface Structure {
     NMSStructure getInstance(Location origin, Random r);
+
     List<Feature> getFeatures();
+
     StructureSpawnInfo getSpawnInfo();
 }

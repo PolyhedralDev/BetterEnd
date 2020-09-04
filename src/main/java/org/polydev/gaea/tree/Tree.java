@@ -21,8 +21,9 @@ public enum Tree {
     LARGE_SPRUCE(TreeType.TALL_REDWOOD),
     BIRCH(TreeType.BIRCH),
     CHORUS_PLANT(TreeType.CHORUS_PLANT);
-    
+
     private final TreeType vanillaType;
+
     Tree(TreeType vanillaType) {
         this.vanillaType = vanillaType;
     }
@@ -34,10 +35,12 @@ public enum Tree {
     public TreeType getVanillaTreeType() {
         return vanillaType;
     }
+
     public CustomTreeType getCustomTreeType() {
         if(getVanillaTreeType() != null) return null;
         return CustomTreeType.valueOf(this.toString());
     }
+
     public void plant(Location l, Random r, boolean doSpawnCheck, JavaPlugin main) {
         if(this.getVanillaTreeType() == null) {
             FractalTree tree = getCustomTreeType().getTree(l, r);

@@ -55,6 +55,7 @@ public class TaskChainAsyncQueue implements AsyncQueue {
 
     /**
      * Call during game shutdown state
+     *
      * @param timeout
      * @param unit
      */
@@ -63,7 +64,7 @@ public class TaskChainAsyncQueue implements AsyncQueue {
             executor.setRejectedExecutionHandler((r, executor1) -> r.run());
             executor.shutdown();
             executor.awaitTermination(timeout, unit);
-        } catch (InterruptedException e) {
+        } catch(InterruptedException e) {
             e.printStackTrace();
         }
     }

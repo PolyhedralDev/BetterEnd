@@ -13,7 +13,7 @@ public enum DataType {
     }
 
     public String getFormatted(long value) {
-        return (double) Math.round(((double) value/divisor)*100D)/100D + unit;
+        return (double) Math.round(((double) value / divisor) * 100D) / 100D + unit;
     }
 
     public Desire getDesire() {

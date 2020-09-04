@@ -1,6 +1,5 @@
 package org.polydev.gaea.structures.loot.functions;
 
-import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -16,6 +15,7 @@ public class DamageFunction implements Function {
 
     /**
      * Instantiates a DamageFunction.
+     *
      * @param min Minimum amount of damage (percentage, out of 100)
      * @param max Maximum amount of damage (percentage, out of 100)
      */
@@ -26,8 +26,9 @@ public class DamageFunction implements Function {
 
     /**
      * Applies the function to an ItemStack.
+     *
      * @param original The ItemStack on which to apply the function.
-     * @param r The Random instance to use.
+     * @param r        The Random instance to use.
      * @return - ItemStack - The mutated ItemStack.
      */
     @Override

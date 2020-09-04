@@ -2,9 +2,9 @@ package com.dfsek.betterend.world.decor;
 
 import com.dfsek.betterend.population.structures.EndStructure;
 import org.bukkit.block.Biome;
+import org.polydev.gaea.biome.Decorator;
 import org.polydev.gaea.math.ProbabilityCollection;
 import org.polydev.gaea.tree.Tree;
-import org.polydev.gaea.biome.Decorator;
 import org.polydev.gaea.world.Fauna;
 
 public class ShatteredForestDecorator implements Decorator<EndStructure> {
@@ -35,7 +35,7 @@ public class ShatteredForestDecorator implements Decorator<EndStructure> {
     public boolean overrideStructureChance() {
         return false;
     }
-    
+
     @Override
     public boolean shouldGenerateSnow() {
         return false;

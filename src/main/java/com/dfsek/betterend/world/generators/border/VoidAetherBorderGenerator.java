@@ -1,12 +1,13 @@
 package com.dfsek.betterend.world.generators.border;
 
-import org.polydev.gaea.biome.BiomeTerrain;
-import org.polydev.gaea.world.palette.BlockPalette;
-import org.polydev.gaea.math.FastNoise;
 import org.bukkit.Material;
+import org.polydev.gaea.biome.BiomeTerrain;
+import org.polydev.gaea.math.FastNoise;
+import org.polydev.gaea.world.palette.BlockPalette;
 
 public class VoidAetherBorderGenerator extends BiomeTerrain {
     private final BlockPalette palette;
+
     public VoidAetherBorderGenerator() {
         super();
         this.palette = new BlockPalette()
@@ -17,7 +18,7 @@ public class VoidAetherBorderGenerator extends BiomeTerrain {
 
     @Override
     public double getNoise(FastNoise gen, int x, int z) {
-        return gen.getSimplexFractal(x, z)*0.5f;
+        return gen.getSimplexFractal(x, z) * 0.5f;
     }
 
     @Override

@@ -1,15 +1,10 @@
 package com.dfsek.betterend.util;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.stream.IntStream;
-
 import com.dfsek.betterend.BetterEnd;
-import com.dfsek.betterend.world.EndBiomeGrid;
 import com.dfsek.betterend.config.ConfigUtil;
+import com.dfsek.betterend.world.EndBiomeGrid;
+import com.dfsek.betterend.world.EndChunkGenerator;
+import io.lumine.xikage.mythicmobs.MythicMobs;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.configuration.InvalidConfigurationException;
@@ -17,9 +12,12 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
-import com.dfsek.betterend.world.EndChunkGenerator;
-
-import io.lumine.xikage.mythicmobs.MythicMobs;
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import java.util.stream.IntStream;
 
 public class MythicSpawnsUtil {
 	private static final BetterEnd main = BetterEnd.getInstance();
@@ -52,14 +50,17 @@ public class MythicSpawnsUtil {
 					int maxMobs = config.getInt("mythicmob-cap") * (config.getBoolean("cap-is-per-player") ? main.getServer().getOnlinePlayers().size() : 1);
 					int numMobs = MythicMobs.inst().getMobManager().getActiveMobs().size();
 					if(maxMobs > numMobs) {
-						for(Player p: main.getServer().getOnlinePlayers()) {
+						for(Player p : main.getServer().getOnlinePlayers()) {
 							if(p.getWorld().getGenerator() instanceof EndChunkGenerator) {
-								if(!(Math.abs(p.getLocation().getChunk().getX()) > 20 || Math.abs(p.getLocation().getChunk().getZ()) > 20)) continue;
-								if(ConfigUtil.debug) main.getLogger().info("Starting MythicMobs spawns for " + p.getName());
+								if(! (Math.abs(p.getLocation().getChunk().getX()) > 20 || Math.abs(p.getLocation().getChunk().getZ()) > 20))
+									continue;
+								if(ConfigUtil.debug)
+									main.getLogger().info("Starting MythicMobs spawns for " + p.getName());
 
 								List<Map<?, ?>> mobs = config.getMapList("mobs");
 
-								if(ConfigUtil.debug) main.getLogger().info("Spawning max of " + maxMobs + ", " + numMobs + " already exist(s).");
+								if(ConfigUtil.debug)
+									main.getLogger().info("Spawning max of " + maxMobs + ", " + numMobs + " already exist(s).");
 								IntStream.Builder mobIDs = IntStream.builder();
 								IntStream.Builder weights = IntStream.builder();
 								for(int i = 0; i < mobs.size(); i++) {
@@ -78,13 +79,14 @@ public class MythicSpawnsUtil {
 											attemptLoc.add((double) random.nextInt(7) - 3, 0, (double) random.nextInt(7) - 3);
 											for(y = p.getWorld().getMaxHeight()
 													- 1; p.getWorld().getBlockAt(attemptLoc.getBlockX(), y, attemptLoc.getBlockZ()).getType() != Material.GRASS_BLOCK
-															&& p.getWorld().getBlockAt(attemptLoc.getBlockX(), y, attemptLoc.getBlockZ()).getType() != Material.END_STONE
-															&& p.getWorld().getBlockAt(attemptLoc.getBlockX(), y, attemptLoc.getBlockZ()).getType() != Material.DIRT
-															&& p.getWorld().getBlockAt(attemptLoc.getBlockX(), y, attemptLoc.getBlockZ()).getType() != Material.STONE
-															&& p.getWorld().getBlockAt(attemptLoc.getBlockX(), y, attemptLoc.getBlockZ()).getType() != Material.PODZOL
-															&& p.getWorld().getBlockAt(attemptLoc.getBlockX(), y, attemptLoc.getBlockZ()).getType() != Material.COARSE_DIRT
-															&& p.getWorld().getBlockAt(attemptLoc.getBlockX(), y, attemptLoc.getBlockZ()).getType() != Material.GRAVEL
-															&& p.getWorld().getBlockAt(attemptLoc.getBlockX(), y, attemptLoc.getBlockZ()).getType() != Material.STONE_SLAB && y > 0; y--);
+														&& p.getWorld().getBlockAt(attemptLoc.getBlockX(), y, attemptLoc.getBlockZ()).getType() != Material.END_STONE
+														&& p.getWorld().getBlockAt(attemptLoc.getBlockX(), y, attemptLoc.getBlockZ()).getType() != Material.DIRT
+														&& p.getWorld().getBlockAt(attemptLoc.getBlockX(), y, attemptLoc.getBlockZ()).getType() != Material.STONE
+														&& p.getWorld().getBlockAt(attemptLoc.getBlockX(), y, attemptLoc.getBlockZ()).getType() != Material.PODZOL
+														&& p.getWorld().getBlockAt(attemptLoc.getBlockX(), y, attemptLoc.getBlockZ()).getType() != Material.COARSE_DIRT
+														&& p.getWorld().getBlockAt(attemptLoc.getBlockX(), y, attemptLoc.getBlockZ()).getType() != Material.GRAVEL
+														&& p.getWorld().getBlockAt(attemptLoc.getBlockX(), y, attemptLoc.getBlockZ()).getType() != Material.STONE_SLAB && y > 0; y--)
+												;
 
 											break;
 										case "AIR":
@@ -100,7 +102,8 @@ public class MythicSpawnsUtil {
 											&& attemptLoc.clone().add(0, 1, 0).getBlock().isPassable() && attemptLoc.clone().add(0, 2, 0).getBlock().isPassable()
 											&& attemptLoc.clone().add(0, 1, 0).getBlock().getLightLevel() < ((Map<String, Integer>) mob).get("maxLight")) {
 										MythicMobs.inst().getMobManager().spawnMob((String) mob.get("name"), attemptLoc.add(0, 1, 0));
-										if(ConfigUtil.debug) main.getLogger().info("Spawning mob \"" + mob.get("name") + "\" at " + attemptLoc);
+										if(ConfigUtil.debug)
+											main.getLogger().info("Spawning mob \"" + mob.get("name") + "\" at " + attemptLoc);
 									}
 								}
 
@@ -116,7 +119,7 @@ public class MythicSpawnsUtil {
 
 	public static int chooseOnWeight(int[] items, int[] weights) {
 		double completeWeight = 0.0;
-		for(int weight: weights)
+		for(int weight : weights)
 			completeWeight += weight;
 		double r = Math.random() * completeWeight;
 		double countWeight = 0.0;
@@ -124,6 +127,6 @@ public class MythicSpawnsUtil {
 			countWeight += weights[i];
 			if(countWeight >= r) return items[i];
 		}
-		return -1;
+		return - 1;
 	}
 }

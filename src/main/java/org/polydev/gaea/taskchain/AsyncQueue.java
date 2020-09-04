@@ -29,12 +29,14 @@ import java.util.concurrent.TimeUnit;
 public interface AsyncQueue {
     /**
      * Task to post async of main thread
+     *
      * @param runnable
      */
     void postAsync(Runnable runnable);
 
     /**
      * Call during game shutdown state
+     *
      * @param timeout
      * @param unit
      */

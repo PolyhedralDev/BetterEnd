@@ -1,19 +1,18 @@
 package com.dfsek.betterend.util;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.util.jar.JarFile;
-
+import com.dfsek.betterend.BetterEnd;
 import com.dfsek.betterend.world.EndBiomeGrid;
+import com.dfsek.betterend.world.EndChunkGenerator;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.advancement.AdvancementProgress;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
-import com.dfsek.betterend.BetterEnd;
-import com.dfsek.betterend.world.EndChunkGenerator;
+import java.io.File;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.util.jar.JarFile;
 
 public class EndAdvancementUtil {
 	private static final BetterEnd main = BetterEnd.getInstance();
@@ -32,7 +31,7 @@ public class EndAdvancementUtil {
 		Bukkit.reloadData();
 
 		plugin.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, () -> {
-			for(Player p: plugin.getServer().getOnlinePlayers()) {
+			for(Player p : plugin.getServer().getOnlinePlayers()) {
 				double totalChunkDistance2D = Math.sqrt(Math.pow(p.getLocation().getChunk().getX(), 2) + Math.pow(p.getLocation().getChunk().getZ(), 2));
 				if(p.getWorld().getGenerator() instanceof EndChunkGenerator && (totalChunkDistance2D > 50)) {
 					switch(EndBiomeGrid.fromWorld(p.getWorld()).getBiome(p.getLocation())) {
@@ -65,7 +64,7 @@ public class EndAdvancementUtil {
 							break;
 						default:
 					}
-					if(p.getLocation().getY() < -64) grantAdvancement("into_void", p);
+					if(p.getLocation().getY() < - 64) grantAdvancement("into_void", p);
 					else if(p.getLocation().getY() > 5000) grantAdvancement("dizzying_heights", p);
 					if(hasAdvancement("visit_end", p) && hasAdvancement("visit_shattered_forest", p) && hasAdvancement("visit_shattered_end", p)
 							&& hasAdvancement("visit_starfield", p) && hasAdvancement("visit_void", p) && hasAdvancement("visit_aether_highlands_forest", p)
@@ -82,7 +81,7 @@ public class EndAdvancementUtil {
 		org.bukkit.advancement.Advancement a = main.getServer().getAdvancement(nsk);
 		if(a != null) {
 			AdvancementProgress avp = player.getAdvancementProgress(a);
-			if(!avp.isDone()) {
+			if(! avp.isDone()) {
 				main.getServer().dispatchCommand(main.getServer().getConsoleSender(), "advancement grant " + player.getName() + " only betterend:outer_end/" + adv);
 			}
 		} else {

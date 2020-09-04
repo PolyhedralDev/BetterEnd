@@ -16,7 +16,7 @@ public class AirSpawn implements StructureSpawnInfo {
 
     @Override
     public Location getSpawnLocation(Location init, Random r) {
-        return new Location(init.getWorld(), init.getX(), height + ((deviation <= 0) ? 0 : r.nextInt(deviation)-((double)deviation/2)), init.getZ());
+        return new Location(init.getWorld(), init.getX(), height + ((deviation <= 0) ? 0 : r.nextInt(deviation) - ((double) deviation / 2)), init.getZ());
     }
 
     @Override

@@ -1,13 +1,14 @@
 package com.dfsek.betterend.world.generators.biomes;
 
-import org.polydev.gaea.math.ProbabilityCollection;
-import org.polydev.gaea.biome.BiomeTerrain;
-import org.polydev.gaea.world.palette.BlockPalette;
-import org.polydev.gaea.math.FastNoise;
 import org.bukkit.Material;
+import org.polydev.gaea.biome.BiomeTerrain;
+import org.polydev.gaea.math.FastNoise;
+import org.polydev.gaea.math.ProbabilityCollection;
+import org.polydev.gaea.world.palette.BlockPalette;
 
 public class AetherHighlandsGenerator extends BiomeTerrain {
     private final BlockPalette palette;
+
     public AetherHighlandsGenerator() {
         super();
         this.palette = new BlockPalette()

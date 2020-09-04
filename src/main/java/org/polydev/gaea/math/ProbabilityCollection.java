@@ -6,6 +6,11 @@ import java.util.Random;
 import java.util.TreeSet;
 import java.util.concurrent.ThreadLocalRandom;
 
+/**
+ * Class containing a set of objects with certain weighted probabilities.<br>
+ *     Use to select random weighted values.
+ * @param <E> Type of objects in the collection.
+ */
 public class ProbabilityCollection<E> {
 
     protected final Comparator<ProbabilitySetElement<E>> comparator =
@@ -38,7 +43,7 @@ public class ProbabilityCollection<E> {
     }
 
     /**
-     * @param object
+     * @param object Object to check for
      * @return True if the collection contains the object, else False
      */
     public boolean contains(E object) {
@@ -56,7 +61,7 @@ public class ProbabilityCollection<E> {
     /**
      * Add an object to this collection
      *
-     * @param object
+     * @param object Object to add
      * @param probability share
      * @return The current probability collection, for chaining.
      */
@@ -70,7 +75,7 @@ public class ProbabilityCollection<E> {
     /**
      * Remove a object from this collection
      *
-     * @param object
+     * @param object Object to remove
      * @return True if object was removed, else False.
      */
     public boolean remove(E object) {
@@ -99,6 +104,7 @@ public class ProbabilityCollection<E> {
 
         return this.collection.floor(toFind).getObject();
     }
+
     public E get(Random random) {
         if(this.totalProbability == 0) return null;
         ProbabilitySetElement<E> toFind = new ProbabilitySetElement<>(null, 0);
@@ -132,13 +138,12 @@ public class ProbabilityCollection<E> {
      * Used internally to store information about a object's
      * state in a collection. Specifically, the probability
      * and index within the collection.
-     *
+     * <p>
      * Indexes refer to the start position of this element's "block" of space.
      * The space between element "block"s represents their probability of being selected
      *
-     * @author Lewys Davies
-     *
      * @param <T> Type of element
+     * @author Lewys Davies
      */
     final static class ProbabilitySetElement<T> {
         private final T object;

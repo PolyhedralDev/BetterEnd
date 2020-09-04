@@ -1,17 +1,16 @@
 package com.dfsek.betterend.util;
 
+import com.dfsek.betterend.BetterEnd;
+import org.bukkit.ChatColor;
+import org.bukkit.configuration.InvalidConfigurationException;
+import org.bukkit.configuration.file.YamlConfiguration;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.jar.JarFile;
 import java.util.logging.Logger;
-
-import org.bukkit.ChatColor;
-import org.bukkit.configuration.InvalidConfigurationException;
-import org.bukkit.configuration.file.YamlConfiguration;
-
-import com.dfsek.betterend.BetterEnd;
 
 public class LangUtil {
 	private static final BetterEnd main = BetterEnd.getInstance();

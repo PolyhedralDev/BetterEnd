@@ -36,20 +36,21 @@ public enum Fauna {
         } else data.add(type.createBlockData());
     }
 
-    public boolean plant(Location l) {
-        for(int i = 1; i < data.size()+1; i++) {
-            if(!l.clone().add(0, i, 0).getBlock().isEmpty()) return false;
-        }
-        for(int i = 1; i < data.size()+1; i++) {
-            l.clone().add(0, i, 0).getBlock().setBlockData(data.get(i-1), false);
-        }
-        return true;
-    }
-
     public static Block getHighestValidSpawnAt(Chunk chunk, int x, int z) {
         int y;
-        for(y = chunk.getWorld().getMaxHeight() - 1; (chunk.getBlock(x, y, z).getType() != Material.GRASS_BLOCK) && y > 0; y--);
+        for(y = chunk.getWorld().getMaxHeight() - 1; (chunk.getBlock(x, y, z).getType() != Material.GRASS_BLOCK) && y > 0; y--)
+            ;
         if(y <= 0) return null;
         return chunk.getBlock(x, y, z);
+    }
+
+    public boolean plant(Location l) {
+        for(int i = 1; i < data.size() + 1; i++) {
+            if(! l.clone().add(0, i, 0).getBlock().isEmpty()) return false;
+        }
+        for(int i = 1; i < data.size() + 1; i++) {
+            l.clone().add(0, i, 0).getBlock().setBlockData(data.get(i - 1), false);
+        }
+        return true;
     }
 }

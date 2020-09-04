@@ -9,6 +9,7 @@ import java.util.HashMap;
 
 public class EndProfiler extends WorldProfiler {
     private static final HashMap<World, EndProfiler> profilers = new HashMap<>();
+
     public EndProfiler(World w) {
         super(w);
         this.addMeasurement(new Measurement(2500000, DataType.PERIOD_MILLISECONDS), "TotalChunkGenTime")
@@ -20,13 +21,13 @@ public class EndProfiler extends WorldProfiler {
                 .addMeasurement(new Measurement(1500000, DataType.PERIOD_MILLISECONDS), "SnowTime")
                 .addMeasurement(new Measurement(1500000, DataType.PERIOD_MILLISECONDS), "FaunaTime");
     }
+
     public static EndProfiler fromWorld(World w) {
         if(w.getGenerator() instanceof EndChunkGenerator) {
-            if (profilers.containsKey(w)) return profilers.get(w);
+            if(profilers.containsKey(w)) return profilers.get(w);
             EndProfiler p = new EndProfiler(w);
             profilers.put(w, p);
             return p;
-        }
-        else throw new IllegalArgumentException("Attempted to instantiate/fetch Profiler for non-BetterEnd world!");
+        } else throw new IllegalArgumentException("Attempted to instantiate/fetch Profiler for non-BetterEnd world!");
     }
 }

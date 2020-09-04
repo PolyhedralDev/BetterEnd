@@ -16,6 +16,7 @@ import java.util.Random;
 
 public class TreePopulator extends BlockPopulator {
     private final BetterEnd main = BetterEnd.getInstance();
+
     @Override
     public void populate(@NotNull World world, @NotNull Random random, @NotNull Chunk chunk) {
         ProfileFuture gen = EndProfiler.fromWorld(world).measure("TreeGenTime");
@@ -30,7 +31,8 @@ public class TreePopulator extends BlockPopulator {
             numTrees++;
             try {
                 b.getTree(random).plant(origin, random, false, main);
-            } catch(NullPointerException ignored) {}
+            } catch(NullPointerException ignored) {
+            }
             if(numTrees >= b.getTreeDensity()) return;
         }
         if(gen != null) gen.complete();

@@ -24,4 +24,5 @@
 package org.polydev.gaea.taskchain;
 
 @SuppressWarnings("PublicInnerClass,WeakerAccess")
-public class AbortChainException extends Exception {}
+public class AbortChainException extends Exception {
+}

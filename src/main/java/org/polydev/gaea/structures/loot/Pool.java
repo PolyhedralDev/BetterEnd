@@ -18,6 +18,7 @@ public class Pool {
 
     /**
      * Instantiates a Pool from a JSON representation.
+     *
      * @param pool The JSON Object to instantiate from.
      */
     public Pool(JSONObject pool) {
@@ -30,15 +31,16 @@ public class Pool {
 
     /**
      * Fetches a list of items from the pool using the provided Random instance.
+     *
      * @param r The Random instance to use.
      * @return List&lt;ItemStack&gt; - The list of items fetched.
      */
     public List<ItemStack> getItems(Random r) {
         int max = Math.toIntExact((long) ((JSONObject) pool.get("rolls")).get("max"));
         int min = Math.toIntExact((long) ((JSONObject) pool.get("rolls")).get("min"));
-        int rolls = r.nextInt(max-min+1)+min;
+        int rolls = r.nextInt(max - min + 1) + min;
         List<ItemStack> items = new ArrayList<>();
-        for (int i = 0; i < rolls; i++) {
+        for(int i = 0; i < rolls; i++) {
             items.add(entries.get(r).getItem(r));
         }
         return items;

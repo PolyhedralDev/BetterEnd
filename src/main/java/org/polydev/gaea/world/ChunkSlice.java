@@ -11,6 +11,7 @@ public class ChunkSlice {
     private final Map<Integer, BlockData> slice = new HashMap<>();
     private final byte x;
     private final byte z;
+
     public ChunkSlice(byte x, byte z) {
         this.x = x;
         this.z = z;

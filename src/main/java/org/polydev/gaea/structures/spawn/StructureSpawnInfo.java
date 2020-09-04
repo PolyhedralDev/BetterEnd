@@ -7,5 +7,6 @@ import java.util.Random;
 
 public interface StructureSpawnInfo {
     Location getSpawnLocation(Location init, Random r);
+
     boolean isValidSpawn(NMSStructure s);
 }

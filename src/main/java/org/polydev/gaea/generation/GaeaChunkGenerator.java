@@ -20,7 +20,7 @@ public abstract class GaeaChunkGenerator extends ChunkGenerator {
     @Override
     public @NotNull ChunkData generateChunkData(@NotNull World world, @NotNull Random random, int chunkX, int chunkZ, @NotNull BiomeGrid biome) {
         ProfileFuture total = measure("TotalChunkGenTime");
-        if (gen == null) {
+        if(gen == null) {
             gen = new FastNoise((int) world.getSeed());
             gen.setNoiseType(FastNoise.NoiseType.SimplexFractal);
             gen.setFractalOctaves(getNoiseOctaves(world));
@@ -35,7 +35,7 @@ public abstract class GaeaChunkGenerator extends ChunkGenerator {
         }
         ProfileFuture biomeProfile = measure("BiomeSetTime");
         for(byte x = 0; x < 4; x++) {
-            for (byte z = 0; z < 4; z++) {
+            for(byte z = 0; z < 4; z++) {
                 biome.setBiome(x, z, getBiomeGrid(world).getBiome((chunkX << 4) + x, (chunkZ << 4) + z).getVanillaBiome());
             }
         }
@@ -58,8 +58,12 @@ public abstract class GaeaChunkGenerator extends ChunkGenerator {
     }
 
     public abstract ChunkData generateBase(@NotNull World world, @NotNull Random random, int x, int z, FastNoise noise);
+
     public abstract int getNoiseOctaves(World w);
+
     public abstract float getNoiseFrequency(World w);
+
     public abstract List<GenerationPopulator> getGenerationPopulators(World w);
+
     public abstract org.polydev.gaea.biome.BiomeGrid<? extends Biome> getBiomeGrid(World w);
 }

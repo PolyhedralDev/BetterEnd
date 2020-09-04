@@ -13,7 +13,7 @@ import java.util.List;
 public class StructureUtil {
     public static List<Location> getChestsIn(Location minLoc, Location maxLoc) {
         List<Location> locations = new ArrayList<>();
-        for(Location location: getLocationListBetween(minLoc, maxLoc)) {
+        for(Location location : getLocationListBetween(minLoc, maxLoc)) {
             BlockState blockState = location.getBlock().getState();
             if(blockState instanceof Container) {
                 if(blockState instanceof Chest) {
@@ -61,7 +61,7 @@ public class StructureUtil {
     }
 
     private static boolean isNotAlreadyIn(List<Location> locations, Location location) {
-        for(Location auxLocation: locations) {
+        for(Location auxLocation : locations) {
             if(location.distance(auxLocation) < 1) {
                 return false;
             }

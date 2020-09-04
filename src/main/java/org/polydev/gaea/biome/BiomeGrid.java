@@ -5,10 +5,10 @@ import org.bukkit.World;
 import org.polydev.gaea.math.FastNoise;
 
 public abstract class BiomeGrid<B extends Biome> {
-    private B[][] grid;
     private final FastNoise biome;
     private final FastNoise climate;
     private final World world;
+    private B[][] grid;
 
 
     public BiomeGrid(World w, float freq1, float freq2) {
@@ -17,7 +17,7 @@ public abstract class BiomeGrid<B extends Biome> {
         this.biome.setNoiseType(FastNoise.NoiseType.ValueFractal);
         this.biome.setFractalOctaves(4);
         this.biome.setFrequency(freq1);
-        this.climate = new FastNoise((int) w.getSeed()+1);
+        this.climate = new FastNoise((int) w.getSeed() + 1);
         this.climate.setNoiseType(FastNoise.NoiseType.ValueFractal);
         this.climate.setFractalOctaves(4);
         this.climate.setFrequency(freq2);
@@ -28,11 +28,25 @@ public abstract class BiomeGrid<B extends Biome> {
         this.biome = new FastNoise(seed);
         this.biome.setNoiseType(FastNoise.NoiseType.ValueFractal);
         this.biome.setFractalOctaves(4);
-        this.biome.setFrequency((float)1/512);
-        this.climate = new FastNoise(seed +1);
+        this.biome.setFrequency((float) 1 / 512);
+        this.climate = new FastNoise(seed + 1);
         this.climate.setNoiseType(FastNoise.NoiseType.ValueFractal);
         this.climate.setFractalOctaves(4);
-        this.climate.setFrequency((float)1/384);
+        this.climate.setFrequency((float) 1 / 384);
+    }
+
+    /**
+     * Takes a noise input and normalizes it to a value between 0 and 7 inclusive.
+     *
+     * @param i - The noise value to normalize.
+     * @return int - The normalized value.
+     */
+    private static int normalize(double i) {
+        i *= 17; //accounts for noise being distributed inequally
+        if(i > 7.5) i = 7.5; //cuts off values too high
+        if(i < - 7.5) i = - 7.5; //cuts off values too low
+        i += 7.5; //makes it positive
+        return (int) Math.floor(i);
     }
 
     public void setGrid(B[][] grid) {
@@ -41,6 +55,7 @@ public abstract class BiomeGrid<B extends Biome> {
 
     /**
      * Gets the biome at a pair of coordinates.
+     *
      * @param x - X-coordinate at which to fetch biome
      * @param z - Z-coordinate at which to fetch biome
      * @return Biome - Biome at the given coordinates.
@@ -53,6 +68,7 @@ public abstract class BiomeGrid<B extends Biome> {
 
     /**
      * Gets the biome at a location.
+     *
      * @param l - The location at which to fetch the biome.
      * @return Biome - Biome at the given coordinates.
      */
@@ -60,19 +76,6 @@ public abstract class BiomeGrid<B extends Biome> {
         float biomeNoise = biome.getValueFractal((float) l.getBlockX(), (float) l.getBlockZ());
         float climateNoise = climate.getValueFractal((float) l.getBlockX(), (float) l.getBlockZ());
         return grid[normalize(biomeNoise)][normalize(climateNoise)];
-    }
-
-    /**
-     * Takes a noise input and normalizes it to a value between 0 and 7 inclusive.
-     * @param i - The noise value to normalize.
-     * @return int - The normalized value.
-     */
-    private static int normalize(double i) {
-        i*= 17; //accounts for noise being distributed inequally
-        if(i > 7.5) i = 7.5; //cuts off values too high
-        if(i < -7.5) i = -7.5; //cuts off values too low
-        i += 7.5; //makes it positive
-        return (int) Math.floor(i);
     }
 
     public World getWorld() {

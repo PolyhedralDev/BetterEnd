@@ -1,6 +1,5 @@
 package org.polydev.gaea.structures.loot.functions;
 
-import com.google.gson.JsonArray;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.json.simple.JSONArray;
@@ -33,7 +32,7 @@ public class EnchantWithLevelsFunction implements Function {
     public ItemStack apply(ItemStack original, Random r) {
         double enchant = (r.nextDouble() * (max - min)) + min;
         List<Enchantment> possible = new ArrayList<>();
-        for(Enchantment ench: Enchantment.values()) {
+        for(Enchantment ench : Enchantment.values()) {
             if(ench.canEnchantItem(original) && (disabled == null || this.disabled.contains(ench.getName()))) {
                 possible.add(ench);
             }
@@ -41,9 +40,10 @@ public class EnchantWithLevelsFunction implements Function {
         int numEnchant = (r.nextInt((int) Math.abs(enchant)) / 10 + 1);
         if(possible.size() >= numEnchant) {
             Collections.shuffle(possible);
-            iter : for(int i = 0; i < numEnchant; i++) {
+            iter:
+            for(int i = 0; i < numEnchant; i++) {
                 Enchantment chosen = possible.get(i);
-                for(Enchantment ench: original.getEnchantments().keySet()) {
+                for(Enchantment ench : original.getEnchantments().keySet()) {
                     if(chosen.conflictsWith(ench)) continue iter;
                 }
                 int lvl = r.nextInt(1 + (int) (((enchant / 40 > 1) ? 1 : enchant / 40) * (chosen.getMaxLevel())));

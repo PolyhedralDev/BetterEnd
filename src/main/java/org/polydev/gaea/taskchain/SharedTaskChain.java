@@ -44,9 +44,9 @@ class SharedTaskChain<R> extends TaskChain<R> {
         this.sharedChains = factory.getSharedChains();
         this.name = name;
 
-        synchronized (this.sharedChains) {
+        synchronized(this.sharedChains) {
             this.queue = sharedChains.get(this.name);
-            if (this.queue == null) {
+            if(this.queue == null) {
                 this.queue = new ConcurrentLinkedQueue<>();
                 this.sharedChains.put(this.name, this.queue);
             }
@@ -64,14 +64,14 @@ class SharedTaskChain<R> extends TaskChain<R> {
         });
 
         boolean shouldExecute;
-        synchronized (this.sharedChains) {
+        synchronized(this.sharedChains) {
             this.isPending = this.queue.peek() != this;
-            shouldExecute = !this.isPending && this.canExecute;
-            if (shouldExecute) {
+            shouldExecute = ! this.isPending && this.canExecute;
+            if(shouldExecute) {
                 this.canExecute = false;
             }
         }
-        if (shouldExecute) {
+        if(shouldExecute) {
             execute0();
         }
     }
@@ -82,13 +82,13 @@ class SharedTaskChain<R> extends TaskChain<R> {
     private void processQueue() {
         this.queue.poll(); // Remove self
         final SharedTaskChain next;
-        synchronized (this.sharedChains) {
+        synchronized(this.sharedChains) {
             next = this.queue.peek();
-            if (next == null) {
+            if(next == null) {
                 this.sharedChains.remove(this.name);
                 return;
             }
-            if (!next.isPending) {
+            if(! next.isPending) {
                 // Created but wasn't executed yet. Wait until the chain executes itself.
                 return;
             }

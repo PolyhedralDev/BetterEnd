@@ -21,6 +21,7 @@ import java.util.Random;
 public class BetterEndCommand implements CommandExecutor {
 
     private final JavaPlugin main;
+
     public BetterEndCommand(JavaPlugin main) {
         this.main = main;
     }
@@ -29,7 +30,7 @@ public class BetterEndCommand implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
         if(args.length == 1 && args[0].equalsIgnoreCase("biome")) {
-            if(!(sender instanceof Player)) {
+            if(! (sender instanceof Player)) {
                 sender.sendMessage(LangUtil.prefix + LangUtil.playersOnly);
                 return true;
             }
@@ -43,7 +44,7 @@ public class BetterEndCommand implements CommandExecutor {
             }
             return true;
         } else if(args.length == 2 && args[0].equalsIgnoreCase("tpbiome")) {
-            if(!(sender instanceof Player)) {
+            if(! (sender instanceof Player)) {
                 sender.sendMessage(LangUtil.prefix + LangUtil.playersOnly);
                 return true;
             }
@@ -68,12 +69,12 @@ public class BetterEndCommand implements CommandExecutor {
                 try {
                     Tree.valueOf(args[1]).plant(((Player) sender).getLocation(), new Random(), false, main);
                     return true;
-                } catch (IllegalArgumentException e) {
+                } catch(IllegalArgumentException e) {
                     sender.sendMessage("Invalid tree type.");
                 }
             }
         } else if(args.length >= 1 && args[0].equalsIgnoreCase("profile")) {
-            if(!(sender instanceof Player)) {
+            if(! (sender instanceof Player)) {
                 sender.sendMessage(LangUtil.prefix + LangUtil.playersOnly);
                 return true;
             }
@@ -96,8 +97,7 @@ public class BetterEndCommand implements CommandExecutor {
                     sender.sendMessage("Profiler has stopped.");
                     return true;
                 }
-            }
-            else sender.sendMessage(LangUtil.prefix + LangUtil.notBetterEndWorld);
+            } else sender.sendMessage(LangUtil.prefix + LangUtil.notBetterEndWorld);
 
         }
         return false;

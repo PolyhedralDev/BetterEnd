@@ -1,18 +1,20 @@
 package com.dfsek.betterend.util;
 
+import com.dfsek.betterend.config.WorldConfig;
 import com.dfsek.betterend.world.EndBiomeGrid;
 import com.dfsek.betterend.world.EndChunkGenerator;
-import com.dfsek.betterend.config.WorldConfig;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
 public class AetherFallUtil {
-	private AetherFallUtil() {}
+	private AetherFallUtil() {
+	}
+
 	public static void init(Plugin plugin) {
 		plugin.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, () -> {
-			for(Player p: plugin.getServer().getOnlinePlayers()) {
+			for(Player p : plugin.getServer().getOnlinePlayers()) {
 				if(p.getWorld().getGenerator() instanceof EndChunkGenerator
 						&& p.getLocation().getY() < 0 && (WorldConfig.fromWorld(p.getWorld()).FallToOverworldEverywhere
 						|| (EndBiomeGrid.fromWorld(p.getWorld()).getBiome(p.getLocation()).isAether() && WorldConfig.fromWorld(p.getWorld()).fallToOverworldAether)))

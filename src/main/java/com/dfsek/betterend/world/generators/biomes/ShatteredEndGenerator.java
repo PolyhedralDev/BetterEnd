@@ -1,9 +1,9 @@
 package com.dfsek.betterend.world.generators.biomes;
 
-import org.polydev.gaea.biome.BiomeTerrain;
-import org.polydev.gaea.world.palette.BlockPalette;
-import org.polydev.gaea.math.FastNoise;
 import org.bukkit.Material;
+import org.polydev.gaea.biome.BiomeTerrain;
+import org.polydev.gaea.math.FastNoise;
+import org.polydev.gaea.world.palette.BlockPalette;
 
 public class ShatteredEndGenerator extends BiomeTerrain {
     private final BlockPalette palette;
@@ -21,7 +21,7 @@ public class ShatteredEndGenerator extends BiomeTerrain {
     @Override
     public double getNoise(FastNoise gen, int x, int z) {
         if(shattered.getSeed() != gen.getSeed()) shattered.setSeed(gen.getSeed());
-        return gen.getSimplexFractal(x, z) + 0.3*shattered.getSimplexFractal(x, z);
+        return gen.getSimplexFractal(x, z) + 0.3 * shattered.getSimplexFractal(x, z);
     }
 
     @Override

@@ -3,7 +3,12 @@ package org.polydev.gaea.tree;
 import org.bukkit.Location;
 import org.polydev.gaea.tree.fractal.FractalTree;
 import org.polydev.gaea.tree.fractal.TreeGetter;
-import org.polydev.gaea.tree.fractal.trees.*;
+import org.polydev.gaea.tree.fractal.trees.OakTree;
+import org.polydev.gaea.tree.fractal.trees.ShatteredPillar;
+import org.polydev.gaea.tree.fractal.trees.ShatteredTree;
+import org.polydev.gaea.tree.fractal.trees.SmallShatteredPillar;
+import org.polydev.gaea.tree.fractal.trees.SmallShatteredTree;
+import org.polydev.gaea.tree.fractal.trees.SpruceTree;
 
 import java.util.Random;
 

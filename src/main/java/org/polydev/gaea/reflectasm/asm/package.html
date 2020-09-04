@@ -32,13 +32,13 @@
 Provides a small and fast bytecode manipulation framework.
 
 <p>
-The <a href="http://asm.ow2.org/">ASM</a> framework is organized
-around the {@link org.polydev.gaea.reflectasm.asm.ClassVisitor ClassVisitor},
-{@link org.polydev.gaea.reflectasm.asm.FieldVisitor FieldVisitor},
-{@link org.polydev.gaea.reflectasm.asm.MethodVisitor MethodVisitor} and
-{@link org.polydev.gaea.reflectasm.asm.AnnotationVisitor AnnotationVisitor} abstract classes,
-which allow one to visit the fields, methods and annotations of a class,
-including the bytecode instructions of each method.
+    The <a href="http://asm.ow2.org/">ASM</a> framework is organized
+    around the {@link org.polydev.gaea.reflectasm.asm.ClassVisitor ClassVisitor},
+    {@link org.polydev.gaea.reflectasm.asm.FieldVisitor FieldVisitor},
+    {@link org.polydev.gaea.reflectasm.asm.MethodVisitor MethodVisitor} and
+    {@link org.polydev.gaea.reflectasm.asm.AnnotationVisitor AnnotationVisitor} abstract classes,
+    which allow one to visit the fields, methods and annotations of a class,
+    including the bytecode instructions of each method.
 
 <p>
     In addition to these main abstract classes, ASM provides a {@link
@@ -48,11 +48,11 @@ including the bytecode instructions of each method.
     a visitor that generates Java class files.
 
 <p>
-In order to generate a class from scratch, only the {@link
-org.polydev.gaea.reflectasm.asm.ClassWriter ClassWriter} class is necessary. Indeed,
-in order to generate a class, one must just call its visit<i>Xxx</i>
-methods with the appropriate arguments to generate the desired fields
-and methods.
+    In order to generate a class from scratch, only the {@link
+    org.polydev.gaea.reflectasm.asm.ClassWriter ClassWriter} class is necessary. Indeed,
+    in order to generate a class, one must just call its visit<i>Xxx</i>
+    methods with the appropriate arguments to generate the desired fields
+    and methods.
 
 <p>
     In order to modify existing classes, one must use a {@link

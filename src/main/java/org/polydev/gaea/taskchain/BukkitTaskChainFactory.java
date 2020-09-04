@@ -35,13 +35,18 @@ import java.util.concurrent.TimeUnit;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
 public class BukkitTaskChainFactory extends TaskChainFactory {
-    private BukkitTaskChainFactory(Plugin plugin, AsyncQueue asyncQueue) {
-        super(new BukkitGameInterface(plugin, asyncQueue));
-    }
-
-    public static TaskChainFactory create(Plugin plugin) {
-        return new BukkitTaskChainFactory(plugin, new TaskChainAsyncQueue());
-    }
+    public static final TaskChainAbortAction<Player, String, ?> MESSAGE = new TaskChainAbortAction<Player, String, Object>() {
+        @Override
+        public void onAbort(TaskChain<?> chain, Player player, String message) {
+            player.sendMessage(message);
+        }
+    };
+    public static final TaskChainAbortAction<Player, String, ?> COLOR_MESSAGE = new TaskChainAbortAction<Player, String, Object>() {
+        @Override
+        public void onAbort(TaskChain<?> chain, Player player, String message) {
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', message));
+        }
+    };
 /* @TODO: #9 - Not Safe to do this
     public static TaskChainFactory create(Plugin plugin, ThreadPoolExecutor executor) {
         return new BukkitTaskChainFactory(plugin, new TaskChainAsyncQueue(executor));
@@ -50,6 +55,14 @@ public class BukkitTaskChainFactory extends TaskChainFactory {
     public static TaskChainFactory create(Plugin plugin, AsyncQueue asyncQueue) {
         return new BukkitTaskChainFactory(plugin, asyncQueue);
     }*/
+
+    private BukkitTaskChainFactory(Plugin plugin, AsyncQueue asyncQueue) {
+        super(new BukkitGameInterface(plugin, asyncQueue));
+    }
+
+    public static TaskChainFactory create(Plugin plugin) {
+        return new BukkitTaskChainFactory(plugin, new TaskChainAsyncQueue());
+    }
 
     @SuppressWarnings("PublicInnerClass")
     private static class BukkitGameInterface implements GameInterface {
@@ -73,7 +86,7 @@ public class BukkitTaskChainFactory extends TaskChainFactory {
 
         @Override
         public void postToMain(Runnable run) {
-            if (plugin.isEnabled()) {
+            if(plugin.isEnabled()) {
                 Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, run);
             } else {
                 run.run();
@@ -82,7 +95,7 @@ public class BukkitTaskChainFactory extends TaskChainFactory {
 
         @Override
         public void scheduleTask(int ticks, Runnable run) {
-            if (plugin.isEnabled()) {
+            if(plugin.isEnabled()) {
                 Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, run, ticks);
             } else {
                 run.run();
@@ -94,24 +107,11 @@ public class BukkitTaskChainFactory extends TaskChainFactory {
             Bukkit.getPluginManager().registerEvents(new Listener() {
                 @EventHandler
                 public void onPluginDisable(PluginDisableEvent event) {
-                    if (event.getPlugin().equals(plugin)) {
+                    if(event.getPlugin().equals(plugin)) {
                         factory.shutdown(60, TimeUnit.SECONDS);
                     }
                 }
             }, plugin);
         }
     }
-
-    public static final TaskChainAbortAction<Player, String, ?> MESSAGE = new TaskChainAbortAction<Player, String, Object>() {
-        @Override
-        public void onAbort(TaskChain<?> chain, Player player, String message) {
-            player.sendMessage(message);
-        }
-    };
-    public static final TaskChainAbortAction<Player, String, ?> COLOR_MESSAGE = new TaskChainAbortAction<Player, String, Object>() {
-        @Override
-        public void onAbort(TaskChain<?> chain, Player player, String message) {
-            player.sendMessage(ChatColor.translateAlternateColorCodes('&', message));
-        }
-    };
 }

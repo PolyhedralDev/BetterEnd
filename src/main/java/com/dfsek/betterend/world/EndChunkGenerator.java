@@ -29,15 +29,15 @@ public class EndChunkGenerator extends GaeaChunkGenerator {
         EndBiomeGrid grid = getBiomeGrid(world);
         int xOrigin = chunkX << 4;
         int zOrigin = chunkZ << 4;
-        int mainIslandAdd = grid.getBiome(xOrigin, zOrigin).equals(EndBiome.MAIN_ISLAND) ? -8 : 0;
+        int mainIslandAdd = grid.getBiome(xOrigin, zOrigin).equals(EndBiome.MAIN_ISLAND) ? - 8 : 0;
         for(byte x = 0; x < 16; x++) {
-            for (byte z = 0; z < 16; z++) {
+            for(byte z = 0; z < 16; z++) {
                 double iNoise = super.getInterpolatedNoise(x, z);
                 int max = (int) (config.islandHeightMultiplierTop * (iNoise - 0.4) + config.islandHeight) + mainIslandAdd;
-                int min = (int) ((-config.islandHeightMultiplierBottom * (iNoise - 0.4) + config.islandHeight) + 1) + mainIslandAdd;
+                int min = (int) ((- config.islandHeightMultiplierBottom * (iNoise - 0.4) + config.islandHeight) + 1) + mainIslandAdd;
                 int diff = max - min;
                 Biome b = grid.getBiome(xOrigin + x, zOrigin + z);
-                for (int y = 0; y < diff; y++) {
+                for(int y = 0; y < diff; y++) {
                     chunk.setBlock(x, max - y, z, b.getGenerator().getPalette().get(y, random));
                 }
             }
@@ -93,8 +93,10 @@ public class EndChunkGenerator extends GaeaChunkGenerator {
     @NotNull
     @Override
     public List<BlockPopulator> getDefaultPopulators(@NotNull World world) {
-        if(BetterEnd.isPremium()) return Arrays.asList(new CustomStructurePopulator(), new StructurePopulator(), new TreePopulator(), new SnowPopulator(), new FaunaPopulator());
-        else return Arrays.asList(new StructurePopulator(), new TreePopulator(), new SnowPopulator(), new FaunaPopulator());
+        if(BetterEnd.isPremium())
+            return Arrays.asList(new CustomStructurePopulator(), new StructurePopulator(), new TreePopulator(), new SnowPopulator(), new FaunaPopulator());
+        else
+            return Arrays.asList(new StructurePopulator(), new TreePopulator(), new SnowPopulator(), new FaunaPopulator());
     }
 
 }

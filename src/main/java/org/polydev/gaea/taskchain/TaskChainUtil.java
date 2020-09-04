@@ -31,31 +31,34 @@ final class TaskChainUtil {
 
     /**
      * Util method for example logging
+     *
      * @param log
      */
     static void log(String log) {
-        for (String s : log.split("\n")) {
+        for(String s : log.split("\n")) {
             Logger.getGlobal().info(s);
         }
     }
 
     public static void logError(String log) {
-        for (String s : log.split("\n")) {
+        for(String s : log.split("\n")) {
             Logger.getGlobal().severe(s);
         }
     }
 
     /**
      * Throws an exception without it needing to be in the method signature
+     *
      * @param t
      */
     static void sneakyThrows(Throwable t) {
         //noinspection RedundantTypeArguments
-        throw TaskChainUtil.<RuntimeException>superSneaky( t );
+        throw TaskChainUtil.<RuntimeException>superSneaky(t);
     }
 
     /**
      * Magical method needed to trick Java
+     *
      * @param t
      * @param <T>
      * @return

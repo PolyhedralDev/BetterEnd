@@ -21,7 +21,8 @@ public class FaunaPopulator extends BlockPopulator {
         for(int x = 0; x < 16; x++) {
             for(int z = 0; z < 16; z++) {
                 EndBiome biome = EndBiomeGrid.fromWorld(world).getBiome((chunk.getX() << 4) + x, (chunk.getZ() << 4) + z);
-                if(biome.getDecorator().getFaunaChance() <= 0 || random.nextInt(100) > biome.getDecorator().getFaunaChance()) continue;
+                if(biome.getDecorator().getFaunaChance() <= 0 || random.nextInt(100) > biome.getDecorator().getFaunaChance())
+                    continue;
                 Block highest = Fauna.getHighestValidSpawnAt(chunk, x, z);
                 if(highest != null) biome.getDecorator().getFauna().get(random).plant(highest.getLocation());
             }

@@ -23,7 +23,7 @@ public class MainIslandGenerator extends BiomeTerrain {
      */
     @Override
     public double getNoise(FastNoise gen, int x, int z) {
-        return ((gen.getSimplexFractal(x, z)+0.75)/1.25) * (Math.sqrt(-(Math.pow(x, 2) + Math.pow(z, 2)) + 10000))/96;
+        return ((gen.getSimplexFractal(x, z) + 0.75) / 1.25) * (Math.sqrt(- (Math.pow(x, 2) + Math.pow(z, 2)) + 10000)) / 96;
     }
 
     /**

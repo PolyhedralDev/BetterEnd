@@ -11,6 +11,7 @@ import java.util.Random;
 
 public class ThreadedTreeUtil {
     private static final BetterEnd main = BetterEnd.getInstance();
+
     public static void plantLargeTree(CustomTreeType type, Location origin, Random random) {
         FractalTree tree;
         switch(type) {
@@ -20,7 +21,8 @@ public class ThreadedTreeUtil {
             case GIANT_SPRUCE:
                 tree = new SpruceTree(origin, random);
                 break;
-            default: throw new IllegalArgumentException();
+            default:
+                throw new IllegalArgumentException();
         }
         FractalTree finalTree = tree;
         main.getFactory().newChain()

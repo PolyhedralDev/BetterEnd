@@ -24,6 +24,7 @@ public class Entry {
 
     /**
      * Instantiates an Entry from a JSON representation.
+     *
      * @param entry The JSON Object to instantiate from.
      */
     public Entry(JSONObject entry) {
@@ -31,7 +32,7 @@ public class Entry {
         this.item = Material.valueOf(entry.get("name").toString().toUpperCase());
         this.weight = (long) entry.get("weight");
         if(this.entry.containsKey("functions")) {
-            for (Object function : (JSONArray) this.entry.get("functions")) {
+            for(Object function : (JSONArray) this.entry.get("functions")) {
                 switch(((String) ((JSONObject) function).get("function"))) {
                     case "set_count":
                         long max = (long) ((JSONObject) ((JSONObject) function).get("count")).get("max");
@@ -47,7 +48,8 @@ public class Entry {
                         long maxEnchant = (long) ((JSONObject) ((JSONObject) function).get("levels")).get("max");
                         long minEnchant = (long) ((JSONObject) ((JSONObject) function).get("levels")).get("min");
                         JSONArray disabled = null;
-                        if(((JSONObject) function).containsKey("disabled_enchants")) disabled = (JSONArray) ((JSONObject) function).get("disabled_enchants");
+                        if(((JSONObject) function).containsKey("disabled_enchants"))
+                            disabled = (JSONArray) ((JSONObject) function).get("disabled_enchants");
                         functions.add(new EnchantWithLevelsFunction(Math.toIntExact(minEnchant), Math.toIntExact(maxEnchant), disabled));
                         break;
                 }
@@ -57,6 +59,7 @@ public class Entry {
 
     /**
      * Fetches a single ItemStack from the Entry, applying all functions to it.
+     *
      * @param r The Random instance to apply functions with
      * @return ItemStack - The ItemStack with all functions applied.
      */
@@ -70,6 +73,7 @@ public class Entry {
 
     /**
      * Gets the weight attribute of the Entry.
+     *
      * @return long - The weight of the Entry.
      */
     public long getWeight() {

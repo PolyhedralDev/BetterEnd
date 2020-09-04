@@ -10,8 +10,9 @@ import java.util.Random;
 public interface Function {
     /**
      * Applies the function to an ItemStack.
+     *
      * @param original The ItemStack on which to apply the function.
-     * @param r The Random instance to use.
+     * @param r        The Random instance to use.
      * @return - ItemStack - The mutated ItemStack.
      */
     ItemStack apply(ItemStack original, Random r);

@@ -1,11 +1,19 @@
 package com.dfsek.betterend.util;
 
-import java.io.BufferedReader;
+import com.dfsek.betterend.BetterEnd;
+import com.dfsek.betterend.UpdateChecker;
+import com.dfsek.betterend.UpdateChecker.UpdateReason;
+import com.dfsek.betterend.config.ConfigUtil;
+import com.dfsek.betterend.world.EndBiome;
+import com.dfsek.betterend.world.EndBiomeGrid;
+import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.entity.Player;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Random;
@@ -14,22 +22,12 @@ import java.util.jar.JarFile;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.dfsek.betterend.BetterEnd;
-import com.dfsek.betterend.world.EndBiomeGrid;
-import com.dfsek.betterend.config.ConfigUtil;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.entity.Player;
-
-import com.dfsek.betterend.UpdateChecker;
-import com.dfsek.betterend.UpdateChecker.UpdateReason;
-import com.dfsek.betterend.world.EndBiome;
-
 public class Util {
-	private static BetterEnd main = BetterEnd.getInstance();
-	private static Logger logger = main.getLogger();
+	private static final BetterEnd main = BetterEnd.getInstance();
+	private static final Logger logger = main.getLogger();
 
-	private Util() {}
+	private Util() {
+	}
 
 
 	public static boolean tpBiome(Player p, String[] args) {
@@ -39,7 +37,7 @@ public class Util {
 			p.sendMessage(LangUtil.prefix + String.format(LangUtil.locatingBiomeMessage, args[1].toUpperCase()));
 			int tries = 0;
 			Location candidate = p.getLocation();
-			while (tries < 400000) {
+			while(tries < 400000) {
 				Location candidateN = candidate.add(tries, 0, 0);
 				if(EndBiomeGrid.fromWorld(p.getWorld()).getBiome(candidateN).equals(EndBiome.valueOf(args[1]))
 						&& Math.sqrt(Math.pow(candidateN.getBlockX(), 2) + Math.pow(candidateN.getBlockZ(), 2)) > 1000) {
@@ -47,7 +45,7 @@ public class Util {
 					p.teleport(candidateN);
 					return true;
 				}
-				candidateN = candidate.add(-tries, 0, 0);
+				candidateN = candidate.add(- tries, 0, 0);
 				if(EndBiomeGrid.fromWorld(p.getWorld()).getBiome(candidateN).equals(EndBiome.valueOf(args[1]))
 						&& Math.sqrt(Math.pow(candidateN.getBlockX(), 2) + Math.pow(candidateN.getBlockZ(), 2)) > 1000) {
 					p.sendMessage(LangUtil.prefix + LangUtil.teleportingMessage);
@@ -61,7 +59,7 @@ public class Util {
 					p.teleport(candidateN);
 					return true;
 				}
-				candidateN = candidate.add(0, 0, -tries);
+				candidateN = candidate.add(0, 0, - tries);
 				if(EndBiomeGrid.fromWorld(p.getWorld()).getBiome(candidateN).equals(EndBiome.valueOf(args[1]))
 						&& Math.sqrt(Math.pow(candidateN.getBlockX(), 2) + Math.pow(candidateN.getBlockZ(), 2)) > 1000) {
 					p.sendMessage(LangUtil.prefix + LangUtil.teleportingMessage);
@@ -95,10 +93,10 @@ public class Util {
 	}
 
 	public static void copyResourcesToDirectory(JarFile fromJar, String jarDir, String destDir) throws IOException {
-		for(Enumeration<JarEntry> entries = fromJar.entries(); entries.hasMoreElements();) {
+		for(Enumeration<JarEntry> entries = fromJar.entries(); entries.hasMoreElements(); ) {
 			JarEntry entry = entries.nextElement();
 			if(ConfigUtil.debug) BetterEnd.getInstance().getLogger().info(entry.getName());
-			if(entry.getName().startsWith(jarDir + "/") && !entry.isDirectory()) {
+			if(entry.getName().startsWith(jarDir + "/") && ! entry.isDirectory()) {
 				File dest = new File(destDir + File.separator + entry.getName().substring(jarDir.length() + 1));
 				if(ConfigUtil.debug) BetterEnd.getInstance().getLogger().info("Output: " + dest.toString());
 				if(dest.exists()) continue;
@@ -106,12 +104,13 @@ public class Util {
 				if(parent != null) {
 					parent.mkdirs();
 				}
-				if(ConfigUtil.debug) BetterEnd.getInstance().getLogger().info("Output does not already exist. Creating... ");
+				if(ConfigUtil.debug)
+					BetterEnd.getInstance().getLogger().info("Output does not already exist. Creating... ");
 				try(FileOutputStream out = new FileOutputStream(dest); InputStream in = fromJar.getInputStream(entry)) {
 					byte[] buffer = new byte[8 * 1024];
 
 					int s = 0;
-					while ((s = in.read(buffer)) > 0) {
+					while((s = in.read(buffer)) > 0) {
 						out.write(buffer, 0, s);
 					}
 				} catch(IOException e) {
@@ -122,14 +121,14 @@ public class Util {
 	}
 
 	public static void logForEach(List<String> msgs, Level lvl) {
-		for(String msg: msgs) {
+		for(String msg : msgs) {
 			logger.log(lvl, ChatColor.translateAlternateColorCodes('&', msg));
 		}
 	}
 
 	public static double getOffset(Random random, double amount) {
 		double offset = 0;
-		if(random.nextBoolean()) offset = random.nextBoolean() ? -amount : amount;
+		if(random.nextBoolean()) offset = random.nextBoolean() ? - amount : amount;
 		return offset;
 	}
 }

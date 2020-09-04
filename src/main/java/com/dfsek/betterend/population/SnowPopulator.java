@@ -3,7 +3,11 @@ package com.dfsek.betterend.population;
 import com.dfsek.betterend.config.ConfigUtil;
 import com.dfsek.betterend.world.EndBiomeGrid;
 import com.dfsek.betterend.world.EndProfiler;
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.Chunk;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.generator.BlockPopulator;
@@ -15,6 +19,7 @@ import java.util.Random;
 
 public class SnowPopulator extends BlockPopulator {
     private static final ArrayList<Material> blacklistSpawn = new ArrayList<>();
+    private static final BlockData snow = Material.SNOW.createBlockData();
 
     static {
         for(Material m : Material.values()) {
@@ -26,10 +31,10 @@ public class SnowPopulator extends BlockPopulator {
                     || name.contains("lantern")
                     || name.contains("chest")) blacklistSpawn.add(m);
         }
-        if(ConfigUtil.debug) Bukkit.getLogger().info("Added " + blacklistSpawn.size() + " materials to snow blacklist");
+        if(ConfigUtil.debug)
+            Bukkit.getLogger().info("Added " + blacklistSpawn.size() + " materials to snow blacklist");
     }
 
-    private static final BlockData snow = Material.SNOW.createBlockData();
     @Override
     public void populate(@NotNull World world, @NotNull Random random, @NotNull Chunk chunk) {
         ProfileFuture featureFuture = EndProfiler.fromWorld(world).measure("SnowTime");
@@ -38,8 +43,9 @@ public class SnowPopulator extends BlockPopulator {
                 Location l = chunk.getBlock(x, 0, z).getLocation();
                 if(EndBiomeGrid.fromWorld(world).getBiome(l).shouldGenerateSnow()) {
                     Block highest = world.getHighestBlockAt(l);
-                    if(highest.getLocation().getBlockY() > 1 && highest.getLocation().add(0,1,0).getBlock().isEmpty()) {
-                        if(random.nextInt() < 40 && !blacklistSpawn.contains(highest.getType())) highest.getLocation().add(0,1,0).getBlock().setBlockData(snow, false);
+                    if(highest.getLocation().getBlockY() > 1 && highest.getLocation().add(0, 1, 0).getBlock().isEmpty()) {
+                        if(random.nextInt() < 40 && ! blacklistSpawn.contains(highest.getType()))
+                            highest.getLocation().add(0, 1, 0).getBlock().setBlockData(snow, false);
                     }
                 }
             }

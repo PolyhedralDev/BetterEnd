@@ -8,19 +8,20 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class WorldProfiler {
-    private boolean isProfiling;
     private final Map<String, Measurement> measures = new HashMap<>();
     private final World world;
+    private boolean isProfiling;
 
     public WorldProfiler(World w) {
-        if(!(w.getGenerator() instanceof GaeaChunkGenerator)) throw new IllegalArgumentException("Attempted to instantiate profiler on non-Gaea managed world!");
+        if(! (w.getGenerator() instanceof GaeaChunkGenerator))
+            throw new IllegalArgumentException("Attempted to instantiate profiler on non-Gaea managed world!");
         isProfiling = false;
         this.world = w;
         ((GaeaChunkGenerator) w.getGenerator()).attachProfiler(this);
     }
 
     public String getResultsFormatted() {
-        if(!isProfiling) return "Profiler is not currently running.";
+        if(! isProfiling) return "Profiler is not currently running.";
         StringBuilder result = new StringBuilder(ChatColor.GOLD + "Gaea World Profiler Results (Min / Avg / Max / Std Dev): \n");
         for(Map.Entry<String, Measurement> e : measures.entrySet()) {
             result.append(ChatColor.GOLD)
@@ -36,7 +37,7 @@ public class WorldProfiler {
                     .append(ChatColor.GOLD)
                     .append(" / ")
                     .append(ChatColor.GREEN)
-                    .append((double) Math.round((e.getValue().getStdDev()/1000000)*100D)/100D)
+                    .append((double) Math.round((e.getValue().getStdDev() / 1000000) * 100D) / 100D)
                     .append("ms")
                     .append(ChatColor.GOLD)
                     .append("\n");
@@ -56,7 +57,7 @@ public class WorldProfiler {
     }
 
     public void setMeasurement(String id, long value) {
-        if (isProfiling) measures.get(id).record(value);
+        if(isProfiling) measures.get(id).record(value);
     }
 
     public ProfileFuture measure(String id) {
@@ -64,12 +65,12 @@ public class WorldProfiler {
         else return null;
     }
 
-    public void setProfiling(boolean enabled) {
-        this.isProfiling = enabled;
-    }
-
     public boolean isProfiling() {
         return isProfiling;
+    }
+
+    public void setProfiling(boolean enabled) {
+        this.isProfiling = enabled;
     }
 
     public World getWorld() {

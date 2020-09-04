@@ -19,7 +19,7 @@ public class TestBiomeDistribution {
             for(int z = 0; z < 1; z++) {
                 long l = System.nanoTime();
                 EndBiome b = grid.getBiome(x, z);
-                if(x%100 == 0) System.out.println("Biome retrieved in " + (System.nanoTime() - l) + "ns");
+                if(x % 100 == 0) System.out.println("Biome retrieved in " + (System.nanoTime() - l) + "ns");
                 map.put(b, map.getOrDefault(b, 0) + 1);
             }
         }
@@ -33,6 +33,6 @@ public class TestBiomeDistribution {
         System.out.println("End Aggregated: " + (map.get(EndBiome.END)));
         System.out.println("Shattered End Aggregated: " + (map.get(EndBiome.SHATTERED_END) + map.get(EndBiome.SHATTERED_FOREST)));
         System.out.println("*-----------------------------------------*");
-        System.out.println("Done. Time elapsed: " + (System.nanoTime() - t)/1000000L + "ms. " + (System.nanoTime() - t)/(10000L) + "ns per calculation.");
+        System.out.println("Done. Time elapsed: " + (System.nanoTime() - t) / 1000000L + "ms. " + (System.nanoTime() - t) / (10000L) + "ns per calculation.");
     }
 }

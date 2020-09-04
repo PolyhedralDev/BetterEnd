@@ -1,20 +1,34 @@
 package com.dfsek.betterend.world;
 
-import com.dfsek.betterend.world.decor.*;
-import com.dfsek.betterend.world.generators.biomes.*;
+import com.dfsek.betterend.population.structures.EndStructure;
+import com.dfsek.betterend.world.decor.AetherDecorator;
+import com.dfsek.betterend.world.decor.AetherForestDecorator;
+import com.dfsek.betterend.world.decor.AetherHighlandsDecorator;
+import com.dfsek.betterend.world.decor.AetherHighlandsForestDecorator;
+import com.dfsek.betterend.world.decor.EndDecorator;
+import com.dfsek.betterend.world.decor.MainIslandDecorator;
+import com.dfsek.betterend.world.decor.ShatteredEndDecorator;
+import com.dfsek.betterend.world.decor.ShatteredForestDecorator;
+import com.dfsek.betterend.world.decor.StarfieldDecorator;
+import com.dfsek.betterend.world.decor.VoidDecorator;
+import com.dfsek.betterend.world.generators.biomes.AetherGenerator;
+import com.dfsek.betterend.world.generators.biomes.AetherHighlandsGenerator;
+import com.dfsek.betterend.world.generators.biomes.EndGenerator;
+import com.dfsek.betterend.world.generators.biomes.MainIslandGenerator;
+import com.dfsek.betterend.world.generators.biomes.ShatteredEndGenerator;
+import com.dfsek.betterend.world.generators.biomes.VoidGenerator;
 import com.dfsek.betterend.world.generators.border.AetherHighlandsBorderGenerator;
 import com.dfsek.betterend.world.generators.border.VoidAetherBorderGenerator;
 import com.dfsek.betterend.world.generators.border.VoidAetherHighlandsBorderGenerator;
 import com.dfsek.betterend.world.generators.border.VoidEndBorderGenerator;
-import com.dfsek.betterend.population.structures.EndStructure;
 import org.bukkit.Material;
+import org.polydev.gaea.biome.Biome;
 import org.polydev.gaea.biome.BiomeTerrain;
+import org.polydev.gaea.biome.Decorator;
 import org.polydev.gaea.math.ProbabilityCollection;
 import org.polydev.gaea.structures.features.BlockReplaceFeature;
 import org.polydev.gaea.structures.features.Feature;
 import org.polydev.gaea.tree.Tree;
-import org.polydev.gaea.biome.Biome;
-import org.polydev.gaea.biome.Decorator;
 
 import java.util.Collections;
 import java.util.List;
@@ -22,7 +36,7 @@ import java.util.Random;
 
 /**
  * Representation of BetterEnd custom biomes.
- * 
+ *
  * @author dfsek
  * @since 3.6.2
  */
@@ -44,6 +58,7 @@ public enum EndBiome implements Biome {
 
 	private final BiomeTerrain generator;
 	private final Decorator<EndStructure> decorator;
+
 	EndBiome(BiomeTerrain g, Decorator<EndStructure> d) {
 		this.generator = g;
 		this.decorator = d;
@@ -51,13 +66,13 @@ public enum EndBiome implements Biome {
 
 	/**
 	 * Checks whether or not the Biome is a variant of the Aether.
-	 * 
+	 *
+	 * @return Whether or not the Biome is an Aether variant.
 	 * @author dfsek
 	 * @since 3.6.2
-	 * @return Whether or not the Biome is an Aether variant.
 	 */
 	public boolean isAether() {
-		return(this.equals(EndBiome.AETHER)
+		return (this.equals(EndBiome.AETHER)
 				|| this.equals(EndBiome.AETHER_FOREST)
 				|| this.equals(EndBiome.AETHER_HIGHLANDS)
 				|| this.equals(EndBiome.AETHER_HIGHLANDS_FOREST)
@@ -68,39 +83,40 @@ public enum EndBiome implements Biome {
 
 	/**
 	 * Checks whether or not the Biome is a variant of the Highlands.
-	 * 
+	 *
+	 * @return Whether or not the Biome is a Highlands variant.
 	 * @author dfsek
 	 * @since 3.6.2
-	 * @return Whether or not the Biome is a Highlands variant.
 	 */
 	public boolean isHighlands() {
-		return(this.equals(EndBiome.AETHER_HIGHLANDS) || this.equals(EndBiome.AETHER_HIGHLANDS_FOREST));
+		return (this.equals(EndBiome.AETHER_HIGHLANDS) || this.equals(EndBiome.AETHER_HIGHLANDS_FOREST));
 	}
 
 	/**
 	 * Checks whether or not the Biome is a variant of the Void.
-	 * 
+	 *
+	 * @return Whether or not the Biome is a Void variant.
 	 * @author dfsek
 	 * @since 3.6.2
-	 * @return Whether or not the Biome is a Void variant.
 	 */
 	public boolean isVoid() {
-		return(this.equals(EndBiome.VOID) || this.equals(EndBiome.STARFIELD));
+		return (this.equals(EndBiome.VOID) || this.equals(EndBiome.STARFIELD));
 	}
 
 	/**
 	 * Checks whether or not the Biome is a variant of the Shattered End.
-	 * 
+	 *
+	 * @return Whether or not the Biome is a Shattered End variant.
 	 * @author dfsek
 	 * @since 3.6.2
-	 * @return Whether or not the Biome is a Shattered End variant.
 	 */
 	public boolean isShattered() {
-		return(this.equals(EndBiome.SHATTERED_END) || this.equals(EndBiome.SHATTERED_FOREST));
+		return (this.equals(EndBiome.SHATTERED_END) || this.equals(EndBiome.SHATTERED_FOREST));
 	}
 
 	/**
 	 * Gets a random structure from the biome's structure collection using the given Random instance.
+	 *
 	 * @param r - The random instance to use.
 	 * @return Structure - a random structure.
 	 */
@@ -111,6 +127,7 @@ public enum EndBiome implements Biome {
 
 	/**
 	 * Gets a random tree from the biome's tree collection.
+	 *
 	 * @param r - The random instance to use.
 	 * @return Tree - a random tree.
 	 */
@@ -146,12 +163,14 @@ public enum EndBiome implements Biome {
 			case AETHER_HIGHLANDS:
 			case AETHER_HIGHLANDS_FOREST:
 				return VOID_AETHER_HIGHLANDS_BORDER;
-			default: return this;
+			default:
+				return this;
 		}
 	}
 
 	/**
 	 * Gets the generator object
+	 *
 	 * @return BiomeTerrain - the terrain gen object.
 	 */
 	@Override
@@ -161,12 +180,13 @@ public enum EndBiome implements Biome {
 
 	@Override
 	public List<Feature> getStructureFeatures() {
-		switch (this) {
+		switch(this) {
 			case AETHER_HIGHLANDS_FOREST:
 			case AETHER_HIGHLANDS_BORDER:
 			case AETHER_HIGHLANDS:
 				return Collections.singletonList(new BlockReplaceFeature(4, new ProbabilityCollection<Material>().add(Material.COBWEB, 1)));
-			default: return Collections.emptyList();
+			default:
+				return Collections.emptyList();
 		}
 	}
 

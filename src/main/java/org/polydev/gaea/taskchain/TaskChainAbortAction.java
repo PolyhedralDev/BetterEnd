@@ -26,16 +26,20 @@ package org.polydev.gaea.taskchain;
 /**
  * Defines actions to perform when a chain is used with .abortIfNull
  * Override desired arguments needed to provide actions
+ *
  * @param <A1>
  * @param <A2>
  * @param <A3>
  */
 @SuppressWarnings("WeakerAccess")
-public interface TaskChainAbortAction <A1, A2, A3> {
-    default void onAbort(TaskChain<?> chain, A1 arg1) {}
+public interface TaskChainAbortAction<A1, A2, A3> {
+    default void onAbort(TaskChain<?> chain, A1 arg1) {
+    }
+
     default void onAbort(TaskChain<?> chain, A1 arg1, A2 arg2) {
         onAbort(chain, arg1);
     }
+
     default void onAbort(TaskChain<?> chain, A1 arg1, A2 arg2, A3 arg3) {
         onAbort(chain, arg1, arg2);
     }

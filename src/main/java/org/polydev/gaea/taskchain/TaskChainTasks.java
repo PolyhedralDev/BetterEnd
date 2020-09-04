@@ -62,6 +62,7 @@ public class TaskChainTasks {
     /**
      * A task that expects input, but will not provide a response.
      * Likely to be the last task in the chain
+     *
      * @param <A>
      */
     public interface LastTask<A> extends Task<Object, A> {

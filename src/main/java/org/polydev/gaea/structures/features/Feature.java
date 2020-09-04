@@ -1,9 +1,7 @@
 package org.polydev.gaea.structures.features;
 
-import org.polydev.gaea.biome.Biome;
 import org.polydev.gaea.structures.NMSStructure;
 
-import java.util.List;
 import java.util.Random;
 
 public interface Feature {

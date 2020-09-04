@@ -6,12 +6,21 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class to record and hold all data for a single type of measurement performed by the profiler.
+ */
 public class Measurement {
-    private long min = Long.MAX_VALUE;
-    private long max = Long.MIN_VALUE;
     private final List<Long> measurements;
     private final long desirable;
     private final DataType type;
+    private long min = Long.MAX_VALUE;
+    private long max = Long.MIN_VALUE;
+
+    /**
+     * Constructs a new Measurement with a desired value and DataType.
+     * @param desirable The desired value of the measurement.
+     * @param type The type of data the measurement is holding.
+     */
     public Measurement(long desirable, DataType type) {
         this.desirable = desirable;
         this.type = type;
@@ -27,7 +36,7 @@ public class Measurement {
     public ProfileFuture beginMeasurement() {
         ProfileFuture future = new ProfileFuture();
         long current = System.nanoTime();
-        future.thenRun(() -> record(System.nanoTime()-current));
+        future.thenRun(() -> record(System.nanoTime() - current));
         return future;
     }
 

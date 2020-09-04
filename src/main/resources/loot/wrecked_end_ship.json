@@ -1,392 +1,392 @@
 {
-    "pools": [
+  "pools": [
+    {
+      "rolls": {
+        "min": 2,
+        "max": 6
+      },
+      "entries": [
         {
-            "rolls": {
+          "type": "item",
+          "weight": 12,
+          "name": "iron_nugget",
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 4,
+                "max": 8
+              }
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "weight": 15,
+          "name": "gold_nugget",
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
                 "min": 2,
-                "max": 6
+                "max": 7
+              }
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "weight": 1,
+          "name": "diamond_sword",
+          "functions": [
+            {
+              "function": "enchant_with_levels",
+              "levels": {
+                "min": 20,
+                "max": 30
+              },
+              "treasure": true
             },
-            "entries": [
-                {
-                    "type": "item",
-                    "weight": 12,
-                    "name": "iron_nugget",
-                    "functions": [
-                        {
-                            "function": "set_count",
-                            "count": {
-                                "min": 4,
-                                "max": 8
-                            }
-                        }
-                    ]
-                },
-                {
-                    "type": "item",
-                    "weight": 15,
-                    "name": "gold_nugget",
-                    "functions": [
-                        {
-                            "function": "set_count",
-                            "count": {
-                                "min": 2,
-                                "max": 7
-                            }
-                        }
-                    ]
-                },
-                {
-                    "type": "item",
-                    "weight": 1,
-                    "name": "diamond_sword",
-                    "functions": [
-                        {
-                            "function": "enchant_with_levels",
-                            "levels": {
-                                "min": 20,
-                                "max": 30
-                            },
-                            "treasure": true
-                        },
-                        {
-                            "function": "set_damage",
-                            "damage": {
-                                "min": 33,
-                                "max": 90
-                            }
-                        }
-                    ]
-                },
-                {
-                    "type": "item",
-                    "weight": 1,
-                    "name": "diamond_boots",
-                    "functions": [
-                        {
-                            "function": "enchant_with_levels",
-                            "levels": {
-                                "min": 20,
-                                "max": 30
-                            },
-                            "treasure": true
-                        },
-                        {
-                            "function": "set_damage",
-                            "damage": {
-                                "min": 33,
-                                "max": 90
-                            }
-                        }
-                    ]
-                },
-                {
-                    "type": "item",
-                    "weight": 1,
-                    "name": "diamond_chestplate",
-                    "functions": [
-                        {
-                            "function": "enchant_with_levels",
-                            "levels": {
-                                "min": 20,
-                                "max": 30
-                            },
-                            "treasure": true
-                        },
-                        {
-                            "function": "set_damage",
-                            "damage": {
-                                "min": 33,
-                                "max": 90
-                            }
-                        }
-                    ]
-                },
-                {
-                    "type": "item",
-                    "weight": 1,
-                    "name": "diamond_leggings",
-                    "functions": [
-                        {
-                            "function": "enchant_with_levels",
-                            "levels": {
-                                "min": 20,
-                                "max": 30
-                            },
-                            "treasure": true
-                        },
-                        {
-                            "function": "set_damage",
-                            "damage": {
-                                "min": 33,
-                                "max": 90
-                            }
-                        }
-                    ]
-                },
-                {
-                    "type": "item",
-                    "weight": 1,
-                    "name": "diamond_helmet",
-                    "functions": [
-                        {
-                            "function": "enchant_with_levels",
-                            "levels": {
-                                "min": 20,
-                                "max": 30
-                            },
-                            "treasure": true
-                        },
-                        {
-                            "function": "set_damage",
-                            "damage": {
-                                "min": 33,
-                                "max": 90
-                            }
-                        }
-                    ]
-                },
-                {
-                    "type": "item",
-                    "weight": 1,
-                    "name": "diamond_pickaxe",
-                    "functions": [
-                        {
-                            "function": "enchant_with_levels",
-                            "levels": {
-                                "min": 20,
-                                "max": 30
-                            },
-                            "treasure": true
-                        },
-                        {
-                            "function": "set_damage",
-                            "damage": {
-                                "min": 33,
-                                "max": 90
-                            }
-                        }
-                    ]
-                },
-                {
-                    "type": "item",
-                    "weight": 1,
-                    "name": "diamond_shovel",
-                    "functions": [
-                        {
-                            "function": "enchant_with_levels",
-                            "levels": {
-                                "min": 20,
-                                "max": 30
-                            },
-                            "treasure": true
-                        },
-                        {
-                            "function": "set_damage",
-                            "damage": {
-                                "min": 33,
-                                "max": 90
-                            }
-                        }
-                    ]
-                },
-                {
-                    "type": "item",
-                    "weight": 3,
-                    "name": "iron_sword",
-                    "functions": [
-                        {
-                            "function": "enchant_with_levels",
-                            "levels": {
-                                "min": 20,
-                                "max": 30
-                            },
-                            "treasure": true
-                        },
-                        {
-                            "function": "set_damage",
-                            "damage": {
-                                "min": 33,
-                                "max": 90
-                            }
-                        }
-                    ]
-                },
-                {
-                    "type": "item",
-                    "weight": 3,
-                    "name": "iron_boots",
-                    "functions": [
-                        {
-                            "function": "enchant_with_levels",
-                            "levels": {
-                                "min": 20,
-                                "max": 30
-                            },
-                            "treasure": true
-                        },
-                        {
-                            "function": "set_damage",
-                            "damage": {
-                                "min": 33,
-                                "max": 90
-                            }
-                        }
-                    ]
-                },
-                {
-                    "type": "item",
-                    "weight": 3,
-                    "name": "iron_chestplate",
-                    "functions": [
-                        {
-                            "function": "enchant_with_levels",
-                            "levels": {
-                                "min": 20,
-                                "max": 30
-                            },
-                            "treasure": true
-                        },
-                        {
-                            "function": "set_damage",
-                            "damage": {
-                                "min": 33,
-                                "max": 90
-                            }
-                        }
-                    ]
-                },
-                {
-                    "type": "item",
-                    "weight": 3,
-                    "name": "iron_leggings",
-                    "functions": [
-                        {
-                            "function": "enchant_with_levels",
-                            "levels": {
-                                "min": 20,
-                                "max": 30
-                            },
-                            "treasure": true
-                        },
-                        {
-                            "function": "set_damage",
-                            "damage": {
-                                "min": 33,
-                                "max": 90
-                            }
-                        }
-                    ]
-                },
-                {
-                    "type": "item",
-                    "weight": 3,
-                    "name": "iron_helmet",
-                    "functions": [
-                        {
-                            "function": "enchant_with_levels",
-                            "levels": {
-                                "min": 20,
-                                "max": 30
-                            },
-                            "treasure": true
-                        },
-                        {
-                            "function": "set_damage",
-                            "damage": {
-                                "min": 33,
-                                "max": 90
-                            }
-                        }
-                    ]
-                },
-                {
-                    "type": "item",
-                    "weight": 3,
-                    "name": "iron_pickaxe",
-                    "functions": [
-                        {
-                            "function": "enchant_with_levels",
-                            "levels": {
-                                "min": 20,
-                                "max": 30
-                            },
-                            "treasure": true
-                        },
-                        {
-                            "function": "set_damage",
-                            "damage": {
-                                "min": 33,
-                                "max": 90
-                            }
-                        }
-                    ]
-                },
-                {
-                    "type": "item",
-                    "weight": 3,
-                    "name": "iron_shovel",
-                    "functions": [
-                        {
-                            "function": "enchant_with_levels",
-                            "levels": {
-                                "min": 20,
-                                "max": 30
-                            },
-                            "treasure": true
-                        },
-                        {
-                            "function": "set_damage",
-                            "damage": {
-                                "min": 33,
-                                "max": 90
-                            }
-                        }
-                    ]
-                },
-                {
-                    "type": "item",
-                    "weight": 1,
-                    "name": "diamond_axe",
-                    "functions": [
-                        {
-                            "function": "enchant_with_levels",
-                            "levels": {
-                                "min": 20,
-                                "max": 30
-                            },
-                            "treasure": true
-                        },
-                        {
-                            "function": "set_damage",
-                            "damage": {
-                                "min": 33,
-                                "max": 90
-                            }
-                        }
-                    ]
-                },
-                {
-                    "type": "item",
-                    "weight": 3,
-                    "name": "iron_axe",
-                    "functions": [
-                        {
-                            "function": "enchant_with_levels",
-                            "levels": {
-                                "min": 20,
-                                "max": 30
-                            },
-                            "treasure": true
-                        },
-                        {
-                            "function": "set_damage",
-                            "damage": {
-                                "min": 33,
-                                "max": 90
-                            }
-                        }
-                    ]
-                }
-            ]
+            {
+              "function": "set_damage",
+              "damage": {
+                "min": 33,
+                "max": 90
+              }
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "weight": 1,
+          "name": "diamond_boots",
+          "functions": [
+            {
+              "function": "enchant_with_levels",
+              "levels": {
+                "min": 20,
+                "max": 30
+              },
+              "treasure": true
+            },
+            {
+              "function": "set_damage",
+              "damage": {
+                "min": 33,
+                "max": 90
+              }
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "weight": 1,
+          "name": "diamond_chestplate",
+          "functions": [
+            {
+              "function": "enchant_with_levels",
+              "levels": {
+                "min": 20,
+                "max": 30
+              },
+              "treasure": true
+            },
+            {
+              "function": "set_damage",
+              "damage": {
+                "min": 33,
+                "max": 90
+              }
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "weight": 1,
+          "name": "diamond_leggings",
+          "functions": [
+            {
+              "function": "enchant_with_levels",
+              "levels": {
+                "min": 20,
+                "max": 30
+              },
+              "treasure": true
+            },
+            {
+              "function": "set_damage",
+              "damage": {
+                "min": 33,
+                "max": 90
+              }
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "weight": 1,
+          "name": "diamond_helmet",
+          "functions": [
+            {
+              "function": "enchant_with_levels",
+              "levels": {
+                "min": 20,
+                "max": 30
+              },
+              "treasure": true
+            },
+            {
+              "function": "set_damage",
+              "damage": {
+                "min": 33,
+                "max": 90
+              }
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "weight": 1,
+          "name": "diamond_pickaxe",
+          "functions": [
+            {
+              "function": "enchant_with_levels",
+              "levels": {
+                "min": 20,
+                "max": 30
+              },
+              "treasure": true
+            },
+            {
+              "function": "set_damage",
+              "damage": {
+                "min": 33,
+                "max": 90
+              }
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "weight": 1,
+          "name": "diamond_shovel",
+          "functions": [
+            {
+              "function": "enchant_with_levels",
+              "levels": {
+                "min": 20,
+                "max": 30
+              },
+              "treasure": true
+            },
+            {
+              "function": "set_damage",
+              "damage": {
+                "min": 33,
+                "max": 90
+              }
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "weight": 3,
+          "name": "iron_sword",
+          "functions": [
+            {
+              "function": "enchant_with_levels",
+              "levels": {
+                "min": 20,
+                "max": 30
+              },
+              "treasure": true
+            },
+            {
+              "function": "set_damage",
+              "damage": {
+                "min": 33,
+                "max": 90
+              }
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "weight": 3,
+          "name": "iron_boots",
+          "functions": [
+            {
+              "function": "enchant_with_levels",
+              "levels": {
+                "min": 20,
+                "max": 30
+              },
+              "treasure": true
+            },
+            {
+              "function": "set_damage",
+              "damage": {
+                "min": 33,
+                "max": 90
+              }
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "weight": 3,
+          "name": "iron_chestplate",
+          "functions": [
+            {
+              "function": "enchant_with_levels",
+              "levels": {
+                "min": 20,
+                "max": 30
+              },
+              "treasure": true
+            },
+            {
+              "function": "set_damage",
+              "damage": {
+                "min": 33,
+                "max": 90
+              }
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "weight": 3,
+          "name": "iron_leggings",
+          "functions": [
+            {
+              "function": "enchant_with_levels",
+              "levels": {
+                "min": 20,
+                "max": 30
+              },
+              "treasure": true
+            },
+            {
+              "function": "set_damage",
+              "damage": {
+                "min": 33,
+                "max": 90
+              }
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "weight": 3,
+          "name": "iron_helmet",
+          "functions": [
+            {
+              "function": "enchant_with_levels",
+              "levels": {
+                "min": 20,
+                "max": 30
+              },
+              "treasure": true
+            },
+            {
+              "function": "set_damage",
+              "damage": {
+                "min": 33,
+                "max": 90
+              }
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "weight": 3,
+          "name": "iron_pickaxe",
+          "functions": [
+            {
+              "function": "enchant_with_levels",
+              "levels": {
+                "min": 20,
+                "max": 30
+              },
+              "treasure": true
+            },
+            {
+              "function": "set_damage",
+              "damage": {
+                "min": 33,
+                "max": 90
+              }
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "weight": 3,
+          "name": "iron_shovel",
+          "functions": [
+            {
+              "function": "enchant_with_levels",
+              "levels": {
+                "min": 20,
+                "max": 30
+              },
+              "treasure": true
+            },
+            {
+              "function": "set_damage",
+              "damage": {
+                "min": 33,
+                "max": 90
+              }
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "weight": 1,
+          "name": "diamond_axe",
+          "functions": [
+            {
+              "function": "enchant_with_levels",
+              "levels": {
+                "min": 20,
+                "max": 30
+              },
+              "treasure": true
+            },
+            {
+              "function": "set_damage",
+              "damage": {
+                "min": 33,
+                "max": 90
+              }
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "weight": 3,
+          "name": "iron_axe",
+          "functions": [
+            {
+              "function": "enchant_with_levels",
+              "levels": {
+                "min": 20,
+                "max": 30
+              },
+              "treasure": true
+            },
+            {
+              "function": "set_damage",
+              "damage": {
+                "min": 33,
+                "max": 90
+              }
+            }
+          ]
         }
-    ]
+      ]
+    }
+  ]
 }

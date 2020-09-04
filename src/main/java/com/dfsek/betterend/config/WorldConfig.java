@@ -18,8 +18,7 @@ import java.util.Objects;
 public class WorldConfig {
     private static final Map<String, WorldConfig> configs = new HashMap<>();
     private static JavaPlugin main;
-
-
+    private final Map<String, Object> biomeReplacements;
     public boolean endermanBlockPickup;
     public boolean bigTreeSaplingBiomes;
     public boolean bigTreeSaplingWorld;
@@ -38,7 +37,6 @@ public class WorldConfig {
     public int structureChancePerChunk;
     public boolean genMainIsland;
     public int islandHeight;
-    private final Map<String, Object> biomeReplacements;
 
     public WorldConfig(String w, JavaPlugin main) {
         WorldConfig.main = main;
@@ -47,12 +45,12 @@ public class WorldConfig {
         FileConfiguration config = new YamlConfiguration();
         try {
             File configFile = new File(main.getDataFolder() + File.separator + "worlds", w + ".yml");
-            if(!configFile.exists() && configFile.getParentFile().mkdirs()) {
+            if(! configFile.exists() && configFile.getParentFile().mkdirs()) {
                 main.getLogger().info("Configuration for world \"" + w + "\" not found. Copying default config.");
                 FileUtils.copyInputStreamToFile(Objects.requireNonNull(main.getResource("world.yml")), configFile);
             }
             config.load(configFile);
-        } catch (IOException | InvalidConfigurationException e) {
+        } catch(IOException | InvalidConfigurationException e) {
             e.printStackTrace();
             main.getLogger().severe("Unable to load configuration for world " + w + ".");
         }
@@ -65,7 +63,7 @@ public class WorldConfig {
         overworld = config.getBoolean("overworld", false);
         bossRespawnTime = Duration.parse(Objects.requireNonNull(config.getString("boss.respawn-time", "P14D"))).toMillis();
         System.out.println("Boss respawn time parsed to " + bossRespawnTime + "ms for " + w);
-        islandHeightMultiplierBottom = config.getInt("terrain.height.bottom",32);
+        islandHeightMultiplierBottom = config.getInt("terrain.height.bottom", 32);
         islandHeightMultiplierTop = config.getInt("terrain.height.top", 6);
         octaves = config.getInt("terrain.noise.octaves", 5);
         noise = config.getInt("terrain.noise.island-size", 96);
@@ -82,15 +80,16 @@ public class WorldConfig {
         configs.put(w, this);
     }
 
-    public EndBiome getBiomeReplacement(EndBiome b) {
-        if(biomeReplacements.containsKey(b.toString())) return EndBiome.valueOf((String) biomeReplacements.get(b.toString()));
-        return b;
-    }
-
     public static WorldConfig fromWorld(World w) {
-        if(!configs.containsKey(w.getName())) {
+        if(! configs.containsKey(w.getName())) {
             WorldConfig c = new WorldConfig(w.getName(), main);
         }
         return configs.get(w.getName());
+    }
+
+    public EndBiome getBiomeReplacement(EndBiome b) {
+        if(biomeReplacements.containsKey(b.toString()))
+            return EndBiome.valueOf((String) biomeReplacements.get(b.toString()));
+        return b;
     }
 }

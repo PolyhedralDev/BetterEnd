@@ -34,12 +34,31 @@ public class EndBiomeGrid extends BiomeGrid<EndBiome> {
             {EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_FOREST, EndBiome.SHATTERED_FOREST, EndBiome.SHATTERED_FOREST, EndBiome.SHATTERED_FOREST, EndBiome.SHATTERED_FOREST, EndBiome.SHATTERED_FOREST, EndBiome.SHATTERED_FOREST, EndBiome.SHATTERED_FOREST}};
 
     public EndBiomeGrid(World w) {
-        super(w, 1f/WorldConfig.fromWorld(w).biomeSize, 1f/WorldConfig.fromWorld(w).climateSize);
+        super(w, 1f / WorldConfig.fromWorld(w).biomeSize, 1f / WorldConfig.fromWorld(w).climateSize);
         this.config = WorldConfig.fromWorld(w);
         for(EndBiome b : EndBiome.values()) {
             replaceInGrid(b, config.getBiomeReplacement(b));
         }
         super.setGrid(grid);
+    }
+
+    public EndBiomeGrid(int seed) {
+        super(seed);
+        this.config = null;
+        super.setGrid(grid);
+    }
+
+    /**
+     * Static getter for a world's BiomeGrid. Instantiates grid if it doesn't exist.
+     *
+     * @param w - The world in which the BiomeGrid is to be used.
+     * @return BiomeGrid - The BiomeGrid linked to the world.
+     */
+    public static EndBiomeGrid fromWorld(World w) {
+        if(grids.containsKey(w)) return grids.get(w);
+        EndBiomeGrid g = new EndBiomeGrid(w);
+        grids.put(w, g);
+        return g;
     }
 
     public void replaceInGrid(EndBiome from, EndBiome to) {
@@ -49,12 +68,6 @@ public class EndBiomeGrid extends BiomeGrid<EndBiome> {
                 if(grid[i][j].equals(from)) grid[i][j] = to;
             }
         }
-    }
-
-    public EndBiomeGrid(int seed) {
-        super(seed);
-        this.config = null;
-        super.setGrid(grid);
     }
 
     /**
@@ -69,8 +82,9 @@ public class EndBiomeGrid extends BiomeGrid<EndBiome> {
         if(config.genMainIsland) {
             long ds = (long) (Math.pow(x, 2) + Math.pow(z, 2));
             if(ds < 62500) return config.getBiomeReplacement(EndBiome.MAIN_ISLAND); // 62500 = 250^2, main island width
-            else if (ds < 980100) return config.getBiomeReplacement(EndBiome.VOID); // 980100 = 990^2, outer end edge
-            else if (ds < 1000000) return config.getBiomeReplacement(super.getBiome(x, z).getVoidBorderVariant()); // 1000000 = 1000^2, outer end beginning
+            else if(ds < 980100) return config.getBiomeReplacement(EndBiome.VOID); // 980100 = 990^2, outer end edge
+            else if(ds < 1000000)
+                return config.getBiomeReplacement(super.getBiome(x, z).getVoidBorderVariant()); // 1000000 = 1000^2, outer end beginning
         }
         return super.getBiome(x, z);
     }
@@ -84,17 +98,5 @@ public class EndBiomeGrid extends BiomeGrid<EndBiome> {
     @Override
     public EndBiome getBiome(Location l) {
         return this.getBiome(l.getBlockX(), l.getBlockZ());
-    }
-
-    /**
-     * Static getter for a world's BiomeGrid. Instantiates grid if it doesn't exist.
-     * @param w - The world in which the BiomeGrid is to be used.
-     * @return BiomeGrid - The BiomeGrid linked to the world.
-     */
-    public static EndBiomeGrid fromWorld(World w) {
-        if(grids.containsKey(w)) return grids.get(w);
-        EndBiomeGrid g = new EndBiomeGrid(w);
-        grids.put(w, g);
-        return g;
     }
 }

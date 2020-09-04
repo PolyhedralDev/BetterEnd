@@ -1,8 +1,5 @@
 package com.dfsek.betterend.util;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.dfsek.betterend.BetterEnd;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -12,6 +9,9 @@ import org.bukkit.block.Container;
 import org.bukkit.block.DoubleChest;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.util.noise.SimplexOctaveGenerator;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class StructureUtil {
 	private static final BetterEnd main = BetterEnd.getInstance();
@@ -28,10 +28,10 @@ public class StructureUtil {
 		List<Location> locs = new ArrayList<>();
 		for(int x = 0; x <= Math.abs(l1.getBlockX() - l2.getBlockX()); x++) {
 			for(int z = 0; z <= Math.abs(l1.getBlockZ() - l2.getBlockZ()); z++) {
-				locs.add(new Location(l1.getWorld(), (double) lowX + x, (double) lowY, (double) lowZ + z));
+				locs.add(new Location(l1.getWorld(), (double) lowX + x, lowY, (double) lowZ + z));
 			}
 		}
-		for(Location location: locs) {
+		for(Location location : locs) {
 			if(generator.noise((double) (location.getBlockX()) / outNoise, (double) (location.getBlockZ()) / outNoise, 0.1D, 0.55D) < 0.45) {
 				return false;
 			}
@@ -64,9 +64,7 @@ public class StructureUtil {
 			if(l7.getBlock().isEmpty()) {
 				return false;
 			}
-			if(l8.getBlock().isEmpty()) {
-				return false;
-			}
+			return ! l8.getBlock().isEmpty();
 		} else {
 			if(strict) {
 				for(int x = 0; x <= Math.abs(l1.getBlockX() - l2.getBlockX()); x++) {
@@ -93,9 +91,7 @@ public class StructureUtil {
 				if(l5.getBlock().isEmpty()) {
 					return false;
 				}
-				if(l6.getBlock().isEmpty()) {
-					return false;
-				}
+				return ! l6.getBlock().isEmpty();
 			}
 		}
 		return true;
@@ -103,7 +99,7 @@ public class StructureUtil {
 
 	public static List<Location> getChestsIn(Location minLoc, Location maxLoc) {
 		List<Location> locations = new ArrayList<>();
-		for(Location location: getLocationListBetween(minLoc, maxLoc)) {
+		for(Location location : getLocationListBetween(minLoc, maxLoc)) {
 			BlockState blockState = location.getBlock().getState();
 			if(blockState instanceof Container) {
 				if(blockState instanceof Chest) {
@@ -151,7 +147,7 @@ public class StructureUtil {
 	}
 
 	private static boolean isNotAlreadyIn(List<Location> locations, Location location) {
-		for(Location auxLocation: locations) {
+		for(Location auxLocation : locations) {
 			if(location.distance(auxLocation) < 1) {
 				return false;
 			}

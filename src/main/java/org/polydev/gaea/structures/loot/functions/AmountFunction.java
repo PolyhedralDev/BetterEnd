@@ -13,6 +13,7 @@ public class AmountFunction implements Function {
 
     /**
      * Instantiates an AmountFunction.
+     *
      * @param min Minimum amount.
      * @param max Maximum amount.
      */
@@ -23,13 +24,14 @@ public class AmountFunction implements Function {
 
     /**
      * Applies the function to an ItemStack.
+     *
      * @param original The ItemStack on which to apply the function.
-     * @param r The Random instance to use.
+     * @param r        The Random instance to use.
      * @return - ItemStack - The mutated ItemStack.
      */
     @Override
     public ItemStack apply(ItemStack original, Random r) {
-        original.setAmount(r.nextInt(max-min+1)+min);
+        original.setAmount(r.nextInt(max - min + 1) + min);
         return original;
     }
 }

@@ -6,6 +6,7 @@ public class ProfileFuture extends CompletableFuture<Boolean> {
     public ProfileFuture() {
         super();
     }
+
     public boolean complete() {
         return super.complete(true);
     }

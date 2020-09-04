@@ -36,7 +36,7 @@ public class StructurePopulator extends BlockPopulator {
             Location origin = struc.getSpawnInfo().getSpawnLocation(new Location(world, x, y, z), random);
             if(origin.getY() <= 0) return;
             NMSStructure nms = struc.getInstance(origin, random);
-            nms.setRotation(random.nextInt(4)*90);
+            nms.setRotation(random.nextInt(4) * 90);
             if(struc.getSpawnInfo().isValidSpawn(nms)) nms.paste();
             else return;
             ProfileFuture featureFuture = EndProfiler.fromWorld(world).measure("StructureFeatureTime");
@@ -47,7 +47,7 @@ public class StructurePopulator extends BlockPopulator {
             }
             if(featureFuture != null) featureFuture.complete();
             if(ConfigUtil.debug) System.out.println("Generated " + struc + " at " + x + " " + origin.getY() + " " + z);
-            EndProfiler.fromWorld(world).setMeasurement("StructureGenTime", System.nanoTime()-l);
+            EndProfiler.fromWorld(world).setMeasurement("StructureGenTime", System.nanoTime() - l);
         }
     }
 }
