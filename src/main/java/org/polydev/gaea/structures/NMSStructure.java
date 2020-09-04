@@ -2,13 +2,11 @@ package org.polydev.gaea.structures;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.polydev.gaea.reflectasm.ConstructorAccess;
+import org.polydev.gaea.reflectasm.MethodAccess;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.Random;
 
 /**
@@ -20,76 +18,107 @@ import java.util.Random;
 @SuppressWarnings({"unchecked", "rawtypes"})
 public class NMSStructure {
     private static final String version = Bukkit.getServer().getClass().getPackage().getName().replace(".", ",").split(",")[3];
-    private static Constructor definedStructureConstructor;
-    private static Method loadStructure;
-    private static Constructor compoundNBTConstructor;
-    private static Method getStructureAsNBTMethod;
-    private static Method getNBTListMethod;
-    private static Method getNBTListItemMethod;
-    private static Method loadNBTStreamFromInputStreamMethod;
-    private static Method pasteMethod;
-    private static Class nbtStreamToolsClass;
-    private static Class craftWorldClass;
-    private static Class enumBlockRotationClass;
-    private static Method enumBlockRotationValueOfMethod;
-    private static Class enumBlockMirrorClass;
-    private static Method enumBlockMirrorValueOfMethod;
-    private static Method setReflectionMethod;
-    private static Method setRotationMethod;
-    private static Method mysteryBooleanMethod;
-    private static Method mysteryBooleancMethod;
-    private static Method setRandomMethod;
-    private static Constructor definedStructureInfoConstructor;
-    private static Method getCraftWorldHandleMethod;
-    private static Class chunkCoordIntPairClass;
-    private static Method chunkCoordIntPairMethod;
-    private static Constructor blockPositionConstructor;
+
+    private static Class definedStructureClass;
+
+    private static MethodAccess definedStructureMethodAccess;
+    private static ConstructorAccess<?> definedStructureConstructorAccess;
+    private static int loadStructureMethodIndex;
+    private static int getStructureAsNBTMethodIndex;
+    public static int pasteMethodIndex;
+
+    private static MethodAccess nbtStreamToolsAccess;
+    private static int loadNBTStreamFromInputStreamIndex;
+
+    private static ConstructorAccess<?> compoundNBTConstructorAccess;
+
+    private static MethodAccess compoundNBTTagMethodAccess;
+    public static int getNBTListMethodIndex;
+
+    private static MethodAccess listNBTTagMethodAccess;
+    private static int getNBTListItemMethodIndex;
+
+
+    private static MethodAccess enumBlockRotationMethodAccess;
+    private static int enumBlockRotationValueOfIndex;
+
+    private static MethodAccess craftWorldMethodAccess;
+    private static int getCraftWorldHandleIndex;
+
+    private static MethodAccess definedStructureInfoMethodAccess;
+    private static int setRotationMethodIndex;
+    private static ConstructorAccess<?> definedStructureInfoConstructorAccess;
+    private static int mysteryBooleanMethodIndex;
+    private static int chunkCoordIntPairMethodIndex;
+    private static int mysteryBooleancMethodIndex;
+    private static int setRandomMethodIndex;
+
+    private static MethodAccess craftBlockMethodAccess;
+    private static int craftBlockGetPositionIndex;
 
     static {
         try {
             long start = System.nanoTime();
             Bukkit.getLogger().info("[Gaea] Beginning reflections for net.minecraft.server." + version + ".");
-            craftWorldClass = Class.forName("org.bukkit.craftbukkit." + version + ".CraftWorld");
+            Class craftWorldClass = Class.forName("org.bukkit.craftbukkit." + version + ".CraftWorld");
             Class compoundNBTTagClass = Class.forName("net.minecraft.server." + version + ".NBTTagCompound");
             Class definedStructureInfoClass = Class.forName("net.minecraft.server." + version + ".DefinedStructureInfo");
             Class blockPositionClass = Class.forName("net.minecraft.server." + version + ".BlockPosition");
-            nbtStreamToolsClass = Class.forName("net.minecraft.server." + version + ".NBTCompressedStreamTools");
-            loadNBTStreamFromInputStreamMethod = nbtStreamToolsClass.getMethod("a", InputStream.class);
-            Class definedStructureClass = Class.forName("net.minecraft.server." + version + ".DefinedStructure");
-            definedStructureConstructor = definedStructureClass.getConstructor();
-            loadStructure = definedStructureClass.getMethod("b", compoundNBTTagClass);
-            enumBlockRotationClass = Class.forName("net.minecraft.server." + version + ".EnumBlockRotation");
-            enumBlockRotationValueOfMethod = enumBlockRotationClass.getMethod("valueOf", String.class);
-            enumBlockMirrorClass = Class.forName("net.minecraft.server." + version + ".EnumBlockMirror");
-            enumBlockMirrorValueOfMethod = enumBlockMirrorClass.getMethod("valueOf", String.class);
-            compoundNBTConstructor = compoundNBTTagClass.getConstructor();
+            Class nbtStreamToolsClass = Class.forName("net.minecraft.server." + version + ".NBTCompressedStreamTools");
+            definedStructureClass = Class.forName("net.minecraft.server." + version + ".DefinedStructure");
+            Class enumBlockRotationClass = Class.forName("net.minecraft.server." + version + ".EnumBlockRotation");
             Class listNBTTagClass = Class.forName("net.minecraft.server." + version + ".NBTTagList");
-            getNBTListMethod = compoundNBTTagClass.getMethod("getList", String.class, int.class);
-            getNBTListItemMethod = listNBTTagClass.getMethod("e", int.class);
-            blockPositionConstructor = blockPositionClass.getConstructor(int.class, int.class, int.class);
-            chunkCoordIntPairClass = Class.forName("net.minecraft.server." + version + ".ChunkCoordIntPair");
-            chunkCoordIntPairMethod = definedStructureInfoClass.getMethod("a", chunkCoordIntPairClass);
-            mysteryBooleanMethod = definedStructureInfoClass.getMethod("a", boolean.class);
-            mysteryBooleancMethod = definedStructureInfoClass.getMethod("c", boolean.class);
-            setRandomMethod = definedStructureInfoClass.getMethod("a", Random.class);
-            getCraftWorldHandleMethod = craftWorldClass.getMethod("getHandle");
-            getStructureAsNBTMethod = definedStructureClass.getMethod("a", compoundNBTTagClass);
-            setRotationMethod = definedStructureInfoClass.getMethod("a", enumBlockRotationClass);
-            setReflectionMethod = definedStructureInfoClass.getMethod("a", enumBlockMirrorClass);
-            definedStructureInfoConstructor = definedStructureInfoClass.getConstructor();
+            Class chunkCoordIntPairClass = Class.forName("net.minecraft.server." + version + ".ChunkCoordIntPair");
+            Class craftBlockClass = Class.forName("org.bukkit.craftbukkit." + version + ".block.CraftBlock");
+
+
             Class generatorAccessClass;
             if(version.startsWith("v1_16_R2")) {
                 generatorAccessClass = Class.forName("net.minecraft.server." + version + ".WorldAccess");
             } else {
                 generatorAccessClass = Class.forName("net.minecraft.server." + version + ".GeneratorAccess");
             }
+
+            nbtStreamToolsAccess = MethodAccess.get(nbtStreamToolsClass);
+            loadNBTStreamFromInputStreamIndex = nbtStreamToolsAccess.getIndex("a", InputStream.class);
+
+            definedStructureConstructorAccess = ConstructorAccess.get(definedStructureClass);
+            definedStructureMethodAccess = MethodAccess.get(definedStructureClass);
+            loadStructureMethodIndex = definedStructureMethodAccess.getIndex("b", compoundNBTTagClass);
+            getStructureAsNBTMethodIndex = definedStructureMethodAccess.getIndex("a", compoundNBTTagClass);
             if (version.startsWith("v1_15")) {
-                pasteMethod = definedStructureClass.getMethod("a", generatorAccessClass, blockPositionClass, definedStructureInfoClass);
+                pasteMethodIndex = definedStructureMethodAccess.getIndex("a", generatorAccessClass, blockPositionClass, definedStructureInfoClass);
             } else {
-                pasteMethod = definedStructureClass.getMethod("a", generatorAccessClass, blockPositionClass, definedStructureInfoClass, Random.class);
+                pasteMethodIndex = definedStructureMethodAccess.getIndex("a", generatorAccessClass, blockPositionClass, definedStructureInfoClass, Random.class);
             }
+
+            compoundNBTConstructorAccess = ConstructorAccess.get(compoundNBTTagClass);
+
+            compoundNBTTagMethodAccess = MethodAccess.get(compoundNBTTagClass);
+            getNBTListMethodIndex = compoundNBTTagMethodAccess.getIndex("getList", String.class, int.class);
+
+            listNBTTagMethodAccess = MethodAccess.get(listNBTTagClass);
+            getNBTListItemMethodIndex = listNBTTagMethodAccess.getIndex("e", int.class);
+
+            enumBlockRotationMethodAccess = MethodAccess.get(enumBlockRotationClass);
+            enumBlockRotationValueOfIndex = enumBlockRotationMethodAccess.getIndex("valueOf", String.class);
+
+            craftWorldMethodAccess = MethodAccess.get(craftWorldClass);
+            getCraftWorldHandleIndex = craftWorldMethodAccess.getIndex("getHandle");
+
+            definedStructureInfoMethodAccess = MethodAccess.get(definedStructureInfoClass);
+            definedStructureInfoConstructorAccess = ConstructorAccess.get(definedStructureInfoClass);
+            setRotationMethodIndex = definedStructureInfoMethodAccess.getIndex("a", enumBlockRotationClass);
+            mysteryBooleanMethodIndex = definedStructureInfoMethodAccess.getIndex("a", boolean.class);
+            chunkCoordIntPairMethodIndex = definedStructureInfoMethodAccess.getIndex("a", chunkCoordIntPairClass);
+            mysteryBooleancMethodIndex = definedStructureInfoMethodAccess.getIndex("c", boolean.class);
+            setRandomMethodIndex = definedStructureInfoMethodAccess.getIndex("a", Random.class);
+
+            craftBlockMethodAccess = MethodAccess.get(craftBlockClass);
+            craftBlockGetPositionIndex = craftBlockMethodAccess.getIndex("getPosition");
+
             Bukkit.getLogger().info("[Gaea] Finished reflections. Time elapsed: " + ((double) (System.nanoTime() - start)) / 1000000 + "ms");
-        } catch (ClassNotFoundException | NoSuchMethodException e) {
+        } catch (ClassNotFoundException e) {
             Bukkit.getLogger().severe("[Gaea] An error occurred whilst initializing Reflection. Please report this.");
 			e.printStackTrace();
             Bukkit.getLogger().severe("[Gaea] Report the above error to Gaea!");
@@ -114,16 +143,16 @@ public class NMSStructure {
     public NMSStructure(Location origin, InputStream file) {
         Object structure;
         try {
-            structure = definedStructureConstructor.newInstance();
-            loadStructure.invoke(structure, loadNBTStreamFromInputStreamMethod.invoke(nbtStreamToolsClass, file));
-            Object tag = getStructureAsNBTMethod.invoke(structure, compoundNBTConstructor.newInstance());
-            Object dimTag = getNBTListMethod.invoke(tag, "size", 3);
-            this.dimension = new int[]{(int) getNBTListItemMethod.invoke(dimTag, 0),
-                    (int) getNBTListItemMethod.invoke(dimTag, 1),
-                    (int) getNBTListItemMethod.invoke(dimTag, 2)};
+            structure = definedStructureConstructorAccess.newInstance();
+            definedStructureMethodAccess.invoke(structure, loadStructureMethodIndex, nbtStreamToolsAccess.invoke(null, loadNBTStreamFromInputStreamIndex, file));
+            Object tag = definedStructureMethodAccess.invoke(structure, getStructureAsNBTMethodIndex, compoundNBTConstructorAccess.newInstance());
+            Object dimTag = compoundNBTTagMethodAccess.invoke(tag, getNBTListMethodIndex, "size", 3);
+            this.dimension = new int[]{(int) listNBTTagMethodAccess.invoke(dimTag, getNBTListItemMethodIndex, 0),
+                    (int) listNBTTagMethodAccess.invoke(dimTag, getNBTListItemMethodIndex, 1),
+                    (int) listNBTTagMethodAccess.invoke(dimTag, getNBTListItemMethodIndex, 2)};
             this.structure = structure;
             this.origin = origin;
-        } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+        } catch (IllegalArgumentException e) {
             e.printStackTrace();
         }
         try {
@@ -142,16 +171,16 @@ public class NMSStructure {
      * @since 4.0.0
      */
     public NMSStructure(Location origin, Object file) {
-        if(file.getClass() != definedStructureConstructor.getDeclaringClass()) throw new IllegalArgumentException("Object is not member of required class!");
+        if(file.getClass() != definedStructureClass) throw new IllegalArgumentException("Object is not member of required class!");
         try {
-            Object tag = getStructureAsNBTMethod.invoke(file, compoundNBTConstructor.newInstance());
-            Object dimTag = getNBTListMethod.invoke(tag, "size", 3);
-            this.dimension = new int[]{(int) getNBTListItemMethod.invoke(dimTag, 0),
-                    (int) getNBTListItemMethod.invoke(dimTag, 1),
-                    (int) getNBTListItemMethod.invoke(dimTag, 2)};
+            Object tag = definedStructureMethodAccess.invoke(file, getStructureAsNBTMethodIndex, compoundNBTConstructorAccess.newInstance());
+            Object dimTag = compoundNBTTagMethodAccess.invoke(tag, getNBTListMethodIndex, "size", 3);
+            this.dimension = new int[]{(int) listNBTTagMethodAccess.invoke(dimTag, getNBTListItemMethodIndex, 0),
+                    (int) listNBTTagMethodAccess.invoke(dimTag, getNBTListItemMethodIndex, 1),
+                    (int) listNBTTagMethodAccess.invoke(dimTag, getNBTListItemMethodIndex, 2)};
             this.structure = file;
             this.origin = origin;
-        } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+        } catch (IllegalArgumentException e) {
             e.printStackTrace();
         }
     }
@@ -165,16 +194,10 @@ public class NMSStructure {
     public static Object getAsTag(InputStream file) {
         Object structure;
         try {
-            structure = definedStructureConstructor.newInstance();
-            loadStructure.invoke(structure, loadNBTStreamFromInputStreamMethod.invoke(nbtStreamToolsClass, file));
-
+            structure = definedStructureConstructorAccess.newInstance();
+            definedStructureMethodAccess.invoke(structure, loadStructureMethodIndex, nbtStreamToolsAccess.invoke(null, loadNBTStreamFromInputStreamIndex, file));
             return structure;
-        } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-            e.printStackTrace();
-        }
-        try {
-            file.close();
-        } catch (IOException e) {
+        } catch (IllegalArgumentException e) {
             e.printStackTrace();
         }
         return null;
@@ -305,41 +328,37 @@ public class NMSStructure {
             switch (this.rotation) {
                 case 0:
                 case 360:
-                    rot = enumBlockRotationValueOfMethod.invoke(enumBlockRotationClass, "NONE");
+                    rot = enumBlockRotationMethodAccess.invoke(null, enumBlockRotationValueOfIndex, "NONE");
                     break;
                 case 90:
-                    rot = enumBlockRotationValueOfMethod.invoke(enumBlockRotationClass, "CLOCKWISE_90");
+                    rot = enumBlockRotationMethodAccess.invoke(null, enumBlockRotationValueOfIndex, "CLOCKWISE_90");
                     break;
                 case 180:
-                    rot = enumBlockRotationValueOfMethod.invoke(enumBlockRotationClass, "CLOCKWISE_180");
+                    rot = enumBlockRotationMethodAccess.invoke(null, enumBlockRotationValueOfIndex, "CLOCKWISE_180");
                     break;
                 case 270:
-                    rot = enumBlockRotationValueOfMethod.invoke(enumBlockRotationClass, "COUNTERCLOCKWISE_90");
+                    rot = enumBlockRotationMethodAccess.invoke(null, enumBlockRotationValueOfIndex, "COUNTERCLOCKWISE_90");
                     break;
                 default:
                     throw new IllegalArgumentException("Invalid rotation provided. Rotation must be multiple of 90.");
             }
 
-            Object world = getCraftWorldHandleMethod.invoke(craftWorldClass.cast(this.origin.getWorld()));
-            Object info = setReflectionMethod.invoke(definedStructureInfoConstructor.newInstance(),
-                    enumBlockMirrorValueOfMethod.invoke(enumBlockMirrorClass, "NONE"));
-            info = setRotationMethod.invoke(info, rot);
-            info = mysteryBooleanMethod.invoke(info, false);
-            info = chunkCoordIntPairMethod.invoke(info, chunkCoordIntPairClass.cast(null));
-            info = mysteryBooleancMethod.invoke(info, false);
-            info = setRandomMethod.invoke(info, new Random());
+            Object world = craftWorldMethodAccess.invoke(this.origin.getWorld(), getCraftWorldHandleIndex);
+            Object info = definedStructureInfoMethodAccess.invoke(definedStructureInfoConstructorAccess.newInstance(), setRotationMethodIndex, rot);
 
-            Object pos = blockPositionConstructor.newInstance(this.origin.getBlockX(), this.origin.getBlockY(), this.origin.getBlockZ());
-            try {
-                if (version.startsWith("v1_15")) {
-                    pasteMethod.invoke(this.structure, world, pos, info);
-                } else {
-                    pasteMethod.invoke(this.structure, world, pos, info, new Random());
-                }
-            } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-                e.printStackTrace();
+            Object pos = craftBlockMethodAccess.invoke(this.origin.getBlock(), craftBlockGetPositionIndex);
+
+            info = definedStructureInfoMethodAccess.invoke(info, mysteryBooleanMethodIndex, false);
+            info = definedStructureInfoMethodAccess.invoke(info, chunkCoordIntPairMethodIndex, (Object) null);
+            info = definedStructureInfoMethodAccess.invoke(info, mysteryBooleancMethodIndex, false);
+            info = definedStructureInfoMethodAccess.invoke(info, setRandomMethodIndex, new Random());
+
+            if (version.startsWith("v1_15")) {
+                definedStructureMethodAccess.invoke(this.structure, pasteMethodIndex, world, pos, info);
+            } else {
+                definedStructureMethodAccess.invoke(this.structure, pasteMethodIndex, world, pos, info, new Random());
             }
-        } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+        } catch (IllegalArgumentException e) {
             e.printStackTrace();
         }
     }

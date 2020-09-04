@@ -4,6 +4,7 @@ import com.dfsek.betterend.BetterEnd;
 import com.dfsek.betterend.config.ConfigUtil;
 import com.dfsek.betterend.config.WorldConfig;
 import com.dfsek.betterend.population.CustomStructurePopulator;
+import com.dfsek.betterend.population.FaunaPopulator;
 import com.dfsek.betterend.population.SnowPopulator;
 import com.dfsek.betterend.population.TreePopulator;
 import com.dfsek.betterend.population.structures.StructurePopulator;
@@ -111,8 +112,8 @@ public class EndChunkGenerator extends ChunkGenerator {
     @NotNull
     @Override
     public List<BlockPopulator> getDefaultPopulators(@NotNull World world) {
-        if(BetterEnd.isPremium()) return Arrays.asList(new CustomStructurePopulator(), new StructurePopulator(), new TreePopulator(), new SnowPopulator());
-        else return Arrays.asList(new StructurePopulator(), new TreePopulator(), new SnowPopulator());
+        if(BetterEnd.isPremium()) return Arrays.asList(new CustomStructurePopulator(), new StructurePopulator(), new TreePopulator(), new SnowPopulator(), new FaunaPopulator());
+        else return Arrays.asList(new StructurePopulator(), new TreePopulator(), new SnowPopulator(), new FaunaPopulator());
     }
 
 }

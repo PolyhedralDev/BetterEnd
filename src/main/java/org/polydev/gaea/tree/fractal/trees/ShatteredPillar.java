@@ -26,24 +26,24 @@ public class ShatteredPillar extends FractalTree {
         int h = super.getRandom().nextInt(5)+8;
         int max = h;
         int[] crystalLoc;
-        for(int i = -h; i < h; i++) setBlock(super.getOrigin().clone().add(0,i,0).getBlock(), Material.OBSIDIAN);
+        for(int i = -h; i < h; i++) setBlock(super.getOrigin().clone().add(0,i,0), Material.OBSIDIAN);
         h = h + (getRandom().nextBoolean() ? getRandom().nextInt(3)+1 : -(getRandom().nextInt(3)+1));
         if(h > max) {
             max = h;
             crystalLoc = new int[] {1,0};
         }
-        for(int i = -h; i < h; i++) setBlock(super.getOrigin().clone().add(1,i,0).getBlock(), Material.OBSIDIAN);
+        for(int i = -h; i < h; i++) setBlock(super.getOrigin().clone().add(1,i,0), Material.OBSIDIAN);
         h = h + (getRandom().nextBoolean() ? getRandom().nextInt(3)+1 : -(getRandom().nextInt(3)+1));
         if(h > max) {
             max = h;
             crystalLoc = new int[] {0,1};
         }
-        for(int i = -h; i < h; i++) setBlock(super.getOrigin().clone().add(0,i,1).getBlock(), Material.OBSIDIAN);
+        for(int i = -h; i < h; i++) setBlock(super.getOrigin().clone().add(0,i,1), Material.OBSIDIAN);
         h = h + (getRandom().nextBoolean() ? getRandom().nextInt(3)+1 : -(getRandom().nextInt(3)+1));
         if(h > max) {
             max = h;
             crystalLoc = new int[] {1,1};
         }
-        for(int i = -h; i < h; i++) setBlock(super.getOrigin().clone().add(1,i,1).getBlock(), Material.OBSIDIAN);
+        for(int i = -h; i < h; i++) setBlock(super.getOrigin().clone().add(1,i,1), Material.OBSIDIAN);
     }
 }

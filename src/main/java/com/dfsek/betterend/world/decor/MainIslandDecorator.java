@@ -5,6 +5,7 @@ import org.bukkit.block.Biome;
 import org.polydev.gaea.biome.Decorator;
 import org.polydev.gaea.math.ProbabilityCollection;
 import org.polydev.gaea.tree.Tree;
+import org.polydev.gaea.world.Fauna;
 
 public class MainIslandDecorator implements Decorator<EndStructure> {
     @Override
@@ -35,5 +36,15 @@ public class MainIslandDecorator implements Decorator<EndStructure> {
     @Override
     public Biome getVanillaBiome() {
         return Biome.THE_END;
+    }
+
+    @Override
+    public ProbabilityCollection<Fauna> getFauna() {
+        return new ProbabilityCollection<>();
+    }
+
+    @Override
+    public int getFaunaChance() {
+        return 0;
     }
 }

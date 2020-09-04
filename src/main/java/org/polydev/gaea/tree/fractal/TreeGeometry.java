@@ -30,8 +30,8 @@ public class TreeGeometry {
             for(int y = -radius; y <= radius; y++) {
                 for(int z = -radius; z <= radius; z++) {
                     Vector position = l.toVector().clone().add(new Vector(x, y, z));
-                    if(l.toVector().distance(position) <= radius + 0.5 && (overwrite || tree.getMaterial(position.toLocation(l.getWorld()).getBlock()).isAir()))
-                        tree.setBlock(position.toLocation(l.getWorld()).getBlock(), m.get());
+                    if(l.toVector().distance(position) <= radius + 0.5 && (overwrite || tree.getMaterial(position.toLocation(l.getWorld())).isAir()))
+                        tree.setBlock(position.toLocation(l.getWorld()), m.get());
                 }
             }
         }
@@ -42,8 +42,8 @@ public class TreeGeometry {
             for(int y = 0; y <= height; y++) {
                 for(int z = -radius; z <= radius; z++) {
                     Vector position = l.toVector().clone().add(new Vector(x, 0, z));
-                    if(l.toVector().distance(position) <= radius + 0.5 && (overwrite || tree.getMaterial(position.toLocation(l.getWorld()).getBlock()).isAir()))
-                        tree.setBlock(position.toLocation(l.getWorld()).getBlock(), m.get());
+                    if(l.toVector().distance(position) <= radius + 0.5 && (overwrite || tree.getMaterial(position.toLocation(l.getWorld())).isAir()))
+                        tree.setBlock(position.toLocation(l.getWorld()), m.get());
                 }
             }
         }

@@ -42,10 +42,12 @@ public class Measurement {
     }
 
     public long getMin() {
+        if(min == Long.MAX_VALUE) return 0;
         return min;
     }
 
     public long getMax() {
+        if(min == Long.MIN_VALUE) return 0;
         return max;
     }
 

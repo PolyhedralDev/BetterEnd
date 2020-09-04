@@ -170,6 +170,11 @@ public enum EndBiome implements Biome {
 		}
 	}
 
+	@Override
+	public Decorator<EndStructure> getDecorator() {
+		return this.decorator;
+	}
+
 	public boolean shouldGenerateSnow() {
 		return decorator.shouldGenerateSnow();
 	}

@@ -23,6 +23,6 @@ public class SmallShatteredPillar extends FractalTree {
     @Override
     public void grow() {
         int h = super.getRandom().nextInt(5)+5;
-        for(int i = -h; i < h; i++) setBlock(super.getOrigin().clone().add(0,i,0).getBlock(), Material.OBSIDIAN);
+        for(int i = -h; i < h; i++) setBlock(super.getOrigin().clone().add(0,i,0), Material.OBSIDIAN);
     }
 }

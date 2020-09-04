@@ -35,7 +35,7 @@ public class SpruceTree extends FractalTree {
             geo.generateSphere(l1.clone().add(diff.clone().multiply((double)i/d)), Material.SPRUCE_WOOD, (int) ((i > d*0.65) ? 0.5 : 1.5), true);
             if(i > 3) geo.generateCylinder(l1.clone().add(diff.clone().multiply((double)i/d)), Material.SPRUCE_LEAVES, (int) ((((6-(i % 4))) * (1.25-((double) i/d)))), 1, false);
         }
-        setBlock(l1.clone().add(diff).getBlock(), Material.SPRUCE_LEAVES);
-        setBlock(l1.clone().add(diff).add(0,1,0).getBlock(), Material.SPRUCE_LEAVES);
+        setBlock(l1.clone().add(diff), Material.SPRUCE_LEAVES);
+        setBlock(l1.clone().add(diff).add(0,1,0), Material.SPRUCE_LEAVES);
     }
 }

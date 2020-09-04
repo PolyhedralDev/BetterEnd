@@ -18,20 +18,20 @@ public class WorldProfiler {
 
     public String getResultsFormatted() {
         if(!isProfiling) return "Profiler is not currently running.";
-        StringBuilder result = new StringBuilder(ChatColor.GOLD + "Gaea World Profiler Results:\n");
+        StringBuilder result = new StringBuilder(ChatColor.GOLD + "Gaea World Profiler Results (Min / Avg / Max / Std Dev): \n");
         for(Map.Entry<String, Measurement> e : measures.entrySet()) {
             result.append(ChatColor.GOLD)
                     .append(e.getKey())
-                    .append(": Avg ")
-                    .append(e.getValue().getDataHolder().getFormattedData(e.getValue().average()))
-                    .append(ChatColor.GOLD)
-                    .append(", Min ")
+                    .append(": ")
                     .append(e.getValue().getDataHolder().getFormattedData(e.getValue().getMin()))
                     .append(ChatColor.GOLD)
-                    .append(", Max ")
+                    .append(" / ")
+                    .append(e.getValue().getDataHolder().getFormattedData(e.getValue().average()))
+                    .append(ChatColor.GOLD)
+                    .append(" / ")
                     .append(e.getValue().getDataHolder().getFormattedData(e.getValue().getMax()))
                     .append(ChatColor.GOLD)
-                    .append(", Std Dev ")
+                    .append(" / ")
                     .append(ChatColor.GREEN)
                     .append((double) Math.round((e.getValue().getStdDev()/1000000)*100D)/100D)
                     .append("ms")
