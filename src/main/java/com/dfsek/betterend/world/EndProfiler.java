@@ -13,8 +13,7 @@ public class EndProfiler extends WorldProfiler {
         super(w);
         this.addMeasurement(new Measurement(2500000, DataType.PERIOD_MILLISECONDS), "TotalChunkGenTime")
                 .addMeasurement(new Measurement(2500000, DataType.PERIOD_MILLISECONDS), "ChunkBaseGenTime")
-                .addMeasurement(new Measurement(2500000, DataType.PERIOD_MILLISECONDS), "GenPopulatorTime")
-                .addMeasurement(new Measurement(50000, DataType.PERIOD_MILLISECONDS), "BiomeSetTime")
+                .addMeasurement(new Measurement(75000, DataType.PERIOD_MILLISECONDS), "BiomeSetTime")
                 .addMeasurement(new Measurement(15000000, DataType.PERIOD_MILLISECONDS), "TreeGenTime")
                 .addMeasurement(new Measurement(75000000, DataType.PERIOD_MILLISECONDS), "StructureGenTime")
                 .addMeasurement(new Measurement(3000000, DataType.PERIOD_MILLISECONDS), "StructureFeatureTime")
@@ -22,9 +21,12 @@ public class EndProfiler extends WorldProfiler {
                 .addMeasurement(new Measurement(1500000, DataType.PERIOD_MILLISECONDS), "FaunaTime");
     }
     public static EndProfiler fromWorld(World w) {
-        if(profilers.containsKey(w)) return profilers.get(w);
-        EndProfiler p = new EndProfiler(w);
-        profilers.put(w, p);
-        return p;
+        if(w.getGenerator() instanceof EndChunkGenerator) {
+            if (profilers.containsKey(w)) return profilers.get(w);
+            EndProfiler p = new EndProfiler(w);
+            profilers.put(w, p);
+            return p;
+        }
+        else throw new IllegalArgumentException("Attempted to instantiate/fetch Profiler for non-BetterEnd world!");
     }
 }

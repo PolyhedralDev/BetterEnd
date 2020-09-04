@@ -47,7 +47,7 @@ public class Measurement {
     }
 
     public long getMax() {
-        if(min == Long.MIN_VALUE) return 0;
+        if(max == Long.MIN_VALUE) return 0;
         return max;
     }
 

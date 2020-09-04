@@ -2,6 +2,7 @@ package org.polydev.gaea.profiler;
 
 import org.bukkit.ChatColor;
 import org.bukkit.World;
+import org.polydev.gaea.generation.GaeaChunkGenerator;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,8 +13,10 @@ public class WorldProfiler {
     private final World world;
 
     public WorldProfiler(World w) {
+        if(!(w.getGenerator() instanceof GaeaChunkGenerator)) throw new IllegalArgumentException("Attempted to instantiate profiler on non-Gaea managed world!");
         isProfiling = false;
         this.world = w;
+        ((GaeaChunkGenerator) w.getGenerator()).attachProfiler(this);
     }
 
     public String getResultsFormatted() {
@@ -64,6 +67,10 @@ public class WorldProfiler {
 
     public void setProfiling(boolean enabled) {
         this.isProfiling = enabled;
+    }
+
+    public boolean isProfiling() {
+        return isProfiling;
     }
 
     public World getWorld() {

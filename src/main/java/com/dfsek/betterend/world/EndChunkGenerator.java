@@ -15,7 +15,6 @@ import org.polydev.gaea.biome.Biome;
 import org.polydev.gaea.generation.GaeaChunkGenerator;
 import org.polydev.gaea.generation.GenerationPopulator;
 import org.polydev.gaea.math.FastNoise;
-import org.polydev.gaea.math.Interpolator;
 
 import java.util.Arrays;
 import java.util.Collections;
