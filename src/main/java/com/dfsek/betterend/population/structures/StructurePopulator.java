@@ -5,7 +5,6 @@ import com.dfsek.betterend.config.WorldConfig;
 import com.dfsek.betterend.world.EndBiome;
 import com.dfsek.betterend.world.EndBiomeGrid;
 import com.dfsek.betterend.world.EndProfiler;
-import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -31,6 +30,7 @@ public class StructurePopulator extends BlockPopulator {
             int y = WorldUtil.getHighestValidSpawnAt(chunk, x, z);
             x += (chunk.getX() << 4);
             z += (chunk.getZ() << 4);
+            if(x > 2999984 || z > 2999984) return;
             EndStructure struc = biome.getRandomStructure(random);
             if(struc == null) return;
             Location origin = struc.getSpawnInfo().getSpawnLocation(new Location(world, x, y, z), random);

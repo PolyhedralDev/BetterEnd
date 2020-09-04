@@ -10,83 +10,65 @@ import com.dfsek.betterend.population.TreePopulator;
 import com.dfsek.betterend.population.structures.StructurePopulator;
 import org.bukkit.World;
 import org.bukkit.generator.BlockPopulator;
-import org.bukkit.generator.ChunkGenerator;
 import org.jetbrains.annotations.NotNull;
 import org.polydev.gaea.biome.Biome;
+import org.polydev.gaea.generation.GaeaChunkGenerator;
+import org.polydev.gaea.generation.GenerationPopulator;
 import org.polydev.gaea.math.FastNoise;
 import org.polydev.gaea.math.Interpolator;
-import org.polydev.gaea.profiler.ProfileFuture;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-public class EndChunkGenerator extends ChunkGenerator {
-    private final BetterEnd main = BetterEnd.getInstance();
-
-    private FastNoise gen;
-
-    @NotNull
+public class EndChunkGenerator extends GaeaChunkGenerator {
     @Override
-    public ChunkData generateChunkData(@NotNull World world, @NotNull Random random, int chunkX, int chunkZ, @NotNull ChunkGenerator.BiomeGrid biome) {
-        EndProfiler profiler = EndProfiler.fromWorld(world);
-        ProfileFuture totalFuture = profiler.measure("TotalChunkGenTime");
-        if (gen == null) {
-            gen = new FastNoise((int) world.getSeed());
-            gen.setNoiseType(FastNoise.NoiseType.SimplexFractal);
-            gen.setFractalOctaves(WorldConfig.fromWorld(world).octaves);
-            gen.setFrequency(1f / WorldConfig.fromWorld(world).noise);
-        }
+    public ChunkData generateBase(@NotNull World world, @NotNull Random random, int chunkX, int chunkZ, FastNoise noise) {
         ChunkData chunk = createChunkData(world);
+        WorldConfig config = WorldConfig.fromWorld(world);
+        EndBiomeGrid grid = getBiomeGrid(world);
         int xOrigin = chunkX << 4;
         int zOrigin = chunkZ << 4;
-
-        EndBiomeGrid grid = EndBiomeGrid.fromWorld(world);
-
-        int mainIslandAdd = EndBiomeGrid.fromWorld(world).getBiome(xOrigin, zOrigin).equals(EndBiome.MAIN_ISLAND) ? -8 : 0;
-        long biomeTime = 0;
-        for (byte x = 0; x < 4; x++) {
-            for (byte z = 0; z < 4; z++) {
-                Interpolator interp = new Interpolator(
-                        grid.getBiome(xOrigin + x * 4, zOrigin + z * 4).getGenerator().getNoise(gen, xOrigin + x * 4, zOrigin + z * 4) * 2.0f,
-                        grid.getBiome(xOrigin + x * 4 + 3, zOrigin + z * 4).getGenerator().getNoise(gen,xOrigin + x * 4 + 3, zOrigin + z * 4) * 2.0f,
-                        grid.getBiome(xOrigin + x * 4, zOrigin + z * 4 + 3).getGenerator().getNoise(gen,xOrigin + x * 4, zOrigin + z * 4 + 3) * 2.0f,
-                        grid.getBiome(xOrigin + x * 4 + 3, zOrigin + z * 4 + 3).getGenerator().getNoise(gen,xOrigin + x * 4 + 3, zOrigin + z * 4 + 3) * 2.0f);
-                for (byte x2 = 0; x2 < 4; x2++) {
-                    for (byte z2 = 0; z2 < 4; z2++) {
-                        double iNoise = interp.bilerp((float) x2 / 3, (float) z2 / 3);
-                        int max = getMaxHeight(iNoise, world) + mainIslandAdd;
-                        int min = getMinHeight(iNoise, world) + mainIslandAdd;
-                        int diff = max - min;
-                        long l = System.nanoTime();
-                        Biome b = grid.getBiome(xOrigin + x * 4 + x2, zOrigin + z * 4 + z2);
-                        biomeTime += (System.nanoTime()-l);
-                        biome.setBiome(x * 4 + x2, z * 4 + z2, b.getVanillaBiome());
-                        for (int y = 0; y < diff; y++) {
-                            chunk.setBlock(x * 4 + x2, max - y, z * 4 + z2, b.getGenerator().getPalette().get(y, random));
-                        }
-                    }
+        int mainIslandAdd = grid.getBiome(xOrigin, zOrigin).equals(EndBiome.MAIN_ISLAND) ? -8 : 0;
+        for(byte x = 0; x < 16; x++) {
+            for (byte z = 0; z < 16; z++) {
+                double iNoise = super.getInterpolatedNoise(x, z);
+                int max = (int) (config.islandHeightMultiplierTop * (iNoise - 0.4) + config.islandHeight) + mainIslandAdd;
+                int min = (int) ((-config.islandHeightMultiplierBottom * (iNoise - 0.4) + config.islandHeight) + 1) + mainIslandAdd;
+                int diff = max - min;
+                Biome b = grid.getBiome(xOrigin + x, zOrigin + z);
+                for (int y = 0; y < diff; y++) {
+                    chunk.setBlock(x, max - y, z, b.getGenerator().getPalette().get(y, random));
                 }
             }
         }
-        profiler.setMeasurement("BiomeSetTime", biomeTime);
-        if(totalFuture != null) totalFuture.complete();
         return chunk;
     }
 
-    private int getMaxHeight(double iNoise, World w) {
-        WorldConfig config = WorldConfig.fromWorld(w);
-        return (int) (config.islandHeightMultiplierTop * (iNoise - 0.4) + config.islandHeight);
+    @Override
+    public int getNoiseOctaves(World w) {
+        return WorldConfig.fromWorld(w).octaves;
     }
 
-    private int getMinHeight(double iNoise, World w) {
-        WorldConfig config = WorldConfig.fromWorld(w);
-        return (int) ((-config.islandHeightMultiplierBottom * (iNoise - 0.4) + config.islandHeight) + 1);
+    @Override
+    public float getNoiseFrequency(World w) {
+        return 1f / WorldConfig.fromWorld(w).noise;
+    }
+
+    @Override
+    public List<GenerationPopulator> getGenerationPopulators(World w) {
+        return Collections.emptyList();
+    }
+
+    @Override
+    public EndBiomeGrid getBiomeGrid(World w) {
+        return EndBiomeGrid.fromWorld(w);
     }
 
     @Override
     public boolean shouldGenerateStructures() {
-        return main.getConfig().getBoolean("generate-end-cities", false);
+        return false;
     }
 
     @Override

@@ -4,8 +4,10 @@ import com.dfsek.betterend.BetterEnd;
 import com.dfsek.betterend.config.ConfigUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.entity.EntityType;
 import org.polydev.gaea.structures.NMSStructure;
 import org.polydev.gaea.structures.Structure;
+import org.polydev.gaea.structures.features.EntityFeature;
 import org.polydev.gaea.structures.features.Feature;
 import org.polydev.gaea.structures.features.LootFeature;
 import org.polydev.gaea.structures.spawn.AirSpawn;
@@ -24,7 +26,7 @@ public enum EndStructure implements Structure {
     END_RUIN("end_ruin", 109, Collections.emptyList(), new GroundSpawn(0)),
     END_SHIP("end_ship", 8, Collections.singletonList(new LootFeature(EndStructure.class.getResourceAsStream("/loot/end_ship.json"))), new AirSpawn(128, 32)),
     END_TOWER("end_tower", 2, Collections.singletonList(new LootFeature(EndStructure.class.getResourceAsStream("/loot/end_tower.json"))), new GroundSpawn(0)),
-    SHULKER_NEST("shulker_nest", 2, Collections.singletonList(new LootFeature(EndStructure.class.getResourceAsStream("/loot/shulker_nest.json"))), new GroundSpawn(-2)),
+    SHULKER_NEST("shulker_nest", 2, Arrays.asList(new LootFeature(EndStructure.class.getResourceAsStream("/loot/shulker_nest.json")), new EntityFeature( 2, 6, EntityType.SHULKER)), new GroundSpawn(-2)),
     SPRUCE_WOOD_HOUSE("spruce_house", 5, Collections.singletonList(new LootFeature(EndStructure.class.getResourceAsStream("/loot/spruce_house.json"))), new GroundSpawn(-1)),
     STRONGHOLD("stronghold", 1, Collections.singletonList(new LootFeature(EndStructure.class.getResourceAsStream("/loot/stronghold.json"))), new UndergroundSpawn(16)),
     VOID_STAR("void_star", 4, Collections.emptyList(), new AirSpawn(128, 250)),

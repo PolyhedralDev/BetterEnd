@@ -94,19 +94,6 @@ public class Util {
 		});
 	}
 
-	public static String getFileAsString(InputStream stream) throws IOException {
-		String line;
-		BufferedReader buf = new BufferedReader(new InputStreamReader(stream));
-		line = buf.readLine();
-		StringBuilder sb = new StringBuilder();
-		while (line != null) {
-			sb.append(line).append("\n");
-			line = buf.readLine();
-		}
-		buf.close();
-		return sb.toString();
-	}
-
 	public static void copyResourcesToDirectory(JarFile fromJar, String jarDir, String destDir) throws IOException {
 		for(Enumeration<JarEntry> entries = fromJar.entries(); entries.hasMoreElements();) {
 			JarEntry entry = entries.nextElement();

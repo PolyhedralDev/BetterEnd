@@ -26,25 +26,17 @@ public class NMSStructure {
     private static int loadStructureMethodIndex;
     private static int getStructureAsNBTMethodIndex;
     public static int pasteMethodIndex;
-
     private static MethodAccess nbtStreamToolsAccess;
     private static int loadNBTStreamFromInputStreamIndex;
-
     private static ConstructorAccess<?> compoundNBTConstructorAccess;
-
     private static MethodAccess compoundNBTTagMethodAccess;
     public static int getNBTListMethodIndex;
-
     private static MethodAccess listNBTTagMethodAccess;
     private static int getNBTListItemMethodIndex;
-
-
     private static MethodAccess enumBlockRotationMethodAccess;
     private static int enumBlockRotationValueOfIndex;
-
     private static MethodAccess craftWorldMethodAccess;
     private static int getCraftWorldHandleIndex;
-
     private static MethodAccess definedStructureInfoMethodAccess;
     private static int setRotationMethodIndex;
     private static ConstructorAccess<?> definedStructureInfoConstructorAccess;
@@ -52,7 +44,6 @@ public class NMSStructure {
     private static int chunkCoordIntPairMethodIndex;
     private static int mysteryBooleancMethodIndex;
     private static int setRandomMethodIndex;
-
     private static MethodAccess craftBlockMethodAccess;
     private static int craftBlockGetPositionIndex;
 
@@ -70,42 +61,26 @@ public class NMSStructure {
             Class listNBTTagClass = Class.forName("net.minecraft.server." + version + ".NBTTagList");
             Class chunkCoordIntPairClass = Class.forName("net.minecraft.server." + version + ".ChunkCoordIntPair");
             Class craftBlockClass = Class.forName("org.bukkit.craftbukkit." + version + ".block.CraftBlock");
-
-
             Class generatorAccessClass;
-            if(version.startsWith("v1_16_R2")) {
-                generatorAccessClass = Class.forName("net.minecraft.server." + version + ".WorldAccess");
-            } else {
-                generatorAccessClass = Class.forName("net.minecraft.server." + version + ".GeneratorAccess");
-            }
-
+            if(version.startsWith("v1_16_R2")) generatorAccessClass = Class.forName("net.minecraft.server." + version + ".WorldAccess");
+            else generatorAccessClass = Class.forName("net.minecraft.server." + version + ".GeneratorAccess");
             nbtStreamToolsAccess = MethodAccess.get(nbtStreamToolsClass);
             loadNBTStreamFromInputStreamIndex = nbtStreamToolsAccess.getIndex("a", InputStream.class);
-
             definedStructureConstructorAccess = ConstructorAccess.get(definedStructureClass);
             definedStructureMethodAccess = MethodAccess.get(definedStructureClass);
             loadStructureMethodIndex = definedStructureMethodAccess.getIndex("b", compoundNBTTagClass);
             getStructureAsNBTMethodIndex = definedStructureMethodAccess.getIndex("a", compoundNBTTagClass);
-            if (version.startsWith("v1_15")) {
-                pasteMethodIndex = definedStructureMethodAccess.getIndex("a", generatorAccessClass, blockPositionClass, definedStructureInfoClass);
-            } else {
-                pasteMethodIndex = definedStructureMethodAccess.getIndex("a", generatorAccessClass, blockPositionClass, definedStructureInfoClass, Random.class);
-            }
-
+            if(version.startsWith("v1_15")) pasteMethodIndex = definedStructureMethodAccess.getIndex("a", generatorAccessClass, blockPositionClass, definedStructureInfoClass);
+            else pasteMethodIndex = definedStructureMethodAccess.getIndex("a", generatorAccessClass, blockPositionClass, definedStructureInfoClass, Random.class);
             compoundNBTConstructorAccess = ConstructorAccess.get(compoundNBTTagClass);
-
             compoundNBTTagMethodAccess = MethodAccess.get(compoundNBTTagClass);
             getNBTListMethodIndex = compoundNBTTagMethodAccess.getIndex("getList", String.class, int.class);
-
             listNBTTagMethodAccess = MethodAccess.get(listNBTTagClass);
             getNBTListItemMethodIndex = listNBTTagMethodAccess.getIndex("e", int.class);
-
             enumBlockRotationMethodAccess = MethodAccess.get(enumBlockRotationClass);
             enumBlockRotationValueOfIndex = enumBlockRotationMethodAccess.getIndex("valueOf", String.class);
-
             craftWorldMethodAccess = MethodAccess.get(craftWorldClass);
             getCraftWorldHandleIndex = craftWorldMethodAccess.getIndex("getHandle");
-
             definedStructureInfoMethodAccess = MethodAccess.get(definedStructureInfoClass);
             definedStructureInfoConstructorAccess = ConstructorAccess.get(definedStructureInfoClass);
             setRotationMethodIndex = definedStructureInfoMethodAccess.getIndex("a", enumBlockRotationClass);
@@ -113,10 +88,8 @@ public class NMSStructure {
             chunkCoordIntPairMethodIndex = definedStructureInfoMethodAccess.getIndex("a", chunkCoordIntPairClass);
             mysteryBooleancMethodIndex = definedStructureInfoMethodAccess.getIndex("c", boolean.class);
             setRandomMethodIndex = definedStructureInfoMethodAccess.getIndex("a", Random.class);
-
             craftBlockMethodAccess = MethodAccess.get(craftBlockClass);
             craftBlockGetPositionIndex = craftBlockMethodAccess.getIndex("getPosition");
-
             Bukkit.getLogger().info("[Gaea] Finished reflections. Time elapsed: " + ((double) (System.nanoTime() - start)) / 1000000 + "ms");
         } catch (ClassNotFoundException e) {
             Bukkit.getLogger().severe("[Gaea] An error occurred whilst initializing Reflection. Please report this.");

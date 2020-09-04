@@ -12,6 +12,8 @@ public class EndProfiler extends WorldProfiler {
     public EndProfiler(World w) {
         super(w);
         this.addMeasurement(new Measurement(2500000, DataType.PERIOD_MILLISECONDS), "TotalChunkGenTime")
+                .addMeasurement(new Measurement(2500000, DataType.PERIOD_MILLISECONDS), "ChunkBaseGenTime")
+                .addMeasurement(new Measurement(2500000, DataType.PERIOD_MILLISECONDS), "GenPopulatorTime")
                 .addMeasurement(new Measurement(50000, DataType.PERIOD_MILLISECONDS), "BiomeSetTime")
                 .addMeasurement(new Measurement(15000000, DataType.PERIOD_MILLISECONDS), "TreeGenTime")
                 .addMeasurement(new Measurement(75000000, DataType.PERIOD_MILLISECONDS), "StructureGenTime")
