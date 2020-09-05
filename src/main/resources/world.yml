@@ -47,6 +47,67 @@ trees:
 
 structures:
   chance-per-chunk: 50
+  distribution:
+    AETHER:
+      AETHER_RUIN: 75
+      WOOD_HOUSE: 12
+      COBBLE_HOUSE: 12
+      GOLD_DUNGEON: 1
+    AETHER_HIGHLANDS:
+      AETHER_RUIN: 75
+      SPRUCE_WOOD_HOUSE: 12
+      COBBLE_HOUSE: 12
+      GOLD_DUNGEON: 1
+    AETHER_FOREST:
+      AETHER_RUIN: 75
+      WOOD_HOUSE: 12
+      COBBLE_HOUSE: 12
+      GOLD_DUNGEON: 1
+    AETHER_HIGHLANDS_FOREST:
+      AETHER_RUIN: 75
+      WOOD_HOUSE: 12
+      COBBLE_HOUSE: 12
+      GOLD_DUNGEON: 1
+    VOID: {}
+    VOID_END_BORDER:
+      END_RUIN: 60
+      END_HOUSE: 10
+      END_TOWER: 6
+      END_SHIP: 1
+      SHULKER_NEST: 10
+      STRONGHOLD: 12
+    VOID_AETHER_BORDER:
+      AETHER_RUIN: 75
+      WOOD_HOUSE: 12
+      COBBLE_HOUSE: 12
+      GOLD_DUNGEON: 1
+    VOID_AETHER_HIGHLANDS_BORDER:
+      AETHER_RUIN: 75
+      SPRUCE_WOOD_HOUSE: 12
+      COBBLE_HOUSE: 12
+      GOLD_DUNGEON: 1
+    AETHER_HIGHLANDS_BORDER:
+      AETHER_RUIN: 75
+      SPRUCE_WOOD_HOUSE: 12
+      COBBLE_HOUSE: 12
+      GOLD_DUNGEON: 1
+    STARFIELD:
+      VOID_STAR: 1
+    END:
+      END_RUIN: 60
+      END_HOUSE: 10
+      END_TOWER: 6
+      END_SHIP: 1
+      SHULKER_NEST: 10
+      STRONGHOLD: 12
+    SHATTERED_END:
+      END_RUIN: 85
+      END_SHIP: 1
+      STRONGHOLD: 14
+    SHATTERED_FOREST:
+      END_RUIN: 85
+      END_SHIP: 1
+      STRONGHOLD: 14
 
 boss:
   # Enable/disable the MythicMobs boss fight

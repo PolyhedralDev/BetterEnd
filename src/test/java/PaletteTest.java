@@ -1,6 +1,6 @@
 import org.bukkit.Material;
 import org.polydev.gaea.math.ProbabilityCollection;
-import org.polydev.gaea.world.palette.BlockPalette;
+import org.polydev.gaea.world.BlockPalette;
 
 import java.util.ArrayList;
 import java.util.List;

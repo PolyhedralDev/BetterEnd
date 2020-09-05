@@ -4,7 +4,7 @@ import org.bukkit.Material;
 import org.polydev.gaea.biome.BiomeTerrain;
 import org.polydev.gaea.math.FastNoise;
 import org.polydev.gaea.math.ProbabilityCollection;
-import org.polydev.gaea.world.palette.BlockPalette;
+import org.polydev.gaea.world.BlockPalette;
 
 public class VoidAetherHighlandsBorderGenerator extends BiomeTerrain {
     private final BlockPalette palette;

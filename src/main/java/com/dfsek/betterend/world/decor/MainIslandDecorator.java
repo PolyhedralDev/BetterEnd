@@ -1,18 +1,12 @@
 package com.dfsek.betterend.world.decor;
 
-import com.dfsek.betterend.population.structures.EndStructure;
 import org.bukkit.block.Biome;
 import org.polydev.gaea.biome.Decorator;
 import org.polydev.gaea.math.ProbabilityCollection;
 import org.polydev.gaea.tree.Tree;
 import org.polydev.gaea.world.Fauna;
 
-public class MainIslandDecorator implements Decorator<EndStructure> {
-    @Override
-    public ProbabilityCollection<EndStructure> getStructures() {
-        return new ProbabilityCollection<>();
-    }
-
+public class MainIslandDecorator extends Decorator {
     @Override
     public ProbabilityCollection<Tree> getTrees() {
         return new ProbabilityCollection<>();

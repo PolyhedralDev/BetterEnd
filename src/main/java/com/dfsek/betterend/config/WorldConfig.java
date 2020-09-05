@@ -1,12 +1,17 @@
 package com.dfsek.betterend.config;
 
+import com.dfsek.betterend.population.structures.EndStructure;
 import com.dfsek.betterend.world.EndBiome;
 import org.bukkit.World;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.craftbukkit.libs.org.apache.commons.io.FileUtils;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.polydev.gaea.biome.Biome;
+import org.polydev.gaea.math.ProbabilityCollection;
+import org.polydev.gaea.structures.Structure;
 
 import java.io.File;
 import java.io.IOException;
@@ -18,7 +23,9 @@ import java.util.Objects;
 public class WorldConfig {
     private static final Map<String, WorldConfig> configs = new HashMap<>();
     private static JavaPlugin main;
-    private final Map<String, Object> biomeReplacements;
+    private final String worldName;
+    public boolean initialized = false;
+    private FileConfiguration config;
     public boolean endermanBlockPickup;
     public boolean bigTreeSaplingBiomes;
     public boolean bigTreeSaplingWorld;
@@ -37,9 +44,29 @@ public class WorldConfig {
     public int structureChancePerChunk;
     public boolean genMainIsland;
     public int islandHeight;
+    private Map<String, Object> biomeReplacements = new HashMap<>();
 
     public WorldConfig(String w, JavaPlugin main) {
         WorldConfig.main = main;
+        this.worldName = w;
+        load(w);
+    }
+
+    public static void reloadAll(JavaPlugin main) {
+        main.getLogger().info("Reloading ALL worlds");
+        for(Map.Entry<String, WorldConfig> e: configs.entrySet()) {
+            e.getValue().load(e.getKey());
+        }
+    }
+
+    public static WorldConfig fromWorld(World w) {
+        if(!configs.containsKey(w.getName())) {
+            configs.put(w.getName(), new WorldConfig(w.getName(), main));
+        }
+        return configs.get(w.getName());
+    }
+
+    public void load(String w) {
         long start = System.nanoTime();
         main.getLogger().info("Loading world configuration values for " + w + "...");
         FileConfiguration config = new YamlConfiguration();
@@ -54,7 +81,7 @@ public class WorldConfig {
             e.printStackTrace();
             main.getLogger().severe("Unable to load configuration for world " + w + ".");
         }
-
+        this.config = config;
         endermanBlockPickup = config.getBoolean("disable-enderman-block-pickup-aether", true);
         bigTreeSaplingBiomes = config.getBoolean("trees.fractal-trees.from-saplings.in-biomes", true);
         bigTreeSaplingWorld = config.getBoolean("trees.fractal-trees.from-saplings.in-world", true);
@@ -74,17 +101,31 @@ public class WorldConfig {
         genMainIsland = config.getBoolean("terrain.main-island", true);
         islandHeight = config.getInt("terrain.ground-level", 64);
 
-
-        main.getLogger().info("Complete. Time elapsed: " + ((double) (System.nanoTime() - start)) / 1000000 + "ms");
-
-        configs.put(w, this);
-    }
-
-    public static WorldConfig fromWorld(World w) {
-        if(! configs.containsKey(w.getName())) {
-            WorldConfig c = new WorldConfig(w.getName(), main);
+        Map<String, Object> prob = config.getConfigurationSection("structures.distribution").getValues(false);
+        for(EndBiome b : EndBiome.values()) {
+            b.getDecorator().setStructures(new ProbabilityCollection<>(), w);
         }
-        return configs.get(w.getName());
+        for(Map.Entry<String, Object> e : prob.entrySet()) {
+            String current = "undefined";
+            try {
+                current = e.getKey();
+                Biome b = EndBiome.valueOf(e.getKey());
+                ProbabilityCollection<Structure> structures = new ProbabilityCollection<>();
+                Map<String, Object> strucConfig = ((ConfigurationSection) e.getValue()).getValues(false);
+                for(Map.Entry<String, Object> e2 : strucConfig.entrySet()) {
+                    current = e2.getKey();
+                    structures.add(EndStructure.valueOf(e2.getKey()), (Integer) e2.getValue());
+                    if(ConfigUtil.debug) main.getLogger().info("Added " + EndStructure.valueOf(e2.getKey()) + " with probability of " + e2.getValue() + " to " + b.toString() + " Structure list.");
+                }
+                b.getDecorator().setStructures(structures, w);
+            } catch(IllegalArgumentException ex) {
+                ex.printStackTrace();
+                main.getLogger().severe("No such biome/structure found in structure distributions: " + current);
+            } catch(ClassCastException ex) {
+                main.getLogger().severe("SEVERE structure configuration for: " + current);
+            }
+        }
+        main.getLogger().info("Complete. Time elapsed: " + ((double) (System.nanoTime() - start)) / 1000000 + "ms");
     }
 
     public EndBiome getBiomeReplacement(EndBiome b) {

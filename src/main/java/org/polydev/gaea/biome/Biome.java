@@ -1,5 +1,6 @@
 package org.polydev.gaea.biome;
 
+import org.bukkit.World;
 import org.polydev.gaea.structures.Structure;
 import org.polydev.gaea.structures.features.Feature;
 import org.polydev.gaea.tree.Tree;
@@ -17,7 +18,7 @@ public interface Biome {
      * @param r The Random instance to use.
      * @return Structure - A structure to be generated in the biome.
      */
-    Structure getRandomStructure(Random r);
+    Structure getRandomStructure(World w, Random r);
 
     /**
      * Gets a random tree from the ProbabilityCollection using the provided Random instance.
@@ -60,5 +61,5 @@ public interface Biome {
      * Returns the Decorator instance containing information about the population in the biome.
      * @return Decorator - the Decorator instance.
      */
-    Decorator<?> getDecorator();
+    Decorator getDecorator();
 }

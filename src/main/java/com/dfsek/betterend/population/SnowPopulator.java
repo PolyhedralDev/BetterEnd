@@ -29,7 +29,8 @@ public class SnowPopulator extends BlockPopulator {
                     || name.contains("wall")
                     || name.contains("fence")
                     || name.contains("lantern")
-                    || name.contains("chest")) blacklistSpawn.add(m);
+                    || name.contains("chest")
+                    || name.contains("door")) blacklistSpawn.add(m);
         }
         if(ConfigUtil.debug)
             Bukkit.getLogger().info("Added " + blacklistSpawn.size() + " materials to snow blacklist");

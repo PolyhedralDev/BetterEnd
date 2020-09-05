@@ -36,6 +36,8 @@ public class ConfigUtil {
 
         LangUtil.loadlang(lang, logger);
 
+        WorldConfig.reloadAll(main);
+
         logger.info("Complete. Time elapsed: " + ((double) (System.nanoTime() - start)) / 1000000 + "ms");
     }
 

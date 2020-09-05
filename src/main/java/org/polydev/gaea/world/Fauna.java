@@ -22,14 +22,10 @@ public enum Fauna {
     DANDELION(false, Material.DANDELION),
     WITHER_ROSE(false, Material.WITHER_ROSE);
 
-    private final boolean tall;
-    private final Material type;
     private final List<BlockData> data = new ArrayList<>();
 
 
     Fauna(boolean tall, Material type) {
-        this.tall = tall;
-        this.type = type;
         if(tall) {
             data.add(Bukkit.createBlockData(type));
             data.add(Bukkit.createBlockData(type, "[half=upper]"));

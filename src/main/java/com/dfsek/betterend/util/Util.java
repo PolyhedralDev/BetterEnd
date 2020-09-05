@@ -95,7 +95,6 @@ public class Util {
 	public static void copyResourcesToDirectory(JarFile fromJar, String jarDir, String destDir) throws IOException {
 		for(Enumeration<JarEntry> entries = fromJar.entries(); entries.hasMoreElements(); ) {
 			JarEntry entry = entries.nextElement();
-			if(ConfigUtil.debug) BetterEnd.getInstance().getLogger().info(entry.getName());
 			if(entry.getName().startsWith(jarDir + "/") && ! entry.isDirectory()) {
 				File dest = new File(destDir + File.separator + entry.getName().substring(jarDir.length() + 1));
 				if(ConfigUtil.debug) BetterEnd.getInstance().getLogger().info("Output: " + dest.toString());

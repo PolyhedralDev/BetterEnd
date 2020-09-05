@@ -1,6 +1,5 @@
 package com.dfsek.betterend.world;
 
-import com.dfsek.betterend.population.structures.EndStructure;
 import com.dfsek.betterend.world.decor.AetherDecorator;
 import com.dfsek.betterend.world.decor.AetherForestDecorator;
 import com.dfsek.betterend.world.decor.AetherHighlandsDecorator;
@@ -22,10 +21,12 @@ import com.dfsek.betterend.world.generators.border.VoidAetherBorderGenerator;
 import com.dfsek.betterend.world.generators.border.VoidAetherHighlandsBorderGenerator;
 import com.dfsek.betterend.world.generators.border.VoidEndBorderGenerator;
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.polydev.gaea.biome.Biome;
 import org.polydev.gaea.biome.BiomeTerrain;
 import org.polydev.gaea.biome.Decorator;
 import org.polydev.gaea.math.ProbabilityCollection;
+import org.polydev.gaea.structures.Structure;
 import org.polydev.gaea.structures.features.BlockReplaceFeature;
 import org.polydev.gaea.structures.features.Feature;
 import org.polydev.gaea.tree.Tree;
@@ -57,9 +58,9 @@ public enum EndBiome implements Biome {
 	STARFIELD(new VoidGenerator(), new StarfieldDecorator());
 
 	private final BiomeTerrain generator;
-	private final Decorator<EndStructure> decorator;
+	private final Decorator decorator;
 
-	EndBiome(BiomeTerrain g, Decorator<EndStructure> d) {
+	EndBiome(BiomeTerrain g, Decorator d) {
 		this.generator = g;
 		this.decorator = d;
 	}
@@ -121,8 +122,8 @@ public enum EndBiome implements Biome {
 	 * @return Structure - a random structure.
 	 */
 	@Override
-	public EndStructure getRandomStructure(Random r) {
-		return this.decorator.getStructures().get(r);
+	public Structure getRandomStructure(World w, Random r) {
+		return this.decorator.getStructures(w).get(r);
 	}
 
 	/**
@@ -191,7 +192,7 @@ public enum EndBiome implements Biome {
 	}
 
 	@Override
-	public Decorator<EndStructure> getDecorator() {
+	public Decorator getDecorator() {
 		return this.decorator;
 	}
 

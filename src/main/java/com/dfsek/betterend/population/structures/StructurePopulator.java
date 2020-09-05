@@ -12,6 +12,7 @@ import org.bukkit.generator.BlockPopulator;
 import org.jetbrains.annotations.NotNull;
 import org.polydev.gaea.profiler.ProfileFuture;
 import org.polydev.gaea.structures.NMSStructure;
+import org.polydev.gaea.structures.Structure;
 import org.polydev.gaea.structures.features.Feature;
 import org.polydev.gaea.util.WorldUtil;
 
@@ -31,7 +32,7 @@ public class StructurePopulator extends BlockPopulator {
             x += (chunk.getX() << 4);
             z += (chunk.getZ() << 4);
             if(x > 2999984 || z > 2999984) return;
-            EndStructure struc = biome.getRandomStructure(random);
+            Structure struc = biome.getRandomStructure(world, random);
             if(struc == null) return;
             Location origin = struc.getSpawnInfo().getSpawnLocation(new Location(world, x, y, z), random);
             if(origin.getY() <= 0) return;

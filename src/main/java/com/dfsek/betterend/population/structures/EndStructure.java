@@ -1,6 +1,5 @@
 package com.dfsek.betterend.population.structures;
 
-import com.dfsek.betterend.BetterEnd;
 import com.dfsek.betterend.config.ConfigUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -15,7 +14,6 @@ import org.polydev.gaea.structures.spawn.GroundSpawn;
 import org.polydev.gaea.structures.spawn.StructureSpawnInfo;
 import org.polydev.gaea.structures.spawn.UndergroundSpawn;
 
-import java.io.File;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
@@ -53,7 +51,7 @@ public enum EndStructure implements Structure {
         for(int i = 0; i < permutations; i++) {
             if(ConfigUtil.debug) Bukkit.getLogger().info("Loading structures to memory: " + filename + i);
             long l = System.nanoTime();
-            this.structures.put(filename + i, NMSStructure.getAsTag(BetterEnd.getInstance().getResource("structures" + File.separator + filename + File.separator + filename + "_" + i + ".nbt")));
+            this.structures.put(filename + i, NMSStructure.getAsTag(EndStructure.class.getResourceAsStream("/structures" + "/" + filename + "/" + filename + "_" + i + ".nbt")));
             if(ConfigUtil.debug) Bukkit.getLogger().info("Took " + (double) (System.nanoTime() - l) / 1000000 + "ms");
         }
     }
