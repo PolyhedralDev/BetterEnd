@@ -61,8 +61,7 @@ public class BetterEnd extends JavaPlugin {
                 logger.info("Enabling advancements...");
                 EndAdvancementUtil.enable(instance);
             }, 60);
-        } catch(NoClassDefFoundError ignored) {
-        }
+        } catch(NoClassDefFoundError ignored) {}
         logger.info(" ");
         logger.info(" ");
         logger.info("|---------------------------------------------------------------------------------|");

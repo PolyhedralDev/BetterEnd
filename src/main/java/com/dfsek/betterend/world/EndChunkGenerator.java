@@ -40,7 +40,7 @@ public class EndChunkGenerator extends GaeaChunkGenerator {
                 }
             }
         }
-        return new CaveCarver().carve(chunkX, chunkZ, world).merge(chunk);
+        return new CaveCarver(50, 12, config.islandHeight+16, 3).carve(chunkX, chunkZ, world).merge(chunk, false);
     }
 
     @Override

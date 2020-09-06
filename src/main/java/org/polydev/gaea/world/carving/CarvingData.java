@@ -34,9 +34,10 @@ public class CarvingData {
         return carvedBlocks;
     }
 
-    public ChunkData merge(ChunkData data) {
+    public ChunkData merge(ChunkData data, boolean doLava) {
         for(Vector v : carvedBlocks) {
-            data.setBlock(v.getBlockX(), v.getBlockY(), v.getBlockZ(), Material.AIR);
+            Material m = data.getType(v.getBlockX(), v.getBlockY(), v.getBlockZ());
+            if(!m.equals(Material.BEDROCK) && m.isSolid()) data.setBlock(v.getBlockX(), v.getBlockY(), v.getBlockZ(), (v.getBlockY() < 8 && doLava) ? Material.LAVA : Material.AIR);
         }
         return data;
     }
