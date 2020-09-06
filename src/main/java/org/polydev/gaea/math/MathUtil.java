@@ -1,5 +1,7 @@
 package org.polydev.gaea.math;
 
+import java.util.Random;
+
 /**
  * Utility class for mathematical functions.
  */
@@ -24,5 +26,27 @@ public class MathUtil {
         }
 
         return Math.sqrt(standardDeviation / length);
+    }
+
+    /**
+     * Gets the carver seed for a chunk.
+     * @param chunkX Chunk's X coordinate
+     * @param chunkZ Chunk's Z coordinate
+     * @param seed World seed
+     * @return long - The carver seed.
+     */
+    public static long getCarverChunkSeed(int chunkX, int chunkZ, long seed) {
+        Random r = new Random(seed);
+        return chunkX*r.nextLong()^chunkZ*r.nextLong()^seed;
+    }
+    public static long hashToLong(String s) {
+        if (s == null) {
+            return 0;
+        }
+        long hash = 0;
+        for (char c : s.toCharArray()) {
+            hash = 31L*hash + c;
+        }
+        return hash;
     }
 }

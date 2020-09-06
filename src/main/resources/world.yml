@@ -108,6 +108,7 @@ structures:
       END_RUIN: 85
       END_SHIP: 1
       STRONGHOLD: 14
+  custom: {}
 
 boss:
   # Enable/disable the MythicMobs boss fight

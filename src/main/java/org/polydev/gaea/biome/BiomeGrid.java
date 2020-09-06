@@ -4,11 +4,11 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.polydev.gaea.math.FastNoise;
 
-public abstract class BiomeGrid<B extends Biome> {
+public abstract class BiomeGrid {
     private final FastNoise biome;
     private final FastNoise climate;
     private final World world;
-    private B[][] grid;
+    private Biome[][] grid;
 
 
     public BiomeGrid(World w, float freq1, float freq2) {
@@ -49,7 +49,7 @@ public abstract class BiomeGrid<B extends Biome> {
         return (int) Math.floor(i);
     }
 
-    public void setGrid(B[][] grid) {
+    public void setGrid(Biome[][] grid) {
         this.grid = grid;
     }
 
@@ -60,7 +60,7 @@ public abstract class BiomeGrid<B extends Biome> {
      * @param z - Z-coordinate at which to fetch biome
      * @return Biome - Biome at the given coordinates.
      */
-    public B getBiome(int x, int z) {
+    public Biome getBiome(int x, int z) {
         float biomeNoise = biome.getValueFractal((float) x, (float) z);
         float climateNoise = climate.getValueFractal((float) x, (float) z);
         return grid[normalize(biomeNoise)][normalize(climateNoise)];
@@ -72,7 +72,7 @@ public abstract class BiomeGrid<B extends Biome> {
      * @param l - The location at which to fetch the biome.
      * @return Biome - Biome at the given coordinates.
      */
-    public B getBiome(Location l) {
+    public Biome getBiome(Location l) {
         float biomeNoise = biome.getValueFractal((float) l.getBlockX(), (float) l.getBlockZ());
         float climateNoise = climate.getValueFractal((float) l.getBlockX(), (float) l.getBlockZ());
         return grid[normalize(biomeNoise)][normalize(climateNoise)];

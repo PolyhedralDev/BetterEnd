@@ -30,10 +30,10 @@ public class TreePopulator extends BlockPopulator {
             EndBiome b = EndBiomeGrid.fromWorld(world).getBiome(origin);
             numTrees++;
             try {
-                b.getTree(random).plant(origin, random, false, main);
+                b.getDecorator().getTrees().get(random).plant(origin, random, false, main);
             } catch(NullPointerException ignored) {
             }
-            if(numTrees >= b.getTreeDensity()) return;
+            if(numTrees >= b.getDecorator().getTreeDensity()) return;
         }
         if(gen != null) gen.complete();
     }

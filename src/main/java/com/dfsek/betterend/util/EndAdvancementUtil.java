@@ -28,7 +28,6 @@ public class EndAdvancementUtil {
 		} catch(IOException | URISyntaxException e) {
 			e.printStackTrace();
 		}
-		Bukkit.reloadData();
 
 		plugin.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, () -> {
 			for(Player p : plugin.getServer().getOnlinePlayers()) {

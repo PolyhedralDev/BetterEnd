@@ -21,19 +21,15 @@ import com.dfsek.betterend.world.generators.border.VoidAetherBorderGenerator;
 import com.dfsek.betterend.world.generators.border.VoidAetherHighlandsBorderGenerator;
 import com.dfsek.betterend.world.generators.border.VoidEndBorderGenerator;
 import org.bukkit.Material;
-import org.bukkit.World;
 import org.polydev.gaea.biome.Biome;
 import org.polydev.gaea.biome.BiomeTerrain;
 import org.polydev.gaea.biome.Decorator;
 import org.polydev.gaea.math.ProbabilityCollection;
-import org.polydev.gaea.structures.Structure;
 import org.polydev.gaea.structures.features.BlockReplaceFeature;
 import org.polydev.gaea.structures.features.Feature;
-import org.polydev.gaea.tree.Tree;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
 /**
  * Representation of BetterEnd custom biomes.
@@ -113,38 +109,6 @@ public enum EndBiome implements Biome {
 	 */
 	public boolean isShattered() {
 		return (this.equals(EndBiome.SHATTERED_END) || this.equals(EndBiome.SHATTERED_FOREST));
-	}
-
-	/**
-	 * Gets a random structure from the biome's structure collection using the given Random instance.
-	 *
-	 * @param r - The random instance to use.
-	 * @return Structure - a random structure.
-	 */
-	@Override
-	public Structure getRandomStructure(World w, Random r) {
-		return this.decorator.getStructures(w).get(r);
-	}
-
-	/**
-	 * Gets a random tree from the biome's tree collection.
-	 *
-	 * @param r - The random instance to use.
-	 * @return Tree - a random tree.
-	 */
-	@Override
-	public Tree getTree(Random r) {
-		return this.decorator.getTrees().get(r);
-	}
-
-	@Override
-	public int getTreeDensity() {
-		return decorator.getTreeDensity();
-	}
-
-	@Override
-	public boolean overrideStructureChance() {
-		return this.decorator.overrideStructureChance();
 	}
 
 	@Override

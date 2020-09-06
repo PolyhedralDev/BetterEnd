@@ -1,6 +1,5 @@
 package org.polydev.gaea.math;
 
-import org.polydev.gaea.biome.Biome;
 import org.polydev.gaea.biome.BiomeGrid;
 
 /**
@@ -17,7 +16,7 @@ public class ChunkInterpolator {
      * @param grid BiomeGrid to use for noise fetching.
      * @param noise FastNoise instance to use.
      */
-    public ChunkInterpolator(int chunkX, int chunkZ, BiomeGrid<? extends Biome> grid, FastNoise noise) {
+    public ChunkInterpolator(int chunkX, int chunkZ, BiomeGrid grid, FastNoise noise) {
         int xOrigin = chunkX << 4;
         int zOrigin = chunkZ << 4;
         for(byte x = 0; x < 4; x++) {

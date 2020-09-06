@@ -1,9 +1,6 @@
 package com.dfsek.betterend.world;
 
-import com.dfsek.betterend.BetterEnd;
-import com.dfsek.betterend.config.ConfigUtil;
 import com.dfsek.betterend.config.WorldConfig;
-import com.dfsek.betterend.population.CustomStructurePopulator;
 import com.dfsek.betterend.population.FaunaPopulator;
 import com.dfsek.betterend.population.SnowPopulator;
 import com.dfsek.betterend.population.TreePopulator;
@@ -15,6 +12,7 @@ import org.polydev.gaea.biome.Biome;
 import org.polydev.gaea.generation.GaeaChunkGenerator;
 import org.polydev.gaea.generation.GenerationPopulator;
 import org.polydev.gaea.math.FastNoise;
+import org.polydev.gaea.world.carving.CaveCarver;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -42,7 +40,7 @@ public class EndChunkGenerator extends GaeaChunkGenerator {
                 }
             }
         }
-        return chunk;
+        return new CaveCarver().carve(chunkX, chunkZ, world).merge(chunk);
     }
 
     @Override
@@ -87,16 +85,13 @@ public class EndChunkGenerator extends GaeaChunkGenerator {
 
     @Override
     public boolean isParallelCapable() {
-        return ConfigUtil.parallel;
+        return false;
     }
 
     @NotNull
     @Override
     public List<BlockPopulator> getDefaultPopulators(@NotNull World world) {
-        if(BetterEnd.isPremium())
-            return Arrays.asList(new CustomStructurePopulator(), new StructurePopulator(), new TreePopulator(), new SnowPopulator(), new FaunaPopulator());
-        else
-            return Arrays.asList(new StructurePopulator(), new TreePopulator(), new SnowPopulator(), new FaunaPopulator());
+        return Arrays.asList(new StructurePopulator(), new TreePopulator(), new SnowPopulator(), new FaunaPopulator());
     }
 
 }

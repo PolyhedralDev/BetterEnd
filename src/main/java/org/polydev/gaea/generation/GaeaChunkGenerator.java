@@ -3,7 +3,6 @@ package org.polydev.gaea.generation;
 import org.bukkit.World;
 import org.bukkit.generator.ChunkGenerator;
 import org.jetbrains.annotations.NotNull;
-import org.polydev.gaea.biome.Biome;
 import org.polydev.gaea.math.ChunkInterpolator;
 import org.polydev.gaea.math.FastNoise;
 import org.polydev.gaea.profiler.ProfileFuture;
@@ -33,6 +32,7 @@ public abstract class GaeaChunkGenerator extends ChunkGenerator {
         for(GenerationPopulator g : getGenerationPopulators(world)) {
             chunk = g.populate(world, chunk, random, chunkX, chunkZ);
         }
+
         ProfileFuture biomeProfile = measure("BiomeSetTime");
         for(byte x = 0; x < 16; x++) {
             for(byte z = 0; z < 16; z++) {
@@ -65,5 +65,5 @@ public abstract class GaeaChunkGenerator extends ChunkGenerator {
 
     public abstract List<GenerationPopulator> getGenerationPopulators(World w);
 
-    public abstract org.polydev.gaea.biome.BiomeGrid<? extends Biome> getBiomeGrid(World w);
+    public abstract org.polydev.gaea.biome.BiomeGrid getBiomeGrid(World w);
 }

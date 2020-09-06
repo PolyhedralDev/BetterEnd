@@ -27,12 +27,12 @@ public class StructurePopulator extends BlockPopulator {
         int x = random.nextInt(16);
         int z = random.nextInt(16);
         EndBiome biome = EndBiomeGrid.fromWorld(world).getBiome(x + (chunk.getX() << 4), z + (chunk.getZ() << 4));
-        if(WorldConfig.fromWorld(world).structureChancePerChunk > random.nextInt(100) || biome.overrideStructureChance()) {
+        if(WorldConfig.fromWorld(world).structureChancePerChunk > random.nextInt(100) || biome.getDecorator().overrideStructureChance()) {
             int y = WorldUtil.getHighestValidSpawnAt(chunk, x, z);
             x += (chunk.getX() << 4);
             z += (chunk.getZ() << 4);
             if(x > 2999984 || z > 2999984) return;
-            Structure struc = biome.getRandomStructure(world, random);
+            Structure struc = biome.getDecorator().getStructures(world).get(random);
             if(struc == null) return;
             Location origin = struc.getSpawnInfo().getSpawnLocation(new Location(world, x, y, z), random);
             if(origin.getY() <= 0) return;

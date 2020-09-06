@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class EndBiomeGrid extends BiomeGrid<EndBiome> {
+public class EndBiomeGrid extends BiomeGrid {
     private static final Map<World, EndBiomeGrid> grids = new HashMap<>();
     private final WorldConfig config;
     //Grid of biomes (woah, kinda crazy i know)
@@ -84,9 +84,9 @@ public class EndBiomeGrid extends BiomeGrid<EndBiome> {
             if(ds < 62500) return config.getBiomeReplacement(EndBiome.MAIN_ISLAND); // 62500 = 250^2, main island width
             else if(ds < 980100) return config.getBiomeReplacement(EndBiome.VOID); // 980100 = 990^2, outer end edge
             else if(ds < 1000000)
-                return config.getBiomeReplacement(super.getBiome(x, z).getVoidBorderVariant()); // 1000000 = 1000^2, outer end beginning
+                return config.getBiomeReplacement(((EndBiome) super.getBiome(x, z)).getVoidBorderVariant()); // 1000000 = 1000^2, outer end beginning
         }
-        return super.getBiome(x, z);
+        return (EndBiome) super.getBiome(x, z);
     }
 
     /**

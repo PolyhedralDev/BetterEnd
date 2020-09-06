@@ -102,17 +102,23 @@ public class WorldConfig {
         islandHeight = config.getInt("terrain.ground-level", 64);
 
         Map<String, Object> prob = config.getConfigurationSection("structures.distribution").getValues(false);
+
+
+
+        // Reset all biomes' structure collections.
         for(EndBiome b : EndBiome.values()) {
             b.getDecorator().setStructures(new ProbabilityCollection<>(), w);
         }
-        for(Map.Entry<String, Object> e : prob.entrySet()) {
+
+        // Redefine structure collections from config
+        for(Map.Entry<String, Object> e : prob.entrySet()) { // Iterate over biomes in config
             String current = "undefined";
             try {
                 current = e.getKey();
                 Biome b = EndBiome.valueOf(e.getKey());
                 ProbabilityCollection<Structure> structures = new ProbabilityCollection<>();
                 Map<String, Object> strucConfig = ((ConfigurationSection) e.getValue()).getValues(false);
-                for(Map.Entry<String, Object> e2 : strucConfig.entrySet()) {
+                for(Map.Entry<String, Object> e2 : strucConfig.entrySet()) { // Iterate over structured defined in biome section
                     current = e2.getKey();
                     structures.add(EndStructure.valueOf(e2.getKey()), (Integer) e2.getValue());
                     if(ConfigUtil.debug) main.getLogger().info("Added " + EndStructure.valueOf(e2.getKey()) + " with probability of " + e2.getValue() + " to " + b.toString() + " Structure list.");

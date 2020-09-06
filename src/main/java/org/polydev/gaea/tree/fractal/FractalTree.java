@@ -1,7 +1,5 @@
 package org.polydev.gaea.tree.fractal;
 
-import com.dfsek.betterend.config.ConfigUtil;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.data.BlockData;
@@ -79,7 +77,6 @@ public abstract class FractalTree {
      */
     public void plant(boolean doCheck) {
         if(doCheck && ! this.getOrigin().getBlock().isPassable()) return;
-        if(ConfigUtil.debug) Bukkit.getLogger().info("[" + Thread.currentThread().getName() + "] Planting tree...");
         for(Map.Entry<Location, BlockData> entry : treeAssembler.entrySet()) {
             if(replaceable.contains(entry.getKey().getBlock().getType()))
                 entry.getKey().getBlock().setBlockData(entry.getValue(), false);
