@@ -29,6 +29,10 @@ public class UserDefinedStructure implements Structure {
         }
     }
 
+    public boolean isLoaded() {
+        return nmsContainer.containsKey(this);
+    }
+
     @Override
     public NMSStructure getInstance(Location origin, Random r) {
         return new NMSStructure(origin, nmsContainer.get(this));

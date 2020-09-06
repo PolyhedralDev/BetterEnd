@@ -12,6 +12,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.polydev.gaea.biome.Biome;
 import org.polydev.gaea.math.ProbabilityCollection;
 import org.polydev.gaea.structures.Structure;
+import org.polydev.gaea.structures.UserDefinedStructure;
 
 import java.io.File;
 import java.io.IOException;
@@ -101,9 +102,28 @@ public class WorldConfig {
         genMainIsland = config.getBoolean("terrain.main-island", true);
         islandHeight = config.getInt("terrain.ground-level", 64);
 
+        Map<String, UserDefinedStructure> custom = new HashMap<>();
+        // Custom structures
+        Map<String, Object> customProb = config.getConfigurationSection("structures.custom").getValues(false);
+        for(Map.Entry<String, Object> e : customProb.entrySet()) {
+            String current = "undefined";
+            try {
+                String name = e.getKey();
+                current = e.getKey();
+                if(ConfigUtil.debug) main.getLogger().info("Loading custom structure " + name);
+                Map<String, Object> strucConfig = ((ConfigurationSection) e.getValue()).getValues(false);
+                String filename = (String) strucConfig.get("name");
+                custom.put(name, new UserDefinedStructure(name, new File(main.getDataFolder() + File.separator + "structures" + File.separator + filename)));
+            } catch(IllegalArgumentException ex) {
+                ex.printStackTrace();
+                main.getLogger().severe("No such structure found in custom structures: " + current);
+            } catch(ClassCastException ex) {
+                main.getLogger().severe("SEVERE structure configuration for: " + current);
+            }
+        }
+
+
         Map<String, Object> prob = config.getConfigurationSection("structures.distribution").getValues(false);
-
-
 
         // Reset all biomes' structure collections.
         for(EndBiome b : EndBiome.values()) {
@@ -118,10 +138,15 @@ public class WorldConfig {
                 Biome b = EndBiome.valueOf(e.getKey());
                 ProbabilityCollection<Structure> structures = new ProbabilityCollection<>();
                 Map<String, Object> strucConfig = ((ConfigurationSection) e.getValue()).getValues(false);
-                for(Map.Entry<String, Object> e2 : strucConfig.entrySet()) { // Iterate over structured defined in biome section
+                for(Map.Entry<String, Object> e2 : strucConfig.entrySet()) { // Iterate over structures defined in biome section
                     current = e2.getKey();
-                    structures.add(EndStructure.valueOf(e2.getKey()), (Integer) e2.getValue());
-                    if(ConfigUtil.debug) main.getLogger().info("Added " + EndStructure.valueOf(e2.getKey()) + " with probability of " + e2.getValue() + " to " + b.toString() + " Structure list.");
+                    try {
+                        structures.add(EndStructure.valueOf(e2.getKey()), (Integer) e2.getValue());
+                    } catch(IllegalArgumentException ex) {
+                        if(custom.containsKey(e2.getKey())) structures.add(custom.get(e2.getKey()), (Integer) e2.getValue());
+                        else main.getLogger().severe("Unable to locate " + e2.getKey());
+                    }
+                    if(ConfigUtil.debug) main.getLogger().info("Added " + e2.getKey() + " with probability of " + e2.getValue() + " to " + b.toString() + " Structure list.");
                 }
                 b.getDecorator().setStructures(structures, w);
             } catch(IllegalArgumentException ex) {
@@ -131,6 +156,9 @@ public class WorldConfig {
                 main.getLogger().severe("SEVERE structure configuration for: " + current);
             }
         }
+
+
+
         main.getLogger().info("Complete. Time elapsed: " + ((double) (System.nanoTime() - start)) / 1000000 + "ms");
     }
 
