@@ -2,6 +2,7 @@ package org.polydev.gaea.tree.fractal.trees;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.entity.EnderCrystal;
 import org.polydev.gaea.tree.fractal.FractalTree;
 
 import java.util.Random;
@@ -24,9 +25,9 @@ public class ShatteredPillar extends FractalTree {
     public void grow() {
         int h = super.getRandom().nextInt(5) + 8;
         int max = h;
-        int[] crystalLoc;
         for(int i = - h; i < h; i++) setBlock(super.getOrigin().clone().add(0, i, 0), Material.OBSIDIAN);
         h = h + (getRandom().nextBoolean() ? getRandom().nextInt(3) + 1 : - (getRandom().nextInt(3) + 1));
+        int[] crystalLoc = new int[] {0, 0};
         if(h > max) {
             max = h;
             crystalLoc = new int[] {1, 0};
@@ -44,5 +45,7 @@ public class ShatteredPillar extends FractalTree {
             crystalLoc = new int[] {1, 1};
         }
         for(int i = - h; i < h; i++) setBlock(super.getOrigin().clone().add(1, i, 1), Material.OBSIDIAN);
+        if(getRandom().nextInt(100) < 25) spawnEntity(getOrigin().add(crystalLoc[0]+0.5, max, crystalLoc[1]+0.5), EnderCrystal.class,
+                enderCrystal -> ((EnderCrystal) enderCrystal).setShowingBottom(false));
     }
 }

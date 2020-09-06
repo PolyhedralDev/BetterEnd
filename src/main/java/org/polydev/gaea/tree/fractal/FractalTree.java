@@ -3,19 +3,26 @@ package org.polydev.gaea.tree.fractal;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.data.BlockData;
+import org.bukkit.entity.Entity;
+import org.bukkit.util.Consumer;
+import org.polydev.gaea.tree.fractal.trees.EntitySpawnHolder;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Random;
+
 
 public abstract class FractalTree {
     private final Map<Location, BlockData> treeAssembler = new HashMap<>();
+    private final List<EntitySpawnHolder> entities = new ArrayList<>();
     private final Location origin;
     private final Random random;
     private final List<Material> replaceable = Arrays.asList(Material.AIR, Material.GRASS_BLOCK, Material.DIRT, Material.STONE, Material.COARSE_DIRT, Material.GRAVEL, Material.PODZOL,
-            Material.GRASS, Material.TALL_GRASS, Material.FERN, Material.POPPY, Material.LARGE_FERN, Material.BLUE_ORCHID, Material.AZURE_BLUET);
+            Material.GRASS, Material.TALL_GRASS, Material.FERN, Material.POPPY, Material.LARGE_FERN, Material.BLUE_ORCHID, Material.AZURE_BLUET, Material.END_STONE);
 
 
     /**
@@ -81,6 +88,13 @@ public abstract class FractalTree {
             if(replaceable.contains(entry.getKey().getBlock().getType()))
                 entry.getKey().getBlock().setBlockData(entry.getValue(), false);
         }
+        for(EntitySpawnHolder e : entities) {
+            Objects.requireNonNull(e.getLocation().getWorld()).spawn(e.getLocation(), e.getEntity(), e.getConsumer());
+        }
+    }
+
+    public void spawnEntity(Location spawn, Class clazz, Consumer<Entity> consumer) {
+        entities.add(new EntitySpawnHolder(spawn, clazz, consumer));
     }
 
     /**

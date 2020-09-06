@@ -44,8 +44,17 @@ public class EventListener implements Listener {
 				Chest chest = (Chest) l.getBlock().getState();
 				NamespacedKey key = new NamespacedKey(main, "valkyrie-spawner");
 				if(chest.getPersistentDataContainer().has(key, PersistentDataType.INTEGER)) {
-					if(BetterEnd.isPremium())
-						EndAdvancementUtil.grantAdvancement("gold_dungeon", (Player) event.getPlayer());
+					try {
+						if(BetterEnd.isPremium())
+							EndAdvancementUtil.grantAdvancement("gold_dungeon", (Player) event.getPlayer());
+					} catch(IllegalArgumentException e) {
+						if(!EndAdvancementUtil.noPackWarn) {
+							EndAdvancementUtil.noPackWarn = true;
+							main.getLogger().warning("BetterEnd attempted to award an advancement, but it was not found!");
+							main.getLogger().warning("If this is your first time starting your server with BetterEnd, restart to enable advancements.");
+							main.getLogger().warning("If this is a consistent issue, please seek support on Discord, or report it on GitHub.");
+						}
+					}
 					Location spawn;
 					switch(chest.getPersistentDataContainer().get(key, PersistentDataType.INTEGER)) {
 						case 0:

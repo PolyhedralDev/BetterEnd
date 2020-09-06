@@ -2,22 +2,32 @@ package com.dfsek.betterend.config;
 
 import com.dfsek.betterend.population.structures.EndStructure;
 import com.dfsek.betterend.world.EndBiome;
+import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.craftbukkit.libs.org.apache.commons.io.FileUtils;
+import org.bukkit.entity.EntityType;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.polydev.gaea.biome.Biome;
 import org.polydev.gaea.math.ProbabilityCollection;
 import org.polydev.gaea.structures.Structure;
 import org.polydev.gaea.structures.UserDefinedStructure;
+import org.polydev.gaea.structures.features.BlockReplaceFeature;
+import org.polydev.gaea.structures.features.EntityFeature;
+import org.polydev.gaea.structures.features.Feature;
+import org.polydev.gaea.structures.features.LootFeature;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -113,12 +123,40 @@ public class WorldConfig {
                 if(ConfigUtil.debug) main.getLogger().info("Loading custom structure " + name);
                 Map<String, Object> strucConfig = ((ConfigurationSection) e.getValue()).getValues(false);
                 String filename = (String) strucConfig.get("name");
-                custom.put(name, new UserDefinedStructure(name, new File(main.getDataFolder() + File.separator + "structures" + File.separator + filename)));
+                List<Feature> structureFeatures = new ArrayList<>();
+                if(strucConfig.containsKey("features")) {
+                    for(Map.Entry<String, Object> feature : ((ConfigurationSection) strucConfig.get("features")).getValues(false).entrySet()) { // Iterate over custom structure features
+                        if(ConfigUtil.debug) main.getLogger().info("Loading feature " + feature.getKey());
+                        Map<String, Object> f = ((ConfigurationSection) feature.getValue()).getValues(false);
+                        switch(feature.getKey()) {
+                            case "block_replace":
+                                structureFeatures.add(new BlockReplaceFeature((double) f.getOrDefault("percent", 50D), new ProbabilityCollection<Material>().add(Material.valueOf((String) f.get("material")), 1)));
+                                break;
+                            case "loot":
+                                try {
+                                    structureFeatures.add(new LootFeature(new FileInputStream(new File(main.getDataFolder() + File.separator + "loot" + File.separator + f.get("name")))));
+                                }  catch(FileNotFoundException fileNotFoundException) {
+                                    main.getLogger().severe("Unable to locate loot table " + f.get("name"));
+                                }
+                                break;
+                            case "spawn_mob":
+                                structureFeatures.add(new EntityFeature((int) f.get("min"), (int) f.get("max"), EntityType.valueOf((String) f.get("type"))));
+                                break;
+                            default:
+                                main.getLogger().severe("Invalid feature: " + feature.getKey());
+                        }
+                    }
+                } else {
+                    if(ConfigUtil.debug) main.getLogger().info("No features to load. ");
+                }
+
+                custom.put(name, new UserDefinedStructure(name, new File(main.getDataFolder() + File.separator + "structures" + File.separator + filename),  structureFeatures));
             } catch(IllegalArgumentException ex) {
                 ex.printStackTrace();
                 main.getLogger().severe("No such structure found in custom structures: " + current);
             } catch(ClassCastException ex) {
-                main.getLogger().severe("SEVERE structure configuration for: " + current);
+                ex.printStackTrace();
+                main.getLogger().severe("SEVERE structure configuration error for: " + current);
             }
         }
 
@@ -142,7 +180,7 @@ public class WorldConfig {
                     current = e2.getKey();
                     try {
                         structures.add(EndStructure.valueOf(e2.getKey()), (Integer) e2.getValue());
-                    } catch(IllegalArgumentException ex) {
+                    } catch(IllegalArgumentException ex) { // If no enum type is found, check if a custom structure has been defined.
                         if(custom.containsKey(e2.getKey())) structures.add(custom.get(e2.getKey()), (Integer) e2.getValue());
                         else main.getLogger().severe("Unable to locate " + e2.getKey());
                     }
@@ -159,7 +197,7 @@ public class WorldConfig {
 
 
 
-        main.getLogger().info("Complete. Time elapsed: " + ((double) (System.nanoTime() - start)) / 1000000 + "ms");
+        main.getLogger().info("World load complete. Time elapsed: " + ((double) (System.nanoTime() - start)) / 1000000 + "ms");
     }
 
     public EndBiome getBiomeReplacement(EndBiome b) {

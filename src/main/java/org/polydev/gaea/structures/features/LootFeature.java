@@ -1,6 +1,7 @@
 package org.polydev.gaea.structures.features;
 
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Container;
 import org.bukkit.craftbukkit.libs.org.apache.commons.io.IOUtils;
@@ -33,8 +34,8 @@ public class LootFeature implements Feature {
     @Override
     public void populate(NMSStructure s, Random r) {
         for(Location chestLoc : StructureUtil.getChestsIn(s.getBoundingLocations()[0], s.getBoundingLocations()[1])) {
-            if(chestLoc.getBlock().getState() instanceof Container) {
-                BlockState blockState = chestLoc.getBlock().getState();
+            BlockState blockState = chestLoc.getBlock().getState();
+            if(blockState instanceof Container && (chestLoc.getBlock().getType().equals(Material.CHEST) || chestLoc.getBlock().getType().equals(Material.TRAPPED_CHEST))) {
                 Container container = (Container) blockState;
                 Inventory containerInventory = container.getInventory();
                 this.table.fillInventory(containerInventory, r);

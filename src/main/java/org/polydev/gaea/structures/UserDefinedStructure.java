@@ -9,7 +9,6 @@ import org.polydev.gaea.structures.spawn.StructureSpawnInfo;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,9 +17,11 @@ import java.util.Random;
 public class UserDefinedStructure implements Structure {
     private static final Map<UserDefinedStructure, Object> nmsContainer = new HashMap<>();
     private final String id;
+    private final List<Feature> features;
 
-    public UserDefinedStructure(String id, File location) {
+    public UserDefinedStructure(String id, File location, List<Feature> features) {
         this.id = id;
+        this.features = features;
         try {
             nmsContainer.put(this, NMSStructure.getAsTag(new FileInputStream(location)));
         } catch(FileNotFoundException e) {
@@ -40,7 +41,7 @@ public class UserDefinedStructure implements Structure {
 
     @Override
     public List<Feature> getFeatures() {
-        return Collections.emptyList();
+        return this.features;
     }
 
     @Override

@@ -16,7 +16,7 @@ import java.util.jar.JarFile;
 
 public class EndAdvancementUtil {
 	private static final BetterEnd main = BetterEnd.getInstance();
-	private static boolean noPackWarn = false;
+	public static boolean noPackWarn = false;
 
 	private EndAdvancementUtil() {
 	}
