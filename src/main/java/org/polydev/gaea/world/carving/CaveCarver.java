@@ -6,14 +6,20 @@ import org.bukkit.util.Vector;
 import java.util.Random;
 
 public class CaveCarver extends Carver {
-    @Override
-    public Worm getWorm(long seed, Vector l) {
-        return new CaveWorm(new Random(seed).nextInt(45) + 30, new Random(seed), l);
+    private final int chance;
+    public CaveCarver(int chance) {
+        this.chance = chance;
     }
 
     @Override
+    public Worm getWorm(long seed, Vector l) {
+        return new CaveWorm(new Random(seed).nextInt(40) + 24, new Random(seed), l);
+    }
+
+
+    @Override
     public boolean isChunkCarved(Random r) {
-        return true;
+        return r.nextInt(100) < chance;
     }
 
     public static class CaveWorm extends Worm {

@@ -11,13 +11,15 @@ public abstract class Carver {
     public CarvingData carve(int chunkX, int chunkZ, World w) {
         CarvingData data = new CarvingData(chunkX, chunkZ);
         if(isChunkCarved(new Random(MathUtil.hashToLong(this.getClass().getName() + "_" + chunkX + "&" + chunkZ)))) {
-            for(int x = chunkX - 5; x < chunkX + 5; x++) {
-                for(int z = chunkZ - 5; z < chunkZ + 5; z++) {
-                    long seed = MathUtil.getCarverChunkSeed(x, z, w.getSeed());
-                    Worm carving = getWorm(seed, new Vector((x << 4) + 8, new Random(seed).nextInt(150), (z << 4) + 8));
-                    for(int i = 0; i < carving.getLength(); i++) {
-                        carving.step();
-                        carving.getPoint().carve(data, chunkX, chunkZ);
+            for(int x = chunkX - 4; x < chunkX + 4; x++) {
+                for(int z = chunkZ - 4; z < chunkZ + 4; z++) {
+                    if(x*x + z*z <= 18) { // Don't check chunks out of radius (use distance squared because less expensive)
+                        long seed = MathUtil.getCarverChunkSeed(x, z, w.getSeed());
+                        Worm carving = getWorm(seed, new Vector((x << 4) + 8, new Random(seed).nextInt(150), (z << 4) + 8));
+                        for(int i = 0; i < carving.getLength(); i++) {
+                            carving.step();
+                            carving.getPoint().carve(data, chunkX, chunkZ);
+                        }
                     }
                 }
             }

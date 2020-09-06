@@ -62,7 +62,8 @@ public class Measurement {
 
     public long average() {
         BigInteger running = new BigInteger("0");
-        for(Long l : measurements) {
+        List<Long> mTemp = new ArrayList<>(measurements);
+        for(Long l : mTemp) {
             running = running.add(BigInteger.valueOf(l));
         }
         if(measurements.size() == 0) return 0;
