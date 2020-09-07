@@ -1,4 +1,4 @@
-package com.dfsek.betterend.util;
+package com.dfsek.betterend.premium;
 
 import com.dfsek.betterend.BetterEnd;
 import com.dfsek.betterend.config.ConfigUtil;

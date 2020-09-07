@@ -1,6 +1,7 @@
 package com.dfsek.betterend.config;
 
 import com.dfsek.betterend.population.structures.EndStructure;
+import com.dfsek.betterend.premium.CustomStructuresUtil;
 import com.dfsek.betterend.world.EndBiome;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -9,23 +10,16 @@ import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.craftbukkit.libs.org.apache.commons.io.FileUtils;
-import org.bukkit.entity.EntityType;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.polydev.gaea.biome.Biome;
 import org.polydev.gaea.math.ProbabilityCollection;
 import org.polydev.gaea.structures.Structure;
 import org.polydev.gaea.structures.UserDefinedStructure;
-import org.polydev.gaea.structures.features.BlockReplaceFeature;
-import org.polydev.gaea.structures.features.EntityFeature;
-import org.polydev.gaea.structures.features.Feature;
-import org.polydev.gaea.structures.features.LootFeature;
+import org.polydev.gaea.world.Ore;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.time.Duration;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -55,7 +49,9 @@ public class WorldConfig {
     public int structureChancePerChunk;
     public boolean genMainIsland;
     public int islandHeight;
+    public int oreAttempts;
     private Map<String, Object> biomeReplacements = new HashMap<>();
+    public Map<EndBiome, ProbabilityCollection<Ore>> ores = new HashMap<>();
 
     public WorldConfig(String w, JavaPlugin main) {
         WorldConfig.main = main;
@@ -111,55 +107,35 @@ public class WorldConfig {
         biomeReplacements = config.getConfigurationSection("terrain.biomes.replacements").getValues(false);
         genMainIsland = config.getBoolean("terrain.main-island", true);
         islandHeight = config.getInt("terrain.ground-level", 64);
+        oreAttempts = config.getInt("ores.attempts", 10);
 
-        Map<String, UserDefinedStructure> custom = new HashMap<>();
-        // Custom structures
-        Map<String, Object> customProb = config.getConfigurationSection("structures.custom").getValues(false);
-        for(Map.Entry<String, Object> e : customProb.entrySet()) {
-            String current = "undefined";
+        // Define ores
+        Map<String, Object> oreBiomes = config.getConfigurationSection("ores.biomes").getValues(false);
+        for(Map.Entry<String, Object> biomeEntry : oreBiomes.entrySet()) {
+            String current = biomeEntry.getKey();
             try {
-                String name = e.getKey();
-                current = e.getKey();
-                if(ConfigUtil.debug) main.getLogger().info("Loading custom structure " + name);
-                Map<String, Object> strucConfig = ((ConfigurationSection) e.getValue()).getValues(false);
-                String filename = (String) strucConfig.get("name");
-                List<Feature> structureFeatures = new ArrayList<>();
-                if(strucConfig.containsKey("features")) {
-                    for(Map.Entry<String, Object> feature : ((ConfigurationSection) strucConfig.get("features")).getValues(false).entrySet()) { // Iterate over custom structure features
-                        if(ConfigUtil.debug) main.getLogger().info("Loading feature " + feature.getKey());
-                        Map<String, Object> f = ((ConfigurationSection) feature.getValue()).getValues(false);
-                        switch(feature.getKey()) {
-                            case "block_replace":
-                                structureFeatures.add(new BlockReplaceFeature((double) f.getOrDefault("percent", 50D), new ProbabilityCollection<Material>().add(Material.valueOf((String) f.get("material")), 1)));
-                                break;
-                            case "loot":
-                                try {
-                                    structureFeatures.add(new LootFeature(new FileInputStream(new File(main.getDataFolder() + File.separator + "loot" + File.separator + f.get("name")))));
-                                }  catch(FileNotFoundException fileNotFoundException) {
-                                    main.getLogger().severe("Unable to locate loot table " + f.get("name"));
-                                }
-                                break;
-                            case "spawn_mob":
-                                structureFeatures.add(new EntityFeature((int) f.get("min"), (int) f.get("max"), EntityType.valueOf((String) f.get("type"))));
-                                break;
-                            default:
-                                main.getLogger().severe("Invalid feature: " + feature.getKey());
-                        }
-                    }
-                } else {
-                    if(ConfigUtil.debug) main.getLogger().info("No features to load. ");
+                Map<String, Object> oresConfig = ((ConfigurationSection) biomeEntry.getValue()).getValues(false);
+                ProbabilityCollection<Ore> oreSet = new ProbabilityCollection<>();
+                for(Map.Entry<String, Object> ore : oresConfig.entrySet()) {
+                    current = ore.getKey();
+                    if(ConfigUtil.debug) main.getLogger().info("Adding ore " + ore.getKey() + " with probability " + ((List<Integer>) ore.getValue()).get(0) + " and vein chance " + ((List<Integer>) ore.getValue()).get(1) + " for biome " + biomeEntry.getKey());
+                    oreSet.add(new Ore(Material.valueOf(ore.getKey()).createBlockData(), ((List<Integer>) ore.getValue()).get(1)), ((List<Integer>) ore.getValue()).get(0));
                 }
-
-                custom.put(name, new UserDefinedStructure(name, new File(main.getDataFolder() + File.separator + "structures" + File.separator + filename),  structureFeatures));
+                ores.put(EndBiome.valueOf(biomeEntry.getKey()), oreSet);
             } catch(IllegalArgumentException ex) {
                 ex.printStackTrace();
-                main.getLogger().severe("No such structure found in custom structures: " + current);
+                main.getLogger().severe("No such material/biome found: " + current);
             } catch(ClassCastException ex) {
-                ex.printStackTrace();
-                main.getLogger().severe("SEVERE structure configuration error for: " + current);
+                main.getLogger().severe("SEVERE Ore configuration error for: " + current);
             }
         }
 
+
+        // Custom structures
+        Map<String, UserDefinedStructure> custom = new HashMap<>();
+        try {
+            custom = CustomStructuresUtil.getCustomStructures(config.getConfigurationSection("structures.custom").getValues(false), main);
+        } catch(NoClassDefFoundError ignored) {}
 
         Map<String, Object> prob = config.getConfigurationSection("structures.distribution").getValues(false);
 
@@ -191,7 +167,7 @@ public class WorldConfig {
                 ex.printStackTrace();
                 main.getLogger().severe("No such biome/structure found in structure distributions: " + current);
             } catch(ClassCastException ex) {
-                main.getLogger().severe("SEVERE structure configuration for: " + current);
+                main.getLogger().severe("SEVERE structure configuration error for: " + current);
             }
         }
 

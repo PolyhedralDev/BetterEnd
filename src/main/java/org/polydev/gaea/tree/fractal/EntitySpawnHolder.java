@@ -1,4 +1,4 @@
-package org.polydev.gaea.tree.fractal.trees;
+package org.polydev.gaea.tree.fractal;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;

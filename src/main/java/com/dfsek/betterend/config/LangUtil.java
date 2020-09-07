@@ -1,6 +1,7 @@
-package com.dfsek.betterend.util;
+package com.dfsek.betterend.config;
 
 import com.dfsek.betterend.BetterEnd;
+import com.dfsek.betterend.util.Util;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;

@@ -5,7 +5,6 @@ import org.bukkit.Material;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.Entity;
 import org.bukkit.util.Consumer;
-import org.polydev.gaea.tree.fractal.trees.EntitySpawnHolder;
 
 import java.util.ArrayList;
 import java.util.Arrays;

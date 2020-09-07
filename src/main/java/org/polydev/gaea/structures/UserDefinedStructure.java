@@ -26,7 +26,7 @@ public class UserDefinedStructure implements Structure {
             nmsContainer.put(this, NMSStructure.getAsTag(new FileInputStream(location)));
         } catch(FileNotFoundException e) {
             e.printStackTrace();
-            Bukkit.getLogger().severe("[Gaea] Unable to load UserDefinedStructure " + id + "!");
+            Bukkit.getLogger().severe("[Gaea] Unable to load User Defined Structure " + id + "!");
         }
     }
 
@@ -47,5 +47,10 @@ public class UserDefinedStructure implements Structure {
     @Override
     public StructureSpawnInfo getSpawnInfo() {
         return new GroundSpawn(1);
+    }
+
+    @Override
+    public String toString() {
+        return "USER_DEF:" + id;
     }
 }

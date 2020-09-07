@@ -31,7 +31,7 @@ public class StructurePopulator extends BlockPopulator {
             int y = WorldUtil.getHighestValidSpawnAt(chunk, x, z);
             x += (chunk.getX() << 4);
             z += (chunk.getZ() << 4);
-            if(x > 2999984 || z > 2999984) return;
+            if(x > 29999984 || z > 29999984) return;
             Structure struc = biome.getDecorator().getStructures(world).get(random);
             if(struc == null) return;
             Location origin = struc.getSpawnInfo().getSpawnLocation(new Location(world, x, y, z), random);

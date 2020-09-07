@@ -1,5 +1,6 @@
-package com.dfsek.betterend;
+package com.dfsek.betterend.command;
 
+import com.dfsek.betterend.BetterEnd;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;

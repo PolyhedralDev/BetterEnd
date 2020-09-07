@@ -1,12 +1,14 @@
 package com.dfsek.betterend;
 
+import com.dfsek.betterend.command.BetterEndCommand;
+import com.dfsek.betterend.command.TabComplete;
 import com.dfsek.betterend.config.ConfigUtil;
+import com.dfsek.betterend.config.LangUtil;
 import com.dfsek.betterend.config.WorldConfig;
 import com.dfsek.betterend.population.structures.EndStructure;
-import com.dfsek.betterend.util.EndAdvancementUtil;
-import com.dfsek.betterend.util.LangUtil;
-import com.dfsek.betterend.util.MythicSpawnsUtil;
-import com.dfsek.betterend.util.PremiumUtil;
+import com.dfsek.betterend.premium.EndAdvancementUtil;
+import com.dfsek.betterend.premium.MythicSpawnsUtil;
+import com.dfsek.betterend.premium.PremiumUtil;
 import com.dfsek.betterend.util.Util;
 import com.dfsek.betterend.world.EndChunkGenerator;
 import org.bukkit.Bukkit;

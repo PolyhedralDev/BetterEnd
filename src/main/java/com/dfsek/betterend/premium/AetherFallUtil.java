@@ -1,4 +1,4 @@
-package com.dfsek.betterend.util;
+package com.dfsek.betterend.premium;
 
 import com.dfsek.betterend.config.WorldConfig;
 import com.dfsek.betterend.world.EndBiomeGrid;

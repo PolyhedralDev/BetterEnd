@@ -1,6 +1,7 @@
 package com.dfsek.betterend.world;
 
 import com.dfsek.betterend.config.WorldConfig;
+import com.dfsek.betterend.premium.PremiumUtil;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.polydev.gaea.biome.BiomeGrid;
@@ -18,8 +19,8 @@ public class EndBiomeGrid extends BiomeGrid {
     private final EndBiome[][] grid = new EndBiome[][] {
             {EndBiome.AETHER_FOREST, EndBiome.AETHER_FOREST, EndBiome.AETHER, EndBiome.AETHER, EndBiome.AETHER, EndBiome.AETHER, EndBiome.AETHER, EndBiome.AETHER, EndBiome.AETHER_HIGHLANDS_BORDER, EndBiome.AETHER_HIGHLANDS, EndBiome.AETHER_HIGHLANDS, EndBiome.AETHER_HIGHLANDS, EndBiome.AETHER_HIGHLANDS, EndBiome.AETHER_HIGHLANDS, EndBiome.AETHER_HIGHLANDS_FOREST, EndBiome.AETHER_HIGHLANDS_FOREST},
             {EndBiome.AETHER_FOREST, EndBiome.AETHER_FOREST, EndBiome.AETHER, EndBiome.AETHER, EndBiome.AETHER, EndBiome.AETHER, EndBiome.AETHER, EndBiome.AETHER, EndBiome.AETHER_HIGHLANDS_BORDER, EndBiome.AETHER_HIGHLANDS, EndBiome.AETHER_HIGHLANDS, EndBiome.AETHER_HIGHLANDS, EndBiome.AETHER_HIGHLANDS, EndBiome.AETHER_HIGHLANDS, EndBiome.AETHER_HIGHLANDS_FOREST, EndBiome.AETHER_HIGHLANDS_FOREST},
-            {EndBiome.AETHER_FOREST, EndBiome.AETHER_FOREST, EndBiome.AETHER, EndBiome.AETHER, EndBiome.AETHER, EndBiome.AETHER, EndBiome.AETHER, EndBiome.AETHER, EndBiome.AETHER_HIGHLANDS_BORDER, EndBiome.AETHER_HIGHLANDS, EndBiome.AETHER_HIGHLANDS, EndBiome.AETHER_HIGHLANDS, EndBiome.AETHER_HIGHLANDS, EndBiome.AETHER_HIGHLANDS, EndBiome.AETHER_HIGHLANDS_FOREST, EndBiome.AETHER_HIGHLANDS_FOREST},
-            {EndBiome.AETHER_FOREST, EndBiome.AETHER_FOREST, EndBiome.AETHER, EndBiome.AETHER, EndBiome.AETHER, EndBiome.AETHER, EndBiome.AETHER, EndBiome.AETHER, EndBiome.AETHER_HIGHLANDS_BORDER, EndBiome.AETHER_HIGHLANDS, EndBiome.AETHER_HIGHLANDS, EndBiome.AETHER_HIGHLANDS, EndBiome.AETHER_HIGHLANDS, EndBiome.AETHER_HIGHLANDS, EndBiome.AETHER_HIGHLANDS_FOREST, EndBiome.AETHER_HIGHLANDS_FOREST},
+            {EndBiome.AETHER_FOREST, EndBiome.AETHER, EndBiome.AETHER, EndBiome.AETHER, EndBiome.AETHER, EndBiome.AETHER, EndBiome.AETHER, EndBiome.AETHER, EndBiome.AETHER_HIGHLANDS_BORDER, EndBiome.AETHER_HIGHLANDS, EndBiome.AETHER_HIGHLANDS, EndBiome.AETHER_HIGHLANDS, EndBiome.AETHER_HIGHLANDS, EndBiome.AETHER_HIGHLANDS, EndBiome.AETHER_HIGHLANDS, EndBiome.AETHER_HIGHLANDS_FOREST},
+            {EndBiome.AETHER, EndBiome.AETHER, EndBiome.AETHER, EndBiome.AETHER, EndBiome.AETHER, EndBiome.AETHER, EndBiome.AETHER, EndBiome.AETHER, EndBiome.AETHER_HIGHLANDS_BORDER, EndBiome.AETHER_HIGHLANDS, EndBiome.AETHER_HIGHLANDS, EndBiome.AETHER_HIGHLANDS, EndBiome.AETHER_HIGHLANDS, EndBiome.AETHER_HIGHLANDS, EndBiome.AETHER_HIGHLANDS, EndBiome.AETHER_HIGHLANDS},
             {EndBiome.VOID_AETHER_BORDER, EndBiome.VOID_AETHER_BORDER, EndBiome.VOID_AETHER_BORDER, EndBiome.VOID_AETHER_BORDER, EndBiome.VOID_AETHER_BORDER, EndBiome.VOID_AETHER_BORDER, EndBiome.VOID_AETHER_BORDER, EndBiome.VOID_AETHER_BORDER, EndBiome.VOID_AETHER_HIGHLANDS_BORDER, EndBiome.VOID_AETHER_HIGHLANDS_BORDER, EndBiome.VOID_AETHER_HIGHLANDS_BORDER, EndBiome.VOID_AETHER_HIGHLANDS_BORDER, EndBiome.VOID_AETHER_HIGHLANDS_BORDER, EndBiome.VOID_AETHER_HIGHLANDS_BORDER, EndBiome.VOID_AETHER_HIGHLANDS_BORDER, EndBiome.VOID_AETHER_HIGHLANDS_BORDER},
             {EndBiome.VOID, EndBiome.VOID, EndBiome.VOID, EndBiome.VOID, EndBiome.VOID, EndBiome.VOID, EndBiome.VOID, EndBiome.VOID, EndBiome.STARFIELD, EndBiome.STARFIELD, EndBiome.STARFIELD, EndBiome.STARFIELD, EndBiome.STARFIELD, EndBiome.STARFIELD, EndBiome.STARFIELD, EndBiome.STARFIELD},
             {EndBiome.VOID, EndBiome.VOID, EndBiome.VOID, EndBiome.VOID, EndBiome.VOID, EndBiome.VOID, EndBiome.VOID, EndBiome.VOID, EndBiome.STARFIELD, EndBiome.STARFIELD, EndBiome.STARFIELD, EndBiome.STARFIELD, EndBiome.STARFIELD, EndBiome.STARFIELD, EndBiome.STARFIELD, EndBiome.STARFIELD},
@@ -28,16 +29,25 @@ public class EndBiomeGrid extends BiomeGrid {
             {EndBiome.END, EndBiome.END, EndBiome.END, EndBiome.END, EndBiome.END, EndBiome.END, EndBiome.END, EndBiome.END, EndBiome.END, EndBiome.END, EndBiome.END, EndBiome.END, EndBiome.END, EndBiome.END, EndBiome.END, EndBiome.END},
             {EndBiome.END, EndBiome.END, EndBiome.END, EndBiome.END, EndBiome.END, EndBiome.END, EndBiome.END, EndBiome.END, EndBiome.END, EndBiome.END, EndBiome.END, EndBiome.END, EndBiome.END, EndBiome.END, EndBiome.END, EndBiome.END},
             {EndBiome.END, EndBiome.END, EndBiome.END, EndBiome.END, EndBiome.END, EndBiome.END, EndBiome.END, EndBiome.END, EndBiome.END, EndBiome.END, EndBiome.END, EndBiome.END, EndBiome.END, EndBiome.END, EndBiome.END, EndBiome.END},
-            {EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_FOREST, EndBiome.SHATTERED_FOREST, EndBiome.SHATTERED_FOREST, EndBiome.SHATTERED_FOREST, EndBiome.SHATTERED_FOREST, EndBiome.SHATTERED_FOREST, EndBiome.SHATTERED_FOREST, EndBiome.SHATTERED_FOREST},
-            {EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_FOREST, EndBiome.SHATTERED_FOREST, EndBiome.SHATTERED_FOREST, EndBiome.SHATTERED_FOREST, EndBiome.SHATTERED_FOREST, EndBiome.SHATTERED_FOREST, EndBiome.SHATTERED_FOREST, EndBiome.SHATTERED_FOREST},
-            {EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_FOREST, EndBiome.SHATTERED_FOREST, EndBiome.SHATTERED_FOREST, EndBiome.SHATTERED_FOREST, EndBiome.SHATTERED_FOREST, EndBiome.SHATTERED_FOREST, EndBiome.SHATTERED_FOREST, EndBiome.SHATTERED_FOREST},
-            {EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_FOREST, EndBiome.SHATTERED_FOREST, EndBiome.SHATTERED_FOREST, EndBiome.SHATTERED_FOREST, EndBiome.SHATTERED_FOREST, EndBiome.SHATTERED_FOREST, EndBiome.SHATTERED_FOREST, EndBiome.SHATTERED_FOREST}};
+            {EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_FOREST, EndBiome.SHATTERED_FOREST, EndBiome.SHATTERED_FOREST, EndBiome.SHATTERED_FOREST},
+            {EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_FOREST, EndBiome.SHATTERED_FOREST, EndBiome.SHATTERED_FOREST, EndBiome.SHATTERED_FOREST, EndBiome.SHATTERED_FOREST},
+            {EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_FOREST, EndBiome.SHATTERED_FOREST, EndBiome.SHATTERED_FOREST, EndBiome.SHATTERED_FOREST, EndBiome.SHATTERED_FOREST, EndBiome.SHATTERED_FOREST},
+            {EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_FOREST, EndBiome.SHATTERED_FOREST, EndBiome.SHATTERED_FOREST, EndBiome.SHATTERED_FOREST, EndBiome.SHATTERED_FOREST, EndBiome.SHATTERED_FOREST, EndBiome.SHATTERED_FOREST}};
 
     public EndBiomeGrid(World w) {
         super(w, 1f / WorldConfig.fromWorld(w).biomeSize, 1f / WorldConfig.fromWorld(w).climateSize);
         this.config = WorldConfig.fromWorld(w);
         for(EndBiome b : EndBiome.values()) {
             replaceInGrid(b, config.getBiomeReplacement(b));
+        }
+        try {
+            if(!PremiumUtil.isPremium()) {
+                replaceInGrid(EndBiome.AETHER_FOREST, EndBiome.AETHER);
+                replaceInGrid(EndBiome.AETHER_HIGHLANDS_FOREST, EndBiome.AETHER_HIGHLANDS);
+            }
+        } catch(NoClassDefFoundError e) {
+            replaceInGrid(EndBiome.AETHER_FOREST, EndBiome.AETHER);
+            replaceInGrid(EndBiome.AETHER_HIGHLANDS_FOREST, EndBiome.AETHER_HIGHLANDS);
         }
         super.setGrid(grid);
     }

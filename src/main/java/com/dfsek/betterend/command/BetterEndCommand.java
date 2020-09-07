@@ -1,7 +1,7 @@
-package com.dfsek.betterend;
+package com.dfsek.betterend.command;
 
 import com.dfsek.betterend.config.ConfigUtil;
-import com.dfsek.betterend.util.LangUtil;
+import com.dfsek.betterend.config.LangUtil;
 import com.dfsek.betterend.util.Util;
 import com.dfsek.betterend.world.EndBiomeGrid;
 import com.dfsek.betterend.world.EndChunkGenerator;

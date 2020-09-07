@@ -2,6 +2,7 @@ package com.dfsek.betterend.world;
 
 import com.dfsek.betterend.config.WorldConfig;
 import com.dfsek.betterend.population.FaunaPopulator;
+import com.dfsek.betterend.population.OrePopulator;
 import com.dfsek.betterend.population.SnowPopulator;
 import com.dfsek.betterend.population.TreePopulator;
 import com.dfsek.betterend.population.structures.StructurePopulator;
@@ -91,7 +92,7 @@ public class EndChunkGenerator extends GaeaChunkGenerator {
     @NotNull
     @Override
     public List<BlockPopulator> getDefaultPopulators(@NotNull World world) {
-        return Arrays.asList(new StructurePopulator(), new TreePopulator(), new SnowPopulator(), new FaunaPopulator());
+        return Arrays.asList(new OrePopulator(), new StructurePopulator(), new TreePopulator(), new SnowPopulator(), new FaunaPopulator());
     }
 
 }

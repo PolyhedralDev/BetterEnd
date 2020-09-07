@@ -19,7 +19,8 @@ public class EndProfiler extends WorldProfiler {
                 .addMeasurement(new Measurement(100000000, DataType.PERIOD_MILLISECONDS), "StructureGenTime")
                 .addMeasurement(new Measurement(3000000, DataType.PERIOD_MILLISECONDS), "StructureFeatureTime")
                 .addMeasurement(new Measurement(1500000, DataType.PERIOD_MILLISECONDS), "SnowTime")
-                .addMeasurement(new Measurement(1500000, DataType.PERIOD_MILLISECONDS), "FaunaTime");
+                .addMeasurement(new Measurement(1500000, DataType.PERIOD_MILLISECONDS), "FaunaTime")
+                .addMeasurement(new Measurement(1500000, DataType.PERIOD_MILLISECONDS), "OreTime");
     }
 
     public static EndProfiler fromWorld(World w) {

@@ -1,7 +1,6 @@
 package com.dfsek.betterend.config;
 
 import com.dfsek.betterend.BetterEnd;
-import com.dfsek.betterend.util.LangUtil;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 

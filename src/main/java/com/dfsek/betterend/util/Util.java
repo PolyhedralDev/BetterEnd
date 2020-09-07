@@ -4,6 +4,7 @@ import com.dfsek.betterend.BetterEnd;
 import com.dfsek.betterend.UpdateChecker;
 import com.dfsek.betterend.UpdateChecker.UpdateReason;
 import com.dfsek.betterend.config.ConfigUtil;
+import com.dfsek.betterend.config.LangUtil;
 import com.dfsek.betterend.world.EndBiome;
 import com.dfsek.betterend.world.EndBiomeGrid;
 import org.bukkit.ChatColor;

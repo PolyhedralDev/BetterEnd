@@ -9,15 +9,10 @@
         </jar>
     	<jar destfile="target/prod/${ant.project.name}-free.jar">
     		<fileset dir="target/classes">
-    			<exclude name="**/WoodTree*.class"/>
-    			<exclude name="**/MythicSpawns*.class"/>
-    			<exclude name="**/Premium*.class"/>
-    			<exclude name="**/EndAdvancementUtil*.class"/>
-    			<exclude name="**/CustomStructurePopulator*.class"/>
-    			<exclude name="**/AetherFallUtil*.class"/>
-    			<exclude name="**/Fortress*.class"/>
-    			<exclude name="**/end_fortress*.nbt"/>
-    			<exclude name="**/BossTimeoutUtil*.java"/>
+    			<exclude name="**/OakTree*.class"/>
+    			<exclude name="**/UserDefinedStructure*.class"/>
+    			<exclude name="**/SpruceTree*.class"/>
+				<exclude name="**/premium/*.class"/>
     		</fileset>
 			<fileset file="plugin.yml"/>
 			<fileset file="config.yml"/>

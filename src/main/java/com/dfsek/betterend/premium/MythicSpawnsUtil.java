@@ -1,7 +1,8 @@
-package com.dfsek.betterend.util;
+package com.dfsek.betterend.premium;
 
 import com.dfsek.betterend.BetterEnd;
 import com.dfsek.betterend.config.ConfigUtil;
+import com.dfsek.betterend.config.LangUtil;
 import com.dfsek.betterend.world.EndBiomeGrid;
 import com.dfsek.betterend.world.EndChunkGenerator;
 import io.lumine.xikage.mythicmobs.MythicMobs;

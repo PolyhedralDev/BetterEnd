@@ -2,13 +2,14 @@ package com.dfsek.betterend;
 
 import com.dfsek.betterend.config.ConfigUtil;
 import com.dfsek.betterend.config.WorldConfig;
-import com.dfsek.betterend.util.BossTimeoutUtil;
-import com.dfsek.betterend.util.EndAdvancementUtil;
-import com.dfsek.betterend.util.ThreadedTreeUtil;
+import com.dfsek.betterend.event.BossChestOpenEvent;
+import com.dfsek.betterend.premium.BossTimeoutUtil;
+import com.dfsek.betterend.premium.EndAdvancementUtil;
 import com.dfsek.betterend.world.EndBiome;
 import com.dfsek.betterend.world.EndBiomeGrid;
 import com.dfsek.betterend.world.EndChunkGenerator;
 import io.lumine.xikage.mythicmobs.MythicMobs;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -25,7 +26,7 @@ import org.bukkit.event.world.StructureGrowEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.persistence.PersistentDataType;
-import org.polydev.gaea.tree.CustomTreeType;
+import org.polydev.gaea.tree.Tree;
 
 import java.util.Random;
 
@@ -76,11 +77,15 @@ public class EventListener implements Listener {
 					}
 					if(ConfigUtil.debug) main.getLogger().info("[BetterEnd] Chest is a Mythic Boss Spawn Chest.");
 					String boss = WorldConfig.fromWorld(event.getPlayer().getWorld()).mythicBossName;
-					try {
-						if(! BetterEnd.isPremium() || BossTimeoutUtil.timeoutReached(chest))
-							MythicMobs.inst().getMobManager().spawnMob(boss, spawn);
-					} catch(NoClassDefFoundError e) {
-						main.getLogger().warning("Failed to spawn Mythic Boss. Is MythicMobs installed?");
+					BossChestOpenEvent event2 = new BossChestOpenEvent(chest, spawn, boss, (Player) event.getPlayer());
+					Bukkit.getPluginManager().callEvent(event2);
+					if(!event2.isCancelled()) {
+						try {
+							if(! BetterEnd.isPremium() || BossTimeoutUtil.timeoutReached(chest))
+								MythicMobs.inst().getMobManager().spawnMob(boss, spawn);
+						} catch(NoClassDefFoundError e) {
+							main.getLogger().warning("Failed to spawn Mythic Boss. Is MythicMobs installed?");
+						}
 					}
 				}
 				if(! BetterEnd.isPremium()) {
@@ -106,13 +111,13 @@ public class EventListener implements Listener {
 			if((WorldConfig.fromWorld(e.getWorld()).bigTreeSaplingWorld || ConfigUtil.generateBigTreesEverywhere || EndBiomeGrid.fromWorld(e.getWorld()).getBiome(e.getLocation()).equals(EndBiome.AETHER_FOREST)) && (e.getSpecies().equals(TreeType.TREE) || e.getSpecies().equals(TreeType.BIG_TREE))) {
 				if(treeRandom.nextInt(100) < 100 / ConfigUtil.treeGrowthMultiplier) {
 					e.getLocation().getBlock().setType(Material.AIR);
-					ThreadedTreeUtil.plantLargeTree(CustomTreeType.GIANT_OAK, e.getLocation(), treeRandom);
+					Tree.GIANT_OAK.plant(e.getLocation(), treeRandom, false, main);
 				}
 				e.setCancelled(true);
 			} else if((WorldConfig.fromWorld(e.getWorld()).bigTreeSaplingWorld || ConfigUtil.generateBigTreesEverywhere || EndBiomeGrid.fromWorld(e.getWorld()).getBiome(e.getLocation()).equals(EndBiome.AETHER_HIGHLANDS_FOREST)) && (e.getSpecies().equals(TreeType.TALL_REDWOOD) || e.getSpecies().equals(TreeType.REDWOOD) || e.getSpecies().equals(TreeType.MEGA_REDWOOD))) {
 				if(treeRandom.nextInt(100) < 100 / ConfigUtil.treeGrowthMultiplier) {
 					e.getLocation().getBlock().setType(Material.AIR);
-					ThreadedTreeUtil.plantLargeTree(CustomTreeType.GIANT_SPRUCE, e.getLocation(), treeRandom);
+					Tree.GIANT_SPRUCE.plant(e.getLocation(), treeRandom, false, main);
 				}
 				e.setCancelled(true);
 			}

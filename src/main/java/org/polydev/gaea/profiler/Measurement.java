@@ -71,11 +71,7 @@ public class Measurement {
     }
 
     public double getStdDev() {
-        double[] vals = new double[measurements.size()];
-        for(int i = 0; i < measurements.size(); i++) {
-            vals[i] = measurements.get(i);
-        }
-        return MathUtil.standardDeviation(vals);
+        return MathUtil.standardDeviation(measurements.toArray(new Double[] {}));
     }
 
     public int entries() {

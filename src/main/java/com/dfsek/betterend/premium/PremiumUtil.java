@@ -1,4 +1,4 @@
-package com.dfsek.betterend.util;
+package com.dfsek.betterend.premium;
 
 public class PremiumUtil {
     private PremiumUtil() {

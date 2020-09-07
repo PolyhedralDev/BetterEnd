@@ -65,7 +65,7 @@ structures:
       GOLD_DUNGEON: 1
     AETHER_HIGHLANDS_FOREST:
       AETHER_RUIN: 75
-      WOOD_HOUSE: 12
+      SPRUCE_WOOD_HOUSE: 12
       COBBLE_HOUSE: 12
       GOLD_DUNGEON: 1
     VOID: {}
@@ -109,6 +109,19 @@ structures:
       END_SHIP: 1
       STRONGHOLD: 14
   custom: {}
+
+ores:
+  generate-ores: true
+  attempts: 20
+  biomes:
+    AETHER:
+      COAL_ORE: [40, 85]
+      IRON_ORE: [25, 50]
+      GOLD_ORE: [10, 50]
+      REDSTONE_ORE: [10, 65]
+      LAPIS_ORE: [10, 75]
+      DIAMOND_ORE: [3, 50]
+      EMERALD_ORE: [2, 40]
 
 boss:
   # Enable/disable the MythicMobs boss fight

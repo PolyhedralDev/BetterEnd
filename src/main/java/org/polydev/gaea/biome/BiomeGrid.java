@@ -14,39 +14,33 @@ public abstract class BiomeGrid {
     public BiomeGrid(World w, float freq1, float freq2) {
         this.world = w;
         this.biome = new FastNoise((int) w.getSeed());
-        this.biome.setNoiseType(FastNoise.NoiseType.ValueFractal);
-        this.biome.setFractalOctaves(4);
+        this.biome.setNoiseType(FastNoise.NoiseType.Value);
         this.biome.setFrequency(freq1);
         this.climate = new FastNoise((int) w.getSeed() + 1);
-        this.climate.setNoiseType(FastNoise.NoiseType.ValueFractal);
-        this.climate.setFractalOctaves(4);
+        this.climate.setNoiseType(FastNoise.NoiseType.Value);
         this.climate.setFrequency(freq2);
     }
 
     public BiomeGrid(int seed) {
         this.world = null;
         this.biome = new FastNoise(seed);
-        this.biome.setNoiseType(FastNoise.NoiseType.ValueFractal);
-        this.biome.setFractalOctaves(4);
-        this.biome.setFrequency((float) 1 / 512);
+        this.biome.setNoiseType(FastNoise.NoiseType.Value);
+        this.biome.setFrequency((float) 1 / 256);
         this.climate = new FastNoise(seed + 1);
-        this.climate.setNoiseType(FastNoise.NoiseType.ValueFractal);
-        this.climate.setFractalOctaves(4);
-        this.climate.setFrequency((float) 1 / 384);
+        this.climate.setNoiseType(FastNoise.NoiseType.Value);
+        this.climate.setFrequency((float) 1 / 128);
     }
 
     /**
-     * Takes a noise input and normalizes it to a value between 0 and 7 inclusive.
+     * Takes a noise input and normalizes it to a value between 0 and 15 inclusive.
      *
      * @param i - The noise value to normalize.
      * @return int - The normalized value.
      */
     private static int normalize(double i) {
-        i *= 17; //accounts for noise being distributed inequally
-        if(i > 7.5) i = 7.5; //cuts off values too high
-        if(i < - 7.5) i = - 7.5; //cuts off values too low
-        i += 7.5; //makes it positive
-        return (int) Math.floor(i);
+        if(i > 0) i = Math.pow(i, 0.8125); // Redistribute
+        else i = -Math.pow(-i, 0.8125); // Redistribute
+        return Math.min((int) Math.floor((i+1)*8), 15);
     }
 
     public void setGrid(Biome[][] grid) {
@@ -61,8 +55,8 @@ public abstract class BiomeGrid {
      * @return Biome - Biome at the given coordinates.
      */
     public Biome getBiome(int x, int z) {
-        float biomeNoise = biome.getValueFractal((float) x, (float) z);
-        float climateNoise = climate.getValueFractal((float) x, (float) z);
+        float biomeNoise = biome.getValue((float) x, (float) z);
+        float climateNoise = climate.getValue((float) x, (float) z);
         return grid[normalize(biomeNoise)][normalize(climateNoise)];
     }
 

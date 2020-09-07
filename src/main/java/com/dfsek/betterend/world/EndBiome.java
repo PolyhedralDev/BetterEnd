@@ -61,6 +61,7 @@ public enum EndBiome implements Biome {
 		this.decorator = d;
 	}
 
+
 	/**
 	 * Checks whether or not the Biome is a variant of the Aether.
 	 *
