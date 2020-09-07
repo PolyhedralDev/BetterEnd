@@ -58,7 +58,7 @@ public abstract class Worm {
 
         private static int getChunkCoordinate(int n) {
             if(n >= 0) return n % 16;
-            else return 15-(Math.abs(n) % 16);
+            else return 15-(Math.abs(n % 16));
         }
 
         private static double ellipseEquation(int x, int y, int z, int xr, int yr, int zr) {
@@ -74,12 +74,13 @@ public abstract class Worm {
         }
 
         public void carve(CarvingData data, int chunkX, int chunkZ) {
+            if(Math.abs(origin.getBlockX()/16 - chunkX) > 1 && Math.abs(origin.getBlockZ()/16 - chunkZ) > 1) return;
             for(int x = - getRadius(0); x <= getRadius(0); x++) {
                 for(int y = - getRadius(1); y <= getRadius(1); y++) {
                     for(int z = - getRadius(2); z <= getRadius(2); z++) {
                         Vector position = origin.clone().add(new Vector(x, y, z));
                         if(ellipseEquation(x, y, z, getRadius(0), getRadius(1), getRadius(2)) <= 1) {
-                            if(position.getBlockX()/16 == chunkX && position.getBlockZ()/16 == chunkZ && position.getY() >= 0) data.carve(getChunkCoordinate(position.getBlockX()), position.getBlockY(), getChunkCoordinate(position.getBlockZ()) % 16);
+                            if(Math.floor((double)(position.getBlockX())/16) == chunkX && Math.floor((double)(position.getBlockZ())/16) == chunkZ && position.getY() >= 0) data.carve(position.getBlockX() - (chunkX*16), position.getBlockY(), position.getBlockZ() - (chunkZ*16));
                         }
                     }
                 }
