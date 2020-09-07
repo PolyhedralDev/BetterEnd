@@ -50,6 +50,7 @@ public class WorldConfig {
     public boolean genMainIsland;
     public int islandHeight;
     public int oreAttempts;
+    public boolean enableCaves;
     private Map<String, Object> biomeReplacements = new HashMap<>();
     public Map<EndBiome, ProbabilityCollection<Ore>> ores = new HashMap<>();
 
@@ -108,6 +109,7 @@ public class WorldConfig {
         genMainIsland = config.getBoolean("terrain.main-island", true);
         islandHeight = config.getInt("terrain.ground-level", 64);
         oreAttempts = config.getInt("ores.attempts", 10);
+        enableCaves = config.getBoolean("caves.enable", false);
 
         // Define ores
         Map<String, Object> oreBiomes = config.getConfigurationSection("ores.biomes").getValues(false);

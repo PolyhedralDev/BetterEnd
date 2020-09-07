@@ -14,12 +14,15 @@ public class TestBiomeDistribution {
         long t = System.nanoTime();
         System.out.println("*-----------------------------------------*");
         Map<EndBiome, Integer> map = new HashMap<>();
+        for(EndBiome b : EndBiome.values()) {
+            map.put(b, 0);
+        }
         EndBiomeGrid grid = new EndBiomeGrid(ThreadLocalRandom.current().nextInt());
         for(int x = 0; x < 1000000; x++) {
             for(int z = 0; z < 1; z++) {
                 long l = System.nanoTime();
                 EndBiome b = grid.getBiome(x, z);
-                if(x % 1000 == 0) System.out.println("Biome retrieved in " + (System.nanoTime() - l) + "ns");
+                if(x % 100000 == 0) System.out.println("Biome retrieved in " + (System.nanoTime() - l) + "ns");
                 map.put(b, map.getOrDefault(b, 0) + 1);
             }
         }
@@ -31,7 +34,6 @@ public class TestBiomeDistribution {
             }
             System.out.println();
         }
-        System.out.println(Math.min((int) Math.floor((Math.pow(-0.5, 1.001)+1D)*8), 15));
         System.out.println("*-----------------------------------------*");
         for(Map.Entry<EndBiome, Integer> e : map.entrySet()) {
             System.out.println(e.getKey().toString() + ": " + e.getValue());

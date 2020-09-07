@@ -1,5 +1,6 @@
 package com.dfsek.betterend.world;
 
+import com.dfsek.betterend.config.ConfigUtil;
 import com.dfsek.betterend.config.WorldConfig;
 import com.dfsek.betterend.premium.PremiumUtil;
 import org.bukkit.Location;
@@ -17,7 +18,7 @@ public class EndBiomeGrid extends BiomeGrid {
     //Y = Biome type, X = "climate"
     //Holds 16x16 biomes
     private final EndBiome[][] grid = new EndBiome[][] {
-            {EndBiome.AETHER_FOREST, EndBiome.AETHER_FOREST, EndBiome.AETHER, EndBiome.AETHER, EndBiome.AETHER, EndBiome.AETHER, EndBiome.AETHER, EndBiome.AETHER, EndBiome.AETHER_HIGHLANDS_BORDER, EndBiome.AETHER_HIGHLANDS, EndBiome.AETHER_HIGHLANDS, EndBiome.AETHER_HIGHLANDS, EndBiome.AETHER_HIGHLANDS, EndBiome.AETHER_HIGHLANDS, EndBiome.AETHER_HIGHLANDS_FOREST, EndBiome.AETHER_HIGHLANDS_FOREST},
+            {EndBiome.AETHER_FOREST, EndBiome.AETHER_FOREST, EndBiome.AETHER_FOREST, EndBiome.AETHER, EndBiome.AETHER, EndBiome.AETHER, EndBiome.AETHER, EndBiome.AETHER, EndBiome.AETHER_HIGHLANDS_BORDER, EndBiome.AETHER_HIGHLANDS, EndBiome.AETHER_HIGHLANDS, EndBiome.AETHER_HIGHLANDS, EndBiome.AETHER_HIGHLANDS, EndBiome.AETHER_HIGHLANDS_FOREST, EndBiome.AETHER_HIGHLANDS_FOREST, EndBiome.AETHER_HIGHLANDS_FOREST},
             {EndBiome.AETHER_FOREST, EndBiome.AETHER_FOREST, EndBiome.AETHER, EndBiome.AETHER, EndBiome.AETHER, EndBiome.AETHER, EndBiome.AETHER, EndBiome.AETHER, EndBiome.AETHER_HIGHLANDS_BORDER, EndBiome.AETHER_HIGHLANDS, EndBiome.AETHER_HIGHLANDS, EndBiome.AETHER_HIGHLANDS, EndBiome.AETHER_HIGHLANDS, EndBiome.AETHER_HIGHLANDS, EndBiome.AETHER_HIGHLANDS_FOREST, EndBiome.AETHER_HIGHLANDS_FOREST},
             {EndBiome.AETHER_FOREST, EndBiome.AETHER, EndBiome.AETHER, EndBiome.AETHER, EndBiome.AETHER, EndBiome.AETHER, EndBiome.AETHER, EndBiome.AETHER, EndBiome.AETHER_HIGHLANDS_BORDER, EndBiome.AETHER_HIGHLANDS, EndBiome.AETHER_HIGHLANDS, EndBiome.AETHER_HIGHLANDS, EndBiome.AETHER_HIGHLANDS, EndBiome.AETHER_HIGHLANDS, EndBiome.AETHER_HIGHLANDS, EndBiome.AETHER_HIGHLANDS_FOREST},
             {EndBiome.AETHER, EndBiome.AETHER, EndBiome.AETHER, EndBiome.AETHER, EndBiome.AETHER, EndBiome.AETHER, EndBiome.AETHER, EndBiome.AETHER, EndBiome.AETHER_HIGHLANDS_BORDER, EndBiome.AETHER_HIGHLANDS, EndBiome.AETHER_HIGHLANDS, EndBiome.AETHER_HIGHLANDS, EndBiome.AETHER_HIGHLANDS, EndBiome.AETHER_HIGHLANDS, EndBiome.AETHER_HIGHLANDS, EndBiome.AETHER_HIGHLANDS},
@@ -29,10 +30,10 @@ public class EndBiomeGrid extends BiomeGrid {
             {EndBiome.END, EndBiome.END, EndBiome.END, EndBiome.END, EndBiome.END, EndBiome.END, EndBiome.END, EndBiome.END, EndBiome.END, EndBiome.END, EndBiome.END, EndBiome.END, EndBiome.END, EndBiome.END, EndBiome.END, EndBiome.END},
             {EndBiome.END, EndBiome.END, EndBiome.END, EndBiome.END, EndBiome.END, EndBiome.END, EndBiome.END, EndBiome.END, EndBiome.END, EndBiome.END, EndBiome.END, EndBiome.END, EndBiome.END, EndBiome.END, EndBiome.END, EndBiome.END},
             {EndBiome.END, EndBiome.END, EndBiome.END, EndBiome.END, EndBiome.END, EndBiome.END, EndBiome.END, EndBiome.END, EndBiome.END, EndBiome.END, EndBiome.END, EndBiome.END, EndBiome.END, EndBiome.END, EndBiome.END, EndBiome.END},
+            {EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_FOREST, EndBiome.SHATTERED_FOREST, EndBiome.SHATTERED_FOREST},
             {EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_FOREST, EndBiome.SHATTERED_FOREST, EndBiome.SHATTERED_FOREST, EndBiome.SHATTERED_FOREST},
             {EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_FOREST, EndBiome.SHATTERED_FOREST, EndBiome.SHATTERED_FOREST, EndBiome.SHATTERED_FOREST, EndBiome.SHATTERED_FOREST},
-            {EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_FOREST, EndBiome.SHATTERED_FOREST, EndBiome.SHATTERED_FOREST, EndBiome.SHATTERED_FOREST, EndBiome.SHATTERED_FOREST, EndBiome.SHATTERED_FOREST},
-            {EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_FOREST, EndBiome.SHATTERED_FOREST, EndBiome.SHATTERED_FOREST, EndBiome.SHATTERED_FOREST, EndBiome.SHATTERED_FOREST, EndBiome.SHATTERED_FOREST, EndBiome.SHATTERED_FOREST}};
+            {EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_FOREST, EndBiome.SHATTERED_FOREST, EndBiome.SHATTERED_FOREST, EndBiome.SHATTERED_FOREST, EndBiome.SHATTERED_FOREST, EndBiome.SHATTERED_FOREST}};
 
     public EndBiomeGrid(World w) {
         super(w, 1f / WorldConfig.fromWorld(w).biomeSize, 1f / WorldConfig.fromWorld(w).climateSize);
@@ -72,7 +73,7 @@ public class EndBiomeGrid extends BiomeGrid {
     }
 
     public void replaceInGrid(EndBiome from, EndBiome to) {
-        System.out.println("Replacing " + from + " with " + to);
+        if(ConfigUtil.debug) System.out.println("Replacing " + from + " with " + to);
         for(int i = 0; i < grid.length; i++) {
             for(int j = 0; j < grid[i].length; j++) {
                 if(grid[i][j].equals(from)) grid[i][j] = to;

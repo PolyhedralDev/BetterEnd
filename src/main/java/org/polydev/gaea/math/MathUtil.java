@@ -11,7 +11,7 @@ public class MathUtil {
      * @param numArray The array of numbers to calculate the standard deviation of.
      * @return double - The standard deviation.
      */
-    public static double standardDeviation(Double[] numArray) {
+    public static double standardDeviation(double[] numArray) {
         double sum = 0.0, standardDeviation = 0.0;
         int length = numArray.length;
 

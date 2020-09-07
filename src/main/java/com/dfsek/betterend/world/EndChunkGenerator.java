@@ -1,5 +1,6 @@
 package com.dfsek.betterend.world;
 
+import com.dfsek.betterend.config.ConfigUtil;
 import com.dfsek.betterend.config.WorldConfig;
 import com.dfsek.betterend.population.FaunaPopulator;
 import com.dfsek.betterend.population.OrePopulator;
@@ -41,7 +42,7 @@ public class EndChunkGenerator extends GaeaChunkGenerator {
                 }
             }
         }
-        return new CaveCarver(50, 12, config.islandHeight+16, 3).carve(chunkX, chunkZ, world).merge(chunk, false);
+        return config.enableCaves ? new CaveCarver(50, 12, config.islandHeight+16, 3).carve(chunkX, chunkZ, world).merge(chunk, false) : chunk;
     }
 
     @Override
@@ -66,7 +67,7 @@ public class EndChunkGenerator extends GaeaChunkGenerator {
 
     @Override
     public boolean shouldGenerateStructures() {
-        return false;
+        return ConfigUtil.endCities;
     }
 
     @Override
@@ -86,7 +87,7 @@ public class EndChunkGenerator extends GaeaChunkGenerator {
 
     @Override
     public boolean isParallelCapable() {
-        return false;
+        return ConfigUtil.parallel;
     }
 
     @NotNull

@@ -122,6 +122,33 @@ ores:
       LAPIS_ORE: [10, 75]
       DIAMOND_ORE: [3, 50]
       EMERALD_ORE: [2, 40]
+    AETHER_HIGHLANDS:
+      COAL_ORE: [40, 85]
+      IRON_ORE: [25, 50]
+      GOLD_ORE: [10, 50]
+      REDSTONE_ORE: [10, 65]
+      LAPIS_ORE: [10, 75]
+      DIAMOND_ORE: [3, 50]
+      EMERALD_ORE: [2, 40]
+    AETHER_FOREST:
+      COAL_ORE: [40, 85]
+      IRON_ORE: [25, 50]
+      GOLD_ORE: [10, 50]
+      REDSTONE_ORE: [10, 65]
+      LAPIS_ORE: [10, 75]
+      DIAMOND_ORE: [3, 50]
+      EMERALD_ORE: [2, 40]
+    AETHER_HIGHLANDS_FOREST:
+      COAL_ORE: [40, 85]
+      IRON_ORE: [25, 50]
+      GOLD_ORE: [10, 50]
+      REDSTONE_ORE: [10, 65]
+      LAPIS_ORE: [10, 75]
+      DIAMOND_ORE: [3, 50]
+      EMERALD_ORE: [2, 40]
+
+caves:
+  enable: false
 
 boss:
   # Enable/disable the MythicMobs boss fight

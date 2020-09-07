@@ -14,6 +14,7 @@ public class ConfigUtil {
     public static boolean generateBigTreesEverywhere;
     public static int treeGrowthMultiplier;
     public static boolean parallel;
+    public static boolean endCities;
 
     private ConfigUtil() {
     }
@@ -27,10 +28,11 @@ public class ConfigUtil {
         lang = config.getString("lang", "en_us");
         debug = config.getBoolean("debug", false);
         doUpdateCheck = config.getBoolean("update-checker.enable", true);
-        updateCheckFrequency = config.getLong("update-checker.frequency", 3600L);
+        updateCheckFrequency = config.getLong("update-checker.frequency", 21600L);
         generateBigTreesEverywhere = config.getBoolean("big-trees-everywhere", false);
         treeGrowthMultiplier = config.getInt("tree-sapling-growth-modifier", 8);
         parallel = config.getBoolean("parallel", true);
+        endCities = config.getBoolean("generate-end-cities", false);
 
 
         LangUtil.loadlang(lang, logger);

@@ -71,7 +71,12 @@ public class Measurement {
     }
 
     public double getStdDev() {
-        return MathUtil.standardDeviation(measurements.toArray(new Double[] {}));
+        List<Long> mTemp = new ArrayList<>(measurements);
+        double[] vals = new double[mTemp.size()];
+        for(int i = 0; i < mTemp.size(); i++) {
+            vals[i] = mTemp.get(i);
+        }
+        return MathUtil.standardDeviation(vals);
     }
 
     public int entries() {

@@ -67,8 +67,8 @@ public abstract class BiomeGrid {
      * @return Biome - Biome at the given coordinates.
      */
     public Biome getBiome(Location l) {
-        float biomeNoise = biome.getValueFractal((float) l.getBlockX(), (float) l.getBlockZ());
-        float climateNoise = climate.getValueFractal((float) l.getBlockX(), (float) l.getBlockZ());
+        float biomeNoise = biome.getValue((float) l.getBlockX(), (float) l.getBlockZ());
+        float climateNoise = climate.getValue((float) l.getBlockX(), (float) l.getBlockZ());
         return grid[normalize(biomeNoise)][normalize(climateNoise)];
     }
 

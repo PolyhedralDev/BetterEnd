@@ -8,8 +8,8 @@ config-version: 1
 update-checker:
   # Enable/disable the update checker.
   enable: true
-  # The frequency (in seconds) to check for updates
-  frequency: 3600
+  # The frequency (in seconds) to check for updates (21600 = 6 hours)
+  frequency: 21600
 
 # The language in which to display plugin messages
 lang: en_us
