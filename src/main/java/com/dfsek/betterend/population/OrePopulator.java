@@ -32,7 +32,7 @@ public class OrePopulator extends BlockPopulator {
                 continue;
             }
 
-            y = random.nextInt(config.islandHeight+config.islandHeightMultiplierTop);
+            y = random.nextInt(config.islandHeight-config.islandHeightMultiplierBottom+1)+config.islandHeightMultiplierBottom;
             if(y > 1) {
                 doVein(world, chunk, random, new int[]{x, y, z}, ore.getType(), ore.getContChance());
             }

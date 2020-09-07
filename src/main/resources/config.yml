@@ -14,15 +14,16 @@ update-checker:
 # The language in which to display plugin messages
 lang: en_us
 
-
 # Enables/disables generation of custom trees in all worlds
 big-trees-everywhere: false;
 
 # How much longer should it take to grow a big tree?
 tree-sapling-growth-modifier: 8
 
-parallel: true;
+# Whether to use parallel generation
+parallel: true
 
+# Whether to generate Vanilla End Cities. It is not recommended to enable this.
 generate-end-cities: false
 
 # Enable/disable debug mode

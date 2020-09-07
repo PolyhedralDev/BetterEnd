@@ -12,6 +12,9 @@ import org.polydev.gaea.structures.features.BlockReplaceFeature;
 import org.polydev.gaea.structures.features.EntityFeature;
 import org.polydev.gaea.structures.features.Feature;
 import org.polydev.gaea.structures.features.LootFeature;
+import org.polydev.gaea.structures.spawn.AirSpawn;
+import org.polydev.gaea.structures.spawn.GroundSpawn;
+import org.polydev.gaea.structures.spawn.StructureSpawnInfo;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -61,12 +64,23 @@ public class CustomStructuresUtil {
                 } else {
                     if(ConfigUtil.debug) main.getLogger().info("No features to load. ");
                 }
+                StructureSpawnInfo spawn = new GroundSpawn(1);
+                if(strucConfig.containsKey("spawn")) {
+                    Map<String, Object> spawnMap = ((ConfigurationSection) strucConfig.get("spawn")).getValues(false);
+                    switch(((String) spawnMap.get("type")).toUpperCase()) {
+                        case "GROUND":
+                            spawn = new GroundSpawn((int) spawnMap.get("offset"));
+                            break;
+                        case "AIR":
+                            spawn = new AirSpawn((int) spawnMap.get("height"), (int) spawnMap.get("offset"));
+                    }
+                }
 
-                custom.put(name, new UserDefinedStructure(name, new File(main.getDataFolder() + File.separator + "structures" + File.separator + filename),  structureFeatures));
+                custom.put(name, new UserDefinedStructure(name, new File(main.getDataFolder() + File.separator + "structures" + File.separator + filename),  structureFeatures, spawn));
             } catch(IllegalArgumentException ex) {
                 ex.printStackTrace();
                 main.getLogger().severe("No such structure found in custom structures: " + current);
-            } catch(ClassCastException ex) {
+            } catch(ClassCastException | NullPointerException ex) {
                 ex.printStackTrace();
                 main.getLogger().severe("SEVERE structure configuration error for: " + current);
             }

@@ -3,7 +3,6 @@ package org.polydev.gaea.structures;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.polydev.gaea.structures.features.Feature;
-import org.polydev.gaea.structures.spawn.GroundSpawn;
 import org.polydev.gaea.structures.spawn.StructureSpawnInfo;
 
 import java.io.File;
@@ -18,10 +17,12 @@ public class UserDefinedStructure implements Structure {
     private static final Map<UserDefinedStructure, Object> nmsContainer = new HashMap<>();
     private final String id;
     private final List<Feature> features;
+    private final StructureSpawnInfo spawnInfo;
 
-    public UserDefinedStructure(String id, File location, List<Feature> features) {
+    public UserDefinedStructure(String id, File location, List<Feature> features, StructureSpawnInfo spawnInfo) {
         this.id = id;
         this.features = features;
+        this.spawnInfo = spawnInfo;
         try {
             nmsContainer.put(this, NMSStructure.getAsTag(new FileInputStream(location)));
         } catch(FileNotFoundException e) {
@@ -46,7 +47,7 @@ public class UserDefinedStructure implements Structure {
 
     @Override
     public StructureSpawnInfo getSpawnInfo() {
-        return new GroundSpawn(1);
+        return spawnInfo;
     }
 
     @Override

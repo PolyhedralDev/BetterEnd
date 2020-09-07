@@ -14,9 +14,9 @@ public class EndProfiler extends WorldProfiler {
         super(w);
         this.addMeasurement(new Measurement(2500000, DataType.PERIOD_MILLISECONDS), "TotalChunkGenTime")
                 .addMeasurement(new Measurement(2500000, DataType.PERIOD_MILLISECONDS), "ChunkBaseGenTime")
-                .addMeasurement(new Measurement(150000, DataType.PERIOD_MILLISECONDS), "BiomeSetTime")
-                .addMeasurement(new Measurement(17500000, DataType.PERIOD_MILLISECONDS), "TreeGenTime")
-                .addMeasurement(new Measurement(100000000, DataType.PERIOD_MILLISECONDS), "StructureGenTime")
+                .addMeasurement(new Measurement(2000000, DataType.PERIOD_MILLISECONDS), "BiomeSetTime")
+                .addMeasurement(new Measurement(25000000, DataType.PERIOD_MILLISECONDS), "TreeGenTime")
+                .addMeasurement(new Measurement(150000000, DataType.PERIOD_MILLISECONDS), "StructureGenTime")
                 .addMeasurement(new Measurement(3000000, DataType.PERIOD_MILLISECONDS), "StructureFeatureTime")
                 .addMeasurement(new Measurement(1500000, DataType.PERIOD_MILLISECONDS), "SnowTime")
                 .addMeasurement(new Measurement(1500000, DataType.PERIOD_MILLISECONDS), "FaunaTime")

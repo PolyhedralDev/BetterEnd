@@ -28,9 +28,7 @@ import java.util.Objects;
 public class WorldConfig {
     private static final Map<String, WorldConfig> configs = new HashMap<>();
     private static JavaPlugin main;
-    private final String worldName;
     public boolean initialized = false;
-    private FileConfiguration config;
     public boolean endermanBlockPickup;
     public boolean bigTreeSaplingBiomes;
     public boolean bigTreeSaplingWorld;
@@ -56,7 +54,6 @@ public class WorldConfig {
 
     public WorldConfig(String w, JavaPlugin main) {
         WorldConfig.main = main;
-        this.worldName = w;
         load(w);
     }
 
@@ -80,7 +77,8 @@ public class WorldConfig {
         FileConfiguration config = new YamlConfiguration();
         try {
             File configFile = new File(main.getDataFolder() + File.separator + "worlds", w + ".yml");
-            if(! configFile.exists() && configFile.getParentFile().mkdirs()) {
+            if(! configFile.exists()) {
+                configFile.getParentFile().mkdirs();
                 main.getLogger().info("Configuration for world \"" + w + "\" not found. Copying default config.");
                 FileUtils.copyInputStreamToFile(Objects.requireNonNull(main.getResource("world.yml")), configFile);
             }
@@ -89,7 +87,6 @@ public class WorldConfig {
             e.printStackTrace();
             main.getLogger().severe("Unable to load configuration for world " + w + ".");
         }
-        this.config = config;
         endermanBlockPickup = config.getBoolean("disable-enderman-block-pickup-aether", true);
         bigTreeSaplingBiomes = config.getBoolean("trees.fractal-trees.from-saplings.in-biomes", true);
         bigTreeSaplingWorld = config.getBoolean("trees.fractal-trees.from-saplings.in-world", true);
@@ -97,7 +94,7 @@ public class WorldConfig {
         mythicBossName = config.getString("boss.gold-name", "SkeletonKing");
         overworld = config.getBoolean("overworld", false);
         bossRespawnTime = Duration.parse(Objects.requireNonNull(config.getString("boss.respawn-time", "P14D"))).toMillis();
-        System.out.println("Boss respawn time parsed to " + bossRespawnTime + "ms for " + w);
+        if(ConfigUtil.debug) System.out.println("Boss respawn time parsed to " + bossRespawnTime + "ms for " + w);
         islandHeightMultiplierBottom = config.getInt("terrain.height.bottom", 32);
         islandHeightMultiplierTop = config.getInt("terrain.height.top", 6);
         octaves = config.getInt("terrain.noise.octaves", 5);

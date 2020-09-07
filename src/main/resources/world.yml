@@ -8,12 +8,14 @@ terrain:
     island-size: 96
   height:
     top: 6
-    bottom: 32
+    bottom: 36
   ground-level: 64
   main-island: true
   biomes:
     size: 1024
     climate-distribution: 512
+    # Options to enable/disable biomes.
+    # To disable a biome, replace it with another one.
     replacements:
       AETHER: AETHER
       AETHER_HIGHLANDS: AETHER_HIGHLANDS
@@ -27,6 +29,8 @@ terrain:
       STARFIELD: STARFIELD
       END: END
       SHATTERED_END: SHATTERED_END
+      # The line below demonstrates how a biome replacement would be done. In that scenario, all Shattered End biomes would be replaced with End.
+      #SHATTERED_END: END
       SHATTERED_FOREST: SHATTERED_FOREST
 
 disable-enderman-block-pickup-aether: true
@@ -34,25 +38,38 @@ disable-enderman-block-pickup-aether: true
 # Configuration for players falling to overworld (Premium only)
 fall:
   fall-to-overworld:
+    # Enables/disables players falling to the Overworld from Aether biomes.
     enable-aether: true
+    # Enables/disables players falling to the overworld everywhere.
     enable-everywhere: false
 
-overworld: false
-
+# Fractal tree configuration (Premium only)
 trees:
   fractal-trees:
+    # Settings for growing Fractal Trees from saplings. If you wish to grow them in all worlds, a setting is available in the master config.
     from-sapings:
+      # Grows trees from saplings in their respective biomes (Giant Spruce in Aether Highlands Forest, and Giant Oak in Aether Forest)
       in-biomes: true
+      # Grows trees from saplings in the entire world.
       in-world: false
 
 structures:
-  chance-per-chunk: 50
+  chance-per-chunk: 20
+  # Defines the distribution of structures in biomes.
   distribution:
+    # Biome ID. Valid IDs are AETHER, AETHER_HIGHLANDS, AETHER_FOREST, AETHER_HIGHLANDS_FOREST, VOID_AETHER_BORDER, VOID_AETHER_HIGHLANDS_BORDER, AETHER_HIGHLANDS_BORDER, VOID, VOID_END_BORDER, STARFIELD, END, SHATTERED_END, and SHATTERED_FOREST.
     AETHER:
+      # STRUCTURE_NAME: WEIGHT
+      # Included structure names are: AETHER_RUIN, COBBLE_HOUSE, END_HOUSE, END_RUIN, END_SHIP, END_TOWER, SHULKER_NEST, SPRUCE_WOOD_HOUSE, STRONGHOLD, VOID_STAR, GOLD_DUNGEON, WOOD_HOUSE, and WRECKED_END_SHIP
+      # If you have defined custom structures, the ID of any custom structure defined for this world may also be used.
+      # Weight is the relative probability of a structure generating. For example, if there are 2 structures defined for a biome, each with a weight of 1, then there is a 50% chance that each generates.
+      # If one has a weight of 1, and the other's weight is 2, then there is a 33.3% chance of the first generating, and a 66.7% chance for the second.
       AETHER_RUIN: 75
       WOOD_HOUSE: 12
       COBBLE_HOUSE: 12
       GOLD_DUNGEON: 1
+      # The line below would add the example custom structure (shown below) to the Aether, with a weight of 10.
+      #EXAMPLE: 10
     AETHER_HIGHLANDS:
       AETHER_RUIN: 75
       SPRUCE_WOOD_HOUSE: 12
@@ -100,6 +117,7 @@ structures:
       END_SHIP: 1
       SHULKER_NEST: 10
       STRONGHOLD: 12
+      WRECKED_END_SHIP: 1
     SHATTERED_END:
       END_RUIN: 85
       END_SHIP: 1
@@ -108,11 +126,37 @@ structures:
       END_RUIN: 85
       END_SHIP: 1
       STRONGHOLD: 14
+  # Custom structure definitions.
+  # Structures defined here may be used in the above biome configuration section, by adding the ID to the biome list. See the commented line in the Aether's structure definitions.
+  # Example definition demonstrating all available features:
+  #
+  #custom:
+  #  EXAMPLE:
+  #    name: "example.nbt"
+  #    spawn:
+  #      type: GROUND
+  #      offset: 1
+  #    features:
+  #      block_replace:
+  #        material: COBWEB
+  #        percent: 50.0
+  #      spawn_mob:
+  #        type: SHEEP
+  #        min: 1
+  #        max: 3
+  #      loot:
+  #        name: "exampleLoot.json"
   custom: {}
 
 ores:
+  # Whether to generate ores in the world.
   generate-ores: true
-  attempts: 20
+  # The number of attempts to make in each chunk.
+  attempts: 30
+  # Ore settings in biomes
+  # ORE_MATERIAL: [WEIGHT, VEIN_SIZE]
+  # Similar to structure definitions. Ores can be defined for all biomes, not just Aether ones!
+  # Note that vein sizes over 100 result in theoretically infinitely large veins, therefore it is recommended to keep vein size under 95.
   biomes:
     AETHER:
       COAL_ORE: [40, 85]
@@ -148,6 +192,7 @@ ores:
       EMERALD_ORE: [2, 40]
 
 caves:
+  # Whether to enable the new cave system.
   enable: false
 
 boss:
