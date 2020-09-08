@@ -14,6 +14,7 @@ import org.polydev.gaea.biome.Biome;
 import org.polydev.gaea.generation.GaeaChunkGenerator;
 import org.polydev.gaea.generation.GenerationPopulator;
 import org.polydev.gaea.math.FastNoise;
+import org.polydev.gaea.math.InterpolationType;
 import org.polydev.gaea.world.carving.CaveCarver;
 
 import java.util.Arrays;
@@ -24,6 +25,7 @@ import java.util.Random;
 public class EndChunkGenerator extends GaeaChunkGenerator {
     private final boolean dec;
     public EndChunkGenerator(String world) {
+        super(InterpolationType.BILINEAR);
         WorldConfig config = WorldConfig.fromWorld(world);
         dec = config.genMainIsland;
     }

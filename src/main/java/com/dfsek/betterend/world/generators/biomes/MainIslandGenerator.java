@@ -26,6 +26,11 @@ public class MainIslandGenerator extends BiomeTerrain {
         return ((gen.getSimplexFractal(x, z) + 0.75) / 1.25) * (Math.sqrt(- (Math.pow(x, 2) + Math.pow(z, 2)) + 10000)) / 96;
     }
 
+    @Override
+    public double getNoise(FastNoise fastNoise, int i, int i1, int i2) {
+        return getNoise(fastNoise, i, i1);
+    }
+
     /**
      * Gets the BlocPalette to generate the biome with.
      *

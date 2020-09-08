@@ -20,6 +20,10 @@ public class AetherGenerator extends BiomeTerrain {
     public double getNoise(FastNoise gen, int x, int z) {
         return gen.getSimplexFractal(x, z);
     }
+    @Override
+    public double getNoise(FastNoise fastNoise, int i, int i1, int i2) {
+        return getNoise(fastNoise, i, i1);
+    }
 
     @Override
     public BlockPalette getPalette() {

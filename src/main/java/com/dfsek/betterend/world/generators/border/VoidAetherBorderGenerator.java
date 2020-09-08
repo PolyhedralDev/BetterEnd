@@ -22,6 +22,11 @@ public class VoidAetherBorderGenerator extends BiomeTerrain {
     }
 
     @Override
+    public double getNoise(FastNoise fastNoise, int i, int i1, int i2) {
+        return getNoise(fastNoise, i, i1);
+    }
+
+    @Override
     public BlockPalette getPalette() {
         return this.palette;
     }
