@@ -3,13 +3,13 @@ package com.dfsek.betterend.config;
 import com.dfsek.betterend.population.structures.EndStructure;
 import com.dfsek.betterend.premium.CustomStructuresUtil;
 import com.dfsek.betterend.world.EndBiome;
+import org.apache.commons.io.FileUtils;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.craftbukkit.libs.org.apache.commons.io.FileUtils;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.polydev.gaea.biome.Biome;
 import org.polydev.gaea.math.ProbabilityCollection;
@@ -49,6 +49,7 @@ public class WorldConfig {
     public int islandHeight;
     public int oreAttempts;
     public boolean enableCaves;
+    public int outerRadius;
     private Map<String, Object> biomeReplacements = new HashMap<>();
     public Map<EndBiome, ProbabilityCollection<Ore>> ores = new HashMap<>();
 
@@ -69,6 +70,13 @@ public class WorldConfig {
             configs.put(w.getName(), new WorldConfig(w.getName(), main));
         }
         return configs.get(w.getName());
+    }
+
+    public static WorldConfig fromWorld(String w) {
+        if(!configs.containsKey(w)) {
+            configs.put(w, new WorldConfig(w, main));
+        }
+        return configs.get(w);
     }
 
     public void load(String w) {
@@ -107,6 +115,7 @@ public class WorldConfig {
         islandHeight = config.getInt("terrain.ground-level", 64);
         oreAttempts = config.getInt("ores.attempts", 10);
         enableCaves = config.getBoolean("caves.enable", false);
+        outerRadius = config.getInt("terrain.outer-end-radius", 1000);
 
         // Define ores
         Map<String, Object> oreBiomes = config.getConfigurationSection("ores.biomes").getValues(false);

@@ -22,10 +22,17 @@ import java.util.List;
 import java.util.Random;
 
 public class EndChunkGenerator extends GaeaChunkGenerator {
+    private final boolean dec;
+    public EndChunkGenerator(String world) {
+        WorldConfig config = WorldConfig.fromWorld(world);
+        dec = config.genMainIsland;
+    }
+
     @Override
     public ChunkData generateBase(@NotNull World world, @NotNull Random random, int chunkX, int chunkZ, FastNoise noise) {
         ChunkData chunk = createChunkData(world);
         WorldConfig config = WorldConfig.fromWorld(world);
+
         EndBiomeGrid grid = getBiomeGrid(world);
         int xOrigin = chunkX << 4;
         int zOrigin = chunkZ << 4;
@@ -72,7 +79,7 @@ public class EndChunkGenerator extends GaeaChunkGenerator {
 
     @Override
     public boolean shouldGenerateDecorations() {
-        return true;
+        return dec;
     }
 
     @Override

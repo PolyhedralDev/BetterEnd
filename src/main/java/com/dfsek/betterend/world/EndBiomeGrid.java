@@ -14,6 +14,7 @@ import java.util.Map;
 public class EndBiomeGrid extends BiomeGrid {
     private static final Map<World, EndBiomeGrid> grids = new HashMap<>();
     private final WorldConfig config;
+
     //Grid of biomes (woah, kinda crazy i know)
     //Y = Biome type, X = "climate"
     //Holds 16x16 biomes
@@ -93,8 +94,8 @@ public class EndBiomeGrid extends BiomeGrid {
         if(config.genMainIsland) {
             long ds = (long) (Math.pow(x, 2) + Math.pow(z, 2));
             if(ds < 62500) return config.getBiomeReplacement(EndBiome.MAIN_ISLAND); // 62500 = 250^2, main island width
-            else if(ds < 980100) return config.getBiomeReplacement(EndBiome.VOID); // 980100 = 990^2, outer end edge
-            else if(ds < 1000000)
+            else if(ds < Math.pow(config.outerRadius-10, 2)) return config.getBiomeReplacement(EndBiome.VOID); // 980100 = 990^2, outer end edge
+            else if(ds < Math.pow(config.outerRadius, 2))
                 return config.getBiomeReplacement(((EndBiome) super.getBiome(x, z)).getVoidBorderVariant()); // 1000000 = 1000^2, outer end beginning
         }
         return (EndBiome) super.getBiome(x, z);

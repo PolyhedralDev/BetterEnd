@@ -11,6 +11,7 @@ terrain:
     bottom: 36
   ground-level: 64
   main-island: true
+  outer-end-radius: 1000
   biomes:
     size: 1024
     climate-distribution: 512

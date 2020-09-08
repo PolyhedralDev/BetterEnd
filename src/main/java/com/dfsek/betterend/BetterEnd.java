@@ -98,6 +98,6 @@ public class BetterEnd extends JavaPlugin {
     @Override
     public EndChunkGenerator getDefaultWorldGenerator(@NotNull String worldName, String id) {
         new WorldConfig(Objects.requireNonNull(worldName), this);
-        return new EndChunkGenerator();
+        return new EndChunkGenerator(worldName);
     }
 }

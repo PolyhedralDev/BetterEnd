@@ -12,6 +12,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
                 <configuration>
                     <source>8</source>
                     <target>8</target>
@@ -19,25 +20,52 @@
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-antrun-plugin</artifactId>
-                <version>3.0.0</version>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.2.4</version>
+                <configuration>
+                    <relocations>
+                        <relocation>
+                            <pattern>org.polydev.gaea</pattern>
+                            <shadedPattern>com.dfsek.betterend.gaea</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>org.apache.commons</pattern>
+                            <shadedPattern>com.dfsek.betterend.commons</shadedPattern>
+                        </relocation>
+                    </relocations>
+                </configuration>
                 <executions>
                     <execution>
-                        <id>deploy-artifact</id>
+                        <id>shade-premium</id>
                         <phase>package</phase>
                         <goals>
-                            <goal>run</goal>
+                            <goal>shade</goal>
                         </goals>
                         <configuration>
-                            <target>
-                                <ant antfile="${basedir}/build.xml">
-                                    <target name="makejar"/>
-                                </ant>
-                            </target>
+                            <outputFile>target/prod/${project.artifactId}-premium.jar</outputFile>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>shade-free</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <outputFile>target/prod/${project.artifactId}-free.jar</outputFile>
+                            <filters>
+                                <filter>
+                                    <artifact>com.dfsek:BetterEnd</artifact>
+                                    <excludes>
+                                        <exclude>com/dfsek/betterend/premium/**</exclude>
+                                    </excludes>
+                                </filter>
+                            </filters>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
+
         </plugins>
 
     </build>
@@ -47,13 +75,14 @@
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
         <repository>
-            <id>minecraft-repo</id>
-            <url>https://libraries.minecraft.net/</url>
-        </repository>
-        <repository>
             <id>nexus</id>
             <name>Lumine Releases</name>
             <url>https://mvn.lumine.io/repository/maven-public/</url>
+        </repository>
+        <repository>
+            <id>gaea.local</id>
+            <name>gaea</name>
+            <url>file:/home/dfsek/Documents/Gaea/repo</url>
         </repository>
     </repositories>
 
@@ -68,11 +97,13 @@
             <groupId>org.jetbrains</groupId>
             <artifactId>annotations</artifactId>
             <version>16.0.1</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.googlecode.json-simple</groupId>
             <artifactId>json-simple</artifactId>
             <version>1.1</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>io.lumine.xikage</groupId>
@@ -84,19 +115,24 @@
             <groupId>javax.vecmath</groupId>
             <artifactId>vecmath</artifactId>
             <version>1.5.2</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-antrun-plugin</artifactId>
             <version>3.0.0</version>
             <type>maven-plugin</type>
+            <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>org.bukkit</groupId>
-            <artifactId>craftbukkit</artifactId>
-            <version>LATEST</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/lib/spigot-1.16.2.jar</systemPath>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.4</version>
+        </dependency>
+        <dependency>
+            <groupId>org.polydev</groupId>
+            <artifactId>gaea</artifactId>
+            <version>1.0.0</version>
         </dependency>
     </dependencies>
 
