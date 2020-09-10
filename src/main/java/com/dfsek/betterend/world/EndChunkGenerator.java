@@ -7,10 +7,10 @@ import com.dfsek.betterend.population.OrePopulator;
 import com.dfsek.betterend.population.SnowPopulator;
 import com.dfsek.betterend.population.TreePopulator;
 import com.dfsek.betterend.population.structures.StructurePopulator;
+import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.generator.BlockPopulator;
 import org.jetbrains.annotations.NotNull;
-import org.polydev.gaea.biome.Biome;
 import org.polydev.gaea.generation.GaeaChunkGenerator;
 import org.polydev.gaea.generation.GenerationPopulator;
 import org.polydev.gaea.math.FastNoise;
@@ -44,10 +44,8 @@ public class EndChunkGenerator extends GaeaChunkGenerator {
                 double iNoise = super.getInterpolatedNoise(x, z);
                 int max = (int) (config.islandHeightMultiplierTop * (iNoise - 0.4) + config.islandHeight) + mainIslandAdd;
                 int min = (int) ((- config.islandHeightMultiplierBottom * (iNoise - 0.4) + config.islandHeight) + 1) + mainIslandAdd;
-                int diff = max - min;
-                Biome b = grid.getBiome(xOrigin + x, zOrigin + z);
-                for(int y = 0; y < diff; y++) {
-                    chunk.setBlock(x, max - y, z, b.getGenerator().getPalette().get(y, random));
+                for(int y = min; y < max; y++) {
+                    chunk.setBlock(x, y, z, Material.STONE);
                 }
             }
         }

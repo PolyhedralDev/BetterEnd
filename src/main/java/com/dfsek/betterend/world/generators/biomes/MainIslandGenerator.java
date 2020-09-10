@@ -37,7 +37,7 @@ public class MainIslandGenerator extends BiomeTerrain {
      * @return BlocPalette - The biome's palette.
      */
     @Override
-    public BlockPalette getPalette() {
+    public BlockPalette getPalette(int y) {
         return this.palette;
     }
 }

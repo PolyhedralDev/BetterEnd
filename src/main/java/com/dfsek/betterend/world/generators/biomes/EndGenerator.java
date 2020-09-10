@@ -24,7 +24,7 @@ public class EndGenerator extends BiomeTerrain {
     }
 
     @Override
-    public BlockPalette getPalette() {
+    public BlockPalette getPalette(int y) {
         return this.palette;
     }
 }

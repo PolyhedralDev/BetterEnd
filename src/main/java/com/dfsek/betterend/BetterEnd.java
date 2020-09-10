@@ -16,8 +16,6 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import org.polydev.gaea.structures.NMSStructure;
-import org.polydev.gaea.taskchain.BukkitTaskChainFactory;
-import org.polydev.gaea.taskchain.TaskChainFactory;
 
 import java.util.Objects;
 import java.util.logging.Level;
@@ -27,7 +25,6 @@ public class BetterEnd extends JavaPlugin {
 
     private static BetterEnd instance;
     public FileConfiguration config = this.getConfig();
-    private TaskChainFactory genChain;
 
     public static BetterEnd getInstance() {
         return instance;
@@ -44,7 +41,6 @@ public class BetterEnd extends JavaPlugin {
     @Override
     public void onEnable() {
         instance = this;
-        genChain = BukkitTaskChainFactory.create(this);
         final Logger logger = this.getLogger();
         NMSStructure.load();
 
@@ -84,10 +80,6 @@ public class BetterEnd extends JavaPlugin {
             getServer().getScheduler().scheduleSyncRepeatingTask(this, Util::checkUpdates, 100, 20L * ConfigUtil.updateCheckFrequency);
         }
         this.getCommand("betterend").setTabCompleter(new TabComplete());
-    }
-
-    public TaskChainFactory getFactory() {
-        return genChain;
     }
 
     @Override
