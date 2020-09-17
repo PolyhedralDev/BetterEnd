@@ -15,17 +15,24 @@ import org.polydev.gaea.generation.GaeaChunkGenerator;
 import org.polydev.gaea.generation.GenerationPopulator;
 import org.polydev.gaea.math.FastNoise;
 import org.polydev.gaea.math.InterpolationType;
+import org.polydev.gaea.population.PopulationManager;
 import org.polydev.gaea.world.carving.CaveCarver;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
 public class EndChunkGenerator extends GaeaChunkGenerator {
     private final boolean dec;
+    private final PopulationManager popMan = new PopulationManager();
+
     public EndChunkGenerator(String world) {
         super(InterpolationType.BILINEAR);
+        popMan.attach(new OrePopulator());
+        popMan.attach(new StructurePopulator());
+        popMan.attach(new TreePopulator());
+        popMan.attach(new SnowPopulator());
+        popMan.attach(new FaunaPopulator());
         WorldConfig config = WorldConfig.fromWorld(world);
         dec = config.genMainIsland;
     }
@@ -49,7 +56,7 @@ public class EndChunkGenerator extends GaeaChunkGenerator {
                 }
             }
         }
-        return config.enableCaves ? new CaveCarver(50, 12, config.islandHeight+16, 3).carve(chunkX, chunkZ, world).merge(chunk, false) : chunk;
+        return config.enableCaves ? new CaveCarver(50, 12, config.islandHeight + 16, 3).carve(chunkX, chunkZ, world).merge(chunk, false) : chunk;
     }
 
     @Override
@@ -100,7 +107,7 @@ public class EndChunkGenerator extends GaeaChunkGenerator {
     @NotNull
     @Override
     public List<BlockPopulator> getDefaultPopulators(@NotNull World world) {
-        return Arrays.asList(new OrePopulator(), new StructurePopulator(), new TreePopulator(), new SnowPopulator(), new FaunaPopulator());
+        return Collections.singletonList(popMan);
     }
 
 }

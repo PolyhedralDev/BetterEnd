@@ -50,8 +50,9 @@ public class WorldConfig {
     public int oreAttempts;
     public boolean enableCaves;
     public int outerRadius;
-    private Map<String, Object> biomeReplacements = new HashMap<>();
+    public boolean legacyDistribution;
     public Map<EndBiome, ProbabilityCollection<Ore>> ores = new HashMap<>();
+    private Map<String, Object> biomeReplacements = new HashMap<>();
 
     public WorldConfig(String w, JavaPlugin main) {
         WorldConfig.main = main;
@@ -60,20 +61,20 @@ public class WorldConfig {
 
     public static void reloadAll(JavaPlugin main) {
         main.getLogger().info("Reloading ALL worlds");
-        for(Map.Entry<String, WorldConfig> e: configs.entrySet()) {
+        for(Map.Entry<String, WorldConfig> e : configs.entrySet()) {
             e.getValue().load(e.getKey());
         }
     }
 
     public static WorldConfig fromWorld(World w) {
-        if(!configs.containsKey(w.getName())) {
+        if(! configs.containsKey(w.getName())) {
             configs.put(w.getName(), new WorldConfig(w.getName(), main));
         }
         return configs.get(w.getName());
     }
 
     public static WorldConfig fromWorld(String w) {
-        if(!configs.containsKey(w)) {
+        if(! configs.containsKey(w)) {
             configs.put(w, new WorldConfig(w, main));
         }
         return configs.get(w);
@@ -116,6 +117,10 @@ public class WorldConfig {
         oreAttempts = config.getInt("ores.attempts", 10);
         enableCaves = config.getBoolean("caves.enable", false);
         outerRadius = config.getInt("terrain.outer-end-radius", 1000);
+        legacyDistribution = config.getBoolean("terrain.biomes.legacy-normalization", true);
+
+        if(legacyDistribution)
+            main.getLogger().warning("Enabling legacy biome distribution! Unless you are using a legacy (4.0.x) world, this is a bug!");
 
         // Define ores
         Map<String, Object> oreBiomes = config.getConfigurationSection("ores.biomes").getValues(false);
@@ -126,7 +131,8 @@ public class WorldConfig {
                 ProbabilityCollection<Ore> oreSet = new ProbabilityCollection<>();
                 for(Map.Entry<String, Object> ore : oresConfig.entrySet()) {
                     current = ore.getKey();
-                    if(ConfigUtil.debug) main.getLogger().info("Adding ore " + ore.getKey() + " with probability " + ((List<Integer>) ore.getValue()).get(0) + " and vein chance " + ((List<Integer>) ore.getValue()).get(1) + " for biome " + biomeEntry.getKey());
+                    if(ConfigUtil.debug)
+                        main.getLogger().info("Adding ore " + ore.getKey() + " with probability " + ((List<Integer>) ore.getValue()).get(0) + " and vein chance " + ((List<Integer>) ore.getValue()).get(1) + " for biome " + biomeEntry.getKey());
                     oreSet.add(new Ore(Material.valueOf(ore.getKey()).createBlockData(), ((List<Integer>) ore.getValue()).get(1)), ((List<Integer>) ore.getValue()).get(0));
                 }
                 ores.put(EndBiome.valueOf(biomeEntry.getKey()), oreSet);
@@ -143,7 +149,8 @@ public class WorldConfig {
         Map<String, UserDefinedStructure> custom = new HashMap<>();
         try {
             custom = CustomStructuresUtil.getCustomStructures(config.getConfigurationSection("structures.custom").getValues(false), main);
-        } catch(NoClassDefFoundError ignored) {}
+        } catch(NoClassDefFoundError ignored) {
+        }
 
         Map<String, Object> prob = config.getConfigurationSection("structures.distribution").getValues(false);
 
@@ -165,10 +172,12 @@ public class WorldConfig {
                     try {
                         structures.add(EndStructure.valueOf(e2.getKey()), (Integer) e2.getValue());
                     } catch(IllegalArgumentException ex) { // If no enum type is found, check if a custom structure has been defined.
-                        if(custom.containsKey(e2.getKey())) structures.add(custom.get(e2.getKey()), (Integer) e2.getValue());
+                        if(custom.containsKey(e2.getKey()))
+                            structures.add(custom.get(e2.getKey()), (Integer) e2.getValue());
                         else main.getLogger().severe("Unable to locate " + e2.getKey());
                     }
-                    if(ConfigUtil.debug) main.getLogger().info("Added " + e2.getKey() + " with probability of " + e2.getValue() + " to " + b.toString() + " Structure list.");
+                    if(ConfigUtil.debug)
+                        main.getLogger().info("Added " + e2.getKey() + " with probability of " + e2.getValue() + " to " + b.toString() + " Structure list.");
                 }
                 b.getDecorator().setStructures(structures, w);
             } catch(IllegalArgumentException ex) {
@@ -178,7 +187,6 @@ public class WorldConfig {
                 main.getLogger().severe("SEVERE structure configuration error for: " + current);
             }
         }
-
 
 
         main.getLogger().info("World load complete. Time elapsed: " + ((double) (System.nanoTime() - start)) / 1000000 + "ms");

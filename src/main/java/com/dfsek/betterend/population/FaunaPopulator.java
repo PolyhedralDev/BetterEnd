@@ -6,14 +6,14 @@ import com.dfsek.betterend.world.EndProfiler;
 import org.bukkit.Chunk;
 import org.bukkit.World;
 import org.bukkit.block.Block;
-import org.bukkit.generator.BlockPopulator;
 import org.jetbrains.annotations.NotNull;
+import org.polydev.gaea.population.GaeaBlockPopulator;
 import org.polydev.gaea.profiler.ProfileFuture;
 import org.polydev.gaea.world.Fauna;
 
 import java.util.Random;
 
-public class FaunaPopulator extends BlockPopulator {
+public class FaunaPopulator extends GaeaBlockPopulator {
 
     @Override
     public void populate(@NotNull World world, @NotNull Random random, @NotNull Chunk chunk) {
@@ -23,8 +23,9 @@ public class FaunaPopulator extends BlockPopulator {
                 EndBiome biome = EndBiomeGrid.fromWorld(world).getBiome((chunk.getX() << 4) + x, (chunk.getZ() << 4) + z);
                 if(biome.getDecorator().getFaunaChance() <= 0 || random.nextInt(100) > biome.getDecorator().getFaunaChance())
                     continue;
-                Block highest = Fauna.getHighestValidSpawnAt(chunk, x, z);
-                if(highest != null) biome.getDecorator().getFauna().get(random).plant(highest.getLocation());
+                Fauna fauna = biome.getDecorator().getFauna().get(random);
+                Block highest = fauna.getHighestValidSpawnAt(chunk, x, z);
+                if(highest != null) fauna.plant(highest.getLocation());
             }
         }
         if(featureFuture != null) featureFuture.complete();

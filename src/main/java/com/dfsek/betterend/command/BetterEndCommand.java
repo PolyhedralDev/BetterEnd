@@ -13,7 +13,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import org.polydev.gaea.profiler.WorldProfiler;
-import org.polydev.gaea.tree.Tree;
+import org.polydev.gaea.tree.TreeType;
 
 import java.util.Random;
 
@@ -67,7 +67,7 @@ public class BetterEndCommand implements CommandExecutor {
         } else if(args.length == 2 && args[0].equalsIgnoreCase("tree")) {
             if(sender.hasPermission("betterend.tree")) {
                 try {
-                    Tree.valueOf(args[1]).plant(((Player) sender).getLocation(), new Random(), false, main);
+                    TreeType.valueOf(args[1]).plant(((Player) sender).getLocation(), new Random(), false, main);
                     return true;
                 } catch(IllegalArgumentException e) {
                     sender.sendMessage("Invalid tree type.");

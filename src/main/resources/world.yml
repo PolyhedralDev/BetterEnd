@@ -13,8 +13,11 @@ terrain:
   main-island: true
   outer-end-radius: 1000
   biomes:
-    size: 1024
+    size: 2048
     climate-distribution: 512
+
+    # Do not enable this unless you are upgrading from a 4.0.x world!
+    legacy-normalization: false
     # Options to enable/disable biomes.
     # To disable a biome, replace it with another one.
     replacements:

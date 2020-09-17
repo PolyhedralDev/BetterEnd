@@ -39,11 +39,12 @@ public class EndBiomeGrid extends BiomeGrid {
     public EndBiomeGrid(World w) {
         super(w, 1f / WorldConfig.fromWorld(w).biomeSize, 1f / WorldConfig.fromWorld(w).climateSize);
         this.config = WorldConfig.fromWorld(w);
+        if(config.legacyDistribution) super.setNormalType(NormalType.LEGACY);
         for(EndBiome b : EndBiome.values()) {
             replaceInGrid(b, config.getBiomeReplacement(b));
         }
         try {
-            if(!PremiumUtil.isPremium()) {
+            if(! PremiumUtil.isPremium()) {
                 replaceInGrid(EndBiome.AETHER_FOREST, EndBiome.AETHER);
                 replaceInGrid(EndBiome.AETHER_HIGHLANDS_FOREST, EndBiome.AETHER_HIGHLANDS);
             }
@@ -94,7 +95,8 @@ public class EndBiomeGrid extends BiomeGrid {
         if(config.genMainIsland) {
             long ds = (long) (Math.pow(x, 2) + Math.pow(z, 2));
             if(ds < 15625) return config.getBiomeReplacement(EndBiome.MAIN_ISLAND); // 15625 = 125^2, main island width
-            else if(ds < Math.pow(config.outerRadius-10, 2)) return config.getBiomeReplacement(EndBiome.VOID); // 980100 = 990^2, outer end edge
+            else if(ds < Math.pow(config.outerRadius - 10, 2))
+                return config.getBiomeReplacement(EndBiome.VOID); // 980100 = 990^2, outer end edge
             else if(ds < Math.pow(config.outerRadius, 2))
                 return config.getBiomeReplacement(((EndBiome) super.getBiome(x, z)).getVoidBorderVariant()); // 1000000 = 1000^2, outer end beginning
         }

@@ -7,14 +7,14 @@ import com.dfsek.betterend.world.EndProfiler;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.World;
-import org.bukkit.generator.BlockPopulator;
 import org.jetbrains.annotations.NotNull;
+import org.polydev.gaea.population.GaeaBlockPopulator;
 import org.polydev.gaea.profiler.ProfileFuture;
 import org.polydev.gaea.util.WorldUtil;
 
 import java.util.Random;
 
-public class TreePopulator extends BlockPopulator {
+public class TreePopulator extends GaeaBlockPopulator {
     private final BetterEnd main = BetterEnd.getInstance();
 
     @Override

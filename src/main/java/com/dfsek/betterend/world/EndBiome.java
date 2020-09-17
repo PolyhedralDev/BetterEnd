@@ -38,130 +38,130 @@ import java.util.List;
  * @since 3.6.2
  */
 public enum EndBiome implements Biome {
-	END(new EndGenerator(), new EndDecorator()),
-	SHATTERED_END(new ShatteredEndGenerator(), new ShatteredEndDecorator()),
-	SHATTERED_FOREST(new ShatteredEndGenerator(), new ShatteredForestDecorator()),
-	AETHER(new AetherGenerator(), new AetherDecorator()),
-	MAIN_ISLAND(new MainIslandGenerator(), new MainIslandDecorator()),
-	AETHER_HIGHLANDS(new AetherHighlandsGenerator(), new AetherHighlandsDecorator()),
-	AETHER_FOREST(new AetherGenerator(), new AetherForestDecorator()),
-	AETHER_HIGHLANDS_FOREST(new AetherHighlandsGenerator(), new AetherHighlandsForestDecorator()),
-	VOID(new VoidGenerator(), new VoidDecorator()),
-	VOID_END_BORDER(new VoidEndBorderGenerator(), new EndDecorator()),
-	VOID_AETHER_BORDER(new VoidAetherBorderGenerator(), new AetherDecorator()),
-	VOID_AETHER_HIGHLANDS_BORDER(new VoidAetherHighlandsBorderGenerator(), new AetherHighlandsDecorator()),
-	AETHER_HIGHLANDS_BORDER(new AetherHighlandsBorderGenerator(), new AetherHighlandsDecorator()),
-	STARFIELD(new VoidGenerator(), new StarfieldDecorator());
+    END(new EndGenerator(), new EndDecorator()),
+    SHATTERED_END(new ShatteredEndGenerator(), new ShatteredEndDecorator()),
+    SHATTERED_FOREST(new ShatteredEndGenerator(), new ShatteredForestDecorator()),
+    AETHER(new AetherGenerator(), new AetherDecorator()),
+    MAIN_ISLAND(new MainIslandGenerator(), new MainIslandDecorator()),
+    AETHER_HIGHLANDS(new AetherHighlandsGenerator(), new AetherHighlandsDecorator()),
+    AETHER_FOREST(new AetherGenerator(), new AetherForestDecorator()),
+    AETHER_HIGHLANDS_FOREST(new AetherHighlandsGenerator(), new AetherHighlandsForestDecorator()),
+    VOID(new VoidGenerator(), new VoidDecorator()),
+    VOID_END_BORDER(new VoidEndBorderGenerator(), new EndDecorator()),
+    VOID_AETHER_BORDER(new VoidAetherBorderGenerator(), new AetherDecorator()),
+    VOID_AETHER_HIGHLANDS_BORDER(new VoidAetherHighlandsBorderGenerator(), new AetherHighlandsDecorator()),
+    AETHER_HIGHLANDS_BORDER(new AetherHighlandsBorderGenerator(), new AetherHighlandsDecorator()),
+    STARFIELD(new VoidGenerator(), new StarfieldDecorator());
 
-	private final BiomeTerrain generator;
-	private final Decorator decorator;
+    private final BiomeTerrain generator;
+    private final Decorator decorator;
 
-	EndBiome(BiomeTerrain g, Decorator d) {
-		this.generator = g;
-		this.decorator = d;
-	}
+    EndBiome(BiomeTerrain g, Decorator d) {
+        this.generator = g;
+        this.decorator = d;
+    }
 
 
-	/**
-	 * Checks whether or not the Biome is a variant of the Aether.
-	 *
-	 * @return Whether or not the Biome is an Aether variant.
-	 * @author dfsek
-	 * @since 3.6.2
-	 */
-	public boolean isAether() {
-		return (this.equals(EndBiome.AETHER)
-				|| this.equals(EndBiome.AETHER_FOREST)
-				|| this.equals(EndBiome.AETHER_HIGHLANDS)
-				|| this.equals(EndBiome.AETHER_HIGHLANDS_FOREST)
-				|| this.equals(EndBiome.VOID_AETHER_BORDER)
-				|| this.equals(EndBiome.VOID_AETHER_HIGHLANDS_BORDER)
-				|| this.equals(EndBiome.AETHER_HIGHLANDS_BORDER));
-	}
+    /**
+     * Checks whether or not the Biome is a variant of the Aether.
+     *
+     * @return Whether or not the Biome is an Aether variant.
+     * @author dfsek
+     * @since 3.6.2
+     */
+    public boolean isAether() {
+        return (this.equals(EndBiome.AETHER)
+                || this.equals(EndBiome.AETHER_FOREST)
+                || this.equals(EndBiome.AETHER_HIGHLANDS)
+                || this.equals(EndBiome.AETHER_HIGHLANDS_FOREST)
+                || this.equals(EndBiome.VOID_AETHER_BORDER)
+                || this.equals(EndBiome.VOID_AETHER_HIGHLANDS_BORDER)
+                || this.equals(EndBiome.AETHER_HIGHLANDS_BORDER));
+    }
 
-	/**
-	 * Checks whether or not the Biome is a variant of the Highlands.
-	 *
-	 * @return Whether or not the Biome is a Highlands variant.
-	 * @author dfsek
-	 * @since 3.6.2
-	 */
-	public boolean isHighlands() {
-		return (this.equals(EndBiome.AETHER_HIGHLANDS) || this.equals(EndBiome.AETHER_HIGHLANDS_FOREST));
-	}
+    /**
+     * Checks whether or not the Biome is a variant of the Highlands.
+     *
+     * @return Whether or not the Biome is a Highlands variant.
+     * @author dfsek
+     * @since 3.6.2
+     */
+    public boolean isHighlands() {
+        return (this.equals(EndBiome.AETHER_HIGHLANDS) || this.equals(EndBiome.AETHER_HIGHLANDS_FOREST));
+    }
 
-	/**
-	 * Checks whether or not the Biome is a variant of the Void.
-	 *
-	 * @return Whether or not the Biome is a Void variant.
-	 * @author dfsek
-	 * @since 3.6.2
-	 */
-	public boolean isVoid() {
-		return (this.equals(EndBiome.VOID) || this.equals(EndBiome.STARFIELD));
-	}
+    /**
+     * Checks whether or not the Biome is a variant of the Void.
+     *
+     * @return Whether or not the Biome is a Void variant.
+     * @author dfsek
+     * @since 3.6.2
+     */
+    public boolean isVoid() {
+        return (this.equals(EndBiome.VOID) || this.equals(EndBiome.STARFIELD));
+    }
 
-	/**
-	 * Checks whether or not the Biome is a variant of the Shattered End.
-	 *
-	 * @return Whether or not the Biome is a Shattered End variant.
-	 * @author dfsek
-	 * @since 3.6.2
-	 */
-	public boolean isShattered() {
-		return (this.equals(EndBiome.SHATTERED_END) || this.equals(EndBiome.SHATTERED_FOREST));
-	}
+    /**
+     * Checks whether or not the Biome is a variant of the Shattered End.
+     *
+     * @return Whether or not the Biome is a Shattered End variant.
+     * @author dfsek
+     * @since 3.6.2
+     */
+    public boolean isShattered() {
+        return (this.equals(EndBiome.SHATTERED_END) || this.equals(EndBiome.SHATTERED_FOREST));
+    }
 
-	@Override
-	public org.bukkit.block.Biome getVanillaBiome() {
-		return decorator.getVanillaBiome();
-	}
+    @Override
+    public org.bukkit.block.Biome getVanillaBiome() {
+        return decorator.getVanillaBiome();
+    }
 
-	public EndBiome getVoidBorderVariant() {
-		switch(this) {
-			case END:
-			case SHATTERED_END:
-			case SHATTERED_FOREST:
-				return VOID_END_BORDER;
-			case AETHER:
-			case AETHER_FOREST:
-				return VOID_AETHER_BORDER;
-			case AETHER_HIGHLANDS:
-			case AETHER_HIGHLANDS_FOREST:
-				return VOID_AETHER_HIGHLANDS_BORDER;
-			default:
-				return this;
-		}
-	}
+    public EndBiome getVoidBorderVariant() {
+        switch(this) {
+            case END:
+            case SHATTERED_END:
+            case SHATTERED_FOREST:
+                return VOID_END_BORDER;
+            case AETHER:
+            case AETHER_FOREST:
+                return VOID_AETHER_BORDER;
+            case AETHER_HIGHLANDS:
+            case AETHER_HIGHLANDS_FOREST:
+                return VOID_AETHER_HIGHLANDS_BORDER;
+            default:
+                return this;
+        }
+    }
 
-	/**
-	 * Gets the generator object
-	 *
-	 * @return BiomeTerrain - the terrain gen object.
-	 */
-	@Override
-	public BiomeTerrain getGenerator() {
-		return this.generator;
-	}
+    /**
+     * Gets the generator object
+     *
+     * @return BiomeTerrain - the terrain gen object.
+     */
+    @Override
+    public BiomeTerrain getGenerator() {
+        return this.generator;
+    }
 
-	@Override
-	public List<Feature> getStructureFeatures() {
-		switch(this) {
-			case AETHER_HIGHLANDS_FOREST:
-			case AETHER_HIGHLANDS_BORDER:
-			case AETHER_HIGHLANDS:
-				return Collections.singletonList(new BlockReplaceFeature(4, new ProbabilityCollection<Material>().add(Material.COBWEB, 1)));
-			default:
-				return Collections.emptyList();
-		}
-	}
+    @Override
+    public List<Feature> getStructureFeatures() {
+        switch(this) {
+            case AETHER_HIGHLANDS_FOREST:
+            case AETHER_HIGHLANDS_BORDER:
+            case AETHER_HIGHLANDS:
+                return Collections.singletonList(new BlockReplaceFeature(4, new ProbabilityCollection<Material>().add(Material.COBWEB, 1)));
+            default:
+                return Collections.emptyList();
+        }
+    }
 
-	@Override
-	public Decorator getDecorator() {
-		return this.decorator;
-	}
+    @Override
+    public Decorator getDecorator() {
+        return this.decorator;
+    }
 
-	public boolean shouldGenerateSnow() {
-		return decorator.shouldGenerateSnow();
-	}
+    public boolean shouldGenerateSnow() {
+        return decorator.shouldGenerateSnow();
+    }
 }

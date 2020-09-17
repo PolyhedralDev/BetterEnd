@@ -8,8 +8,8 @@ import com.dfsek.betterend.world.EndProfiler;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.World;
-import org.bukkit.generator.BlockPopulator;
 import org.jetbrains.annotations.NotNull;
+import org.polydev.gaea.population.GaeaBlockPopulator;
 import org.polydev.gaea.profiler.ProfileFuture;
 import org.polydev.gaea.structures.NMSStructure;
 import org.polydev.gaea.structures.Structure;
@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class StructurePopulator extends BlockPopulator {
+public class StructurePopulator extends GaeaBlockPopulator {
     @Override
     public void populate(@NotNull World world, @NotNull Random random, @NotNull Chunk chunk) {
         long l = System.nanoTime();

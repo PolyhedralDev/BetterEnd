@@ -6,6 +6,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.jetbrains.annotations.NotNull;
 import org.polydev.gaea.tree.Tree;
+import org.polydev.gaea.tree.TreeType;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -38,7 +39,7 @@ public class TabComplete implements TabCompleter {
                     if(args.length == 2) argList.addAll(BIOMES);
                     break;
                 case "tree":
-                    if(args.length == 2) for(Tree t : Tree.values()) argList.add(t.toString());
+                    if(args.length == 2) for(Tree t : TreeType.values()) argList.add(t.toString());
                     break;
                 case "profile":
                     if(args.length == 2) argList.addAll(Arrays.asList("reset", "start", "stop", "query"));

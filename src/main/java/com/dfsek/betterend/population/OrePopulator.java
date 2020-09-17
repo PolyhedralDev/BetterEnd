@@ -7,14 +7,14 @@ import org.bukkit.Chunk;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.data.BlockData;
-import org.bukkit.generator.BlockPopulator;
 import org.jetbrains.annotations.NotNull;
+import org.polydev.gaea.population.GaeaBlockPopulator;
 import org.polydev.gaea.profiler.ProfileFuture;
 import org.polydev.gaea.world.Ore;
 
 import java.util.Random;
 
-public class OrePopulator extends BlockPopulator {
+public class OrePopulator extends GaeaBlockPopulator {
     @Override
     public void populate(@NotNull World world, @NotNull Random random, @NotNull Chunk chunk) {
         ProfileFuture oreP = EndProfiler.fromWorld(world).measure("OreTime");
@@ -32,9 +32,9 @@ public class OrePopulator extends BlockPopulator {
                 continue;
             }
 
-            y = random.nextInt(config.islandHeight-config.islandHeightMultiplierBottom+1)+config.islandHeightMultiplierBottom;
+            y = random.nextInt(config.islandHeight - config.islandHeightMultiplierBottom + 1) + config.islandHeightMultiplierBottom;
             if(y > 1) {
-                doVein(world, chunk, random, new int[]{x, y, z}, ore.getType(), ore.getContChance());
+                doVein(world, chunk, random, new int[] {x, y, z}, ore.getType(), ore.getContChance());
             }
         }
         if(oreP != null) oreP.complete();
@@ -47,7 +47,7 @@ public class OrePopulator extends BlockPopulator {
         Material current = world.getBlockAt(x + chunk.getX() * 16, y, z + chunk.getZ() * 16).getType();
         if(current == Material.STONE || current == Material.END_STONE) {
             boolean isStone = true;
-            while (isStone) {
+            while(isStone) {
                 world.getBlockAt(x + chunk.getX() * 16, y, z + chunk.getZ() * 16).setBlockData(ore, false);
                 if(random.nextInt(100) < continueChance) {
                     switch(random.nextInt(6)) {

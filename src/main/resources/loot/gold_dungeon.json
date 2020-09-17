@@ -9,7 +9,16 @@
         {
           "type": "item",
           "weight": 1,
-          "name": "elytra"
+          "name": "elytra",
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 1
+              }
+            }
+          ]
         }
       ]
     },

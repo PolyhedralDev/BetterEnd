@@ -10,14 +10,14 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.BlockData;
-import org.bukkit.generator.BlockPopulator;
 import org.jetbrains.annotations.NotNull;
+import org.polydev.gaea.population.GaeaBlockPopulator;
 import org.polydev.gaea.profiler.ProfileFuture;
 
 import java.util.ArrayList;
 import java.util.Random;
 
-public class SnowPopulator extends BlockPopulator {
+public class SnowPopulator extends GaeaBlockPopulator {
     private static final ArrayList<Material> blacklistSpawn = new ArrayList<>();
     private static final BlockData snow = Material.SNOW.createBlockData();
 

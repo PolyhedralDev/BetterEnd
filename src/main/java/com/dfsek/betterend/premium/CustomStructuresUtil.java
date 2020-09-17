@@ -28,6 +28,7 @@ public class CustomStructuresUtil {
     public static FileInputStream getLootTable(String name) throws FileNotFoundException {
         return new FileInputStream(new File(BetterEnd.getInstance().getDataFolder() + File.separator + "loot" + File.separator + name));
     }
+
     public static Map<String, UserDefinedStructure> getCustomStructures(Map<String, Object> customProb, JavaPlugin main) {
         Map<String, UserDefinedStructure> custom = new HashMap<>();
         for(Map.Entry<String, Object> e : customProb.entrySet()) {
@@ -50,7 +51,7 @@ public class CustomStructuresUtil {
                             case "loot":
                                 try {
                                     structureFeatures.add(new LootFeature(new FileInputStream(new File(main.getDataFolder() + File.separator + "loot" + File.separator + f.get("name")))));
-                                }  catch(FileNotFoundException fileNotFoundException) {
+                                } catch(FileNotFoundException fileNotFoundException) {
                                     main.getLogger().severe("Unable to locate loot table " + f.get("name"));
                                 }
                                 break;
@@ -76,7 +77,7 @@ public class CustomStructuresUtil {
                     }
                 }
 
-                custom.put(name, new UserDefinedStructure(name, new File(main.getDataFolder() + File.separator + "structures" + File.separator + filename),  structureFeatures, spawn));
+                custom.put(name, new UserDefinedStructure(name, new File(main.getDataFolder() + File.separator + "structures" + File.separator + filename), structureFeatures, spawn));
             } catch(IllegalArgumentException ex) {
                 ex.printStackTrace();
                 main.getLogger().severe("No such structure found in custom structures: " + current);
