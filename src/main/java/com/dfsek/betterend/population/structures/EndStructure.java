@@ -37,9 +37,9 @@ public enum EndStructure implements Structure {
     END_TOWER("end_tower", 2, Collections.singletonList(new LootFeature(getLoot("end_tower.json"))), new GroundSpawn(0)),
     SHULKER_NEST("shulker_nest", 2, Arrays.asList(new LootFeature(getLoot("shulker_nest.json")), new EntityFeature(2, 6, EntityType.SHULKER)), new GroundSpawn(0)),
     SPRUCE_WOOD_HOUSE("spruce_house", 5, Collections.singletonList(new LootFeature(getLoot("spruce_house.json"))), new GroundSpawn(- 1)),
-    STRONGHOLD("stronghold", 1, Collections.singletonList(new LootFeature(getLoot("stronghold.json"))), new UndergroundSpawn(16)),
+    STRONGHOLD("stronghold", 1, Collections.singletonList(new LootFeature(getLoot("stronghold.json"))), new UndergroundSpawn(4)),
     VOID_STAR("void_star", 4, Collections.emptyList(), new AirSpawn(128, 250)),
-    GOLD_DUNGEON("gold_dungeon", 1, Arrays.asList(new LootFeature(getLoot("gold_dungeon.json")), new PersistentDataFeature(new NamespacedKey(BetterEnd.getInstance(), "valkyrie-spawner"))), new AirSpawn(96, 0)),
+    GOLD_DUNGEON("gold_dungeon", 1, Arrays.asList(new LootFeature(getLoot("gold_dungeon.json")), new PersistentDataFeature(new NamespacedKey(BetterEnd.getInstance(), "valkyrie-spawner"))), new AirSpawn(128, 0)),
     WOOD_HOUSE("wood_house", 45, Collections.singletonList(new LootFeature(getLoot("wood_house.json"))), new GroundSpawn(- 1)),
     WRECKED_END_SHIP("wrecked_end_ship", 8, Collections.singletonList(new LootFeature(getLoot("wrecked_end_ship.json"))), new GroundSpawn(- 5));
 
