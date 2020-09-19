@@ -32,6 +32,7 @@ public class SnowPopulator extends GaeaBlockPopulator {
                     || name.contains("chest")
                     || name.contains("door")) blacklistSpawn.add(m);
         }
+        blacklistSpawn.add(Material.END_STONE);
         if(ConfigUtil.debug)
             Bukkit.getLogger().info("Added " + blacklistSpawn.size() + " materials to snow blacklist");
     }
