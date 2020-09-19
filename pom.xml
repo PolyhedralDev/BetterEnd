@@ -104,7 +104,7 @@
         <dependency>
             <groupId>org.polydev</groupId>
             <artifactId>gaea</artifactId>
-            <version>1.6.1</version>
+            <version>1.6.8</version>
         </dependency>
     </dependencies>
 

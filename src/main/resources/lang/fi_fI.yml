@@ -32,7 +32,7 @@ custom-structures:
   file-not-found: "Etsittyä mukautettua tiedostoa ei löydetty."
   error: "Mukautettua rakennetta luodessa tapahtui virhe"
   log: "Generouidaan mukautettua rakennetta koordinaatrt \"%1$s\" at %2$s %3$s %4$s."
-  invalid-spawn: "%s on kelvoton synnytys sijainti. Täytyy olla joko "GROUND" tai "AIR"."
+  invalid-spawn: "%s on kelvoton synnytys sijainti. Täytyy olla joko \"GROUND\" tai \"AIR\"."
 mythicmobs:
   enable: "Ladataan MythicMobs integraatio..."
   fail-to-spawn: "Tapahtui virhe luodessa mobia. Onko sinulla MythicMobs asennettuna?"
@@ -42,7 +42,7 @@ advancements:
 paper:
   - "Käytät spigottia tai craftbukkittia palvelimellasi."
   - "Käytä Paperia saadaksesi parhaimman kokemuksen BetterEndistä ja kaikista muista lisäosistasi."
-  - "Paperi sisältää paljon optimointeja Spigotin päälle, joka meinaa, että suorituskyky nousee valtavasti.
+  - "Paperi sisältää paljon optimointeja Spigotin päälle, joka meinaa, että suorituskyky nousee valtavasti."
    - "Paperi on muokattu versio Spigotista, joka meinaa, että kaikkien laajennusten tulisi toimia paperin kanssa."
   - "Katso lisää tietoa niiden nettisivuilla: https://papermc.io/"
 untested:

@@ -1,0 +1,52 @@
+enable:
+   - "&fBetterEnd wäre ohne die Unterstützung der folgenden Personen nicht möglich gewesen:"
+   - "&fEntwickler: dfsek und Baer"
+   - "&fBauer: GucciPoochie, sgtmushroom39, Daverono und Merazmus"
+   - "&fPatrons: EtherealSquid"
+disable:
+   - "&fVielen Dank für die Nutzung von BetterEnd!"
+free-notification:
+   - "&bSie betreiben die kostenlose Version von BetterEnd. Bitte ziehen Sie den Kauf der Premium-Version in Betracht, um das Plugin zu unterstützen und zusätzliche Funktionen zu erhalten!"
+   - "&bWeitere Informationen finden Sie hier: &nhttps://github.com/dfsek/BetterEnd-Public/wiki/Premium"
+command-prefix: "&3[BetterEnd] "
+update:
+   new-version: "Eine neue Version von BetterEnd ist verfügbar: %s "
+   up-to-date: "Ihre Version von BetterEnd (%s) ist auf dem neuesten Stand!"
+   more-recent: "Ihre Version von BetterEnd (%s) ist aktueller als die öffentlich verfügbare Version."
+   error: "Bei der Suche nach einer Aktualisierung ist ein Fehler aufgetreten. Ursache: "
+commands:
+   for-players-only: "&bDieser Befehl ist nur für Spieler!"
+   not-betterend-world: "&cDiese Welt ist keine BetterEnd welt!"
+   no-permission: "&cSie haben keine Berechtigung für diesen Befehl."
+   version: "&bDieser Server nutzt &3BetterEnd v%s"
+   reload-config: "&bDie BetterEnd Konfigurationsdatei wird neugeladen..."
+   complete-msg: "&bFertig."
+   biome: "&bSie befinden sich in \"&3%s&b\""
+   unable-to-locate: "&bKein Biom wurde gefunden."
+   tp: "&bTeleportieren..."
+   locating-biome: "&bDas Biom \"&3%s&b\" wird gesucht"
+structure-log: "Erzeuge Struktur \"%1$s\" auf %2$s %3$s %4$s. Größe: X:%5$s, Y:%6$s, Z:%7$s."
+custom-structures:
+   enable: "Initialisiere den Benutzerdefinierten Struktur-Populator..."
+   unable-to-find: "Die Datei customStructures.yml konnte nicht gefunden werden. Abbruch der Initialisierung von benutzerdefinierten Strukturen."
+   file-not-found: "Die angeforderte benutzerdefinierte Strukturdatei konnte nicht gefunden werden."
+   error: "Beim Versuch, eine benutzerdefinierte Struktur zu erzeugen, ist ein Fehler aufgetreten"
+   log: "Erzeuge eine benutzerdefinierte Struktur \"%1$s\" auf %2$s %3$s %4$s."
+   invalid-spawn: "%s ist ein ungültiger Spawn-Ort. Muss entweder BODEN oder LUFT sein.."
+mythicmobs:
+   enable: "Beginne die Integration von MythicMobs"
+   fail-to-spawn: "Das Erzeugen von Mobs ist fehlgeschlagen. Ist MythicMobs installiert?"
+   unable-to-find: "MythicSpawns.yml konnte nicht gefunden werden. Abbruch des zufälligen Erzeugen von MythicMobs."
+advancements:
+   enable: "Aktiviere Fortschritte..."
+paper:
+   - "Sie benutzen Spigot/CraftBukkit für Ihren Server."
+   - "Für die beste Erfahrung mit BetterEnd und all Ihren Plugins verwenden Sie bitte Paper!"
+   - "Paper enthält viele Optimierungen zusätzlich zu Spigot's, was bedeutet, dass Sie eine enorme Leistungssteigerung sehen werden."
+   - "Paper ist auch eine Abspaltung von Spigot, was bedeutet, dass alle Ihre Plugins weiterhin mit Paper funktionieren sollten."
+   - "Weitere Informationen finden Sie auf deren Website: https://papermc.io/"
+untested:
+   - "Sie verwenden eine andere Server-Implementierung als Spigot oder Paper!"
+   - "BetterEnd wurde mit dieser Implementierung nicht getestet, und es wird nur minimaler Support geleistet, falls bei der Verwendung Probleme auftreten sollten."
+   - "Wenn Sie Probleme haben, testen Sie auf Papier, bevor Sie sie melden!"
+   - "Wenn Sie möchten, dass Ihre Implementierung offiziell unterstützt wird, wenden Sie sich an dfsek auf dem BetterEnd Discord-Server."

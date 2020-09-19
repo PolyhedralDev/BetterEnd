@@ -6,6 +6,7 @@ import com.dfsek.betterend.config.ConfigUtil;
 import com.dfsek.betterend.config.LangUtil;
 import com.dfsek.betterend.config.WorldConfig;
 import com.dfsek.betterend.population.structures.EndStructure;
+import com.dfsek.betterend.premium.AetherFallUtil;
 import com.dfsek.betterend.premium.EndAdvancementUtil;
 import com.dfsek.betterend.premium.MythicSpawnsUtil;
 import com.dfsek.betterend.premium.PremiumUtil;
@@ -58,6 +59,7 @@ public class BetterEnd extends JavaPlugin {
             if(isPremium()) getServer().getScheduler().scheduleSyncDelayedTask(this, () -> {
                 logger.info("Enabling advancements...");
                 EndAdvancementUtil.enable(instance);
+                AetherFallUtil.init(this);
             }, 60);
         } catch(NoClassDefFoundError ignored) {
         }

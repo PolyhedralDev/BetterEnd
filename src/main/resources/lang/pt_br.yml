@@ -1,0 +1,52 @@
+enable:
+   - "&fBetterEnd não seria possivel sem a ajuda das seguintes pessoas:"
+   - "&fDevelopers: dfsek e Baer"
+   - "&fBuilders: GucciPoochie, sgtmushroom39, Daverono, and Merazmus"
+   - "&fPatrons: EtherealSquid"
+disable:
+   - "&fObrigado por usar BetterEnd!"
+free-notification:
+   - "&bVocê esta usando a versão gratuita do BetterEnd. Por favor considere comprar a versão premium para ajudar o desenvolvimento do plugin e ter features adicionais"
+   - "&bMais informações podem ser encontradas aqui: &nhttps://github.com/dfsek/BetterEnd-Public/wiki/Premium"
+command-prefix: "&3[BetterEnd] "
+update:
+   new-version: "Uma nova versão do BetterEnd esta disponível %s "
+   up-to-date: "Sua versão do BetterEnd (%s) esta atualizada!"
+   more-recent: "Sua versão do BetterEnd (%s) é mais recente que a disponível publicamente."
+   error: "Um erro ocorreu enquanto procuravamos por um update, razão: "
+commands:
+   for-players-only: "&bEsse comando é para jogadores apenas!"
+   not-betterend-world: "&cEsse mundo não é um mundo do BetterEnd!"
+   no-permission: "&cVoçe não tem permissão para usar esse comando!."
+   version: "&bEste server esta usando &3BetterEnd v%s"
+   reload-config: "&bRecarregando configurações do BetterEnd..."
+   complete-msg: "&bFeito!"
+   biome: "&bVocê se encontra no bioma \"&3%s&b\""
+   unable-to-locate: "&bIncapaz de localizar bioma."
+   tp: "&bTeleportando..."
+   locating-biome: "&bLocalizando bioma... \"&3%s&b\""
+structure-log: "Gerando estrutura \"%1$s\" at %2$s %3$s %4$s. Dimensões: X:%5$s, Y:%6$s, Z:%7$s."
+custom-structures:
+   enable: "Inicializando Populador de Estruturas Customizadas..."
+   unable-to-find: "Incapaz de localizar customStructures.yml. Abortando inicilização das estruturas customizadas"
+   file-not-found: "O arquivo da estrutura customizada procurado não pode ser localizado."
+   error: "Um erro fora encontrado durante a tentativa de gerar a estrutura customizada"
+   log: "Gerando estrutura customizada \"%1$s\" at %2$s %3$s %4$s."
+   invalid-spawn: "%s é um local de spawn invalido. È necessario que seja no chão ou no ar"
+mythicmobs:
+   enable: "Iniciando integração com MythicMobs"
+   fail-to-spawn: "Erro ao spawnar mobs. MythicMobs esta realmente instalado?"
+   unable-to-find: "Incapaz de localizar mythicSpawns.yml. Abortando o spawn aleatorio do MythicMobs."
+advancements:
+   enable: "Ativando conquistas..."
+paper:
+   - "Você está usando Spigot/CraftBukkit no seu server."
+   - "Para uma experiência melhor com o BetterEnd, e todos os seus plugins, por favor use Paper!"
+   - "Paper adiciona uma serie de otimizações no Spigot, oque significa que você tera uma serie de melhoras de perfomance."
+   - "Paper é um fork do Spigot original, oque significa que todos os plugins são compatíveis."
+   - "Descubra mais no site deles: https://papermc.io/"
+untested:
+   - "Você está usando um server sem Spigot ou Paper!"
+   - "BetterEnd não foi testado nesse tipo de server, e não podemos ajudar muito se problemas surgirem."
+   - "Se você esta tendo problemas, tente usar Paper antes de reportar!"
+   - "Se você deseja que sua implementação seja oficialmente suportada, entre em contato com dfsek no discord do BetterEnd."
