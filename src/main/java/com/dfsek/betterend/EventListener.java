@@ -34,7 +34,7 @@ public class EventListener implements Listener {
 
     @EventHandler(ignoreCancelled = true)
     public void onInventoryOpenEvent(InventoryOpenEvent event) {
-        if(event.getInventory().getHolder() == null) return;
+        if(event.getInventory().getHolder() == null || !(event.getPlayer().getWorld().getGenerator() instanceof EndChunkGenerator)) return;
         if(WorldConfig.fromWorld(event.getPlayer().getWorld()).mythicBossEnable) {
             InventoryHolder holder = event.getInventory().getHolder();
             Inventory inventory = event.getInventory();

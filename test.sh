@@ -1,6 +1,8 @@
 DIRECTORY=./target
 PROJECT=BetterEnd-premium
-REPO=https://github.com/PolyhedralDev/BetterEndTestServer
+NAME=BetterEnd
+WORLD=world_the_end
+REPO=https://github.com/PolyhedralDev/WorldGenTestServer
 
 
 color() {
@@ -17,6 +19,8 @@ colorend() {
 if [ ! -d "$DIRECTORY/server" ]; then
   echo "$DIRECTORY/server not found. Cloning now."
   git clone $REPO $DIRECTORY/server
+  sed -i "s/\${gen}/$NAME/g" $DIRECTORY/server/bukkit.yml
+  sed -i "s/\${world}/$WORLD/g" $DIRECTORY/server/bukkit.yml
 fi
 cp $DIRECTORY/prod/$PROJECT.jar $DIRECTORY/server/plugins/$PROJECT.jar
 cd $DIRECTORY/server || exit

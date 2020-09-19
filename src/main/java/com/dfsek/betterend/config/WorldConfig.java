@@ -35,7 +35,7 @@ public class WorldConfig {
     public boolean mythicBossEnable;
     public String mythicBossName;
     public boolean fallToOverworldAether;
-    public boolean FallToOverworldEverywhere;
+    public boolean fallToOverworldEverywhere;
     public boolean overworld;
     public long bossRespawnTime;
     public int islandHeightMultiplierTop;
@@ -118,6 +118,9 @@ public class WorldConfig {
         enableCaves = config.getBoolean("caves.enable", false);
         outerRadius = config.getInt("terrain.outer-end-radius", 1000);
         legacyDistribution = config.getBoolean("terrain.biomes.legacy-normalization", true);
+
+        fallToOverworldAether = config.getBoolean("fall.fall-to-overworld.enable-aether", true);
+        fallToOverworldEverywhere = config.getBoolean("fall.fall-to-overworld.enable-everywhere", true);
 
         if(legacyDistribution)
             main.getLogger().warning("Enabling legacy biome distribution! Unless you are using a legacy (4.0.x) world, this is a bug!");

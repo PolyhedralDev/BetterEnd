@@ -16,7 +16,7 @@ public class AetherFallUtil {
         plugin.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, () -> {
             for(Player p : plugin.getServer().getOnlinePlayers()) {
                 if(p.getWorld().getGenerator() instanceof EndChunkGenerator
-                        && p.getLocation().getY() < 0 && (WorldConfig.fromWorld(p.getWorld()).FallToOverworldEverywhere
+                        && p.getLocation().getY() < 0 && (WorldConfig.fromWorld(p.getWorld()).fallToOverworldEverywhere
                         || (EndBiomeGrid.fromWorld(p.getWorld()).getBiome(p.getLocation()).isAether() && WorldConfig.fromWorld(p.getWorld()).fallToOverworldAether)))
                     p.teleport(new Location(Bukkit.getWorlds().get(0), p.getLocation().getX(), p.getWorld().getMaxHeight(), p.getLocation().getZ()));
             }
