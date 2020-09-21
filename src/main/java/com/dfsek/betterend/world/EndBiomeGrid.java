@@ -55,12 +55,6 @@ public class EndBiomeGrid extends BiomeGrid {
         super.setGrid(grid);
     }
 
-    public EndBiomeGrid(int seed) {
-        super(seed);
-        this.config = null;
-        super.setGrid(grid);
-    }
-
     /**
      * Static getter for a world's BiomeGrid. Instantiates grid if it doesn't exist.
      *

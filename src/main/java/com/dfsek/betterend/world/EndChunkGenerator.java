@@ -13,8 +13,8 @@ import org.bukkit.generator.BlockPopulator;
 import org.jetbrains.annotations.NotNull;
 import org.polydev.gaea.generation.GaeaChunkGenerator;
 import org.polydev.gaea.generation.GenerationPopulator;
+import org.polydev.gaea.math.ChunkInterpolator;
 import org.polydev.gaea.math.FastNoise;
-import org.polydev.gaea.math.InterpolationType;
 import org.polydev.gaea.population.PopulationManager;
 import org.polydev.gaea.world.carving.CaveCarver;
 
@@ -27,7 +27,7 @@ public class EndChunkGenerator extends GaeaChunkGenerator {
     private final PopulationManager popMan = new PopulationManager();
 
     public EndChunkGenerator(String world) {
-        super(InterpolationType.BILINEAR);
+        super(ChunkInterpolator.InterpolationType.TRILINEAR);
         popMan.attach(new OrePopulator());
         popMan.attach(new StructurePopulator());
         popMan.attach(new TreePopulator());
