@@ -22,8 +22,8 @@ import com.dfsek.betterend.world.generators.border.VoidAetherHighlandsBorderGene
 import com.dfsek.betterend.world.generators.border.VoidEndBorderGenerator;
 import org.bukkit.Material;
 import org.polydev.gaea.biome.Biome;
-import org.polydev.gaea.biome.BiomeTerrain;
 import org.polydev.gaea.biome.Decorator;
+import org.polydev.gaea.biome.Generator;
 import org.polydev.gaea.math.ProbabilityCollection;
 import org.polydev.gaea.structures.features.BlockReplaceFeature;
 import org.polydev.gaea.structures.features.Feature;
@@ -53,10 +53,10 @@ public enum EndBiome implements Biome {
     AETHER_HIGHLANDS_BORDER(new AetherHighlandsBorderGenerator(), new AetherHighlandsDecorator()),
     STARFIELD(new VoidGenerator(), new StarfieldDecorator());
 
-    private final BiomeTerrain generator;
+    private final Generator generator;
     private final Decorator decorator;
 
-    EndBiome(BiomeTerrain g, Decorator d) {
+    EndBiome(Generator g, Decorator d) {
         this.generator = g;
         this.decorator = d;
     }
@@ -137,10 +137,10 @@ public enum EndBiome implements Biome {
     /**
      * Gets the generator object
      *
-     * @return BiomeTerrain - the terrain gen object.
+     * @return Generator - the terrain gen object.
      */
     @Override
-    public BiomeTerrain getGenerator() {
+    public Generator getGenerator() {
         return this.generator;
     }
 
@@ -162,6 +162,6 @@ public enum EndBiome implements Biome {
     }
 
     public boolean shouldGenerateSnow() {
-        return decorator.shouldGenerateSnow();
+        return this.isHighlands();
     }
 }

@@ -2,28 +2,29 @@ package com.dfsek.betterend.world.generators.biomes;
 
 import org.bukkit.Material;
 import org.bukkit.World;
-import org.polydev.gaea.biome.BiomeTerrain;
+import org.bukkit.block.data.BlockData;
+import org.polydev.gaea.biome.Generator;
 import org.polydev.gaea.math.FastNoise;
 import org.polydev.gaea.math.ProbabilityCollection;
-import org.polydev.gaea.world.palette.BlockPalette;
+import org.polydev.gaea.world.palette.Palette;
 import org.polydev.gaea.world.palette.RandomPalette;
 
 import java.util.Random;
 
 
-public class AetherHighlandsGenerator extends BiomeTerrain {
-    private final BlockPalette palette;
+public class AetherHighlandsGenerator extends Generator {
+    private final Palette<BlockData> palette;
 
     public AetherHighlandsGenerator() {
         super();
-        this.palette = new RandomPalette(new Random(2403))
-                .add(new ProbabilityCollection<Material>()
-                        .add(Material.GRASS_BLOCK, 50)
-                        .add(Material.COARSE_DIRT, 10)
-                        .add(Material.GRAVEL, 15)
-                        .add(Material.PODZOL, 25), 1)
-                .add(Material.DIRT, 2)
-                .add(Material.STONE, 1);
+        this.palette = new RandomPalette<BlockData>(new Random(2403))
+                .add(new ProbabilityCollection<BlockData>()
+                        .add(Material.GRASS_BLOCK.createBlockData(), 50)
+                        .add(Material.COARSE_DIRT.createBlockData(), 10)
+                        .add(Material.GRAVEL.createBlockData(), 15)
+                        .add(Material.PODZOL.createBlockData(), 25), 1)
+                .add(Material.DIRT.createBlockData(), 2)
+                .add(Material.STONE.createBlockData(), 1);
     }
 
     @Override
@@ -37,7 +38,7 @@ public class AetherHighlandsGenerator extends BiomeTerrain {
     }
 
     @Override
-    public BlockPalette getPalette(int y) {
+    public Palette<BlockData> getPalette(int y) {
         return this.palette;
     }
 }

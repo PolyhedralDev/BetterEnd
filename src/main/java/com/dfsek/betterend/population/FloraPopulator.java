@@ -9,23 +9,23 @@ import org.bukkit.block.Block;
 import org.jetbrains.annotations.NotNull;
 import org.polydev.gaea.population.GaeaBlockPopulator;
 import org.polydev.gaea.profiler.ProfileFuture;
-import org.polydev.gaea.world.Fauna;
+import org.polydev.gaea.world.Flora;
 
 import java.util.Random;
 
-public class FaunaPopulator extends GaeaBlockPopulator {
+public class FloraPopulator extends GaeaBlockPopulator {
 
     @Override
     public void populate(@NotNull World world, @NotNull Random random, @NotNull Chunk chunk) {
-        ProfileFuture featureFuture = EndProfiler.fromWorld(world).measure("FaunaTime");
+        ProfileFuture featureFuture = EndProfiler.fromWorld(world).measure("FloraTime");
         for(int x = 0; x < 16; x++) {
             for(int z = 0; z < 16; z++) {
                 EndBiome biome = EndBiomeGrid.fromWorld(world).getBiome((chunk.getX() << 4) + x, (chunk.getZ() << 4) + z);
-                if(biome.getDecorator().getFaunaChance() <= 0 || random.nextInt(100) > biome.getDecorator().getFaunaChance())
+                if(biome.getDecorator().getFloraChance() <= 0 || random.nextInt(100) > biome.getDecorator().getFloraChance())
                     continue;
-                Fauna fauna = biome.getDecorator().getFauna().get(random);
-                Block highest = fauna.getHighestValidSpawnAt(chunk, x, z);
-                if(highest != null) fauna.plant(highest.getLocation());
+                Flora Flora = biome.getDecorator().getFlora().get(random);
+                Block highest = Flora.getHighestValidSpawnAt(chunk, x, z);
+                if(highest != null) Flora.plant(highest.getLocation());
             }
         }
         if(featureFuture != null) featureFuture.complete();

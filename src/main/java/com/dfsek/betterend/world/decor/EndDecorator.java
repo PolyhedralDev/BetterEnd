@@ -5,7 +5,7 @@ import org.polydev.gaea.biome.Decorator;
 import org.polydev.gaea.math.ProbabilityCollection;
 import org.polydev.gaea.tree.Tree;
 import org.polydev.gaea.tree.TreeType;
-import org.polydev.gaea.world.Fauna;
+import org.polydev.gaea.world.Flora;
 
 public class EndDecorator extends Decorator {
     private final ProbabilityCollection<Tree> trees = new ProbabilityCollection<Tree>()
@@ -27,22 +27,17 @@ public class EndDecorator extends Decorator {
     }
 
     @Override
-    public boolean shouldGenerateSnow() {
-        return false;
-    }
-
-    @Override
     public Biome getVanillaBiome() {
         return Biome.THE_END;
     }
 
     @Override
-    public ProbabilityCollection<Fauna> getFauna() {
+    public ProbabilityCollection<Flora> getFlora() {
         return new ProbabilityCollection<>();
     }
 
     @Override
-    public int getFaunaChance() {
+    public int getFloraChance() {
         return 0;
     }
 

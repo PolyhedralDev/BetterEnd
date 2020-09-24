@@ -4,7 +4,7 @@ import org.bukkit.block.Biome;
 import org.polydev.gaea.biome.Decorator;
 import org.polydev.gaea.math.ProbabilityCollection;
 import org.polydev.gaea.tree.Tree;
-import org.polydev.gaea.world.Fauna;
+import org.polydev.gaea.world.Flora;
 
 public class StarfieldDecorator extends Decorator {
     private final ProbabilityCollection<Tree> trees = new ProbabilityCollection<>();
@@ -25,22 +25,17 @@ public class StarfieldDecorator extends Decorator {
     }
 
     @Override
-    public boolean shouldGenerateSnow() {
-        return false;
-    }
-
-    @Override
     public Biome getVanillaBiome() {
         return Biome.END_MIDLANDS;
     }
 
     @Override
-    public ProbabilityCollection<Fauna> getFauna() {
+    public ProbabilityCollection<Flora> getFlora() {
         return new ProbabilityCollection<>();
     }
 
     @Override
-    public int getFaunaChance() {
+    public int getFloraChance() {
         return 0;
     }
 }

@@ -2,20 +2,21 @@ package com.dfsek.betterend.world.generators.border;
 
 import org.bukkit.Material;
 import org.bukkit.World;
-import org.polydev.gaea.biome.BiomeTerrain;
+import org.bukkit.block.data.BlockData;
+import org.polydev.gaea.biome.Generator;
 import org.polydev.gaea.math.FastNoise;
-import org.polydev.gaea.world.palette.BlockPalette;
+import org.polydev.gaea.world.palette.Palette;
 import org.polydev.gaea.world.palette.RandomPalette;
 
 import java.util.Random;
 
 
-public class VoidEndBorderGenerator extends BiomeTerrain {
-    private final BlockPalette palette;
+public class VoidEndBorderGenerator extends Generator {
+    private final Palette<BlockData> palette;
 
     public VoidEndBorderGenerator() {
         super();
-        this.palette = new RandomPalette(new Random(2403)).add(Material.END_STONE, 1);
+        this.palette = new RandomPalette<BlockData>(new Random(2403)).add(Material.END_STONE.createBlockData(), 1);
     }
 
     @Override
@@ -29,7 +30,7 @@ public class VoidEndBorderGenerator extends BiomeTerrain {
     }
 
     @Override
-    public BlockPalette getPalette(int y) {
+    public Palette<BlockData> getPalette(int y) {
         return this.palette;
     }
 }

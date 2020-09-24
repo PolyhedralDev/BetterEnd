@@ -2,7 +2,7 @@ package com.dfsek.betterend.world;
 
 import com.dfsek.betterend.config.ConfigUtil;
 import com.dfsek.betterend.config.WorldConfig;
-import com.dfsek.betterend.population.FaunaPopulator;
+import com.dfsek.betterend.population.FloraPopulator;
 import com.dfsek.betterend.population.OrePopulator;
 import com.dfsek.betterend.population.SnowPopulator;
 import com.dfsek.betterend.population.TreePopulator;
@@ -32,7 +32,7 @@ public class EndChunkGenerator extends GaeaChunkGenerator {
         popMan.attach(new StructurePopulator());
         popMan.attach(new TreePopulator());
         popMan.attach(new SnowPopulator());
-        popMan.attach(new FaunaPopulator());
+        popMan.attach(new FloraPopulator());
         WorldConfig config = WorldConfig.fromWorld(world);
         dec = config.genMainIsland;
     }
