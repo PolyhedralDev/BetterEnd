@@ -1,5 +1,6 @@
 package com.dfsek.betterend.command;
 
+import com.dfsek.betterend.BetterEnd;
 import com.dfsek.betterend.config.ConfigUtil;
 import com.dfsek.betterend.config.LangUtil;
 import com.dfsek.betterend.util.Util;
@@ -57,7 +58,7 @@ public class BetterEndCommand implements CommandExecutor {
             }
             return true;
         } else if(args.length == 1 && args[0].equalsIgnoreCase("version")) {
-            sender.sendMessage(LangUtil.prefix + String.format(LangUtil.versionCommand, main.getDescription().getVersion()));
+            sender.sendMessage(LangUtil.prefix + String.format(LangUtil.versionCommand, main.getDescription().getVersion() + "-" + (BetterEnd.isPremium() ? "premium" : "free")));
             return true;
         } else if(args.length == 1 && args[0].equalsIgnoreCase("reload")) {
             sender.sendMessage(LangUtil.prefix + LangUtil.reloadConfig);

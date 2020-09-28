@@ -87,7 +87,7 @@ public enum EndBiome implements Biome {
      * @since 3.6.2
      */
     public boolean isHighlands() {
-        return (this.equals(EndBiome.AETHER_HIGHLANDS) || this.equals(EndBiome.AETHER_HIGHLANDS_FOREST));
+        return (this.equals(EndBiome.AETHER_HIGHLANDS) || this.equals(EndBiome.AETHER_HIGHLANDS_FOREST) || this.equals(EndBiome.VOID_AETHER_HIGHLANDS_BORDER) || this.equals(EndBiome.AETHER_HIGHLANDS_BORDER));
     }
 
     /**
