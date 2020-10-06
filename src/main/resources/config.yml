@@ -15,7 +15,7 @@ update-checker:
 lang: en_us
 
 # Enables/disables generation of custom trees in all worlds
-big-trees-everywhere: false;
+big-trees-everywhere: false
 
 # How much longer should it take to grow a big tree?
 tree-sapling-growth-modifier: 8
@@ -28,3 +28,6 @@ generate-end-cities: false
 
 # Enable/disable debug mode
 debug: false
+
+# How often to save population data. This is done asynchronously, so it has little to no performance impact.
+data-save: PT30M

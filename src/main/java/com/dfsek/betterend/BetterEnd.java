@@ -50,9 +50,10 @@ public class BetterEnd extends JavaPlugin {
 
         this.getServer().getPluginManager().registerEvents(new EventListener(), this);
         this.saveDefaultConfig();
-        this.getCommand("betterend").setExecutor(new BetterEndCommand(this));
+        Objects.requireNonNull(this.getCommand("betterend")).setExecutor(new BetterEndCommand(this));
 
         ConfigUtil.init(logger, this);
+        Bukkit.getScheduler().scheduleAsyncRepeatingTask(this, EndChunkGenerator::saveAll, ConfigUtil.dataSave, ConfigUtil.dataSave);
         EndStructure.init();
         try {
             MythicSpawnsUtil.startSpawnRoutine();
@@ -87,6 +88,7 @@ public class BetterEnd extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        EndChunkGenerator.saveAll();
         Util.logForEach(LangUtil.disableMessage, Level.INFO);
     }
 

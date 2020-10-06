@@ -6,6 +6,7 @@ import com.dfsek.betterend.premium.PremiumUtil;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.polydev.gaea.biome.BiomeGrid;
+import org.polydev.gaea.generation.GenerationPhase;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -62,10 +63,7 @@ public class EndBiomeGrid extends BiomeGrid {
      * @return BiomeGrid - The BiomeGrid linked to the world.
      */
     public static EndBiomeGrid fromWorld(World w) {
-        if(grids.containsKey(w)) return grids.get(w);
-        EndBiomeGrid g = new EndBiomeGrid(w);
-        grids.put(w, g);
-        return g;
+        return grids.computeIfAbsent(w, EndBiomeGrid::new);
     }
 
     public void replaceInGrid(EndBiome from, EndBiome to) {
@@ -85,16 +83,16 @@ public class EndBiomeGrid extends BiomeGrid {
      * @return Biome - Biome at the given coordinates.
      */
     @Override
-    public EndBiome getBiome(int x, int z) {
+    public EndBiome getBiome(int x, int z, GenerationPhase phase) {
         if(config.genMainIsland) {
             long ds = (long) (Math.pow(x, 2) + Math.pow(z, 2));
             if(ds < 15625) return config.getBiomeReplacement(EndBiome.MAIN_ISLAND); // 15625 = 125^2, main island width
             else if(ds < Math.pow(config.outerRadius - 10, 2))
                 return config.getBiomeReplacement(EndBiome.VOID); // 980100 = 990^2, outer end edge
             else if(ds < Math.pow(config.outerRadius, 2))
-                return config.getBiomeReplacement(((EndBiome) super.getBiome(x, z)).getVoidBorderVariant()); // 1000000 = 1000^2, outer end beginning
+                return config.getBiomeReplacement(((EndBiome) super.getBiome(x, z, phase)).getVoidBorderVariant()); // 1000000 = 1000^2, outer end beginning
         }
-        return (EndBiome) super.getBiome(x, z);
+        return (EndBiome) super.getBiome(x, z, phase);
     }
 
     /**
@@ -105,6 +103,6 @@ public class EndBiomeGrid extends BiomeGrid {
      */
     @Override
     public EndBiome getBiome(Location l) {
-        return this.getBiome(l.getBlockX(), l.getBlockZ());
+        return this.getBiome(l.getBlockX(), l.getBlockZ(), GenerationPhase.BASE);
     }
 }

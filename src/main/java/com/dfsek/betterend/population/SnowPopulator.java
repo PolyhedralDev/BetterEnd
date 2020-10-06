@@ -30,7 +30,11 @@ public class SnowPopulator extends GaeaBlockPopulator {
                     || name.contains("fence")
                     || name.contains("lantern")
                     || name.contains("chest")
-                    || name.contains("door")) blacklistSpawn.add(m);
+                    || name.contains("door")
+                    || name.contains("repeater")
+                    || name.equals("lily_pad")
+                    || name.equals("snow")
+                    || name.equals("pane")) blacklistSpawn.add(m);
         }
         blacklistSpawn.add(Material.END_STONE);
         if(ConfigUtil.debug)

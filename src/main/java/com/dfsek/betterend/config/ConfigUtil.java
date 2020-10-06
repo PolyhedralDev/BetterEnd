@@ -4,6 +4,8 @@ import com.dfsek.betterend.BetterEnd;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.time.Duration;
+import java.util.Objects;
 import java.util.logging.Logger;
 
 public class ConfigUtil {
@@ -15,6 +17,7 @@ public class ConfigUtil {
     public static int treeGrowthMultiplier;
     public static boolean parallel;
     public static boolean endCities;
+    public static long dataSave; // Period of population data saving, in ticks.
 
     private ConfigUtil() {
     }
@@ -24,6 +27,8 @@ public class ConfigUtil {
         logger.info("Loading configuration values...");
         main.reloadConfig();
         FileConfiguration config = main.getConfig();
+
+        dataSave = Duration.parse(Objects.requireNonNull(config.getString("data-save", "PT6M"))).toMillis()/20L;
 
         lang = config.getString("lang", "en_us");
         debug = config.getBoolean("debug", false);

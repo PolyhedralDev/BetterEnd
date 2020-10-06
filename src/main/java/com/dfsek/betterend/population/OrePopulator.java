@@ -8,6 +8,7 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.data.BlockData;
 import org.jetbrains.annotations.NotNull;
+import org.polydev.gaea.generation.GenerationPhase;
 import org.polydev.gaea.population.GaeaBlockPopulator;
 import org.polydev.gaea.profiler.ProfileFuture;
 import org.polydev.gaea.world.Ore;
@@ -27,7 +28,7 @@ public class OrePopulator extends GaeaBlockPopulator {
             z = random.nextInt(15);
             Ore ore;
             try {
-                ore = config.ores.get(EndBiomeGrid.fromWorld(world).getBiome((chunk.getX() << 4) + x, (chunk.getZ() << 4) + z)).get();
+                ore = config.ores.get(EndBiomeGrid.fromWorld(world).getBiome((chunk.getX() << 4) + x, (chunk.getZ() << 4) + z, GenerationPhase.POPULATE)).get();
             } catch(NullPointerException e) {
                 continue;
             }

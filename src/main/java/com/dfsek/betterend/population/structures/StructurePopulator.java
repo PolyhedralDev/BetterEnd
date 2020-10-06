@@ -9,6 +9,7 @@ import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.jetbrains.annotations.NotNull;
+import org.polydev.gaea.generation.GenerationPhase;
 import org.polydev.gaea.population.GaeaBlockPopulator;
 import org.polydev.gaea.profiler.ProfileFuture;
 import org.polydev.gaea.structures.NMSStructure;
@@ -26,7 +27,7 @@ public class StructurePopulator extends GaeaBlockPopulator {
         long l = System.nanoTime();
         int x = random.nextInt(16);
         int z = random.nextInt(16);
-        EndBiome biome = EndBiomeGrid.fromWorld(world).getBiome(x + (chunk.getX() << 4), z + (chunk.getZ() << 4));
+        EndBiome biome = EndBiomeGrid.fromWorld(world).getBiome(x + (chunk.getX() << 4), z + (chunk.getZ() << 4), GenerationPhase.POPULATE);
         if(WorldConfig.fromWorld(world).structureChancePerChunk > random.nextInt(100) || biome.getDecorator().overrideStructureChance()) {
             int y = WorldUtil.getHighestValidSpawnAt(chunk, x, z);
             x += (chunk.getX() << 4);
