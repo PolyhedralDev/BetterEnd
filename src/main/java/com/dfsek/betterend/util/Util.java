@@ -32,44 +32,44 @@ public class Util {
 
 
     public static boolean tpBiome(Player p, String[] args) {
-        if(args[1].equalsIgnoreCase("END") || args[1].equalsIgnoreCase("SHATTERED_END") || args[1].equalsIgnoreCase("VOID") || args[1].equalsIgnoreCase("STARFIELD")
-                || args[1].equalsIgnoreCase("SHATTERED_FOREST") || args[1].equalsIgnoreCase("AETHER") || args[1].equalsIgnoreCase("AETHER_HIGHLANDS")
-                || (BetterEnd.isPremium() && args[1].equalsIgnoreCase("AETHER_HIGHLANDS_FOREST")) || (BetterEnd.isPremium() && args[1].equalsIgnoreCase("AETHER_FOREST"))) {
-            p.sendMessage(LangUtil.prefix + String.format(LangUtil.locatingBiomeMessage, args[1].toUpperCase()));
+        if(args[0].equalsIgnoreCase("END") || args[0].equalsIgnoreCase("SHATTERED_END") || args[0].equalsIgnoreCase("VOID") || args[0].equalsIgnoreCase("STARFIELD")
+                || args[0].equalsIgnoreCase("SHATTERED_FOREST") || args[0].equalsIgnoreCase("AETHER") || args[0].equalsIgnoreCase("AETHER_HIGHLANDS")
+                || (BetterEnd.isPremium() && args[0].equalsIgnoreCase("AETHER_HIGHLANDS_FOREST")) || (BetterEnd.isPremium() && args[0].equalsIgnoreCase("AETHER_FOREST"))) {
+            LangUtil.send("commands.locating-biome", p, args[0]);
             int tries = 0;
             Location candidate = p.getLocation();
             while(tries < 400000) {
                 Location candidateN = candidate.add(tries, 0, 0);
-                if(EndBiomeGrid.fromWorld(p.getWorld()).getBiome(candidateN).equals(EndBiome.valueOf(args[1].toUpperCase()))
+                if(EndBiomeGrid.fromWorld(p.getWorld()).getBiome(candidateN).equals(EndBiome.valueOf(args[0].toUpperCase()))
                         && Math.sqrt(Math.pow(candidateN.getBlockX(), 2) + Math.pow(candidateN.getBlockZ(), 2)) > 1000) {
-                    p.sendMessage(LangUtil.prefix + LangUtil.teleportingMessage);
+                    LangUtil.send("commands.tp", p);
                     p.teleport(candidateN);
                     return true;
                 }
                 candidateN = candidate.add(- tries, 0, 0);
-                if(EndBiomeGrid.fromWorld(p.getWorld()).getBiome(candidateN).equals(EndBiome.valueOf(args[1].toUpperCase()))
+                if(EndBiomeGrid.fromWorld(p.getWorld()).getBiome(candidateN).equals(EndBiome.valueOf(args[0].toUpperCase()))
                         && Math.sqrt(Math.pow(candidateN.getBlockX(), 2) + Math.pow(candidateN.getBlockZ(), 2)) > 1000) {
-                    p.sendMessage(LangUtil.prefix + LangUtil.teleportingMessage);
+                    LangUtil.send("commands.tp", p);
                     p.teleport(candidateN);
                     return true;
                 }
                 candidateN = candidate.add(0, 0, tries);
-                if(EndBiomeGrid.fromWorld(p.getWorld()).getBiome(candidateN).equals(EndBiome.valueOf(args[1].toUpperCase()))
+                if(EndBiomeGrid.fromWorld(p.getWorld()).getBiome(candidateN).equals(EndBiome.valueOf(args[0].toUpperCase()))
                         && Math.sqrt(Math.pow(candidateN.getBlockX(), 2) + Math.pow(candidateN.getBlockZ(), 2)) > 1000) {
-                    p.sendMessage(LangUtil.prefix + LangUtil.teleportingMessage);
+                    LangUtil.send("commands.tp", p);
                     p.teleport(candidateN);
                     return true;
                 }
                 candidateN = candidate.add(0, 0, - tries);
-                if(EndBiomeGrid.fromWorld(p.getWorld()).getBiome(candidateN).equals(EndBiome.valueOf(args[1].toUpperCase()))
+                if(EndBiomeGrid.fromWorld(p.getWorld()).getBiome(candidateN).equals(EndBiome.valueOf(args[0].toUpperCase()))
                         && Math.sqrt(Math.pow(candidateN.getBlockX(), 2) + Math.pow(candidateN.getBlockZ(), 2)) > 1000) {
-                    p.sendMessage(LangUtil.prefix + LangUtil.teleportingMessage);
+                    LangUtil.send("commands.tp", p);
                     p.teleport(candidateN);
                     return true;
                 }
                 tries++;
             }
-            p.sendMessage(LangUtil.prefix + LangUtil.unableToLocateMessage);
+            LangUtil.send("commands.unable-to-locate", p);
             return true;
         } else return false;
     }
@@ -78,17 +78,17 @@ public class Util {
         BetterEnd instance = BetterEnd.getInstance();
         UpdateChecker.init(instance, 79389).requestUpdateCheck().whenComplete((result, exception) -> {
             if(result.requiresUpdate()) {
-                instance.getLogger().info(String.format(LangUtil.newVersion, result.getNewestVersion()));
+                LangUtil.log("update.new-version", Level.INFO, result.getNewestVersion());
                 return;
             }
 
             UpdateReason reason = result.getReason();
             if(reason == UpdateReason.upToDate) {
-                instance.getLogger().info(String.format(LangUtil.upToDate, result.getNewestVersion()));
+                LangUtil.log("update.up-to-date", Level.INFO, result.getNewestVersion());
             } else if(reason == UpdateReason.UNRELEASED_VERSION) {
-                instance.getLogger().info(String.format(LangUtil.moreRecent, result.getNewestVersion()));
+                LangUtil.log("update.more-recent", Level.INFO, result.getNewestVersion());
             } else {
-                instance.getLogger().warning(LangUtil.updateError + reason);// Occurred
+                LangUtil.log("update.error", Level.INFO, result.getNewestVersion());
             }
         });
     }

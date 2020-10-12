@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.logging.Level;
 import java.util.stream.IntStream;
 
 public class MythicSpawnsUtil {
@@ -33,11 +34,11 @@ public class MythicSpawnsUtil {
     public static void startSpawnRoutine() {
 
         if(BetterEnd.isPremium()) {
-            main.getLogger().info(LangUtil.enableMythicMobsMessage);
+            LangUtil.log("mythicmobs.enable", Level.INFO);
             try {
                 config.load(configFile);
             } catch(IOException e) {
-                main.getLogger().warning(LangUtil.mythicMobsConfigNotFoundMessage);
+                LangUtil.log("mythicmobs.unable-to-find", Level.WARNING);
                 return;
             } catch(InvalidConfigurationException e) {
                 e.printStackTrace();
@@ -94,7 +95,7 @@ public class MythicSpawnsUtil {
                                             y = p.getWorld().getMaxHeight() - 96 - random.nextInt(64);
                                             break;
                                         default:
-                                            main.getLogger().warning(String.format(LangUtil.invalidSpawn, mob.get("spawn")));
+                                            LangUtil.log("custom-structures.invalid-spawn", Level.WARNING, (String) mob.get("spawn"));
                                             break;
                                     }
                                     if(y < 1) continue;
@@ -112,7 +113,7 @@ public class MythicSpawnsUtil {
                         }
                     }
                 } catch(NoClassDefFoundError e) {
-                    main.getLogger().warning(LangUtil.mythicMobsFailToSpawnMessage);
+                    LangUtil.log("mythicmobs.fail-to-spawn", Level.WARNING);
                 }
             }, 20L * spawnTime, 20L * spawnTime);
         }

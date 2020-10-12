@@ -14,9 +14,22 @@ update:
    up-to-date: "Your version of BetterEnd (%s) is up to date!"
    more-recent: "Your version of BetterEnd (%s) is more recent than the one publicly available."
    error: "An error occurred while checking for an update. Reason: "
+command:
+   world: "&cThis world is not a BetterEnd world!"
+   players-only: "&bThis command is for players only!"
+   invalid: "Invalid command. (Expected %1$s arguments, found %2$s)."
+   debug-only: "This command must be used with debug mode enabled!"
+   profile:
+      main-menu:
+         - "---------------BetterEnd/profile---------------"
+         - "start - Starts the profiler"
+         - "stop  - Stops the profiler"
+         - "query - Fetches profiler data"
+         - "reset - Resets profiler data"
+      reset: "Profiler has been reset."
+      start: "Profiler has started."
+      stop: "Profiler has stopped."
 commands:
-   for-players-only: "&bThis command is for players only!"
-   not-betterend-world: "&cThis world is not a BetterEnd world!"
    no-permission: "&cYou do not have permission for this command."
    version: "&bThis server is running &3BetterEnd v%s"
    reload-config: "&bReloading BetterEnd Config..."

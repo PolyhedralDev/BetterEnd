@@ -1,35 +1,32 @@
 package com.dfsek.betterend.command;
 
-import com.dfsek.betterend.command.profile.ProfileCommand;
+import com.dfsek.betterend.BetterEnd;
+import com.dfsek.betterend.config.LangUtil;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
-import org.polydev.gaea.GaeaPlugin;
 import org.polydev.gaea.command.Command;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-public class BetterEndCommand extends Command {
-    public BetterEndCommand(GaeaPlugin main) {
-        super(main);
+public class VersionCommand extends Command {
+    public VersionCommand(Command parent) {
+        super(parent);
     }
 
     @Override
     public String getName() {
-        return "be";
+        return "version";
     }
 
     @Override
     public List<Command> getSubCommands() {
-        return Arrays.asList(new VersionCommand(this),
-                new ReloadCommand(this),
-                new BiomeCommand(this),
-                new ProfileCommand(this));
+        return Collections.emptyList();
     }
 
     @Override
-    public boolean execute(@NotNull CommandSender commandSender, org.bukkit.command.@NotNull Command command, @NotNull String s, @NotNull String[] strings) {
+    public boolean execute(@NotNull CommandSender sender, org.bukkit.command.@NotNull Command command, @NotNull String s, @NotNull String[] strings) {
+        LangUtil.send("commands.version", sender, getMain().getDescription().getVersion() + "-" + (BetterEnd.isPremium() ? "premium" : "free"));
         return true;
     }
 

@@ -1,15 +1,16 @@
 main: com.dfsek.betterend.BetterEnd
 name: BetterEnd
 version: 4.2.0
+depend: [ "Gaea" ]
 author: dfsek
 description: Overhauls the End dimension with new biomes, structures, and more!
 load: STARTUP
-softdepend: [ MythicMobs ]
+softdepend: [ "MythicMobs" ]
 api-version: "1.15"
 commands:
   betterend:
     description: BetterEnd base command
     usage: /betterend <biome|tpbiome|version|reload>
-    aliases: [ be, end ]
+    aliases: [ "be", "end" ]
     permission: betterend.command
     permission-message: You don't have permission.

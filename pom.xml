@@ -25,8 +25,8 @@
                 <configuration>
                     <relocations>
                         <relocation>
-                            <pattern>org.polydev.gaea</pattern>
-                            <shadedPattern>com.dfsek.betterend.gaea</shadedPattern>
+                            <pattern>org.apache.commons</pattern>
+                            <shadedPattern>com.dfsek.betterend.lib.commons</shadedPattern>
                         </relocation>
                     </relocations>
                 </configuration>
@@ -104,7 +104,13 @@
         <dependency>
             <groupId>org.polydev</groupId>
             <artifactId>gaea</artifactId>
-            <version>1.10.84</version>
+            <version>1.11.3</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.4</version>
         </dependency>
     </dependencies>
 
