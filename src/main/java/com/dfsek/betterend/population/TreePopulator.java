@@ -30,7 +30,7 @@ public class TreePopulator extends GaeaBlockPopulator {
             EndBiome b = EndBiomeGrid.fromWorld(world).getBiome(origin);
             numTrees++;
             try {
-                b.getDecorator().getTrees().get(random).plant(origin, random, false, main);
+                b.getDecorator().getTrees().get(random).plant(origin, random, main);
             } catch(NullPointerException ignored) {
             }
             if(numTrees >= b.getDecorator().getTreeDensity()) return;

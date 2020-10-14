@@ -111,13 +111,13 @@ public class EventListener implements Listener {
             if((WorldConfig.fromWorld(e.getWorld()).bigTreeSaplingWorld || ConfigUtil.generateBigTreesEverywhere || EndBiomeGrid.fromWorld(e.getWorld()).getBiome(e.getLocation()).equals(EndBiome.AETHER_FOREST)) && (e.getSpecies().equals(TreeType.TREE) || e.getSpecies().equals(TreeType.BIG_TREE))) {
                 if(treeRandom.nextInt(100) < 100 / ConfigUtil.treeGrowthMultiplier) {
                     e.getLocation().getBlock().setType(Material.AIR);
-                    org.polydev.gaea.tree.TreeType.GIANT_OAK.plant(e.getLocation(), treeRandom, false, main);
+                    org.polydev.gaea.tree.TreeType.GIANT_OAK.plant(e.getLocation(), treeRandom,  main);
                 }
                 e.setCancelled(true);
             } else if((WorldConfig.fromWorld(e.getWorld()).bigTreeSaplingWorld || ConfigUtil.generateBigTreesEverywhere || EndBiomeGrid.fromWorld(e.getWorld()).getBiome(e.getLocation()).equals(EndBiome.AETHER_HIGHLANDS_FOREST)) && (e.getSpecies().equals(TreeType.TALL_REDWOOD) || e.getSpecies().equals(TreeType.REDWOOD) || e.getSpecies().equals(TreeType.MEGA_REDWOOD))) {
                 if(treeRandom.nextInt(100) < 100 / ConfigUtil.treeGrowthMultiplier) {
                     e.getLocation().getBlock().setType(Material.AIR);
-                    org.polydev.gaea.tree.TreeType.GIANT_SPRUCE.plant(e.getLocation(), treeRandom, false, main);
+                    org.polydev.gaea.tree.TreeType.GIANT_SPRUCE.plant(e.getLocation(), treeRandom,  main);
                 }
                 e.setCancelled(true);
             }
