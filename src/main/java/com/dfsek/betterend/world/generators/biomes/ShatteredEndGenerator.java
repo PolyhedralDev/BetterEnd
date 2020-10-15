@@ -27,7 +27,7 @@ public class ShatteredEndGenerator extends Generator {
     @Override
     public double getNoise(FastNoise gen, World w, int x, int z) {
         if(shattered.getSeed() != gen.getSeed()) shattered.setSeed(gen.getSeed());
-        return gen.getNoise(x, z) + 0.3 * shattered.getSimplexFractal(x, z);
+        return gen.getNoise(x, z) + 0.4 * shattered.getSimplexFractal(x, z);
     }
 
     @Override

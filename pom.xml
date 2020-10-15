@@ -75,11 +75,6 @@
             <name>Lumine Releases</name>
             <url>https://mvn.lumine.io/repository/maven-public/</url>
         </repository>
-        <repository>
-            <id>gaea.local</id>
-            <name>gaea</name>
-            <url>file:/home/dfsek/Documents/Gaea/repo</url>
-        </repository>
     </repositories>
 
     <dependencies>
@@ -105,7 +100,8 @@
             <groupId>org.polydev</groupId>
             <artifactId>gaea</artifactId>
             <version>1.11.4</version>
-            <scope>provided</scope>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/Gaea-1.11.6.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>commons-io</groupId>
