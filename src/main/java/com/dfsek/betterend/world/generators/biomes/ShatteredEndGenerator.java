@@ -30,7 +30,7 @@ public class ShatteredEndGenerator extends Generator {
 
     @Override
     public double getNoise(FastNoiseLite gen, World w, int x, int z) {
-        return gen.getNoise(x, z) + 0.4 * shattered.getNoise(x, z);
+        return gen.getNoise(x, z) * 1.2 + 0.4 * shattered.getNoise(x, z);
     }
 
     @Override

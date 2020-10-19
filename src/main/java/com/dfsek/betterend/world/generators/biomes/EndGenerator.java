@@ -25,7 +25,7 @@ public class EndGenerator extends Generator {
 
     @Override
     public double getNoise(FastNoiseLite gen, World w, int x, int z) {
-        return gen.getNoise(x, z);
+        return gen.getNoise(x, z) * 1.2;
     }
 
     @Override

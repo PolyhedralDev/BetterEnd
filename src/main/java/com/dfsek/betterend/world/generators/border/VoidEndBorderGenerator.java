@@ -25,7 +25,7 @@ public class VoidEndBorderGenerator extends Generator {
 
     @Override
     public double getNoise(FastNoiseLite gen, World w, int x, int z) {
-        return gen.getNoise(x, z) * 0.5f;
+        return gen.getNoise(x, z) * 1.2 * 0.5f;
     }
 
     @Override

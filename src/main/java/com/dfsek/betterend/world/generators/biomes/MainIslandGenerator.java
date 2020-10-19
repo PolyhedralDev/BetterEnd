@@ -33,7 +33,7 @@ public class MainIslandGenerator extends Generator {
      */
     @Override
     public double getNoise(FastNoiseLite gen, World w, int x, int z) {
-        return ((gen.getNoise(x, z) + 0.75) / 1.25) * (Math.sqrt(- (Math.pow(x, 2) + Math.pow(z, 2)) + 10000)) / 96;
+        return ((gen.getNoise(x, z) + 1.1) / 1.25) * (Math.sqrt(- (Math.pow(x, 2) + Math.pow(z, 2)) + 10000)) / 96;
     }
 
     @Override
