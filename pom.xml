@@ -99,9 +99,9 @@
         <dependency>
             <groupId>org.polydev</groupId>
             <artifactId>gaea</artifactId>
-            <version>1.11.4</version>
+            <version>1.12.1</version>
             <scope>system</scope>
-            <systemPath>${project.basedir}/lib/Gaea-1.11.6.jar</systemPath>
+            <systemPath>${project.basedir}/lib/Gaea-1.12.1.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>commons-io</groupId>

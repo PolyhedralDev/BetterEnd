@@ -16,7 +16,7 @@ import org.polydev.gaea.generation.GaeaChunkGenerator;
 import org.polydev.gaea.generation.GenerationPhase;
 import org.polydev.gaea.generation.GenerationPopulator;
 import org.polydev.gaea.math.ChunkInterpolator;
-import org.polydev.gaea.math.FastNoise;
+import org.polydev.gaea.math.FastNoiseLite;
 import org.polydev.gaea.population.PopulationManager;
 import org.polydev.gaea.world.carving.CaveCarver;
 
@@ -57,7 +57,7 @@ public class EndChunkGenerator extends GaeaChunkGenerator {
     }
 
     @Override
-    public ChunkData generateBase(@NotNull World world, @NotNull Random random, int chunkX, int chunkZ, FastNoise noise) {
+    public ChunkData generateBase(@NotNull World world, @NotNull Random random, int chunkX, int chunkZ, FastNoiseLite noise) {
         if(needsLoad) load(world);
         ChunkData chunk = createChunkData(world);
         WorldConfig config = WorldConfig.fromWorld(world);
