@@ -1,7 +1,8 @@
 # BetterEnd Master config file
 # WORLD OPTIONS ARE FOUND IN WORLD CONFIGS!
+# DO NOT ATTEMPT TO SET WORLD CONFIG OPTIONS IN THIS FILE!
 
-# Do not change this value!
+# A hood classic, do not change this value!
 config-version: 1
 
 # Update Checker settings

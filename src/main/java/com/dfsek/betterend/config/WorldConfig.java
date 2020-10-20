@@ -28,7 +28,6 @@ import java.util.Objects;
 public class WorldConfig {
     private static final Map<String, WorldConfig> configs = new HashMap<>();
     private static JavaPlugin main;
-    public boolean initialized = false;
     public boolean endermanBlockPickup;
     public boolean bigTreeSaplingBiomes;
     public boolean bigTreeSaplingWorld;
@@ -50,7 +49,6 @@ public class WorldConfig {
     public int oreAttempts;
     public boolean enableCaves;
     public int outerRadius;
-    public boolean legacyDistribution;
     public Map<EndBiome, ProbabilityCollection<Ore>> ores = new HashMap<>();
     private Map<String, Object> biomeReplacements = new HashMap<>();
 
@@ -117,13 +115,12 @@ public class WorldConfig {
         oreAttempts = config.getInt("ores.attempts", 10);
         enableCaves = config.getBoolean("caves.enable", false);
         outerRadius = config.getInt("terrain.outer-end-radius", 1000);
-        legacyDistribution = config.getBoolean("terrain.biomes.legacy-normalization", true);
 
         fallToOverworldAether = config.getBoolean("fall.fall-to-overworld.enable-aether", true);
         fallToOverworldEverywhere = config.getBoolean("fall.fall-to-overworld.enable-everywhere", true);
 
-        if(legacyDistribution)
-            main.getLogger().warning("Enabling legacy biome distribution! Unless you are using a legacy (4.0.x) world, this is a bug!");
+        if(config.getBoolean("terrain.biomes.legacy-normalization", false))
+            main.getLogger().severe("\n\nLegacy distribution option was found in the config! This option has been removed as of 4.4.0. \n\nYOU WILL GET CHUNK CLIFFS AND OTHER STRANGE BEHAVIOR IF UPGRADING A LEGACY WORLD TO 4.4.0!!\n\n");
 
         // Define ores
         Map<String, Object> oreBiomes = config.getConfigurationSection("ores.biomes").getValues(false);

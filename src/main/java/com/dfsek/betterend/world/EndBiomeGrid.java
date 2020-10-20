@@ -38,9 +38,8 @@ public class EndBiomeGrid extends BiomeGrid {
             {EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_END, EndBiome.SHATTERED_FOREST, EndBiome.SHATTERED_FOREST, EndBiome.SHATTERED_FOREST, EndBiome.SHATTERED_FOREST, EndBiome.SHATTERED_FOREST, EndBiome.SHATTERED_FOREST}};
 
     public EndBiomeGrid(World w) {
-        super(w, 1f / WorldConfig.fromWorld(w).biomeSize, 1f / WorldConfig.fromWorld(w).climateSize);
+        super(w, 1f / WorldConfig.fromWorld(w).biomeSize, 1f / WorldConfig.fromWorld(w).climateSize, 16, 16);
         this.config = WorldConfig.fromWorld(w);
-        if(config.legacyDistribution) super.setNormalType(NormalType.LEGACY);
         for(EndBiome b : EndBiome.values()) {
             replaceInGrid(b, config.getBiomeReplacement(b));
         }

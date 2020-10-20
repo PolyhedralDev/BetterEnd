@@ -10,14 +10,15 @@ terrain:
     top: 6
     bottom: 36
   ground-level: 64
+  # Whether to generate the Main Island
   main-island: true
+  # Radius at which the Outer End starts
   outer-end-radius: 1000
   biomes:
+    # Biome size. Larger value = larger biomes.
     size: 2048
+    # Climate size. Larger values = larger distance between different climate zones (Aether/Aether highlands, Shattered End/Shattered Forest, etc)
     climate-distribution: 512
-
-    # Do not enable this unless you are upgrading from a 4.0.x world!
-    legacy-normalization: false
     # Options to enable/disable biomes.
     # To disable a biome, replace it with another one.
     replacements:
@@ -37,6 +38,7 @@ terrain:
       #SHATTERED_END: END
       SHATTERED_FOREST: SHATTERED_FOREST
 
+# Whether to prevent Endermen from picking up blocks in Aether biomes.
 disable-enderman-block-pickup-aether: true
 
 # Configuration for players falling to overworld (Premium only)
@@ -203,6 +205,10 @@ boss:
   # Enable/disable the MythicMobs boss fight
   enable: false
   # Amount of time before boss respawns (premium only). https://en.wikipedia.org/wiki/ISO_8601#Durations
+  # Examples:
+  # P14D - 14 days
+  # PT10M - 10 minutes
+  # PT1H - 1 hour
   respawn-time: P14D
   # The name of the boss to spawn
   gold-name: SkeletonKing
