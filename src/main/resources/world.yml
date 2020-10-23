@@ -5,6 +5,7 @@
 terrain:
   noise:
     octaves: 5
+    island-threshold: 0.4
     island-size: 96
   height:
     top: 6

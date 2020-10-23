@@ -70,8 +70,8 @@ public class EndChunkGenerator extends GaeaChunkGenerator {
             for(byte z = 0; z < 16; z++) {
                 EndBiome b = EndBiomeGrid.fromWorld(world).getBiome(xOrigin+x, zOrigin+z, GenerationPhase.PALETTE_APPLY);
                 double iNoise = super.getInterpolatedNoise(x, z);
-                int max = (int) (config.islandHeightMultiplierTop * (iNoise - 0.4) + config.islandHeight) + mainIslandAdd;
-                int min = (int) ((- config.islandHeightMultiplierBottom * (iNoise - 0.4) + config.islandHeight) + 1) + mainIslandAdd;
+                int max = (int) (config.islandHeightMultiplierTop * (iNoise - config.islandThreshold) + config.islandHeight) + mainIslandAdd;
+                int min = (int) ((- config.islandHeightMultiplierBottom * (iNoise - config.islandThreshold) + config.islandHeight) + 1) + mainIslandAdd;
                 for(int y = max; y > min; y--) {
                     chunk.setBlock(x, y, z, b.getGenerator().getPalette(y).get(max-y, x, z));
                 }

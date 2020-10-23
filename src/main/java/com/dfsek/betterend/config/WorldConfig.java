@@ -49,6 +49,7 @@ public class WorldConfig {
     public int oreAttempts;
     public boolean enableCaves;
     public int outerRadius;
+    public double islandThreshold;
     public Map<EndBiome, ProbabilityCollection<Ore>> ores = new HashMap<>();
     private Map<String, Object> biomeReplacements = new HashMap<>();
 
@@ -118,6 +119,8 @@ public class WorldConfig {
 
         fallToOverworldAether = config.getBoolean("fall.fall-to-overworld.enable-aether", true);
         fallToOverworldEverywhere = config.getBoolean("fall.fall-to-overworld.enable-everywhere", true);
+
+        islandThreshold = config.getDouble("terrain.noise.island-threshold", 0.4D);
 
         if(config.getBoolean("terrain.biomes.legacy-normalization", false))
             main.getLogger().severe("\n\nLegacy distribution option was found in the config! This option has been removed as of 4.4.0. \n\nYOU WILL GET CHUNK CLIFFS AND OTHER STRANGE BEHAVIOR IF UPGRADING A LEGACY WORLD TO 4.4.0!!\n\n");
