@@ -14,9 +14,22 @@ update:
    up-to-date: "U weergawe van BetterEnd (%s) is op datum!"
    more-recent: "U weergawe van BetterEnd (%s) is meer onlangs as die publieke beskikbare weergawe."
    error: "Kon nie kyk of 'n opdatering beskikbaar is nie. rede: "
+command:
+   world: "&cHierdie wêreld is nie 'n BetterEnd-wêreld nie!"
+   players-only: "&bHierdie opdrag is slegs vir spelers!"
+   invalid: "Ongeldige opdrag.(verwag %1$s argumente, argumente gevind is %2$s)."
+   debug-only: "Hierdie opdrag moet gebruik word as die ontfoutmodus geaktiveer is!"
+   profile:
+      main-menu:
+      - "-------------BetterEnd/profiel-------------"
+      - "begin   - Begin die profiel"
+      - "stop    - stop die profiel"
+      - "navraag - Haal profiele-data op"
+      - "reset   - Stel profieldata terug"
+    reset: "Profiler is teruggestel."
+    start: "Profiler het begin."
+    stop: "Profiler het opgehou."
 commands:
-   for-players-only: "&bHierdie opdrag is slegs vir spelers!"
-   not-betterend-world: "&cHierdie wêreld is nie 'n BetterEnd wêreld nie!"
    no-permission: "&cU het nie toestemming vir hierdie opdrag nie."
    version: "&bThis server is running &3BetterEnd v%s"
    reload-config: "&bBetterEnd instel herlaai ..."
