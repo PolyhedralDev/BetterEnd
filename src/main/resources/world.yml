@@ -5,7 +5,9 @@
 terrain:
   noise:
     octaves: 5
+    # Smaller values produce closer islands. -1 = entirely island, 1 = no island.
     island-threshold: 0.4
+    # Larger values produce large islands.
     island-size: 96
   height:
     top: 6

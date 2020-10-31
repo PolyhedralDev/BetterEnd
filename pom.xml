@@ -101,7 +101,7 @@
             <artifactId>gaea</artifactId>
             <version>1.12.2</version>
             <scope>system</scope>
-            <systemPath>${project.basedir}/lib/Gaea-1.12.2.jar</systemPath>
+            <systemPath>${project.basedir}/lib/Gaea-1.13.0.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>commons-io</groupId>

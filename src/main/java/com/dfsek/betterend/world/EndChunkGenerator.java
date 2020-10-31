@@ -100,7 +100,7 @@ public class EndChunkGenerator extends GaeaChunkGenerator {
     }
 
     @Override
-    public float getNoiseFrequency(World w) {
+    public double getNoiseFrequency(World w) {
         return 1f / WorldConfig.fromWorld(w).noise;
     }
 
