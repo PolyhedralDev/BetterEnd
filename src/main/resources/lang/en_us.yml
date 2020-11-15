@@ -31,7 +31,7 @@ command:
       stop: "Profiler has stopped."
 commands:
    no-permission: "&cYou do not have permission for this command."
-   version: "&bThis server is running &3BetterEnd v%s"
+   version: "&bThis server is running &3BetterEnd version \"%1$s\", implementing Gaea version \"%2$s\""
    reload-config: "&bReloading BetterEnd Config..."
    complete-msg: "&bComplete."
    biome: "&bYou are standing in \"&3%s&b\""
