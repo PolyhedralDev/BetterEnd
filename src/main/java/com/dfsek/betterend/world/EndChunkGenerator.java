@@ -16,7 +16,6 @@ import org.polydev.gaea.generation.GaeaChunkGenerator;
 import org.polydev.gaea.generation.GenerationPhase;
 import org.polydev.gaea.generation.GenerationPopulator;
 import org.polydev.gaea.math.ChunkInterpolator;
-import org.polydev.gaea.math.FastNoiseLite;
 import org.polydev.gaea.population.PopulationManager;
 import org.polydev.gaea.world.carving.CaveCarver;
 
@@ -57,7 +56,7 @@ public class EndChunkGenerator extends GaeaChunkGenerator {
     }
 
     @Override
-    public ChunkData generateBase(@NotNull World world, @NotNull Random random, int chunkX, int chunkZ, FastNoiseLite noise) {
+    public ChunkData generateBase(@NotNull World world, @NotNull Random random, int chunkX, int chunkZ, ChunkInterpolator noise) {
         if(needsLoad) load(world);
         ChunkData chunk = createChunkData(world);
         WorldConfig config = WorldConfig.fromWorld(world);
@@ -65,11 +64,11 @@ public class EndChunkGenerator extends GaeaChunkGenerator {
         EndBiomeGrid grid = getBiomeGrid(world);
         int xOrigin = chunkX << 4;
         int zOrigin = chunkZ << 4;
-        int mainIslandAdd = grid.getBiome(xOrigin, zOrigin, GenerationPhase.BASE).equals(EndBiome.MAIN_ISLAND) ? - 8 : 0;
+        int mainIslandAdd = grid.getBiome(xOrigin, zOrigin, GenerationPhase.BASE).equals(EndBiome.MAIN_ISLAND) ? -8 : 0;
         for(byte x = 0; x < 16; x++) {
             for(byte z = 0; z < 16; z++) {
-                EndBiome b = EndBiomeGrid.fromWorld(world).getBiome(xOrigin+x, zOrigin+z, GenerationPhase.PALETTE_APPLY);
-                double iNoise = super.getInterpolatedNoise(x, z);
+                EndBiome b = EndBiomeGrid.fromWorld(world).getBiome(xOrigin + x, zOrigin + z, GenerationPhase.PALETTE_APPLY);
+                double iNoise = noise.getNoise(x, z);
                 int max = (int) (config.islandHeightMultiplierTop * (iNoise - config.islandThreshold) + config.islandHeight) + mainIslandAdd;
                 int min = (int) ((- config.islandHeightMultiplierBottom * (iNoise - config.islandThreshold) + config.islandHeight) + 1) + mainIslandAdd;
                 for(int y = max; y > min; y--) {
