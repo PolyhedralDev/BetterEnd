@@ -32,3 +32,6 @@ debug: false
 
 # How often to save population data. This is done asynchronously, so it has little to no performance impact.
 data-save: PT30M
+
+# Whether to enable advancements (premium only)
+advancements: true

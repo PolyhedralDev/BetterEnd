@@ -18,6 +18,7 @@ public class ConfigUtil {
     public static boolean parallel;
     public static boolean endCities;
     public static long dataSave; // Period of population data saving, in ticks.
+    public static boolean advancements;
 
     private ConfigUtil() {
     }
@@ -38,6 +39,7 @@ public class ConfigUtil {
         treeGrowthMultiplier = config.getInt("tree-sapling-growth-modifier", 8);
         parallel = config.getBoolean("parallel", true);
         endCities = config.getBoolean("generate-end-cities", false);
+        advancements = config.getBoolean("advancements", true);
 
 
         LangUtil.loadlang(lang, logger);

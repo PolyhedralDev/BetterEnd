@@ -64,7 +64,7 @@ public class BetterEnd extends GaeaPlugin {
         EndStructure.init();
         try {
             MythicSpawnsUtil.startSpawnRoutine();
-            if(isPremium()) getServer().getScheduler().scheduleSyncDelayedTask(this, () -> {
+            if(isPremium() && ConfigUtil.advancements) getServer().getScheduler().scheduleSyncDelayedTask(this, () -> {
                 logger.info("Enabling advancements...");
                 EndAdvancementUtil.enable(instance);
                 AetherFallUtil.init(this);
