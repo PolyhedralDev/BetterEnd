@@ -1,0 +1,65 @@
+enable:
+   - "&fBetterEnd n'aurrait pas été possible sans le support des personnes suivantes:"
+   - "&fDevelopeurs: dfsek et Baer"
+   - "&fConstructeurs: GucciPoochie, sgtmushroom39, Daverono, et Merazmus"
+   - "&fPatrons: EtherealSquid"
+disable:
+   - "&fMerci d'utiliser BetterEnd!"
+free-notification:
+   - "&bVous utilisez la version gratuite de BetterEnd. S'il vous plait pensez à acheter la version premium pour supporter le plugin et avoir des fonctions supplémentaires!"
+   - "&bPlus d'informations peuvent etre trouvé ici: &nhttps://github.com/dfsek/BetterEnd-Public/wiki/Premium"
+command-prefix: "&3[BetterEnd] "
+update:
+   new-version: "Une nouvelle version de BetterEnd est disponible: %s "
+   up-to-date: "Votre version de BetterEnd (%s) est à jour!"
+   more-recent: "Votre version de BetterEnd (%s) est plus recente que celle publiquement disponible."
+   error: "Une erreur est survenue pendant la verification de mis à jour. Raison: "
+command:
+   world: "&cCe monde n'est pas un monde BetterEnd!"
+   players-only: "&bCette commande est pour les joueurs seuleument!"
+   invalid: "Commande invalide. (Arguments attendus %1$s, trouvés %2$s)."
+   debug-only: "Cette commande doit etre utilisé avec le debug mode activé!"
+   profile:
+      main-menu:
+         - "---------------BetterEnd/profile---------------"
+         - "start - Démarre le profileur"
+         - "stop  - Arrete le profileur"
+         - "query - Recherche des données dans le profileur"
+         - "reset - Réinitialise les données du profileur"
+      reset: "Le profileur a été réinitialisé."
+      start: "Le profileur a été démarré."
+      stop: "Le profileur a été arreté."
+commands:
+   no-permission: "&cVous n'avez pas la permission d'utiliser cette commande."
+   version: "&bCe serveur utilise &3BetterEnd version \"%1$s\", utilisant Gaea version \"%2$s\""
+   reload-config: "&bRechargement de la configuration de BetterEnd..."
+   complete-msg: "&bCompleté."
+   biome: "&bVous etes dans \"&3%s&b\""
+   unable-to-locate: "&bIncapable de localiser le biome."
+   tp: "&bTeleportation..."
+   locating-biome: "&bLocalisation du biome \"&3%s&b\""
+structure-log: "Génération de la structure \"%1$s\" à %2$s %3$s %4$s. Coordonnées: X:%5$s, Y:%6$s, Z:%7$s."
+custom-structures:
+   enable: "Préparation de Custom Structure Populator..."
+   unable-to-find: "Incapable de localiser customStructures.yml. Avortement de l'initialisation de structure personnalisée."
+   file-not-found: "Incapable de localisé le fichier de structure personnalisé demandé."
+   error: "Une erreur est survenue en essayant de genérer des structures personnalisées"
+   log: "Génération de structure personnalisé \"%1$s\" à %2$s %3$s %4$s."
+   invalid-spawn: "%s est un emplacement de spawn invalide. Doit etre soit GROUND soit AIR."
+mythicmobs:
+   enable: "Début de l'intégration de MythicMobs"
+   fail-to-spawn: "Spawn de créature échoué. MythicMobs est-t-il installé?"
+   unable-to-find: "Incapable de localisé mythicSpawns.yml. Avortement des spawns aléatoires MythicMobs."
+advancements:
+   enable: "Activation des avancements..."
+paper:
+   - "Vous utilisez Spigot/CraftBukkit pour votre serveur."
+   - "Pour une meilleur experience de BetterEnd, et tous vos plugins, utilisez Paper!"
+   - "Paper contient plusieurs optimisations en plus de ceux de Spigot, vous allez donc voir de grandes augmentation de performance."
+   - "De plus,Paper est une branche de Spigot, ce qui veut dire que tous vos plugins devraient fonctionner avec Paper."
+   - "Apprenez-en plus sur leur site internet: https://papermc.io/"
+untested:
+   - "Vous utilisé a un type de serveur autre que Spigot ou Paper!"
+   - "BetterEnd n'a pas été testé sur ce type de serveur, et peu de support sera donné quand des erreurs surviendront."
+   - "Si vous avez des erreurs, essayez Paper avant de les rapportés!"
+   - "Si vous aimeriez que votre type de serveur sois officialement supporté, contacté dfsek sur le serveur Discord de BetterEnd."
