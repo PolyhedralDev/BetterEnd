@@ -17,7 +17,6 @@ import org.polydev.gaea.generation.GenerationPhase;
 import org.polydev.gaea.generation.GenerationPopulator;
 import org.polydev.gaea.math.ChunkInterpolator;
 import org.polydev.gaea.population.PopulationManager;
-import org.polydev.gaea.world.carving.CaveCarver;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -76,7 +75,7 @@ public class EndChunkGenerator extends GaeaChunkGenerator {
                 }
             }
         }
-        return config.enableCaves ? new CaveCarver(50, 12, config.islandHeight + 16, 3).carve(chunkX, chunkZ, world).merge(chunk, false) : chunk;
+        return chunk;
     }
 
     private void load(World w) {

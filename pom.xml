@@ -75,6 +75,11 @@
             <name>Lumine Releases</name>
             <url>https://mvn.lumine.io/repository/maven-public/</url>
         </repository>
+        <repository>
+            <id>CodeMC</id>
+            <name>CodeMC Repository</name>
+            <url>https://repo.codemc.org/repository/maven-public</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -97,11 +102,10 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>org.polydev</groupId>
-            <artifactId>gaea</artifactId>
-            <version>1.14.2</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/lib/Gaea-1.14.2.jar</systemPath>
+            <groupId>org.polydev.gaea</groupId>
+            <artifactId>Gaea</artifactId>
+            <version>1.15.0</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>commons-io</groupId>
